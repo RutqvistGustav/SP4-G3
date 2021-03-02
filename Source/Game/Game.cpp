@@ -20,12 +20,15 @@ std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
 
 CGame::CGame()
+	: anInput(new CommonUtilities::Input())
 {
 }
 
 
 CGame::~CGame()
 {
+	delete anInput;
+	anInput = nullptr;
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -33,6 +36,10 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	lParam;
 	wParam;
 	hWnd;
+
+	if (anInput->UpdateEvents(message, wParam, lParam))
+		return 0;
+
 	switch (message)
 	{
 		// this message is read when the window is closed
@@ -85,4 +92,5 @@ void CGame::UpdateCallBack()
 	myGameWorld.Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
 	myGameWorld.Render();
 
+	anInput->ResetFrame();
 }

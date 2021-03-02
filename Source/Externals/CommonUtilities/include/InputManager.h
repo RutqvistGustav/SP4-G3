@@ -33,7 +33,7 @@ namespace CommonUtilities
 
 		bool UpdateEvents(UINT message, WPARAM wParam, LPARAM lParam);
 
-		void StartFrame();
+		void ResetFrame();
 
 		bool IsKeyPressed(const int aKeyCode) const;
 		bool IsKeyDown(const int aKeyCode) const;

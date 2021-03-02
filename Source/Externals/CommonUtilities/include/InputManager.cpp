@@ -89,7 +89,7 @@ namespace CommonUtilities
         }
     }
 
-    void Input::StartFrame()
+    void Input::ResetFrame()
     {
         for (auto& keyIndex : myKeys)
         {
