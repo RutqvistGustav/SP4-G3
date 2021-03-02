@@ -2,33 +2,36 @@
 #include <tga2d/Engine.h>
 #include "Game.h"
 
+#include <InputManager.h>
+
 #include <tga2d/error/error_manager.h>
 
 using namespace std::placeholders;
 
 #ifdef _DEBUG
 #pragma comment(lib,"TGA2D_Debug.lib")
+#pragma comment(lib,"CommonUtilities_Debug.lib")
 std::wstring BUILD_NAME = L"Debug";
 #endif // DEBUG
 #ifdef _RELEASE
 #pragma comment(lib,"TGA2D_Release.lib")
+#pragma comment(lib,"CommonUtilities_Release.lib")
 std::wstring BUILD_NAME = L"Release";
 #endif // DEBUG
 #ifdef _RETAIL
 #pragma comment(lib,"TGA2D_Retail.lib")
+#pragma comment(lib,"CommonUtilities_Retail.lib")
 std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
 
 CGame::CGame()
-	: anInput(new CommonUtilities::Input())
+	: myInput(new CommonUtilities::Input())
 {
 }
 
 
 CGame::~CGame()
 {
-	delete anInput;
-	anInput = nullptr;
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -37,7 +40,7 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	wParam;
 	hWnd;
 
-	if (anInput->UpdateEvents(message, wParam, lParam))
+	if (myInput->UpdateEvents(message, wParam, lParam))
 		return 0;
 
 	switch (message)
@@ -92,5 +95,5 @@ void CGame::UpdateCallBack()
 	myGameWorld.Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
 	myGameWorld.Render();
 
-	anInput->ResetFrame();
+	myInput->ResetFrame();
 }

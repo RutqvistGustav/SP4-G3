@@ -352,6 +352,6 @@ MigrationBackup/
 .ionide/
 
 !Source/Launcher/Launcher.vcxproj.user
-Bin/Launcher_Debug.exe
-Lib/Game_Debug.lib
-Lib/TGA2D_Debug.lib
+Bin/Launcher_*.*
+Lib/
+Temp/

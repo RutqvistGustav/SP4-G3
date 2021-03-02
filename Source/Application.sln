@@ -13,7 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TGA2D", "tga2dcore\tga2dcore.vcxproj", "{11F98BF6-7BDB-4CFB-96CF-577DB4AE312F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonUtilities", "Externals\CommonUtilities\include\CommonUtilities.vcxproj", "{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonUtilities", "CommonUtilities\CommonUtilities.vcxproj", "{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,8 +60,8 @@ Global
 		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Release|x64.Build.0 = Release|x64
 		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Release|x86.ActiveCfg = Release|Win32
 		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Release|x86.Build.0 = Release|Win32
-		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x64.ActiveCfg = Release|x64
-		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x64.Build.0 = Release|x64
+		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x64.ActiveCfg = Retail|x64
+		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x64.Build.0 = Retail|x64
 		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x86.ActiveCfg = Release|Win32
 		{D16ED00E-CE9D-433F-8EA2-7B3BAAE28964}.Retail|x86.Build.0 = Release|Win32
 	EndGlobalSection

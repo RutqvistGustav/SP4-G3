@@ -1,7 +1,15 @@
 #pragma once
-#include <fstream>
+
 #include "GameWorld.h"
-#include <InputManager.h>
+
+#include <fstream>
+#include <memory>
+
+namespace CommonUtilities
+{
+	class Input;
+}
+
 
 class CGame
 {
@@ -15,5 +23,6 @@ private:
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	CGameWorld myGameWorld;
-	CommonUtilities::Input* anInput;
+
+	std::unique_ptr<CommonUtilities::Input> myInput;
 };
