@@ -66,7 +66,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -91,7 +91,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -117,7 +117,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -137,6 +137,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stdafx.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

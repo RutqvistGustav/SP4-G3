@@ -8,6 +8,7 @@
 namespace CommonUtilities
 {
 	class Input;
+	class Timer;
 }
 
 
@@ -25,4 +26,5 @@ private:
 	CGameWorld myGameWorld;
 
 	std::unique_ptr<CommonUtilities::Input> myInput;
+	std::unique_ptr<CommonUtilities::Timer> myTimer;
 };

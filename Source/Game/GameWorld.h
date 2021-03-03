@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 namespace Tga2D
 {
@@ -7,6 +8,13 @@ namespace Tga2D
 	class CAudio;
 }
 
+namespace CommonUtilities
+{
+	class Input;
+}
+
+class Player;
+
 class CGameWorld
 {
 public:
@@ -14,8 +22,10 @@ public:
 	~CGameWorld();
 
 	void Init();
-	void Update(float aTimeDelta); 
+	void Update(float aTimeDelta, CommonUtilities::Input* anInput); 
 	void Render();
 private:
 	Tga2D::CSprite* myTga2dLogoSprite;
+
+	std::unique_ptr<Player> myPlayer;
 };

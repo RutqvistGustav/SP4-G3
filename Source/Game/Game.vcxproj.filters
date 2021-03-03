@@ -7,6 +7,12 @@
     <Filter Include="Core">
       <UniqueIdentifier>{9bc56eb3-3ccd-4246-8e8b-32490140b42a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{0c4417bd-5d7b-4667-99c6-e57ec010154d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{97bf9106-c49e-47b6-978b-0ae34e3e7017}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -30,6 +36,9 @@
     <ClInclude Include="Scene.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -46,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

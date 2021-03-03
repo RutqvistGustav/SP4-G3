@@ -3,6 +3,7 @@
 #include "Game.h"
 
 #include <InputManager.h>
+#include <Timer.h>
 
 #include <tga2d/error/error_manager.h>
 
@@ -26,6 +27,7 @@ std::wstring BUILD_NAME = L"Retail";
 
 CGame::CGame()
 	: myInput(new CU::Input())
+	, myTimer(new CU::Timer())
 {
 }
 
@@ -92,7 +94,8 @@ void CGame::InitCallBack()
 
 void CGame::UpdateCallBack()
 {
-	myGameWorld.Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
+	myTimer->Update();
+	myGameWorld.Update(myTimer->GetDeltaTime(), myInput.get());
 	myGameWorld.Render();
 
 	myInput->ResetFrame();
