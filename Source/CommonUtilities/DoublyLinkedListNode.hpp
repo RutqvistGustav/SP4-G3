@@ -37,3 +37,5 @@ namespace CommonUtilities
 		DoublyLinkedListNode<T>* myPrevious;
 	};
 }
+
+namespace CU = CommonUtilities;

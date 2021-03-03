@@ -122,12 +122,4 @@ namespace CommonUtilities
 	}
 }
 
-//Vector3<T> fromCtoR = aSphere.GetCenter() - aRay.GetOrigin();
-		//T a = fromCtoR.Dot(aRay.GetDirection());
-
-		//T t = sqrt((powf(aSphere.GetRadius(), 2)) - (powf(fromCtoR.Length(), 2)) + powf(a, 2));
-
-		/*if (t >= 0)
-		{
-			return true;
-		}*/
+namespace CU = CommonUtilities;

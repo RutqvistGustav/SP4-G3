@@ -52,3 +52,5 @@ namespace CommonUtilities
 		Point myLastMousePosition;
     };
 }
+
+namespace CU = CommonUtilities;

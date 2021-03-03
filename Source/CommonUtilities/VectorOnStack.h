@@ -122,3 +122,5 @@ namespace CommonUtilities
 		Type		myArray[size] = { Type() };
 	};
 }
+
+namespace CU = CommonUtilities;

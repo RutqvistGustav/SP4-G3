@@ -54,3 +54,5 @@ namespace CommonUtilities
 		std::vector<T> myQueue;
 	};
 }
+
+namespace CU = CommonUtilities;

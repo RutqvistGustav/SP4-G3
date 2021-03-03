@@ -256,3 +256,5 @@ namespace CommonUtilities
 		int mySize;
 	};
 }
+
+namespace CU = CommonUtilities;

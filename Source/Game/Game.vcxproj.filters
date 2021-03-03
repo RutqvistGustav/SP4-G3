@@ -13,6 +13,9 @@
     <Filter Include="Rendering\Data">
       <UniqueIdentifier>{9b197fcd-ba5f-49e1-adfc-c1b3fb80d57c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{9bc56eb3-3ccd-4246-8e8b-32490140b42a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Wrappers">
       <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
     </Filter>
@@ -24,8 +27,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="resource.h">
       <Filter>Precompiled</Filter>
     </ClInclude>
@@ -50,20 +51,32 @@
     <ClInclude Include="RenderObjectType.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="GameLayer.h" />
     <ClInclude Include="ObjectWrapper.h">
       <Filter>Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="Metrics.h">
       <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorld.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLayer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="RenderManager.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -78,6 +91,18 @@
     </ClCompile>
     <ClCompile Include="Metrics.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
