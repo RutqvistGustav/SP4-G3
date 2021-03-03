@@ -19,17 +19,17 @@ static inline VECTOR2F GetEngineVectorFromCU(const Vector2f aVector)
 
 static inline VECTOR2F NormalizePosition(const Vector2f aPosition)
 {
-	const Vector2f renderSize = Metrics::GetRenderSize();
+	const Vector2f referenceSize = Metrics::GetReferenceSize();
 
-	return { aPosition.x / renderSize.x, aPosition.y / renderSize.y };
+	return { aPosition.x / referenceSize.x, aPosition.y / referenceSize.y };
 }
 
 static inline VECTOR2F NormalizeSize(const Vector2f aSize)
 {
-	const Vector2f renderSize = Metrics::GetRenderSize();
+	const Vector2f referenceSize = Metrics::GetReferenceSize();
 
-	// NOTE: y on both is correct
-	return { aSize.x / renderSize.y, aSize.y / renderSize.y };
+	// NOTE: / y on both is correct
+	return { aSize.x / referenceSize.y, aSize.y / referenceSize.y };
 }
 
 RenderManager::RenderManager()
@@ -44,12 +44,6 @@ RenderManager::~RenderManager() = default;
 
 void RenderManager::Render()
 {
-	const CommonUtilities::Vector2<float> renderSize = Metrics::GetRenderSize();
-	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
-
-	// NOTE: Assumes locked aspect ratio at referenceSize aspect
-	const float scaleFactor = renderSize.y / referenceSize.y;
-
 	std::vector<RenderCommand>& commands = myRenderQueue->myCommands;
 	std::sort(commands.begin(), commands.end(), RenderManager::CommandSort);
 
@@ -66,9 +60,9 @@ void RenderManager::Render()
 			myRenderSprite->SetTexture(data.myTexture);
 			myRenderSprite->SetTextureRect(data.myTextureRect.myStartX, data.myTextureRect.myStartY, data.myTextureRect.myEndX, data.myTextureRect.myEndY);
 
-			myRenderSprite->SetPosition(NormalizePosition(data.myPosition * scaleFactor));
+			myRenderSprite->SetPosition(NormalizePosition(data.myPosition));
 			myRenderSprite->SetPivot(GetEngineVectorFromCU(data.myPivot));
-			myRenderSprite->SetSizeRelativeToScreen(NormalizeSize(data.mySize * scaleFactor));
+			myRenderSprite->SetSizeRelativeToScreen(NormalizeSize(data.mySize));
 			myRenderSprite->SetRotation(data.myRotation);
 
 			myRenderSprite->SetColor(data.myColor);

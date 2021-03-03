@@ -105,12 +105,12 @@ void CGame::InitCallBack()
 void CGame::UpdateCallBack()
 {
 	// NOTE: Ready for multithreading
-	// RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
+	RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
 
 	myTimer->Update();
 
 	myGameWorld.Update(myTimer->GetDeltaTime(), myInput.get());
-	myGameWorld.Render(/*updateQueue*/);
+	myGameWorld.Render(updateQueue);
 
 	myRenderManager->Render();
 	myRenderManager->OnPostFrameThreadSync();

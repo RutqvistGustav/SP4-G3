@@ -1,4 +1,5 @@
 #pragma once
+
 #include <memory>
 
 namespace Tga2D
@@ -14,18 +15,24 @@ namespace CommonUtilities
 }
 
 class Player;
+class RenderQueue;
+class SpriteWrapper;
 
 class CGameWorld
 {
 public:
+
 	CGameWorld(); 
 	~CGameWorld();
 
 	void Init();
+
 	void Update(float aTimeDelta, CommonUtilities::Input* anInput); 
-	void Render();
+	void Render(RenderQueue* aRenderQueue);
+
 private:
-	Tga2D::CSprite* myTga2dLogoSprite;
+
+	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
 	std::unique_ptr<Player> myPlayer;
 };
