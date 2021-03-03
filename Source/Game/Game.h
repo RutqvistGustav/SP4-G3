@@ -8,6 +8,7 @@
 namespace CommonUtilities
 {
 	class Input;
+	class Timer;
 }
 
 class RenderManager;
@@ -33,4 +34,5 @@ private:
 	std::unique_ptr<RenderManager> myRenderManager;
 
 	std::unique_ptr<CommonUtilities::Input> myInput;
+	std::unique_ptr<CommonUtilities::Timer> myTimer;
 };

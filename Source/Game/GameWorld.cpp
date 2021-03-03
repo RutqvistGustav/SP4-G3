@@ -1,8 +1,12 @@
 #include "stdafx.h"
 #include "GameWorld.h"
 #include <tga2d/sprite/sprite.h>
+#include <InputManager.h>
+
+#include "Player.h"
 
 CGameWorld::CGameWorld()
+	: myPlayer(new Player())
 {
 	myTga2dLogoSprite = nullptr;
 }
@@ -21,8 +25,9 @@ void CGameWorld::Init()
 }
 
 
-void CGameWorld::Update(float /*aTimeDelta*/)
+void CGameWorld::Update(float aDeltaTime, CU::Input* anInput)
 { 	
+	myPlayer->Update(aDeltaTime, anInput);
 }
 
 void CGameWorld::Render()

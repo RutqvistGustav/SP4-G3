@@ -6,8 +6,8 @@
 #include "RenderManager.h"
 
 #include <InputManager.h>
+#include <Timer.h>
 
-#include <tga2d/Engine.h>
 #include <tga2d/error/error_manager.h>
 
 using namespace std::placeholders;
@@ -30,6 +30,7 @@ std::wstring BUILD_NAME = L"Retail";
 
 CGame::CGame()
 	: myInput(new CU::Input())
+	, myTimer(new CU::Timer())
 {
 }
 
@@ -106,7 +107,9 @@ void CGame::UpdateCallBack()
 	// NOTE: Ready for multithreading
 	// RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
 
-	myGameWorld.Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
+	myTimer->Update();
+
+	myGameWorld.Update(myTimer->GetDeltaTime(), myInput.get());
 	myGameWorld.Render(/*updateQueue*/);
 
 	myRenderManager->Render();
