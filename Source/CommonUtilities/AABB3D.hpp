@@ -61,3 +61,5 @@ namespace CommonUtilities
 		Vector3<T> myMin;
 	};
 }
+
+namespace CU = CommonUtilities;

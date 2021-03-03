@@ -43,3 +43,5 @@ namespace CommonUtilities
 		std::vector<Plane<T>> myPlaneList;
 	};
 }
+
+namespace CU = CommonUtilities;

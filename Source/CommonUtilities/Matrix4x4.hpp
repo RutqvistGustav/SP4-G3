@@ -268,3 +268,5 @@ namespace CommonUtilities
 		return true;
 	}
 }
+
+namespace CU = CommonUtilities;

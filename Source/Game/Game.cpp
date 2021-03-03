@@ -25,7 +25,7 @@ std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
 
 CGame::CGame()
-	: myInput(new CommonUtilities::Input())
+	: myInput(new CU::Input())
 {
 }
 

@@ -58,3 +58,5 @@ namespace CommonUtilities
 		T myRadius;
 	};
 }
+
+namespace CU = CommonUtilities;
