@@ -194,3 +194,5 @@ namespace CommonUtilities
 		aVector.w /= aScalar;
 	}
 }
+
+namespace CU = CommonUtilities;

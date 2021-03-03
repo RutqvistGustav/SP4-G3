@@ -44,3 +44,5 @@ namespace CommonUtilities
 		std::vector<Line<T>> myLineList;
 	};
 }
+
+namespace CU = CommonUtilities;
