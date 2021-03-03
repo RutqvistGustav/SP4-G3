@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "Collider.h"
 
 GameObject::~GameObject()
 {
-
 }
 
 void GameObject::Update(const float aDeltaTime)
 {
+	myCollider->SetPos(myPosition);
 }
 
 void GameObject::Render()

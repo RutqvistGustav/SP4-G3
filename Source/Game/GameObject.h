@@ -1,5 +1,8 @@
 #pragma once
 #include "Vector2.hpp"
+#include <memory>
+
+class Collider;
 
 class GameObject
 {
@@ -15,6 +18,6 @@ public:
 protected:
 	CU::Vector2<float> myPosition;
 	// Wrapped Tga2D::CSprite;
-	// Collider
+	std::shared_ptr<Collider> myCollider;
 };
 

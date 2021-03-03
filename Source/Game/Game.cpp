@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <tga2d/Engine.h>
 #include "Game.h"
-
+#include "GameWorld.h"
 #include <InputManager.h>
 
 #include <tga2d/error/error_manager.h>
@@ -27,11 +27,15 @@ std::wstring BUILD_NAME = L"Retail";
 CGame::CGame()
 	: myInput(new CU::Input())
 {
+	myGameWorld = new CGameWorld();
+
 }
 
 
 CGame::~CGame()
 {
+	delete myGameWorld;
+	myGameWorld = nullptr;
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -87,13 +91,13 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 
 void CGame::InitCallBack()
 {
-	myGameWorld.Init();
+	myGameWorld->Init();
 }
 
 void CGame::UpdateCallBack()
 {
-	myGameWorld.Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
-	myGameWorld.Render();
+	myGameWorld->Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
+	myGameWorld->Render();
 
 	myInput->ResetFrame();
 }

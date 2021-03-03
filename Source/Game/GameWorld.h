@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CollisionManager.h"
+
 namespace Tga2D
 {
 	class CSprite;
@@ -18,4 +20,5 @@ public:
 	void Render();
 private:
 	Tga2D::CSprite* myTga2dLogoSprite;
+	CollisionManager myCollisionManager;
 };

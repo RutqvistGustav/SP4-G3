@@ -1,9 +1,11 @@
 #pragma once
 
-#include "GameWorld.h"
+//#include "GameWorld.h"
 
 #include <fstream>
 #include <memory>
+
+class CGameWorld;
 
 namespace CommonUtilities
 {
@@ -22,7 +24,7 @@ private:
 	void UpdateCallBack();
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	CGameWorld myGameWorld;
+	CGameWorld* myGameWorld;
 
 	std::unique_ptr<CommonUtilities::Input> myInput;
 };
