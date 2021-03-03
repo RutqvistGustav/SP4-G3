@@ -25,6 +25,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{97bf9106-c49e-47b6-978b-0ae34e3e7017}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{597763bd-6463-4439-9bba-ca6a8c02ac69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -81,6 +84,15 @@
     <ClInclude Include="Player.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Grapple.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Shotgun.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -115,6 +127,15 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Grapple.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Shotgun.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
