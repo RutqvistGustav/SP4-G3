@@ -93,6 +93,8 @@ namespace Tga2D
 		void SetBlendState(EBlendState aBlendState);
 		void SetSamplerState(ESamplerFilter aFilter, ESamplerAddressMode aAddressMode);
 		
+		// NOTE: Engine modification to improve rendering performance
+		void SetTexture(CTexture* aTexture);
 		
 	private:
 		void ClearBatchData();

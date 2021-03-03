@@ -4,8 +4,26 @@
     <Filter Include="Precompiled">
       <UniqueIdentifier>{b07bafa4-d21c-4674-8f50-96a0b05e15ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{70067eb0-9a00-44ba-bbcb-c3135d598456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Commands">
+      <UniqueIdentifier>{8da0ed89-ce72-4ca6-9b76-9241a40510c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Data">
+      <UniqueIdentifier>{9b197fcd-ba5f-49e1-adfc-c1b3fb80d57c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{9bc56eb3-3ccd-4246-8e8b-32490140b42a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wrappers">
+      <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{0c4417bd-5d7b-4667-99c6-e57ec010154d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{97bf9106-c49e-47b6-978b-0ae34e3e7017}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,6 +35,33 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Precompiled</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderQueue.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCommand.h">
+      <Filter>Rendering\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteRenderData.h">
+      <Filter>Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRect.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteWrapper.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectType.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectWrapper.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="Metrics.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Core</Filter>
@@ -35,11 +80,31 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Core</Filter>
+    <ClInclude Include="GameLayer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Precompiled</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderQueue.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCommand.cpp">
+      <Filter>Rendering\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteWrapper.cpp">
+      <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Metrics.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
@@ -58,6 +123,8 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Core</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

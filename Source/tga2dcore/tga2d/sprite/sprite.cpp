@@ -244,6 +244,15 @@ void Tga2D::CSprite::SetSamplerState(ESamplerFilter aFilter, ESamplerAddressMode
 	}
 }
 
+// NOTE: Engine modification to improve rendering performance
+void Tga2D::CSprite::SetTexture(CTexture* aTexture)
+{
+	if (myQuad)
+	{
+		myQuad->myTexture = aTexture;
+	}
+}
+
 void Tga2D::CSprite::ClearBatchData()
 {
 	myShouldRenderBatched = false;

@@ -1,8 +1,10 @@
 #include "stdafx.h"
-#include <tga2d/Engine.h>
 #include "Game.h"
 #include "GameWorld.h"
+#include "Metrics.h"
+#include "RenderManager.h"
 #include <InputManager.h>
+#include <Timer.h>
 
 #include <tga2d/error/error_manager.h>
 
@@ -26,6 +28,7 @@ std::wstring BUILD_NAME = L"Retail";
 
 CGame::CGame()
 	: myInput(new CU::Input())
+	, myTimer(new CU::Timer())
 {
 	myGameWorld = new CGameWorld();
 
@@ -70,6 +73,11 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myWinProcCallback = [this](HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {return WinProc(hWnd, message, wParam, lParam); };
 	createParameters.myUpdateFunctionToCall = [this] {UpdateCallBack(); };
 	createParameters.myApplicationName = L"TGA 2D " + BUILD_NAME + L"[" + aVersion + L"] ";
+	
+	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
+	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
+	createParameters.myTargetHeight = static_cast<unsigned short>(referenceSize.y);
+
 	//createParameters.myPreferedMultiSamplingQuality = Tga2D::EMultiSamplingQuality_High;
 	createParameters.myActivateDebugSystems = Tga2D::eDebugFeature_Fps |
 		Tga2D::eDebugFeature_Mem |
@@ -92,12 +100,23 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 void CGame::InitCallBack()
 {
 	myGameWorld->Init();
+	myRenderManager = std::make_unique<RenderManager>();
+
 }
 
 void CGame::UpdateCallBack()
 {
-	myGameWorld->Update(Tga2D::CEngine::GetInstance()->GetDeltaTime());
-	myGameWorld->Render();
+
+	// NOTE: Ready for multithreading
+	RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
+
+	myTimer->Update();
+
+	myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
+	myGameWorld->Render(updateQueue);
+
+	myRenderManager->Render();
+	myRenderManager->OnPostFrameThreadSync();
 
 	myInput->ResetFrame();
 }
