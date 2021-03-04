@@ -76,5 +76,3 @@ namespace CommonUtilities
 		aType2 = temp;
 	}
 }
-
-namespace CU = CommonUtilities;

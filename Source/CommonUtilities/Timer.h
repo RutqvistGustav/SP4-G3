@@ -21,5 +21,3 @@ namespace CommonUtilities
 		double myTotalTime = 0;
 	};
 }
-
-namespace CU = CommonUtilities;

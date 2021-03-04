@@ -181,5 +181,3 @@ namespace CommonUtilities
 		aVector.z /= aScalar;
 	}
 }
-
-namespace CU = CommonUtilities;

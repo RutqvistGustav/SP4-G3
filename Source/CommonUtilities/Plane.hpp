@@ -64,5 +64,3 @@ namespace CommonUtilities
 		Vector3<T> myNormal;
 	};
 }
-
-namespace CU = CommonUtilities;

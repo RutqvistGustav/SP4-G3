@@ -54,5 +54,3 @@ namespace CommonUtilities
 		Vector3<T> myDirection;
 	};
 }
-
-namespace CU = CommonUtilities;
