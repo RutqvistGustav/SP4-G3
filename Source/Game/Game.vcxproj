@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameObject.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
