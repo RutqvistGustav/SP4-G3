@@ -14,6 +14,9 @@ public:
 
 	//Get the total movement of the Camera this frame.
 	const CU::Vector2<float> GetCameraDeltaMovement();
+	const CU::Vector2<float> GetCameraPosition();
+
+	void ActivateScreenShake();
 
 private:
 	CU::Vector2<float> myPosition;

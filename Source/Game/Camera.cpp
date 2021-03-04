@@ -32,3 +32,13 @@ const CU::Vector2<float> Camera::GetCameraDeltaMovement()
 {
     return myDeltaMovement;
 }
+
+const CU::Vector2<float> Camera::GetCameraPosition()
+{
+    return myPosition;
+}
+
+void Camera::ActivateScreenShake()
+{
+    //TODO
+}
