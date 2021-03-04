@@ -32,7 +32,7 @@ public:
 
 private:
 	//Tga2D::CSprite* myTga2dLogoSprite;
-	CollisionManager myCollisionManager;
+	//CollisionManager myCollisionManager;
 
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 

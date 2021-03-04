@@ -19,9 +19,13 @@ public:
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider)const;
 
+
 #ifdef _DEBUG
+	void InitDebug();
+
 	void RenderDebug();
 	void setRenderColor(Tga2D::CColor aColor);
+	Tga2D::CSprite* myDebugSprite;
 #endif // _DEBUG
 
 
@@ -29,9 +33,7 @@ private:
 	CommonUtilities::Vector2<float> myPos;
 	float myRadius;
 
-#ifdef _DEBUG
-	Tga2D::CSprite* myDebugSprite;
-#endif // _DEBUG
+
 
 };
 

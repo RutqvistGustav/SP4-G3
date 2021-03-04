@@ -1,9 +1,14 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
+#ifdef _DEBUG
+#include <tga2d/sprite/sprite.h>
+#endif // _DEBUG
+
 
 CollisionManager::CollisionManager()
 {
+
 }
 
 CollisionManager::~CollisionManager()
@@ -42,13 +47,24 @@ void CollisionManager::Update()
 void CollisionManager::AddCollider(Collider* aCollider)
 {
 	myColliders.push_back(std::make_shared<Collider>(*aCollider));
-	aCollider = nullptr;
+
+#ifdef _DEBUG
+	myColliders.back().get()->myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+#endif // _DEBUG
+
 }
 
 #ifdef _DEBUG
+void CollisionManager::InitDebug()
+{
+	for (int i = 0; i < myColliders.size(); ++i)
+	{
+		myColliders[i]->InitDebug();
+	}
+}
 void CollisionManager::RenderDebug()
 {
-	for (int i = 0; i < myColliders.size(); i++)
+	for (int i = 0; i < myColliders.size(); ++i)
 	{
 		myColliders[i]->RenderDebug();
 	}

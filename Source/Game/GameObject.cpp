@@ -1,9 +1,27 @@
 #include "stdafx.h"
 #include "GameObject.h"
 #include "Collider.h"
+#include "CollisionManager.h"
+
+GameObject::GameObject()
+{
+	myCollider = nullptr;
+}
 
 GameObject::~GameObject()
 {
+	delete myCollider;
+	myCollider = nullptr;
+}
+
+void GameObject::Init()
+{
+	myCollider = new Collider();
+#ifdef _DEBUG
+	myCollider->InitDebug();
+#endif // _DEBUG
+
+	CollisionManager::GetInstance()->AddCollider(myCollider);
 }
 
 void GameObject::Update(const float aDeltaTime)

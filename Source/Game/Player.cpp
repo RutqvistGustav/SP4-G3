@@ -27,6 +27,7 @@ Player::~Player()
 
 void Player::Update(const float aDeltaTime, CommonUtilities::Input* anInput)
 {
+	GameObject::Update(aDeltaTime);
 	Controller(aDeltaTime, anInput);
 }
 

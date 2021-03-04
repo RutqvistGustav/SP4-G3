@@ -6,19 +6,21 @@
 #endif // _DEBUG
 
 
-Collider::Collider() 
-		: Collider(0.0f, 0.0f, 0.0f)
+Collider::Collider()
+	: Collider(0.0f, 0.0f, 0.0f)
 {}
 
 Collider::Collider(CU::Vector2<float> aPos, float aRadius)
 	: myPos(aPos)
 	, myRadius(aRadius)
 {
-
 #ifdef _DEBUG
-	myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+	myDebugSprite = nullptr;
 #endif // _DEBUG
-
+	if (aRadius < 0.1f)
+	{
+		myRadius = 0.1f;
+	}
 
 }
 
@@ -34,7 +36,10 @@ Collider::~Collider()
 #endif // _DEBUG
 }
 
-void Collider::SetPos(const CU::Vector2<float> aPos){myPos = aPos;}
+void Collider::SetPos(const CU::Vector2<float> aPos)
+{
+	myPos = aPos;
+}
 
 bool Collider::GetCollision(const Collider* aCollider) const
 {
@@ -42,15 +47,24 @@ bool Collider::GetCollision(const Collider* aCollider) const
 }
 
 #ifdef _DEBUG
+void Collider::InitDebug()
+{
+	//myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+}
+
 void Collider::RenderDebug()
 {
+
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
 	myDebugSprite->SetSizeRelativeToScreen({ myRadius, myRadius });
 	myDebugSprite->Render();
+
 }
 void Collider::setRenderColor(Tga2D::CColor aColor)
 {
+
 	myDebugSprite->SetColor(aColor);
+
 }
 #endif // _DEBUG
 
