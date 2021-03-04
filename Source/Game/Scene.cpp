@@ -12,11 +12,21 @@ void Scene::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRender
 {
 }
 
-void Scene::OnEnter()
-{}
+void Scene::OnEnter(SceneManager* aSceneManager)
+{
+	assert(aSceneManager != nullptr);
+	assert(mySceneManager == nullptr);
 
-void Scene::OnExit()
-{}
+	mySceneManager = aSceneManager;
+}
+
+void Scene::OnExit(SceneManager* aSceneManager)
+{
+	assert(aSceneManager != nullptr);
+	assert(mySceneManager == aSceneManager);
+
+	mySceneManager = nullptr;
+}
 
 void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 {

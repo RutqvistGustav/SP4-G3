@@ -8,6 +8,7 @@ class GameObject;
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
+class SceneManager;
 
 class Scene
 {
@@ -19,13 +20,19 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	virtual void OnEnter();
-	virtual void OnExit();
+	virtual void OnEnter(SceneManager* aSceneManager);
+	virtual void OnExit(SceneManager* aSceneManager);
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
+
+	inline SceneManager* GetSceneManager() { return mySceneManager; }
 
 protected:
 
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
+
+private:
+
+	SceneManager* mySceneManager{};
 
 };

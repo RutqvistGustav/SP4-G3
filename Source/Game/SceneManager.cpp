@@ -10,7 +10,7 @@ SceneManager::~SceneManager()
 {
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnExit();
+		myActiveScene->OnExit(this);
 	}
 }
 
@@ -58,14 +58,14 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnExit();
+		myActiveScene->OnExit(this);
 	}
 
 	myActiveScene = std::move(aTargetScene);
 
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnEnter();
+		myActiveScene->OnEnter(this);
 	}
 }
 
