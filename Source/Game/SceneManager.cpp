@@ -18,16 +18,16 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 {
 	assert(myActiveScene != nullptr);
 
+	if (HasQueuedTransition())
+	{
+		RunTransition(std::move(myQueuedScene));
+	}
+
 	myActiveSceneLock.Lock();
 
 	myActiveScene->Update(aDeltaTime, anUpdateContext);
 
 	myActiveSceneLock.Unlock();
-
-	if (HasQueuedTransition())
-	{
-		RunTransition(std::move(myQueuedScene));
-	}
 }
 
 void SceneManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
