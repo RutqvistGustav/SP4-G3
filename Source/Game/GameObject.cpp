@@ -1,19 +1,14 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-GameObject::~GameObject()
-{
+GameObject::GameObject() = default;
+GameObject::~GameObject() = default;
 
-}
+void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
+{}
 
-void GameObject::Update(const float aDeltaTime)
-{
-}
-
-void GameObject::Render()
-{
-	// Render Wrapped Tga2D::CSprite;
-}
+void GameObject::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+{}
 
 const CU::Vector2<float>& GameObject::GetPosition() const
 {

@@ -4,6 +4,9 @@
 #include "Metrics.h"
 
 #include "RenderManager.h"
+#include "SceneManager.h"
+
+#include "GameScene.h"
 
 #include <InputManager.h>
 #include <Timer.h>
@@ -98,19 +101,24 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 void CGame::InitCallBack()
 {
 	myRenderManager = std::make_unique<RenderManager>();
+	mySceneManager = std::make_unique<SceneManager>();
 
-	myGameWorld.Init();
+	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myInput = myInput.get();
+
+	// TODO: DEBUG: Load default game scene
+	mySceneManager->Transition(std::make_unique<GameScene>());
 }
 
 void CGame::UpdateCallBack()
 {
 	// NOTE: Ready for multithreading
-	RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
+	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
 	myTimer->Update();
 
-	myGameWorld.Update(myTimer->GetDeltaTime(), myInput.get());
-	myGameWorld.Render(updateQueue);
+	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
+	mySceneManager->Render(updateQueue, myRenderContext);
 
 	myRenderManager->Render();
 	myRenderManager->OnPostFrameThreadSync();

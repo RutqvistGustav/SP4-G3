@@ -1,6 +1,7 @@
 #pragma once
 
-#include "GameWorld.h"
+#include "UpdateContext.h"
+#include "RenderContext.h"
 
 #include <fstream>
 #include <memory>
@@ -12,6 +13,7 @@ namespace CommonUtilities
 }
 
 class RenderManager;
+class SceneManager;
 
 class CGame
 {
@@ -29,9 +31,11 @@ private:
 
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	CGameWorld myGameWorld;
-
 	std::unique_ptr<RenderManager> myRenderManager;
+	std::unique_ptr<SceneManager> mySceneManager;
+
+	UpdateContext myUpdateContext;
+	RenderContext myRenderContext;
 
 	std::unique_ptr<CommonUtilities::Input> myInput;
 	std::unique_ptr<CommonUtilities::Timer> myTimer;

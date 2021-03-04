@@ -28,6 +28,9 @@
     <Filter Include="Weapon">
       <UniqueIdentifier>{597763bd-6463-4439-9bba-ca6a8c02ac69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{de281f14-4079-42e8-aa23-d7e99478d833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -69,13 +72,7 @@
     <ClInclude Include="Game.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameWorld.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="GameLayer.h">
@@ -92,6 +89,22 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="LockedSection.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,13 +129,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameWorld.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -136,6 +143,13 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
       <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

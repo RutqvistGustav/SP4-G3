@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
 
+#include "UpdateContext.h"
+#include "RenderContext.h"
+
 // Tools
 #include <Vector2.hpp>
 #include <InputManager.h>
@@ -25,12 +28,12 @@ Player::~Player()
 {
 }
 
-void Player::Update(const float aDeltaTime, CommonUtilities::Input* anInput)
+void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	Controller(aDeltaTime, anInput);
+	Controller(aDeltaTime, anUpdateContext.myInput);
 }
 
-void Player::Render()
+void Player::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 }
 

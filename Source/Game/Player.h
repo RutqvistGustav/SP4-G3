@@ -11,10 +11,10 @@ class Player :
 {
 public:
     Player();
-    ~Player();
+    virtual ~Player() override;
 
-    void Update(const float aDeltaTime, CommonUtilities::Input* anInput);
-    void Render();
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+    virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     void Controller(const float aDeltaTime, CommonUtilities::Input* anInput);
     void Shoot();

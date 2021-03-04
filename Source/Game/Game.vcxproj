@@ -137,16 +137,19 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
+    <ClInclude Include="LockedSection.h" />
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
     <ClInclude Include="RenderCommand.h" />
+    <ClInclude Include="RenderContext.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderObjectType.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="SpriteRenderData.h" />
     <ClInclude Include="SpriteWrapper.h" />
@@ -154,17 +157,19 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+    <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shotgun.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="Player.cpp" />

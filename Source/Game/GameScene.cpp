@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GameWorld.h"
+#include "GameScene.h"
 
 #include "Player.h"
 
@@ -10,27 +10,22 @@
 
 #include "SpriteWrapper.h"
 
-#include <tga2d/sprite/sprite.h>
-#include <InputManager.h>
-
-CGameWorld::CGameWorld()
-	: myPlayer(new Player())
-{ }
-
-CGameWorld::~CGameWorld() = default;
-
-void CGameWorld::Init()  
+GameScene::GameScene()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 	myTga2dLogoSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+
+	myPlayer = std::make_unique<Player>();
 }
 
-void CGameWorld::Update(float aDeltaTime, CU::Input* anInput)
-{ 	
-	myPlayer->Update(aDeltaTime, anInput);
+GameScene::~GameScene() = default;
+
+void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	myPlayer->Update(aDeltaTime, anUpdateContext);
 }
 
-void CGameWorld::Render(RenderQueue* aRenderQueue)
+void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 }

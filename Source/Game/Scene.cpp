@@ -1,17 +1,22 @@
 #include "stdafx.h"
 #include "Scene.h"
 
-Scene::~Scene()
+Scene::Scene() = default;
+Scene::~Scene() = default;
+
+void Scene::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
 }
 
-void Scene::Update(const float aDeltaTime)
+void Scene::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 }
 
-void Scene::Render()
-{
-}
+void Scene::OnEnter()
+{}
+
+void Scene::OnExit()
+{}
 
 void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 {
