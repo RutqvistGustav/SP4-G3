@@ -4,6 +4,7 @@
 
 #include <memory>
 
+class Camera;
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
@@ -13,7 +14,7 @@ class SceneManager
 {
 public:
 
-	SceneManager(/* Camera* aCamera */);
+	SceneManager();
 	~SceneManager();
 
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
@@ -21,19 +22,20 @@ public:
 
 	void Transition(std::unique_ptr<Scene> aTargetScene);
 
+	inline Camera* GetCamera() { return myCamera.get(); }
+
 private:
 
 	void RunTransition(std::unique_ptr<Scene> aTargetScene);
 	bool HasQueuedTransition() const;
 
 private:
-
-	// NOTE: Uncomment when camera has been created
-	// Camera* myCamera;
 	
 	LockedSection myActiveSceneLock;
 
 	std::unique_ptr<Scene> myActiveScene;
 	std::unique_ptr<Scene> myQueuedScene;
+
+	std::unique_ptr<Camera> myCamera;
 
 };

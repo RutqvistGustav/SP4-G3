@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
+class Camera;
 class GameObject;
-
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
@@ -25,6 +25,7 @@ public:
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
 
+	Camera* GetCamera();
 	inline SceneManager* GetSceneManager() { return mySceneManager; }
 
 protected:

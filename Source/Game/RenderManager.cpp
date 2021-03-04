@@ -55,12 +55,14 @@ void RenderManager::Render()
 		{
 			auto& data = command.mySpriteRenderData;
 
+			const Vector2f position = data.myPosition - myPan * command.myPanStrengthFactor;
+
 			// NOTE: Performance optimization
 			// add SetTexture to Tga2D::CSprite to prevent lookup of texture
 			myRenderSprite->SetTexture(data.myTexture);
 			myRenderSprite->SetTextureRect(data.myTextureRect.myStartX, data.myTextureRect.myStartY, data.myTextureRect.myEndX, data.myTextureRect.myEndY);
 
-			myRenderSprite->SetPosition(NormalizePosition(data.myPosition));
+			myRenderSprite->SetPosition(NormalizePosition(position));
 			myRenderSprite->SetPivot(GetEngineVectorFromCU(data.myPivot));
 			myRenderSprite->SetSizeRelativeToScreen(NormalizeSize(data.mySize));
 			myRenderSprite->SetRotation(data.myRotation);
@@ -79,7 +81,7 @@ void RenderManager::Render()
 	}
 }
 
-void RenderManager::OnPostFrameThreadSync()
+void RenderManager::SwapBuffers()
 {
 	myRenderQueue->Clear();
 

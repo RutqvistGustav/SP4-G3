@@ -28,6 +28,7 @@ private:
 
 	RenderObjectType myType{ RenderObjectType::Unknown };
 	GameLayer::Layer myLayer{};
+	float myPanStrengthFactor{ 1.0f };
 
 	union
 	{

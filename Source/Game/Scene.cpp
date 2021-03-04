@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Scene.h"
 
+#include "SceneManager.h"
+
 Scene::Scene() = default;
 Scene::~Scene() = default;
 
@@ -31,4 +33,11 @@ void Scene::OnExit(SceneManager* aSceneManager)
 void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 {
 	myGameObjects.push_back(aGameObject);
+}
+
+Camera* Scene::GetCamera()
+{
+	assert(GetSceneManager() != nullptr);
+
+	return GetSceneManager()->GetCamera();
 }

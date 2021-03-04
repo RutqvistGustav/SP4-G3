@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Game.h"
 
+#include "Camera.h"
+
 #include "Metrics.h"
 
 #include "RenderManager.h"
@@ -120,8 +122,12 @@ void CGame::UpdateCallBack()
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
 
+	// Rendering
+
 	myRenderManager->Render();
-	myRenderManager->OnPostFrameThreadSync();
+	
+	myRenderManager->SwapBuffers();
+	myRenderManager->SetPan(mySceneManager->GetCamera()->GetCameraPosition());
 
 	myInput->ResetFrame();
 }

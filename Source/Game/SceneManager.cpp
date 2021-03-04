@@ -1,11 +1,17 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 
+#include "Camera.h"
+
 #include "Scene.h"
 
 #include <cassert>
 
-SceneManager::SceneManager() = default;
+SceneManager::SceneManager()
+{
+	myCamera = std::make_unique<Camera>(CU::Vector2<float>(0.0f, 0.0f));
+}
+
 SceneManager::~SceneManager()
 {
 	if (myActiveScene != nullptr)
