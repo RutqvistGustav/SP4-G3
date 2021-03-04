@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "Metrics.h"
 
 Camera::Camera(const CU::Vector2<float> aPosition) :
     myPosition(aPosition),
@@ -12,10 +13,10 @@ void Camera::Update(const CU::Vector2<float> aPosition)
     CU::Vector2<float> previousPosition = myPosition;
 
     //Temporary calculations for Camerabounds until we have some Macros or global variables for current resolution.
-    if (myPosition.x + 960.0f < myCameraBounds.x &&
-        myPosition.y + 540.0f < myCameraBounds.x &&
-        myPosition.x - 960.0f > 0.0f && 
-        myPosition.y - 540.0f > 0.0f)
+    if (myPosition.x + Metrics::GetReferenceSize().x / 2 < myCameraBounds.x &&
+        myPosition.y + Metrics::GetReferenceSize().y / 2 < myCameraBounds.x &&
+        myPosition.x - Metrics::GetReferenceSize().x / 2 > 0.0f &&
+        myPosition.y - Metrics::GetReferenceSize().y / 2 > 0.0f)
     {
         myPosition = aPosition;
     }
