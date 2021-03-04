@@ -31,6 +31,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{de281f14-4079-42e8-aa23-d7e99478d833}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{ef93c6ea-060c-4e59-b3a1-9119b6ee7ba8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -93,7 +96,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="LockedSection.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -105,6 +107,15 @@
     </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EventObserver.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSubject.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +158,11 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

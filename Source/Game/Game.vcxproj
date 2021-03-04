@@ -134,6 +134,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventObserver.h" />
+    <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameObject.h" />
