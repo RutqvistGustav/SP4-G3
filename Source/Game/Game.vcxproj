@@ -142,6 +142,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
+    <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
+    <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="RenderManager.cpp" />

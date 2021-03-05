@@ -34,6 +34,9 @@
     <Filter Include="Event">
       <UniqueIdentifier>{ef93c6ea-060c-4e59-b3a1-9119b6ee7ba8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{74073098-ee23-47fc-bd17-acb94121bdf5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -117,8 +120,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="JsonManager.h">
+      <Filter>Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -167,8 +171,9 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="JsonManager.cpp">
+      <Filter>Json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
