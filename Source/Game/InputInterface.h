@@ -17,6 +17,7 @@ public:
 	bool IsShooting();
 	bool IsMovingLeft();
 	bool IsMovingRight();
+	bool IsPressingUse();
 
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 	void GetAimDirection();

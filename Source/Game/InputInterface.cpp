@@ -38,3 +38,8 @@ bool InputInterface::IsMovingRight()
 {
 	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D')/* ||  Get if Analog Stick is pushed right*/);;
 }
+
+bool InputInterface::IsPressingUse()
+{
+	return (myInput->IsKeyPressed('E')/* || Get if X Button is pressed*/);
+}
