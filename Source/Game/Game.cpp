@@ -110,6 +110,7 @@ void CGame::InitCallBack()
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
+	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
 	mySceneManager->Transition(std::make_unique<GameScene>());
