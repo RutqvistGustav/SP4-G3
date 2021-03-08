@@ -7,7 +7,11 @@
 
 #include <cassert>
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(
+	JsonManager* aJsonManager,
+	WeaponFactory* aWeaponFactory)
+	: myJsonManager(aJsonManager),
+	myWeaponFactory(aWeaponFactory)
 {
 	myCamera = std::make_unique<Camera>(CU::Vector2<float>(0.0f, 0.0f));
 }

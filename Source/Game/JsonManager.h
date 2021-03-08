@@ -1,16 +1,20 @@
 #pragma once
+
+#include "JsonData.h"
+
 #include <string>
 #include <map>
 #include <fstream>
-#include "../Externals/nlohmann/json.hpp"
 
 class JsonManager
 {
 public:
+
 	JsonManager();
 	~JsonManager();
 
-	std::map<std::string, nlohmann::json>& GetJsonData();
+	const JsonData& GetData(const std::string& aFileName) const;
+
 	std::string SetSpritePath(const std::string& aVaribleName, const std::string& aFilePath) const;
 	void LoadArrays(const std::string& aVaribleName, const std::string& aFilePath);
 
@@ -18,6 +22,6 @@ private:
 	void InitAllFiles();
 
 	const std::string myMainJsonFile = "JSON/MainJson.json";
-	std::map<std::string, nlohmann::json> myJsonData;
+	std::map<std::string, JsonData> myJsonData;
 };
 

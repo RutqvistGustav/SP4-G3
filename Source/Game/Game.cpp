@@ -8,6 +8,9 @@
 #include "RenderManager.h"
 #include "SceneManager.h"
 
+#include "JsonManager.h"
+#include "WeaponFactory.h"
+
 #include "GameScene.h"
 
 #include <InputManager.h>
@@ -103,7 +106,9 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 void CGame::InitCallBack()
 {
 	myRenderManager = std::make_unique<RenderManager>();
-	mySceneManager = std::make_unique<SceneManager>();
+	myJsonManager = std::make_unique <JsonManager>();
+	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
+	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInput = myInput.get();

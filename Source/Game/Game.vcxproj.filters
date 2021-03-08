@@ -124,6 +124,21 @@
     <ClInclude Include="JsonManager.h">
       <Filter>Json</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponType.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonData.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponHolder.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFactoryBase.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponFactory.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -174,6 +189,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponFactory.cpp">
+      <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
