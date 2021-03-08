@@ -12,7 +12,6 @@ InputInterface::InputInterface(CU::Input* aInput)
 	
 
 	//TODO: add Controller states if Controller is plugged in!
-	myUsingController = false;
 }
 
 bool InputInterface::IsJumping()
@@ -32,10 +31,10 @@ bool InputInterface::IsShooting()
 
 bool InputInterface::IsMovingLeft()
 {
-	return (myInput->IsKeyPressed(VK_LEFT) || myInput->IsKeyPressed('A')/* || Get if A Button is pressed*/);
+	return (myInput->IsKeyPressed(VK_LEFT) || myInput->IsKeyPressed('A')/* ||  Get if Analog Stick is pushed left*/);
 }
 
 bool InputInterface::IsMovingRight()
 {
-	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D')/* || Get if A Button is pressed*/);;
+	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D')/* ||  Get if Analog Stick is pushed right*/);;
 }

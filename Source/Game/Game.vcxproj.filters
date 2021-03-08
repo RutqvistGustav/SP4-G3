@@ -37,6 +37,9 @@
     <Filter Include="Json">
       <UniqueIdentifier>{74073098-ee23-47fc-bd17-acb94121bdf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="InputHandling">
+      <UniqueIdentifier>{f45e1686-f546-4144-b8c7-72bdfa920c33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -124,7 +127,9 @@
     <ClInclude Include="JsonManager.h">
       <Filter>Json</Filter>
     </ClInclude>
-    <ClInclude Include="InputInterface.h" />
+    <ClInclude Include="InputInterface.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -176,6 +181,8 @@
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
     </ClCompile>
-    <ClCompile Include="InputInterface.cpp" />
+    <ClCompile Include="InputInterface.cpp">
+      <Filter>InputHandling</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

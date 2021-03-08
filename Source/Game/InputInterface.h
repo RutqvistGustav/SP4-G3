@@ -21,7 +21,6 @@ public:
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 	void GetAimDirection();
 private:
-	bool myUsingController;
 
 	CU::Input* myInput = nullptr;
 
