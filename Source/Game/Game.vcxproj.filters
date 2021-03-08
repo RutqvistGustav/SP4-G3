@@ -124,6 +124,7 @@
     <ClInclude Include="JsonManager.h">
       <Filter>Json</Filter>
     </ClInclude>
+    <ClInclude Include="InputInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,5 +176,6 @@
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
     </ClCompile>
+    <ClCompile Include="InputInterface.cpp" />
   </ItemGroup>
 </Project>
