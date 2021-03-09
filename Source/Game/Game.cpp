@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 
-
-
 #include "Camera.h"
 
 #include <Xinput.h>
@@ -38,6 +36,8 @@ std::wstring BUILD_NAME = L"Release";
 #pragma comment(lib,"CommonUtilities_Retail.lib")
 std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
+#pragma comment(lib, "XInput.lib")
+#pragma comment(lib, "XInput9_1_0.lib")
 
 CGame::CGame()
 	: myInput(new CU::Input())
@@ -114,6 +114,7 @@ void CGame::InitCallBack()
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
+	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene

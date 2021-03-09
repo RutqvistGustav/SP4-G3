@@ -32,6 +32,10 @@ private:
 	float myRightStickY = 0.0f;
 #pragma endregion
 
+	float myLeftTrigger = 0.0f;
+	float myRightTrigger = 0.0f;
+
+
 	bool myHasController = false;
 	int myControllerId;
 

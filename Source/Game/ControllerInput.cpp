@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ControllerInput.h"
+#include <Xinput.h>
 #include <iostream>
 
 ControllerInput::ControllerInput() :
@@ -94,6 +95,10 @@ float ControllerInput::GetRightStickY()
 
 bool ControllerInput::IsPressed(WORD button)
 {
-	return (myState.Gamepad.wButtons & button) != 0;
+	if (myControllerId != -1)
+	{
+		return (myState.Gamepad.wButtons & button) != 0;
+	}
+	return false;
 }
 
