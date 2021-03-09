@@ -23,17 +23,25 @@
 Player::Player(Scene* aScene)
 	: GameObject(aScene)
 {
+	// json
 	nlohmann::json data;
 	std::ifstream file("JSON/Player.json");
 	data = nlohmann::json::parse(file);
 	file.close();
 
+	// Init base variables
 	mySpeed = data.at("MovementSpeed");
+	myMaxSpeed = data.at("MaxSpeedCap");
+	myReduceMovementSpeed = data.at("BrakeStrength");
+	myStopAtVelocity = data.at("StopAtVelocity");
+	myGravity = data.at("GravityStrength");
 
+	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
+	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 }
 
@@ -55,17 +63,7 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 
 void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
 {
-	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
-	
-	myVel += movement * mySpeed *aDeltaTime;
-	myPosition += myVel * aDeltaTime;
-	//myVel.y += myGravity * aDeltaTime;
-	BrakeMovement(aDeltaTime);
-
-	mySprite->SetPosition(myPosition);
-
-	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
-	// std::cout << "Velocity " << myVel.x << std::endl;
+	Movement(aDeltaTime, anInput);
 }
 
 void Player::Jump()
@@ -88,9 +86,31 @@ void Player::BrakeMovement(const float aDeltaTime)
 	}
 }
 
-void Player::ApplyForce(CU::Vector2<float>& aForce)
+void Player::ApplyForce(const CU::Vector2<float>& aForce)
 {
 	myVel += aForce;
+}
+
+void Player::Movement(const float aDeltaTime, CU::Input* anInput)
+{
+	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
+
+	if (myIsMoving == true)
+	{
+		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
+		{
+			myVel += movement * mySpeed * aDeltaTime;
+		}
+	}
+
+	//myVel.y += myGravity * aDeltaTime;
+	BrakeMovement(aDeltaTime);
+
+	myPosition += myVel * aDeltaTime;
+	mySprite->SetPosition(myPosition);
+
+	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
+	//std::cout << "Velocity " << myVel.x << std::endl;
 }
 
 CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
@@ -116,8 +136,8 @@ CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
 				++vel.x;
 				myIsMoving = true;
 			}
-			if (keyLetter == 'W') --vel.y;
-			if (keyLetter == 'S') ++vel.y;
+			//if (keyLetter == 'W') --vel.y;
+			//if (keyLetter == 'S') ++vel.y;
 		}
 		if (keyState.second.myKeyReleased == true)
 		{
