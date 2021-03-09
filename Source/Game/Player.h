@@ -32,7 +32,8 @@ private:
 
     float mySpeed;
     float myGravity = 50.0f;
-    float myReduceMovementSpeed = 0.9f;
+    float myReduceMovementSpeed = 0.001f;
+    float myStopAtVelocity = 100.0f;
     CU::Vector2<float> myVel;
 
     // Weapon myShotgun;
