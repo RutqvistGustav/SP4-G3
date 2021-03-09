@@ -22,22 +22,26 @@ public:
     void Controller(const float aDeltaTime, CU::Input* anInput);
     void Shoot();
     void Grapple();
-    void Jump();
-    void BrakeMovement(const float aDeltaTime);
 
+    
 private:
     std::shared_ptr<SpriteWrapper> mySprite;
 
     bool myIsMoving = false;
 
     float mySpeed;
-    float myGravity = 50.0f;
+    float myMaxSpeed = 2000.0f;
     float myReduceMovementSpeed = 0.001f;
     float myStopAtVelocity = 100.0f;
+    float myGravity = 50.0f;
     CU::Vector2<float> myVel;
 
-    // Weapon myShotgun;
     CU::Vector2<float> GetVel_KeyboardInput(CU::Input* anInput);
     void MouseInput(CU::Input* anInput);
+
+    // Movement
+    void Movement(const float aDeltaTime, CU::Input* anInput);
+    void BrakeMovement(const float aDeltaTime);
+    void Jump();
 };
 
