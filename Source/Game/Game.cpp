@@ -3,6 +3,8 @@
 
 #include "Camera.h"
 
+#include "InputInterface.h"
+
 #include "Metrics.h"
 
 #include "RenderManager.h"
@@ -104,8 +106,10 @@ void CGame::InitCallBack()
 {
 	myRenderManager = std::make_unique<RenderManager>();
 	mySceneManager = std::make_unique<SceneManager>();
+	myInputInterface = std::make_unique<InputInterface>(InputInterface(myInput.get()));
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myInputInterface = myInputInterface.get();
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene

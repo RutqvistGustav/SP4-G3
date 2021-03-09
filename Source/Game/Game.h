@@ -14,6 +14,7 @@ namespace CommonUtilities
 
 class RenderManager;
 class SceneManager;
+class InputInterface;
 
 class CGame
 {
@@ -36,6 +37,8 @@ private:
 
 	UpdateContext myUpdateContext;
 	RenderContext myRenderContext;
+
+	std::unique_ptr<InputInterface> myInputInterface;
 
 	std::unique_ptr<CommonUtilities::Input> myInput;
 	std::unique_ptr<CommonUtilities::Timer> myTimer;
