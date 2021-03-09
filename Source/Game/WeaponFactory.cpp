@@ -28,12 +28,12 @@ WeaponFactory::WeaponFactory(const JsonManager* aJsonManager)
 
 WeaponFactory::~WeaponFactory() = default;
 
-std::shared_ptr<Weapon> WeaponFactory::CreateWeapon(const std::string& aKey, IWeaponHolder* aWeaponHolder)
+std::shared_ptr<Weapon> WeaponFactory::CreateWeapon(const std::string& aKey, IWeaponHolder* aWeaponHolder) const
 {
 	return CreateType(aKey, aWeaponHolder);
 }
 
-std::shared_ptr<Weapon> WeaponFactory::ConstructType(std::shared_ptr<Weapon> aBehaviour, const std::string& someTypeData)
+std::shared_ptr<Weapon> WeaponFactory::ConstructType(std::shared_ptr<Weapon> aBehaviour, const std::string& someTypeData) const
 {
 	aBehaviour->Init(myJsonManager->GetData("JSON/Weapons.json")[someTypeData]);
 	return aBehaviour;

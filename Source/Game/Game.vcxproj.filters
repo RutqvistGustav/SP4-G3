@@ -40,6 +40,9 @@
     <Filter Include="InputHandling">
       <UniqueIdentifier>{f45e1686-f546-4144-b8c7-72bdfa920c33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Player">
+      <UniqueIdentifier>{a84eed19-bbc1-48a2-94e1-fce12463dd24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -86,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Weapon</Filter>
@@ -145,6 +145,12 @@
     <ClInclude Include="WeaponFactory.h">
       <Filter>Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWeaponController.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -170,9 +176,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Grapple.cpp">
       <Filter>Weapon</Filter>
@@ -201,6 +204,12 @@
     </ClCompile>
     <ClCompile Include="WeaponFactory.cpp">
       <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWeaponController.cpp">
+      <Filter>GameObjects\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -37,9 +37,9 @@ protected:
 		TypeData myTypeData;
 	};
 
-	virtual std::shared_ptr<BehaviourBase> ConstructType(std::shared_ptr<BehaviourBase> aBehaviour, const TypeData& someTypeData) = 0;
+	virtual std::shared_ptr<BehaviourBase> ConstructType(std::shared_ptr<BehaviourBase> aBehaviour, const TypeData& someTypeData) const = 0;
 
-	virtual std::shared_ptr<BehaviourBase> CreateType(const TypeKey& aKey, ConstructParams ... someArgs)
+	virtual std::shared_ptr<BehaviourBase> CreateType(const TypeKey& aKey, ConstructParams ... someArgs) const
 	{
 		assert(myTypes.count(aKey) > 0 && "Trying to create non-registered type!");
 
@@ -48,7 +48,7 @@ protected:
 		return ConstructType(CreateBehaviour(typeInformation.myUsedBehaviourKey, someArgs...), typeInformation.myTypeData);
 	}
 
-	virtual std::shared_ptr<BehaviourBase> CreateBehaviour(const BehaviourKey& aKey, ConstructParams ... someArgs)
+	virtual std::shared_ptr<BehaviourBase> CreateBehaviour(const BehaviourKey& aKey, ConstructParams ... someArgs) const
 	{
 		assert(myBehaviourConstructors.count(aKey) > 0 && "Trying to create non-registered behaviour!");
 

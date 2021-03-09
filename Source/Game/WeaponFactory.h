@@ -15,11 +15,11 @@ public:
 	WeaponFactory(const JsonManager* aJsonManager);
 	virtual ~WeaponFactory() override;
 
-	std::shared_ptr<Weapon> CreateWeapon(const std::string& aKey, IWeaponHolder* aWeaponHolder);
+	std::shared_ptr<Weapon> CreateWeapon(const std::string& aKey, IWeaponHolder* aWeaponHolder) const;
 
 protected:
 
-	virtual std::shared_ptr<Weapon> ConstructType(std::shared_ptr<Weapon> aBehaviour, const std::string& someTypeData) override;
+	virtual std::shared_ptr<Weapon> ConstructType(std::shared_ptr<Weapon> aBehaviour, const std::string& someTypeData) const override;
 
 private:
 

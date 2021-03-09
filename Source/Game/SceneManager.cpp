@@ -76,6 +76,7 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 	if (myActiveScene != nullptr)
 	{
 		myActiveScene->OnEnter(this);
+		myActiveScene->Init();
 	}
 }
 

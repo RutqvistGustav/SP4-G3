@@ -10,16 +10,17 @@
 
 #include "SpriteWrapper.h"
 
-GameScene::GameScene()
+GameScene::GameScene() = default;
+GameScene::~GameScene() = default;
+
+void GameScene::Init()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 	myTga2dLogoSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 
-	myPlayer = std::make_unique<Player>();
+	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 }
-
-GameScene::~GameScene() = default;
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {

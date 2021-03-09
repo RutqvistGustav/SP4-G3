@@ -1,7 +1,10 @@
 #pragma once
+
 #include "GameObject.h"
+
 #include <memory>
 
+class PlayerWeaponController;
 class SpriteWrapper;
 
 namespace CommonUtilities
@@ -13,19 +16,23 @@ class Player :
     public GameObject
 {
 public:
-    Player();
+    
+    Player(Scene* aScene);
     virtual ~Player() override;
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     void Controller(const float aDeltaTime, CU::Input* anInput);
-    void Shoot();
-    void Grapple();
     void Jump();
     void BrakeMovement(const float aDeltaTime);
 
+    void ApplyForce(CU::Vector2<float>& aForce);
+
 private:
+
+    std::unique_ptr<PlayerWeaponController> myWeaponController;
+
     std::shared_ptr<SpriteWrapper> mySprite;
 
     bool myIsMoving = false;
@@ -38,6 +45,5 @@ private:
 
     // Weapon myShotgun;
     CU::Vector2<float> GetVel_KeyboardInput(CU::Input* anInput);
-    void MouseInput(CU::Input* anInput);
 };
 

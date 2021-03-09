@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector2.hpp"
+
 #include "WeaponType.h"
 #include "JsonData.h"
 
@@ -23,6 +25,9 @@ public:
 
 	virtual bool Shoot() = 0;
 
+	inline void SetDirection(CU::Vector2<float>& aDirection) { myDirection = aDirection; }
+	inline const CU::Vector2<float>& GetDirection() const { return myDirection; }
+
 	inline const WeaponType GetWeaponType() const { return myWeaponType; }
 
 protected:
@@ -33,6 +38,8 @@ protected:
 	inline IWeaponHolder* GetWeaponHolder() { return myWeaponHolder; }
 
 private:
+
+	CU::Vector2<float> myDirection{ 1.0f, 0.0f };
 
 	IWeaponHolder* myWeaponHolder{};
 	WeaponType myWeaponType;

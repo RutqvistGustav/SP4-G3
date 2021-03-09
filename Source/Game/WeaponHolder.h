@@ -1,9 +1,11 @@
 #pragma once
 
+class Weapon;
+
 class IWeaponHolder
 {
 public:
 
-	virtual void ApplyRecoilKnockback(float someStrength) = 0;
+	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength) = 0;
 
 };

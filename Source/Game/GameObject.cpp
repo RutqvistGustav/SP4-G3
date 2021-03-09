@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-GameObject::GameObject() = default;
+GameObject::GameObject(Scene* aScene)
+	: myScene(aScene)
+{}
 GameObject::~GameObject() = default;
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)

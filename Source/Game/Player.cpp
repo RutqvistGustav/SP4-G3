@@ -6,6 +6,9 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 
+#include "PlayerWeaponController.h"
+#include "Scene.h"
+
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
@@ -17,7 +20,8 @@
 #include <fstream>
 #include <string>
 
-Player::Player()
+Player::Player(Scene* aScene)
+	: GameObject(aScene)
 {
 	nlohmann::json data;
 	std::ifstream file("JSON/Player.json");
@@ -29,21 +33,24 @@ Player::Player()
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
-	
+
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 }
 
-Player::~Player()
-{
-}
+Player::~Player() = default;
 
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Controller(aDeltaTime, anUpdateContext.myInput);
+
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
-void Player::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
+void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
+
+	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
 void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
@@ -58,19 +65,7 @@ void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
 	mySprite->SetPosition(myPosition);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
-	std::cout << "Velocity " << myVel.x << std::endl;
-
-	MouseInput(anInput);
-}
-
-void Player::Shoot()
-{
-	//std::cout << "Bang!" << std::endl;
-}
-
-void Player::Grapple()
-{
-	//std::cout << "Grapple!" << std::endl;
+	// std::cout << "Velocity " << myVel.x << std::endl;
 }
 
 void Player::Jump()
@@ -91,6 +86,11 @@ void Player::BrakeMovement(const float aDeltaTime)
 			myVel.x = 0;
 		}
 	}
+}
+
+void Player::ApplyForce(CU::Vector2<float>& aForce)
+{
+	myVel += aForce;
 }
 
 CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
@@ -132,17 +132,4 @@ CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
 		}
 	}
 	return vel;
-}
-
-void Player::MouseInput(CommonUtilities::Input* anInput)
-{
-	for (auto keyState : anInput->GetMouseKeyStates())
-	{
-		if (keyState.second.myKeyPressed == true)
-		{
-			int keyNum = static_cast<char>(keyState.first);
-			if (keyNum == 0) Shoot();
-			if (keyNum == 2) Grapple();
-		}
-	}
 }

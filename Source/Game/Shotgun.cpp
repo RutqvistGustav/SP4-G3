@@ -30,7 +30,7 @@ bool Shotgun::Shoot()
 
 	// TODO: Shoot actual bullet or do a shapecast?
 
-	GetWeaponHolder()->ApplyRecoilKnockback(myRecoilKnockbackStrength);
+	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 	myFireTimer = myFireInterval;

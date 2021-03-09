@@ -3,7 +3,7 @@
         "type": "shotgun",
 
         "maxClipCount": 10,
-        "ammoPerClip": 2,
+        "ammoPerClip": 100,
 
         "fireInterval": 0.3,
 
@@ -12,7 +12,7 @@
         "aoeAngle": 50.0,
         "aoeLength": 300.0,
 
-        "recoilKnockbackStrength": 10.0
+        "recoilKnockbackStrength": 1000.0
     },
 
     "grapple": {

@@ -149,6 +149,7 @@
     <ClInclude Include="LockedSection.h" />
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
+    <ClInclude Include="PlayerWeaponController.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="RenderContext.h" />
     <ClInclude Include="RenderManager.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="InputInterface.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
+    <ClCompile Include="PlayerWeaponController.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
