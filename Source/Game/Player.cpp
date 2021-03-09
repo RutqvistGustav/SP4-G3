@@ -122,7 +122,7 @@ void Player::Movement(const float aDeltaTime, CU::Input* anInput)
 
 void Player::Jump(const float aDeltaTime)
 {
-	if (myIsJumping == true)
+	if (myIsJumping == true /*&& myJumpCharges > 0*/)
 	{
 		myJumpDuration -= aDeltaTime;
 		if (myJumpDuration > 0)
@@ -142,8 +142,10 @@ void Player::Jump(const float aDeltaTime)
 		{
 			myIsJumping = false;
 			myJumpDuration = myJumpDurationReset;
+			//--myJumpCharges;
 		}
-		// remove 1 jump charge
+		// if landed set myVel.y = 0
+		// Reset myJumpCharges
 	}
 	else
 	{
@@ -152,8 +154,6 @@ void Player::Jump(const float aDeltaTime)
 			myVel.y += myGravity * aDeltaTime;
 		}
 	}
-
-	//std::cout << "Velocity.y " << myVel.y << std::endl;
 }
 
 CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
