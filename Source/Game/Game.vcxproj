@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
@@ -143,6 +144,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="InputInterface.h" />
+    <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
     <ClInclude Include="Metrics.h" />
@@ -164,6 +166,9 @@
     <ClInclude Include="TextureRect.h" />
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponFactory.h" />
+    <ClInclude Include="WeaponHolder.h" />
+    <ClInclude Include="WeaponType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -188,6 +193,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

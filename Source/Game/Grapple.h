@@ -1,16 +1,28 @@
 #pragma once
+
 #include "Weapon.h"
+
 class Grapple : public Weapon
 {
 public:
-	Grapple(const float aRangeValue);
-	~Grapple();
 
-	void Shoot() override;
+	Grapple(IWeaponHolder* aWeaponHolder);
+	virtual ~Grapple() override;
+
+	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
+	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+
+	virtual bool Shoot() override;
+
+protected:
+
+	virtual void LoadJson(const JsonData& someJsonData) override;
+	virtual void Setup() override;
 
 private:
-	//Example Variables taken from GDD
-	//float myLaunchSpeed;
-	//float myPullSpeed;
-	//float myPassThroughSpeed;
+
+	float myMaxDistance{};
+	float myHookSpeed{};
+	float myContractSpeed{};
+
 };

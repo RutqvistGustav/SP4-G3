@@ -130,6 +130,21 @@
     <ClInclude Include="InputInterface.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponType.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonData.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponHolder.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFactoryBase.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponFactory.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -183,6 +198,9 @@
     </ClCompile>
     <ClCompile Include="InputInterface.cpp">
       <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponFactory.cpp">
+      <Filter>Weapon</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

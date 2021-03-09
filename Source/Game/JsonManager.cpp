@@ -1,21 +1,18 @@
 #include "stdafx.h"
-#include "JsonManager.h"
-#include "stdafx.h"
-#include "JsonManager.h"
 
+#include "JsonManager.h"
 
 JsonManager::JsonManager()
 {
 	InitAllFiles();
 }
-JsonManager::~JsonManager()
-{
+JsonManager::~JsonManager() = default;
 
-}
-
-std::map<std::string, nlohmann::json>& JsonManager::GetJsonData()
+const JsonData& JsonManager::GetData(const std::string& aFileName) const
 {
-	return myJsonData;
+	assert(myJsonData.count(aFileName) > 0 && "Did you forget to add the json file to MainJson.json?");
+
+	return myJsonData.at(aFileName);
 }
 
 std::string JsonManager::SetSpritePath(const std::string& aVaribleName, const std::string& aFilePath) const
