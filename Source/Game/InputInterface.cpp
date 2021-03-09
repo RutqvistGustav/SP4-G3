@@ -21,12 +21,12 @@ bool InputInterface::IsJumping()
 
 bool InputInterface::IsGrappling()
 {
-	return (myInput->GetMouseKeyStates().at(CU::Input::EMouseKey::RIGHT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
+	return myInput->GetMouseKeyStates().count(CU::Input::EMouseKey::RIGHT) > 0 && (myInput->GetMouseKeyStates().at(CU::Input::EMouseKey::RIGHT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
 }
 
 bool InputInterface::IsShooting()
 {
-	return (myInput->GetMouseKeyStates().at(CU::Input::EMouseKey::LEFT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
+	return myInput->GetMouseKeyStates().count(CU::Input::EMouseKey::LEFT) > 0 && (myInput->GetMouseKeyStates().at(CU::Input::EMouseKey::LEFT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
 }
 
 bool InputInterface::IsMovingLeft()
