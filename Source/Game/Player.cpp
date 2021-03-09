@@ -64,8 +64,6 @@ void Player::Grapple()
 	//std::cout << "Grapple!" << std::endl;
 }
 
-
-
 void Player::BrakeMovement(const float aDeltaTime)
 {
 	if (myIsMovingLeft == false && myIsMovingRight == false)
