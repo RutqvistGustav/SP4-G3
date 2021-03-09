@@ -49,6 +49,7 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderCon
 void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
 {
 	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
+	
 	myVel += movement * mySpeed *aDeltaTime;
 	myPosition += myVel * aDeltaTime;
 	//myVel.y += myGravity * aDeltaTime;
@@ -57,7 +58,7 @@ void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
 	mySprite->SetPosition(myPosition);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
-	//std::cout << "Velocity " << myVel.x << std::endl;
+	std::cout << "Velocity " << myVel.x << std::endl;
 
 	MouseInput(anInput);
 }
@@ -81,7 +82,7 @@ void Player::BrakeMovement(const float aDeltaTime)
 {
 	if (myIsMoving == false)
 	{
-		if (myVel.x > 10.0f && myVel.x < -10.0f)
+		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
 		{
 			myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
 		}
