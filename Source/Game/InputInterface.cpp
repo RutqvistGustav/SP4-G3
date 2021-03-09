@@ -1,22 +1,25 @@
 #include "stdafx.h"
 #include "InputInterface.h"
+#include "ControllerInput.h"
 #include <WinUser.h>
 
-InputInterface::InputInterface(CU::Input* aInput)
+InputInterface::InputInterface(CU::Input* aInput, ControllerInput* aControllerInput)
 {
 	if (myInput == nullptr &&
 		aInput != nullptr)
 	{
 		myInput = aInput;
 	}
-	
-
-	//TODO: add Controller states if Controller is plugged in!
+	if (myControllerInput == nullptr &&
+		aControllerInput != nullptr)
+	{
+		myControllerInput = aControllerInput;
+	}
 }
 
 bool InputInterface::IsJumping()
 {
-	return (myInput->IsKeyPressed(VK_SPACE)/* || Get if A Button is pressed*/);
+	return (myInput->IsKeyPressed(VK_SPACE) || myControllerInput->IsPressed(VK_GAMEPAD_A));
 }
 
 bool InputInterface::IsGrappling()
@@ -41,5 +44,5 @@ bool InputInterface::IsMovingRight()
 
 bool InputInterface::IsPressingUse()
 {
-	return (myInput->IsKeyPressed('E')/* || Get if X Button is pressed*/);
+	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(VK_GAMEPAD_X));
 }

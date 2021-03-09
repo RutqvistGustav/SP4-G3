@@ -1,8 +1,12 @@
 #include "stdafx.h"
 #include "Game.h"
 
+
+
 #include "Camera.h"
 
+#include <Xinput.h>
+#include "ControllerInput.h"
 #include "InputInterface.h"
 
 #include "Metrics.h"
@@ -106,7 +110,7 @@ void CGame::InitCallBack()
 {
 	myRenderManager = std::make_unique<RenderManager>();
 	mySceneManager = std::make_unique<SceneManager>();
-	myInputInterface = std::make_unique<InputInterface>(InputInterface(myInput.get()));
+	myInputInterface = std::make_unique<InputInterface>(InputInterface(myInput.get(), myControllerInput.get()));
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
@@ -122,6 +126,7 @@ void CGame::UpdateCallBack()
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
 	myTimer->Update();
+	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
 
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);

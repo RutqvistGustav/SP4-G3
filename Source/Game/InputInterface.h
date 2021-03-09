@@ -6,10 +6,12 @@ namespace CommonUtilities
 	class Input;
 }
 
+class ControllerInput;
+
 class InputInterface
 {
 public:
-	InputInterface(CU::Input* aInput);
+	InputInterface(CU::Input* aInput, ControllerInput* aControllerInput);
 	~InputInterface() {};
 
 	bool IsJumping();
@@ -24,6 +26,7 @@ public:
 private:
 
 	CU::Input* myInput = nullptr;
+	ControllerInput* myControllerInput = nullptr;
 
 };
 
