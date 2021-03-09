@@ -3,5 +3,9 @@
   "MaxSpeedCap": 2000.0,
   "BrakeStrength": 0.001,
   "StopAtVelocity": 100.0,
-  "GravityStrength" : 50.0
+  "GravityStrength": 3000.0,
+
+  "JumpCharges": 2,
+  "JumpStrength": 13000.0,
+  "JumpDuration": 0.1
 }
