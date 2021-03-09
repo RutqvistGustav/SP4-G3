@@ -13,7 +13,13 @@ Shotgun::~Shotgun() = default;
 
 void Shotgun::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
-	myFireTimer -= aDeltaTime;
+	myTime += aDeltaTime;
+
+	if (IsReloadingComplete())
+	{
+		SetLoadedAmmo(myAmmoPerClip);
+		myReloadCompleteTime = -1.0f;
+	}
 }
 
 void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
@@ -23,7 +29,7 @@ void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRend
 
 bool Shotgun::Shoot()
 {
-	if (myFireTimer > 0.0f || myLoadedAmmo <= 0)
+	if (!IsLoaded())
 	{
 		return false;
 	}
@@ -33,28 +39,28 @@ bool Shotgun::Shoot()
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
-	myFireTimer = myFireInterval;
+
+	if (!IsLoaded())
+	{
+		Reload();
+	}
 
 	return true;
 }
 
 void Shotgun::Reload()
 {
-	if (myClipCount <= 0)
+	if (!IsReloading())
 	{
-		return;
+		myReloadCompleteTime = myTime + myReloadDuration;
 	}
-
-	SetLoadedAmmo(myAmmoPerClip);
-	SetClipCount(myClipCount - 1);
 }
 
 void Shotgun::LoadJson(const JsonData& someJsonData)
 {
-	myMaxClipCount = someJsonData["maxClipCount"];
 	myAmmoPerClip = someJsonData["ammoPerClip"];
 
-	myFireInterval = someJsonData["fireInterval"];
+	myReloadDuration = someJsonData["reloadDuration"];
 
 	myDamage = someJsonData["damage"];
 
@@ -67,7 +73,6 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
-	SetClipCount(myMaxClipCount);
 }
 
 void Shotgun::SetLoadedAmmo(int anAmount)
@@ -78,10 +83,17 @@ void Shotgun::SetLoadedAmmo(int anAmount)
 	}
 }
 
-void Shotgun::SetClipCount(int anAmount)
+bool Shotgun::IsReloadingComplete() const
 {
-	if (myClipCount >= 0 && myClipCount <= myMaxClipCount)
-	{
-		myClipCount = anAmount;
-	}
+	return myReloadCompleteTime >= 0.0f && myTime >= myReloadCompleteTime;
+}
+
+bool Shotgun::IsReloading() const
+{
+	return myReloadCompleteTime >= 0.0f && myTime < myReloadCompleteTime;
+}
+
+bool Shotgun::IsLoaded() const
+{
+	return myLoadedAmmo > 0;
 }

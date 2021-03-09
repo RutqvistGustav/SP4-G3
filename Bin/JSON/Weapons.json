@@ -2,10 +2,9 @@
     "shotgun": {
         "type": "shotgun",
 
-        "maxClipCount": 10,
-        "ammoPerClip": 100,
+        "ammoPerClip": 2,
 
-        "fireInterval": 0.3,
+        "reloadDuration": 0.3,
 
         "damage": 10.0,
 

@@ -22,20 +22,24 @@ protected:
 	virtual void Setup() override;
 
 	void SetLoadedAmmo(int anAmount);
-	void SetClipCount(int anAmount);
+
+	bool IsReloadingComplete() const;
+	bool IsReloading() const;
+	bool IsLoaded() const;
 
 private:
 
 	int myLoadedAmmo{};
-	int myClipCount{};
 
-	float myFireTimer{};
+	float myTime{};
+
+	float myNextFireTime{};
+	float myReloadCompleteTime{ -1.0f };
 
 	// Loaded from JSON
-	int myMaxClipCount{};
 	int myAmmoPerClip{};
 
-	float myFireInterval{};
+	float myReloadDuration{};
 
 	float myDamage{};
 
