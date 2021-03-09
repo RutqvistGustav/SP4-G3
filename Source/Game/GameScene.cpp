@@ -16,6 +16,7 @@ GameScene::GameScene()
 	myTga2dLogoSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 
 	myPlayer = std::make_unique<Player>();
+	myPlayer->SetPosition({ 950.0f, 540.0f });
 }
 
 GameScene::~GameScene() = default;
@@ -25,7 +26,8 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 }
 
-void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
+void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
+	myPlayer->Render(aRenderQueue, aRenderContext);
 }
