@@ -25,12 +25,7 @@ Player::Player()
 	data = nlohmann::json::parse(file);
 	file.close();
 
-	// Init base variables
-	mySpeed = data.at("MovementSpeed");
-	myMaxSpeed = data.at("MaxSpeedCap");
-	myReduceMovementSpeed = data.at("BrakeStrength");
-	myStopAtVelocity = data.at("StopAtVelocity");
-	myGravity = data.at("GravityStrength");
+	InitVariables(data);
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
@@ -69,14 +64,11 @@ void Player::Grapple()
 	//std::cout << "Grapple!" << std::endl;
 }
 
-void Player::Jump()
-{
-	//myVel.y += 800.0f;
-}
+
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
-	if (myIsMoving == false)
+	if (myIsMovingLeft == false && myIsMovingRight == false)
 	{
 		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
 		{
@@ -89,20 +81,37 @@ void Player::BrakeMovement(const float aDeltaTime)
 	}
 }
 
+void Player::InitVariables(nlohmann::json someData)
+{
+	// Movement
+	mySpeed = someData.at("MovementSpeed");
+	myMaxSpeed = someData.at("MaxSpeedCap");
+	myReduceMovementSpeed = someData.at("BrakeStrength");
+	myStopAtVelocity = someData.at("StopAtVelocity");
+	myGravity = someData.at("GravityStrength");
+
+	// Jump
+	myJumpCharges = someData.at("JumpCharges");
+	myJumpChargeReset = myJumpCharges;
+	myJumpStrength = someData.at("JumpStrength");
+	myJumpDuration = someData.at("JumpDuration");
+	myJumpDurationReset = myJumpDuration;
+}
+
 void Player::Movement(const float aDeltaTime, CU::Input* anInput)
 {
 	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
 
-	if (myIsMoving == true)
+	if (myIsMovingLeft == true || myIsMovingRight == true)
 	{
 		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
 		{
 			myVel += movement * mySpeed * aDeltaTime;
 		}
 	}
-
-	//myVel.y += myGravity * aDeltaTime;
 	BrakeMovement(aDeltaTime);
+
+	Jump(aDeltaTime);
 
 	myPosition += myVel * aDeltaTime;
 	mySprite->SetPosition(myPosition);
@@ -111,42 +120,80 @@ void Player::Movement(const float aDeltaTime, CU::Input* anInput)
 	//std::cout << "Velocity " << myVel.x << std::endl;
 }
 
+void Player::Jump(const float aDeltaTime)
+{
+	if (myIsJumping == true)
+	{
+		myJumpDuration -= aDeltaTime;
+		if (myJumpDuration > 0)
+		{
+			if (myHasRemovedNegativeVel == false)
+			{
+				if (myVel.y >= 0)
+				{
+					myVel.y = 0;
+				}
+				myHasRemovedNegativeVel = true;
+			}
+
+			myVel.y -= myJumpStrength * aDeltaTime;
+		}
+		else
+		{
+			myIsJumping = false;
+			myJumpDuration = myJumpDurationReset;
+		}
+		// remove 1 jump charge
+	}
+	else
+	{
+		if (myGravityActive == true)
+		{
+			myVel.y += myGravity * aDeltaTime;
+		}
+	}
+
+	//std::cout << "Velocity.y " << myVel.y << std::endl;
+}
+
 CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
 {
 	CU::Vector2<float> vel(0.0f, 0.0f);
 	for (auto keyState : anInput->GetKeyStates())
 	{
+		char keyLetter = static_cast<char>(keyState.first);
+
 		if (keyState.second.myKeyPressed == true)
 		{
-			if (keyState.first == 32) Jump();
+			if (keyState.first == 32) // 32 is spacebar
+			{
+				myIsJumping = true;
+				myHasRemovedNegativeVel = false;
+			}
+			if (keyLetter == 'A') myIsMovingLeft = true;
+			if (keyLetter == 'D') myIsMovingRight = true;
+			if (keyLetter == 'G') // temp 
+			{
+				if (myGravityActive == false)
+				{
+					myGravityActive = true;
+				}
+				else
+				{
+					myGravityActive = false;
+				}
+			}
 		}
-
-		char keyLetter = static_cast<char>(keyState.first);
+		
 		if (keyState.second.myKeyHold == true)
 		{
-			if (keyLetter == 'A')
-			{
-				--vel.x;
-				myIsMoving = true;
-			}
-			if (keyLetter == 'D')
-			{
-				++vel.x;
-				myIsMoving = true;
-			}
-			//if (keyLetter == 'W') --vel.y;
-			//if (keyLetter == 'S') ++vel.y;
+			if (keyLetter == 'A') --vel.x;
+			if (keyLetter == 'D') ++vel.x;
 		}
 		if (keyState.second.myKeyReleased == true)
 		{
-			if (keyLetter == 'A')
-			{
-				myIsMoving = false;
-			}
-			if (keyLetter == 'D')
-			{
-				myIsMoving = false;
-			}
+			if (keyLetter == 'A') myIsMovingLeft = false;
+			if (keyLetter == 'D') myIsMovingRight = false;
 		}
 	}
 	return vel;

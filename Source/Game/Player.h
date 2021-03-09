@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
+#include <json.hpp>
 
 class SpriteWrapper;
 
@@ -22,18 +23,32 @@ public:
     void Controller(const float aDeltaTime, CU::Input* anInput);
     void Shoot();
     void Grapple();
-
+    
     
 private:
     std::shared_ptr<SpriteWrapper> mySprite;
 
-    bool myIsMoving = false;
+    // Movement
+    bool myIsMovingLeft = false;
+    bool myIsMovingRight = false;
 
     float mySpeed;
-    float myMaxSpeed = 2000.0f;
-    float myReduceMovementSpeed = 0.001f;
-    float myStopAtVelocity = 100.0f;
-    float myGravity = 50.0f;
+    float myMaxSpeed;
+    float myReduceMovementSpeed;
+    float myStopAtVelocity;
+    float myGravity;
+
+    // Jump
+    bool myIsJumping = false;
+    bool myHasRemovedNegativeVel = false;
+    unsigned int myJumpCharges;
+    unsigned int myJumpChargeReset;
+    float myJumpStrength;
+    float myJumpDuration;
+    float myJumpDurationReset;
+
+    bool myGravityActive = false;
+
     CU::Vector2<float> myVel;
 
     CU::Vector2<float> GetVel_KeyboardInput(CU::Input* anInput);
@@ -42,6 +57,9 @@ private:
     // Movement
     void Movement(const float aDeltaTime, CU::Input* anInput);
     void BrakeMovement(const float aDeltaTime);
-    void Jump();
+    void Jump(const float aDeltaTime);
+
+    // Constructor
+    void InitVariables(nlohmann::json someData);
 };
 
