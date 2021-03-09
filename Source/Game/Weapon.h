@@ -25,7 +25,7 @@ public:
 
 	virtual bool Shoot() = 0;
 
-	inline void SetDirection(CU::Vector2<float>& aDirection) { myDirection = aDirection; }
+	inline void SetDirection(const CU::Vector2<float>& aDirection) { myDirection = aDirection; }
 	inline const CU::Vector2<float>& GetDirection() const { return myDirection; }
 
 	inline const WeaponType GetWeaponType() const { return myWeaponType; }

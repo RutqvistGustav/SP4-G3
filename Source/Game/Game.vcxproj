@@ -147,6 +147,7 @@
     <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
     <ClInclude Include="PlayerWeaponController.h" />

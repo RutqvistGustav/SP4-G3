@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector2.hpp"
+
 #include "WeaponHolder.h"
 
 struct UpdateContext;
@@ -22,6 +24,8 @@ public:
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
 protected:
+
+	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
 	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength) override;
 

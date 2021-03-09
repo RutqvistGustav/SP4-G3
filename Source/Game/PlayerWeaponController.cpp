@@ -4,6 +4,9 @@
 #include "UpdateContext.h"
 #include "InputInterface.h"
 
+#include "MathHelper.h"
+#include "Metrics.h"
+
 #include "Player.h"
 
 #include "Weapon.h"
@@ -21,7 +24,10 @@ PlayerWeaponController::~PlayerWeaponController() = default;
 
 void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
-	// TODO: Figure out direction of weapons and update
+	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
+
+	myGrapple->SetDirection(aimDirection);
+	myShotgun->SetDirection(aimDirection);
 
 	myGrapple->Update(aDeltaTime, anUpdateContext);
 	myShotgun->Update(aDeltaTime, anUpdateContext);
@@ -40,6 +46,26 @@ void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderConte
 {
 	myGrapple->Render(aRenderQueue, aRenderContext);
 	myShotgun->Render(aRenderQueue, aRenderContext);
+}
+
+CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
+{
+	// TODO: Figure out direction of weapons and update
+	// NOTE: Will have to be changed, this is just to test with a mouse
+
+	const CU::Vector2<float> mousePosition = {
+		anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
+		anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
+	};
+
+	const CU::Vector2<float> direction = mousePosition - myPlayer->GetPosition();
+
+	const float radians = std::atan2f(direction.y, direction.x);
+	const float step = 2.0f * MathHelper::locPif / 8.0f;
+
+	const float lockedRadians = std::roundf(radians / step) * step;
+
+	return CU::Vector2<float>(std::cosf(lockedRadians), std::sinf(lockedRadians));
 }
 
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
