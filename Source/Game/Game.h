@@ -17,6 +17,7 @@ class RenderManager;
 class SceneManager;
 class WeaponFactory;
 class InputInterface;
+class ControllerInput;
 
 class CGame
 {
@@ -43,7 +44,8 @@ private:
 	RenderContext myRenderContext;
 
 	std::unique_ptr<InputInterface> myInputInterface;
-
+	std::unique_ptr<ControllerInput> myControllerInput;
 	std::unique_ptr<CommonUtilities::Input> myInput;
+
 	std::unique_ptr<CommonUtilities::Timer> myTimer;
 };

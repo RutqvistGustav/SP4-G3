@@ -157,6 +157,9 @@
     <ClInclude Include="MathHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerInput.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -216,6 +219,9 @@
     </ClCompile>
     <ClCompile Include="PlayerWeaponController.cpp">
       <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerInput.cpp">
+      <Filter>InputHandling</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
