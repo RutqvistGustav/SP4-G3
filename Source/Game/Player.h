@@ -57,7 +57,6 @@ private:
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);
     void PlayerInput(InputInterface* anInput);
-    void MouseInput(CU::Input* anInput);
 
     void Movement(const float aDeltaTime, InputInterface* anInput);
     void BrakeMovement(const float aDeltaTime);

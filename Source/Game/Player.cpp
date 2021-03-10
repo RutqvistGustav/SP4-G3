@@ -214,16 +214,3 @@ CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
 
 	return direction;
 }
-
-void Player::MouseInput(CommonUtilities::Input* anInput)
-{
-	for (auto keyState : anInput->GetMouseKeyStates())
-	{
-		if (keyState.second.myKeyPressed == true)
-		{
-			int keyNum = static_cast<char>(keyState.first);
-			if (keyNum == 0) Shoot();
-			if (keyNum == 2) Grapple();
-		}
-	}
-}
