@@ -1,17 +1,15 @@
 #include "stdafx.h"
 #include "Weapon.h"
 
-Weapon::Weapon(const eWeaponType aWeaponType, const float aRangeValue) :
-	myRange(aRangeValue),
-	myWeaponType(aWeaponType)
+Weapon::Weapon(const WeaponType aWeaponType, IWeaponHolder* aWeaponHolder)
+	: myWeaponType(aWeaponType),
+	myWeaponHolder(aWeaponHolder)
 {}
 
-Weapon::~Weapon()
-{
-}
+Weapon::~Weapon() = default;
 
-const eWeaponType Weapon::GetWeaponType()
+void Weapon::Init(const JsonData & someJsonData)
 {
-	return myWeaponType;
+	LoadJson(someJsonData);
+	Setup();
 }
-

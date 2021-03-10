@@ -1,8 +1,11 @@
 #pragma once
+
 #include "GameObject.h"
+
 #include <memory>
 #include <json.hpp>
 
+class PlayerWeaponController;
 class SpriteWrapper;
 
 namespace CommonUtilities
@@ -16,18 +19,21 @@ class Player :
     public GameObject
 {
 public:
-    Player();
+    
+    Player(Scene* aScene);
     virtual ~Player() override;
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+    void ApplyForce(const CU::Vector2<float>& aForce);
+
     void Controller(const float aDeltaTime, InputInterface* anInput);
-    void Shoot();
-    void Grapple();
-    
-    
+
 private:
+
+    std::unique_ptr<PlayerWeaponController> myWeaponController;
+
     std::shared_ptr<SpriteWrapper> mySprite;
 
     // Movement
@@ -52,7 +58,6 @@ private:
     bool myGravityActive = false;
 
     CU::Vector2<float> myVel;
-
 
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);

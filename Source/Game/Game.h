@@ -12,8 +12,10 @@ namespace CommonUtilities
 	class Timer;
 }
 
+class JsonManager;
 class RenderManager;
 class SceneManager;
+class WeaponFactory;
 class InputInterface;
 class ControllerInput;
 
@@ -34,6 +36,8 @@ private:
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	std::unique_ptr<RenderManager> myRenderManager;
+	std::unique_ptr<JsonManager> myJsonManager;
+	std::unique_ptr<WeaponFactory> myWeaponFactory;
 	std::unique_ptr<SceneManager> mySceneManager;
 
 	UpdateContext myUpdateContext;

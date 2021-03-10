@@ -35,6 +35,20 @@ void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 	myGameObjects.push_back(aGameObject);
 }
 
+JsonManager* Scene::GetJsonManager()
+{
+	assert(GetSceneManager() != nullptr);
+
+	return GetSceneManager()->GetJsonManager();
+}
+
+WeaponFactory* Scene::GetWeaponFactory()
+{
+	assert(GetSceneManager() != nullptr);
+
+	return GetSceneManager()->GetWeaponFactory();
+}
+
 Camera* Scene::GetCamera()
 {
 	assert(GetSceneManager() != nullptr);

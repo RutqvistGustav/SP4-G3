@@ -6,6 +6,9 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 
+#include "PlayerWeaponController.h"
+#include "Scene.h"
+
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
@@ -18,7 +21,8 @@
 #include <fstream>
 #include <string>
 
-Player::Player()
+Player::Player(Scene* aScene)
+	: GameObject(aScene)
 {
 	// json
 	nlohmann::json data;
@@ -32,37 +36,30 @@ Player::Player()
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
+
+	// Init weapon controller
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 }
 
-Player::~Player()
-{
-}
+Player::~Player() = default;
 
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
+	
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
-void Player::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
+void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
+
+	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
 void Player::Controller(const float aDeltaTime, InputInterface* anInput)
 {
 	Movement(aDeltaTime, anInput);
-
-	//MouseInput(anInput);
-}
-
-void Player::Shoot()
-{
-	//std::cout << "Bang!" << std::endl;
-}
-
-void Player::Grapple()
-{
-	//std::cout << "Grapple!" << std::endl;
 }
 
 void Player::BrakeMovement(const float aDeltaTime)
@@ -78,6 +75,11 @@ void Player::BrakeMovement(const float aDeltaTime)
 			myVel.x = 0;
 		}
 	}
+}
+
+void Player::ApplyForce(const CU::Vector2<float>& aForce)
+{
+	myVel += aForce;
 }
 
 void Player::PlayerInput(InputInterface* anInput)

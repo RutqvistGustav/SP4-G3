@@ -5,12 +5,13 @@
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
+class Scene;
 
 class GameObject
 {
 public:
 
-	GameObject();
+	GameObject(Scene* aScene);
 	virtual ~GameObject();
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
@@ -19,7 +20,11 @@ public:
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
 
+	inline Scene* GetScene() { return myScene; }
+
 protected:
+
+	Scene* myScene;
 
 	CU::Vector2<float> myPosition;
 	// Wrapped Tga2D::CSprite;

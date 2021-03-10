@@ -9,12 +9,16 @@ struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
 class Scene;
+class JsonManager;
+class WeaponFactory;
 
 class SceneManager
 {
 public:
 
-	SceneManager();
+	SceneManager(
+		JsonManager* aJsonManager,
+		WeaponFactory* aWeaponFactory);
 	~SceneManager();
 
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
@@ -22,6 +26,8 @@ public:
 
 	void Transition(std::unique_ptr<Scene> aTargetScene);
 
+	inline JsonManager* GetJsonManager() { return myJsonManager; }
+	inline WeaponFactory* GetWeaponFactory() { return myWeaponFactory; }
 	inline Camera* GetCamera() { return myCamera.get(); }
 
 private:
@@ -32,6 +38,9 @@ private:
 private:
 	
 	LockedSection myActiveSceneLock;
+
+	JsonManager* myJsonManager;
+	WeaponFactory* myWeaponFactory;
 
 	std::unique_ptr<Scene> myActiveScene;
 	std::unique_ptr<Scene> myQueuedScene;

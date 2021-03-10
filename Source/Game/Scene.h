@@ -9,6 +9,8 @@ struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
 class SceneManager;
+class JsonManager;
+class WeaponFactory;
 
 class Scene
 {
@@ -16,6 +18,8 @@ public:
 	
 	Scene();
 	virtual ~Scene();
+
+	virtual void Init() = 0;
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
@@ -25,6 +29,8 @@ public:
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
 
+	JsonManager* GetJsonManager();
+	WeaponFactory* GetWeaponFactory();
 	Camera* GetCamera();
 	inline SceneManager* GetSceneManager() { return mySceneManager; }
 

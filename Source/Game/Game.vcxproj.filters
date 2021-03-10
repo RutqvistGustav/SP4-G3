@@ -40,6 +40,12 @@
     <Filter Include="InputHandling">
       <UniqueIdentifier>{f45e1686-f546-4144-b8c7-72bdfa920c33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Player">
+      <UniqueIdentifier>{a84eed19-bbc1-48a2-94e1-fce12463dd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -87,9 +93,6 @@
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -130,6 +133,33 @@
     <ClInclude Include="InputInterface.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponType.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonData.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponHolder.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFactoryBase.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponFactory.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWeaponController.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheetAnimation.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
@@ -159,9 +189,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Grapple.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -186,6 +213,18 @@
     </ClCompile>
     <ClCompile Include="InputInterface.cpp">
       <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponFactory.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWeaponController.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheetAnimation.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>

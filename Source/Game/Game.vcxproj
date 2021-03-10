@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
@@ -144,10 +145,13 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="InputInterface.h" />
+    <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
+    <ClInclude Include="PlayerWeaponController.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="RenderContext.h" />
     <ClInclude Include="RenderManager.h" />
@@ -158,6 +162,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="SpriteRenderData.h" />
+    <ClInclude Include="SpriteSheetAnimation.h" />
     <ClInclude Include="SpriteWrapper.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stdafx.h" />
@@ -165,6 +170,9 @@
     <ClInclude Include="TextureRect.h" />
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="WeaponFactory.h" />
+    <ClInclude Include="WeaponHolder.h" />
+    <ClInclude Include="WeaponType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -176,11 +184,13 @@
     <ClCompile Include="InputInterface.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
+    <ClCompile Include="PlayerWeaponController.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shotgun.cpp" />
+    <ClCompile Include="SpriteSheetAnimation.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -190,6 +200,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="WeaponFactory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -30,6 +30,8 @@ public:
 	const Tga2D::CColor& GetColor() const;
 
 	void SetTexture(const std::string& aSpritePath);
+	void SetTexture(Tga2D::CTexture* aTexture);
+	const Tga2D::CTexture* GetTexture() const;
 
 	void SetTextureRect(const TextureRect& aTextureRect);
 	const TextureRect& GetTextureRect() const;
