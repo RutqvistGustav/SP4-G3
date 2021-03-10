@@ -71,6 +71,10 @@ void ControllerInput::UpdateNormalizedStickValues()
 	//Scales The Normalized value remaining after subtracting the Deadzone and making it from 0 to 1 again;
 	if (myXDeadZone > 0) myRightStickX *= 1 / (1 - myXDeadZone);
 	if (myYDeadZone > 0) myRightStickY *= 1 / (1 - myYDeadZone);
+
+	//Normalizes the triggers return values
+	myLeftTrigger = static_cast<float>(myState.Gamepad.bLeftTrigger / 255.0f);
+	myRightTrigger = static_cast<float>(myState.Gamepad.bRightTrigger / 255.0f);
 }
 
 float ControllerInput::GetLeftStickX()
@@ -91,6 +95,16 @@ float ControllerInput::GetRightStickX()
 float ControllerInput::GetRightStickY()
 {
 	return myRightStickY;
+}
+
+float ControllerInput::GetLeftTrigger()
+{
+	return myLeftTrigger;
+}
+
+float ControllerInput::GetRightTrigger()
+{
+	return myRightTrigger;
 }
 
 bool ControllerInput::IsPressed(WORD button)

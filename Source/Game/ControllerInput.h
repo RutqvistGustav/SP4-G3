@@ -16,6 +16,8 @@ public:
 	float GetLeftStickY();
 	float GetRightStickX();
 	float GetRightStickY();
+	float GetLeftTrigger();
+	float GetRightTrigger();
 
 	bool IsPressed(WORD button);
 

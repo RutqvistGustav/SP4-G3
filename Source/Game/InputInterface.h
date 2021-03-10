@@ -23,7 +23,7 @@ public:
 	void GetAimDirection();
 private:
 
-	CommonUtilities::Input* myInput;
+	CommonUtilities::Input* myInput = nullptr;
 	ControllerInput* myControllerInput = nullptr;
 
 };

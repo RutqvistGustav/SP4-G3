@@ -21,17 +21,17 @@ InputInterface::InputInterface(CommonUtilities::Input* aInput, ControllerInput* 
 
 bool InputInterface::IsJumping()
 {
-	return (myInput->IsKeyPressed(VK_SPACE) || myControllerInput->IsPressed(VK_GAMEPAD_A));
+	return (myInput->IsKeyPressed(VK_SPACE) || myControllerInput->IsPressed(XINPUT_GAMEPAD_A));
 }
 
 bool InputInterface::IsGrappling()
 {
-	return (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
+	return (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed ||  myControllerInput->GetLeftTrigger() > 0.0f);
 }
 
 bool InputInterface::IsShooting()
 {
-	return (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed/* ||  Get if Corresponding Gamepad button is pressed*/);
+	return (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed || myControllerInput->GetRightTrigger() > 0.0f);
 }
 
 bool InputInterface::IsMovingLeft()

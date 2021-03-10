@@ -42,6 +42,7 @@ std::wstring BUILD_NAME = L"Retail";
 CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
+	, myControllerInput(new ControllerInput())
 {
 }
 
@@ -128,6 +129,7 @@ void CGame::UpdateCallBack()
 
 	myTimer->Update();
 	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
+
 
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
