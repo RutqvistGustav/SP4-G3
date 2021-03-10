@@ -35,6 +35,7 @@ void ControllerInput::UpdateControllerState(float aDeltaTime)
 	{
 		if (myControllerId != -1)
 		{
+			myPreviousState = myState;
 			ZeroMemory(&myState, sizeof(XINPUT_STATE));
 			if (XInputGetState(myControllerId, &myState) != ERROR_SUCCESS)
 			{
@@ -109,7 +110,7 @@ float ControllerInput::GetRightTrigger()
 
 bool ControllerInput::IsPressed(WORD button)
 {
-	if (myControllerId != -1)
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) == 0)
 	{
 		return (myState.Gamepad.wButtons & button) != 0;
 	}

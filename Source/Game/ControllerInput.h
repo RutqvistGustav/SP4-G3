@@ -42,5 +42,6 @@ private:
 	int myControllerId;
 
 	XINPUT_STATE myState;
+	XINPUT_STATE myPreviousState;
 };
 
