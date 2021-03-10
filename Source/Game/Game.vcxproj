@@ -161,6 +161,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="SpriteRenderData.h" />
+    <ClInclude Include="SpriteSheetAnimation.h" />
     <ClInclude Include="SpriteWrapper.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stdafx.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shotgun.cpp" />
+    <ClCompile Include="SpriteSheetAnimation.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
