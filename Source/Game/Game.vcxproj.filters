@@ -130,6 +130,9 @@
     <ClInclude Include="InputInterface.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerInput.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -182,6 +185,9 @@
       <Filter>Json</Filter>
     </ClCompile>
     <ClCompile Include="InputInterface.cpp">
+      <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
     </ClCompile>
   </ItemGroup>

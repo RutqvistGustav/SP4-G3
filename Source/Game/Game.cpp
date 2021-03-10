@@ -3,6 +3,8 @@
 
 #include "Camera.h"
 
+#include <Xinput.h>
+#include "ControllerInput.h"
 #include "InputInterface.h"
 
 #include "Metrics.h"
@@ -34,10 +36,13 @@ std::wstring BUILD_NAME = L"Release";
 #pragma comment(lib,"CommonUtilities_Retail.lib")
 std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
+#pragma comment(lib, "XInput.lib")
+#pragma comment(lib, "XInput9_1_0.lib")
 
 CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
+	, myControllerInput(new ControllerInput())
 {
 }
 
@@ -106,10 +111,11 @@ void CGame::InitCallBack()
 {
 	myRenderManager = std::make_unique<RenderManager>();
 	mySceneManager = std::make_unique<SceneManager>();
-	myInputInterface = std::make_unique<InputInterface>(InputInterface(myInput.get()));
+	myInputInterface = std::make_unique<InputInterface>(InputInterface(myInput.get(), myControllerInput.get()));
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
+	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
@@ -122,6 +128,8 @@ void CGame::UpdateCallBack()
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
 	myTimer->Update();
+	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
+
 
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);

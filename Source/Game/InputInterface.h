@@ -1,15 +1,15 @@
 #pragma once
-#include "InputManager.h"
-
 namespace CommonUtilities
 {
 	class Input;
 }
 
+class ControllerInput;
+
 class InputInterface
 {
 public:
-	InputInterface(CU::Input* aInput);
+	InputInterface(CommonUtilities::Input* aInput, ControllerInput* aControllerInput);
 	~InputInterface() {};
 
 	bool IsJumping();
@@ -33,7 +33,8 @@ public:
 	void GetAimDirection();
 private:
 
-	CU::Input* myInput = nullptr;
+	CommonUtilities::Input* myInput = nullptr;
+	ControllerInput* myControllerInput = nullptr;
 
 };
 
