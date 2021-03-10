@@ -82,6 +82,48 @@ void Player::ApplyForce(const CU::Vector2<float>& aForce)
 	myVel += aForce;
 }
 
+void Player::PlayerInput(InputInterface* anInput)
+{
+	if (anInput->IsMovingLeft_Pressed())
+	{
+		myIsMovingLeft = true;
+		//std::cout << "Left Pressed" << std::endl;
+	}
+	if (anInput->IsMovingRight_Pressed())
+	{
+		myIsMovingRight = true;
+		//std::cout << "Right Pressed" << std::endl;
+	}
+	if (anInput->IsMovingLeft_Released())
+	{
+		myIsMovingLeft = false;
+		//std::cout << "Left Released" << std::endl;
+	}
+	if (anInput->IsMovingRight_Released())
+	{
+		myIsMovingRight = false;
+		//std::cout << "Right Released" << std::endl;
+	}
+
+	if (anInput->IsJumping())
+	{
+		myIsJumping = true;
+		myHasRemovedNegativeVel = false;
+	}
+
+	if (anInput->Is_G_Pressed())
+	{
+		if (myGravityActive == false)
+		{
+			myGravityActive = true;
+		}
+		else
+		{
+			myGravityActive = false;
+		}
+	}
+}
+
 void Player::InitVariables(nlohmann::json someData)
 {
 	// Movement
@@ -101,7 +143,8 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 {
-	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
+	PlayerInput(anInput);
+	CU::Vector2<float> movement = GetDirection(anInput);
 
 	if (myIsMovingLeft == true || myIsMovingRight == true)
 	{
@@ -157,65 +200,19 @@ void Player::Jump(const float aDeltaTime)
 	}
 }
 
-CU::Vector2<float> Player::GetVel_KeyboardInput(InputInterface* anInput)
+CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
 {
-	CU::Vector2<float> vel(0.0f, 0.0f);
-
-	if(anInput->IsMovingLeft_Pressed()) myIsMovingLeft = true;
-	if (anInput->IsMovingRight_Pressed()) myIsMovingLeft = true;
-	if (anInput->IsMovingLeft_Down()) --vel.x;
-	if (anInput->IsMovingRight_Down()) ++vel.x;
-
-	if (anInput->IsJumping())
+	CU::Vector2<float> direction(0.0f, 0.0f);
+	if (anInput->IsMovingLeft_Down() && myIsMovingRight == false)
 	{
-		myIsJumping = true;
-		myHasRemovedNegativeVel = false;
+		--direction.x;
+		//std::cout << "Left" << std::endl;
+	}
+	if (anInput->IsMovingRight_Down() && myIsMovingLeft == false)
+	{
+		++direction.x;
+		//std::cout << "Right" << std::endl;
 	}
 
-	if (anInput->Is_G_Pressed())
-	{
-		if (myGravityActive == false)
-		{
-			myGravityActive = true;
-		}
-		else
-		{
-			myGravityActive = false;
-		}
-	}
-
-	
-		//char keyLetter = static_cast<char>(keyState.first);
-
-		
-			//if (keyState.first == 32) // 32 is spacebar
-			//{
-			//	myIsJumping = true;
-			//	myHasRemovedNegativeVel = false;
-			//}
-			//if (keyLetter == 'A') myIsMovingLeft = true;
-			//if (keyLetter == 'D') myIsMovingRight = true;
-			//if (keyLetter == 'G') // temp 
-			//{
-			//	if (myGravityActive == false)
-			//	{
-			//		myGravityActive = true;
-			//	}
-			//	else
-			//	{
-			//		myGravityActive = false;
-			//	}
-			//}
-		
-		
-		
-			//if (keyLetter == 'A') --vel.x;
-			//if (keyLetter == 'D') ++vel.x;
-		
-		
-			//if (keyLetter == 'A') myIsMovingLeft = false;
-			//if (keyLetter == 'D') myIsMovingRight = false;
-		
-	
-	return vel;
+	return direction;
 }

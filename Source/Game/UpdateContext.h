@@ -1,4 +1,5 @@
 #pragma once
+#include "InputInterface.h"
 namespace CommonUtilities
 {
 	class Input;

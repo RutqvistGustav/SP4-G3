@@ -160,6 +160,9 @@
     <ClInclude Include="SpriteSheetAnimation.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="ControllerInput.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -222,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="SpriteSheetAnimation.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerInput.cpp">
+      <Filter>InputHandling</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

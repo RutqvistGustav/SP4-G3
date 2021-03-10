@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BehaviourFactoryBase.h" />
+    <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
@@ -175,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
