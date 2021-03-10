@@ -36,7 +36,7 @@ bool InputInterface::IsShooting()
 
 bool InputInterface::IsMovingLeft_Pressed()
 {
-	return (myInput->IsKeyPressed(VK_LEFT) || myInput->IsKeyPressed('A')/* ||  Get if Analog Stick is pushed left*/);
+	return (myInput->IsKeyPressed(VK_LEFT) || myInput->IsKeyPressed('A') || myControllerInput->GetLeftStickX() < 0.0f);
 }
 
 bool InputInterface::IsMovingLeft_Down()
@@ -46,12 +46,12 @@ bool InputInterface::IsMovingLeft_Down()
 
 bool InputInterface::IsMovingLeft_Released()
 {
-	return (myInput->IsKeyReleased(VK_LEFT) || myInput->IsKeyReleased('A'));
+	return (myInput->IsKeyReleased(VK_LEFT) || myInput->IsKeyReleased('A') || myControllerInput->GetLeftStickX() == 0.0f);
 }
 
 bool InputInterface::IsMovingRight_Pressed()
 {
-	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D'));
+	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D') || myControllerInput->GetLeftStickX() > 0.0f);
 }
 
 bool InputInterface::IsMovingRight_Down()
@@ -61,7 +61,7 @@ bool InputInterface::IsMovingRight_Down()
 
 bool InputInterface::IsMovingRight_Released()
 {
-	return (myInput->IsKeyReleased(VK_RIGHT) || myInput->IsKeyReleased('D'));
+	return (myInput->IsKeyReleased(VK_RIGHT) || myInput->IsKeyReleased('D') || myControllerInput->GetLeftStickX() == 0.0f);
 }
 
 bool InputInterface::Is_G_Pressed()
