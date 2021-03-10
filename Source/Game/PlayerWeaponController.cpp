@@ -2,6 +2,7 @@
 #include "PlayerWeaponController.h"
 
 #include "UpdateContext.h"
+#include "InputManager.h"
 #include "InputInterface.h"
 
 #include "MathHelper.h"
