@@ -12,7 +12,8 @@
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
-#include <InputManager.h>
+//#include <InputManager.h>
+#include "InputInterface.h"
 #include <iostream>
 
 // json
@@ -44,8 +45,8 @@ Player::~Player() = default;
 
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	Controller(aDeltaTime, anUpdateContext.myInput);
-
+	Controller(aDeltaTime, anUpdateContext.myInputInterface);
+	
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
@@ -56,12 +57,10 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
-void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
+void Player::Controller(const float aDeltaTime, InputInterface* anInput)
 {
 	Movement(aDeltaTime, anInput);
 }
-
-
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
@@ -100,7 +99,7 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
-void Player::Movement(const float aDeltaTime, CU::Input* anInput)
+void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 {
 	CU::Vector2<float> movement = GetVel_KeyboardInput(anInput);
 
@@ -158,45 +157,65 @@ void Player::Jump(const float aDeltaTime)
 	}
 }
 
-CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
+CU::Vector2<float> Player::GetVel_KeyboardInput(InputInterface* anInput)
 {
 	CU::Vector2<float> vel(0.0f, 0.0f);
-	for (auto keyState : anInput->GetKeyStates())
-	{
-		char keyLetter = static_cast<char>(keyState.first);
 
-		if (keyState.second.myKeyPressed == true)
+	if(anInput->IsMovingLeft_Pressed()) myIsMovingLeft = true;
+	if (anInput->IsMovingRight_Pressed()) myIsMovingLeft = true;
+	if (anInput->IsMovingLeft_Down()) --vel.x;
+	if (anInput->IsMovingRight_Down()) ++vel.x;
+
+	if (anInput->IsJumping())
+	{
+		myIsJumping = true;
+		myHasRemovedNegativeVel = false;
+	}
+
+	if (anInput->Is_G_Pressed())
+	{
+		if (myGravityActive == false)
 		{
-			if (keyState.first == 32) // 32 is spacebar
-			{
-				myIsJumping = true;
-				myHasRemovedNegativeVel = false;
-			}
-			if (keyLetter == 'A') myIsMovingLeft = true;
-			if (keyLetter == 'D') myIsMovingRight = true;
-			if (keyLetter == 'G') // temp 
-			{
-				if (myGravityActive == false)
-				{
-					myGravityActive = true;
-				}
-				else
-				{
-					myGravityActive = false;
-				}
-			}
+			myGravityActive = true;
 		}
-		
-		if (keyState.second.myKeyHold == true)
+		else
 		{
-			if (keyLetter == 'A') --vel.x;
-			if (keyLetter == 'D') ++vel.x;
-		}
-		if (keyState.second.myKeyReleased == true)
-		{
-			if (keyLetter == 'A') myIsMovingLeft = false;
-			if (keyLetter == 'D') myIsMovingRight = false;
+			myGravityActive = false;
 		}
 	}
+
+	
+		//char keyLetter = static_cast<char>(keyState.first);
+
+		
+			//if (keyState.first == 32) // 32 is spacebar
+			//{
+			//	myIsJumping = true;
+			//	myHasRemovedNegativeVel = false;
+			//}
+			//if (keyLetter == 'A') myIsMovingLeft = true;
+			//if (keyLetter == 'D') myIsMovingRight = true;
+			//if (keyLetter == 'G') // temp 
+			//{
+			//	if (myGravityActive == false)
+			//	{
+			//		myGravityActive = true;
+			//	}
+			//	else
+			//	{
+			//		myGravityActive = false;
+			//	}
+			//}
+		
+		
+		
+			//if (keyLetter == 'A') --vel.x;
+			//if (keyLetter == 'D') ++vel.x;
+		
+		
+			//if (keyLetter == 'A') myIsMovingLeft = false;
+			//if (keyLetter == 'D') myIsMovingRight = false;
+		
+	
 	return vel;
 }

@@ -13,6 +13,8 @@ namespace CommonUtilities
     class Input;
 }
 
+class InputInterface;
+
 class Player :
     public GameObject
 {
@@ -24,9 +26,9 @@ public:
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void Controller(const float aDeltaTime, CU::Input* anInput);
-
     void ApplyForce(const CU::Vector2<float>& aForce);
+
+    void Controller(const float aDeltaTime, InputInterface* anInput);
 
 private:
 
@@ -57,10 +59,10 @@ private:
 
     CU::Vector2<float> myVel;
 
-    CU::Vector2<float> GetVel_KeyboardInput(CU::Input* anInput);
+    CU::Vector2<float> GetVel_KeyboardInput(InputInterface* anInput);
 
     // Movement
-    void Movement(const float aDeltaTime, CU::Input* anInput);
+    void Movement(const float aDeltaTime, InputInterface* anInput);
     void BrakeMovement(const float aDeltaTime);
     void Jump(const float aDeltaTime);
 
