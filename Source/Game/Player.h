@@ -53,10 +53,12 @@ private:
 
     CU::Vector2<float> myVel;
 
-    CU::Vector2<float> GetVel_KeyboardInput(InputInterface* anInput);
-    void MouseInput(CU::Input* anInput);
 
     // Movement
+    CU::Vector2<float> GetDirection(InputInterface* anInput);
+    void PlayerInput(InputInterface* anInput);
+    void MouseInput(CU::Input* anInput);
+
     void Movement(const float aDeltaTime, InputInterface* anInput);
     void BrakeMovement(const float aDeltaTime);
     void Jump(const float aDeltaTime);
