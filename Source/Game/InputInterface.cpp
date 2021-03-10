@@ -41,7 +41,7 @@ bool InputInterface::IsMovingLeft_Pressed()
 
 bool InputInterface::IsMovingLeft_Down()
 {
-	return (myInput->IsKeyDown(VK_LEFT) || myInput->IsKeyDown('A')/* ||  Get if Analog Stick is pushed left*/);
+	return (myInput->IsKeyDown(VK_LEFT) || myInput->IsKeyDown('A') ||  myControllerInput->GetLeftStickX() < 0.0f);
 }
 
 bool InputInterface::IsMovingLeft_Released()
@@ -56,7 +56,7 @@ bool InputInterface::IsMovingRight_Pressed()
 
 bool InputInterface::IsMovingRight_Down()
 {
-	return (myInput->IsKeyDown(VK_RIGHT) || myInput->IsKeyDown('D')/* ||  Get if Analog Stick is pushed right*/);
+	return (myInput->IsKeyDown(VK_RIGHT) || myInput->IsKeyDown('D') || myControllerInput->GetLeftStickX() > 0.0f);
 }
 
 bool InputInterface::IsMovingRight_Released()
