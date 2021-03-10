@@ -22,7 +22,7 @@ public:
 	bool IsPressed(WORD button);
 
 private:
-	float myElapsedTime = 0.0f;
+	float myElapsedTime = 3.0f;
 	float myCheckCooldown = 5.0f;
 
 #pragma region ControllerStickVariables

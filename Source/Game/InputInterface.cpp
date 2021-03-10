@@ -46,5 +46,5 @@ bool InputInterface::IsMovingRight()
 
 bool InputInterface::IsPressingUse()
 {
-	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(VK_GAMEPAD_X));
+	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(XINPUT_GAMEPAD_X));
 }
