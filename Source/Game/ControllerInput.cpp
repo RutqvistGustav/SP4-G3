@@ -50,6 +50,9 @@ void ControllerInput::UpdateControllerState(float aDeltaTime)
 //Normalizes the Stick Values and takes into account a Deadzone on the sticks.
 void ControllerInput::UpdateNormalizedStickValues()
 {
+	//Whyy puu....
+	myPreviousLeftStickX = myLeftStickX;
+
 	float normalLeftStickX = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLX) / 32767.0f));
 	float normalLeftStickY = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLY) / 32767.0f));
 
@@ -115,5 +118,19 @@ bool ControllerInput::IsPressed(WORD button)
 		return (myState.Gamepad.wButtons & button) != 0;
 	}
 	return false;
+}
+
+bool ControllerInput::isReleased(WORD button)
+{
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) != 0)
+	{
+		return (myState.Gamepad.wButtons & button) == 0;
+	}
+	return false;
+}
+
+bool ControllerInput::LeftStickReleased()
+{
+	return(myPreviousLeftStickX != 0 && myLeftStickX == 0);
 }
 

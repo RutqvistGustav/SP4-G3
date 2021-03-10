@@ -46,7 +46,7 @@ bool InputInterface::IsMovingLeft_Down()
 
 bool InputInterface::IsMovingLeft_Released()
 {
-	return (myInput->IsKeyReleased(VK_LEFT) || myInput->IsKeyReleased('A') || myControllerInput->GetLeftStickX() == 0.0f);
+	return (myInput->IsKeyReleased(VK_LEFT) || myInput->IsKeyReleased('A') || myControllerInput->LeftStickReleased());
 }
 
 bool InputInterface::IsMovingRight_Pressed()
@@ -61,7 +61,7 @@ bool InputInterface::IsMovingRight_Down()
 
 bool InputInterface::IsMovingRight_Released()
 {
-	return (myInput->IsKeyReleased(VK_RIGHT) || myInput->IsKeyReleased('D') || myControllerInput->GetLeftStickX() == 0.0f);
+	return (myInput->IsKeyReleased(VK_RIGHT) || myInput->IsKeyReleased('D') || myControllerInput->LeftStickReleased());
 }
 
 bool InputInterface::Is_G_Pressed()

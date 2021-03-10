@@ -20,6 +20,8 @@ public:
 	float GetRightTrigger();
 
 	bool IsPressed(WORD button);
+	bool isReleased(WORD button);
+	bool LeftStickReleased();
 
 private:
 	float myElapsedTime = 3.0f;
@@ -29,6 +31,7 @@ private:
 	float myXDeadZone;
 	float myYDeadZone;
 	float myLeftStickX = 0.0f;
+	float myPreviousLeftStickX = 0.0f;
 	float myLeftStickY = 0.0f;
 	float myRightStickX = 0.0f;
 	float myRightStickY = 0.0f;
