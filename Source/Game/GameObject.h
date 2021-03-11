@@ -6,12 +6,13 @@ struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
 class Scene;
+class SpriteWrapper;
 
 class GameObject
 {
 public:
 
-	GameObject(Scene* aScene);
+	GameObject(Scene* aScene, const char* aSpritePath = nullptr);
 	virtual ~GameObject();
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
@@ -27,7 +28,7 @@ protected:
 	Scene* myScene;
 
 	CU::Vector2<float> myPosition;
-	// Wrapped Tga2D::CSprite;
+	std::shared_ptr<SpriteWrapper> mySprite;
 	// Collider
 
 };

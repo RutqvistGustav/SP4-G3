@@ -35,6 +35,7 @@ void ControllerInput::UpdateControllerState(float aDeltaTime)
 	{
 		if (myControllerId != -1)
 		{
+			myPreviousState = myState;
 			ZeroMemory(&myState, sizeof(XINPUT_STATE));
 			if (XInputGetState(myControllerId, &myState) != ERROR_SUCCESS)
 			{
@@ -49,6 +50,9 @@ void ControllerInput::UpdateControllerState(float aDeltaTime)
 //Normalizes the Stick Values and takes into account a Deadzone on the sticks.
 void ControllerInput::UpdateNormalizedStickValues()
 {
+	//Whyy puu....
+	myPreviousLeftStickX = myLeftStickX;
+
 	float normalLeftStickX = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLX) / 32767.0f));
 	float normalLeftStickY = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLY) / 32767.0f));
 
@@ -109,10 +113,24 @@ float ControllerInput::GetRightTrigger()
 
 bool ControllerInput::IsPressed(WORD button)
 {
-	if (myControllerId != -1)
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) == 0)
 	{
 		return (myState.Gamepad.wButtons & button) != 0;
 	}
 	return false;
+}
+
+bool ControllerInput::isReleased(WORD button)
+{
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) != 0)
+	{
+		return (myState.Gamepad.wButtons & button) == 0;
+	}
+	return false;
+}
+
+bool ControllerInput::LeftStickReleased()
+{
+	return(myPreviousLeftStickX != 0 && myLeftStickX == 0);
 }
 
