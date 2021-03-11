@@ -32,6 +32,8 @@ public:
 
     void OnCollision(const GameObject*) override;
 
+    void StopMovement();
+
 private:
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;

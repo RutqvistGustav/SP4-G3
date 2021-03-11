@@ -38,7 +38,6 @@ Player::Player(Scene* aScene)
 
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
-	myPositionLastFrame = myPosition;
 
 	myIsPlayer = true;//temporary
 
@@ -58,15 +57,14 @@ Player::~Player() = default;
 
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
-	
+
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	Controller(aDeltaTime, anInput);
-	GameObject::Update(aDeltaTime);
 	aRenderQueue->Queue(RenderCommand(mySprite));
 
 	myWeaponController->Render(aRenderQueue, aRenderContext);
@@ -79,11 +77,10 @@ void Player::Controller(const float aDeltaTime, InputInterface* anInput)
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
-	myVelocity = GetVel_KeyboardInput(anInput);
 
 
-	MouseInput(anInput);
-	myPositionLastFrame = myPosition;
+	//MouseInput(anInput);
+	//myPositionLastFrame = myPosition;
 	if (myIsMovingLeft == false && myIsMovingRight == false)
 	{
 		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
@@ -164,6 +161,12 @@ void Player::InitVariables(nlohmann::json someData)
 void Player::OnCollision(const GameObject* aGameObject)
 {
 	myOnGround = true;
+}
+
+
+void Player::StopMovement()
+{
+	myVel = CU::Vector2<float>();
 }
 
 void Player::Movement(const float aDeltaTime, InputInterface* anInput)

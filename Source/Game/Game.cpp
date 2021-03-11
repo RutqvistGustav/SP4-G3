@@ -47,15 +47,15 @@ CGame::CGame()
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
 {
-	myGameWorld = new CGameWorld();
+	//myGameWorld = new CGameWorld();
 
 }
 
 
 CGame::~CGame()
 {
-	delete myGameWorld;
-	myGameWorld = nullptr;
+	/*delete myGameWorld;
+	myGameWorld = nullptr;*/
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -116,7 +116,7 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 
 void CGame::InitCallBack()
 {
-	myGameWorld->Init();
+	//myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
 
 	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
@@ -143,8 +143,8 @@ void CGame::UpdateCallBack()
 	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
 
 
-	myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
-	myGameWorld->Render(updateQueue);
+	//myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
+	//myGameWorld->Render(updateQueue);
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
 

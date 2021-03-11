@@ -15,16 +15,18 @@ class Collider
 	friend class CollisionManager;
 public:
 	Collider();
-	Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 0.1f);
-	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 0.1f);
+	Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
+	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 100.f);
 	virtual ~Collider();
-	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 0.1f);
+	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
 
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
 	const std::shared_ptr<GameObject> GetGameObject()const;
 
 	const bool isColliding()const;
+	void SetRadius(const float aRadius);
+	const float GetRadius()const;
 
 #ifdef _DEBUG
 	void InitDebug();
@@ -37,9 +39,9 @@ public:
 	enum class eCollisionStage
 	{
 		NotColliding = 0,
-		FirstFrame,
+		FirstFrame,//används ej
 		MiddleFrames,
-		LastFrame,
+		LastFrame,//används ej
 		Count
 	};
 

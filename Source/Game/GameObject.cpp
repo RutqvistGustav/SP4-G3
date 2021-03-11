@@ -3,7 +3,8 @@
 #include "Collider.h"
 #include "CollisionManager.h"
 
-GameObject::GameObject(float aX, float aY)
+GameObject::GameObject(Scene* aScene, float aX, float aY)
+	: GameObject(aScene)
 {
 	myCollider = nullptr;
 	myPosition.x = aX;
@@ -19,30 +20,23 @@ void GameObject::Init()
 
 	myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
-#ifdef _DEBUG
-	myCollider->InitDebug();
-#endif // _DEBUG
+
 
 	CollisionManager::GetInstance()->AddCollider(myCollider);
 }
 
-void GameObject::Update(const float aDeltaTime)
-{
-	myCollider->SetPos(myPosition);
-	myPositionLastFrame = myPosition;
-}
 
-void GameObject::Render()
-{
-	// Render Wrapped Tga2D::CSprite;
-}
 GameObject::GameObject(Scene* aScene)
 	: myScene(aScene)
-{}
-GameObject::~GameObject() = default;
+{
+	/*myCollider = std::make_shared<Collider>();
+	CollisionManager::GetInstance()->AddCollider(myCollider);*/
+}
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
-{}
+{
+	myCollider->SetPos(myPosition);
+}
 
 void GameObject::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {}
@@ -59,6 +53,8 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 
 void GameObject::OnCollision(const GameObject* aGameObject)
 {
+	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->myPosition);
+
 	if (myIsPlayer)
 	{
 		switch (myCollider->GetCollisionStage())
@@ -66,8 +62,9 @@ void GameObject::OnCollision(const GameObject* aGameObject)
 		case Collider::eCollisionStage::FirstFrame:
 		case Collider::eCollisionStage::MiddleFrames:
 
-			myPosition = myPositionLastFrame;
-			myVelocity = CU::Vector2<float>();
+
+			myPosition += fromOtherToMe.GetNormalized() *
+				(myCollider->GetRadius() + aGameObject->myCollider->GetRadius() - fromOtherToMe.Length());
 
 
 			break;
@@ -106,15 +103,3 @@ void GameObject::OnCollision(const GameObject* aGameObject)
 	}
 }
 
-void GameObject::OnFirstFrameCollision(const GameObject* aGameObject)
-{
-	if (myIsPlayer)
-	{
-		//myPosition = myPositionLastFrame;
-		//myVelocity = CU::Vector2<float>();
-	}
-}
-
-void GameObject::ResetOnGround()
-{
-}

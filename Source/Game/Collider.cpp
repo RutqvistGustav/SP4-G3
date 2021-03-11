@@ -13,18 +13,14 @@ Collider::Collider()
 
 Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
 	: myPos(aPos)
-	, myRadius(aRadius)
 	, myGameObject(aGameObject)
 {
 
 #ifdef _DEBUG
 	myDebugSprite = nullptr;
 #endif // _DEBUG
-	if (aRadius < 0.01f)//temp
-	{
-		myRadius = 0.01f;
-	}
-
+	
+	SetRadius(aRadius);
 }
 
 Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
@@ -41,9 +37,13 @@ Collider::~Collider()
 
 void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
 {
+#ifdef _DEBUG
+	InitDebug();
+#endif // _DEBUG
+
 	myGameObject = std::make_shared<GameObject>(*aGameObject);
 	myPos = aPos;
-	myRadius = aRadius;
+	SetRadius(aRadius);
 }
 
 void Collider::SetPos(const CU::Vector2<float> aPos)
@@ -90,6 +90,24 @@ const bool Collider::isColliding() const
 	return myIsColliding; 
 }
 
+void Collider::SetRadius(const float aRadius)
+{
+	if (aRadius < 100.f)//temp
+	{
+		myRadius = 100.f;
+	}
+	else
+	{
+		myRadius = aRadius;
+	}
+
+}
+
+const float Collider::GetRadius() const
+{
+	return myRadius;
+}
+
 #ifdef _DEBUG
 void Collider::InitDebug()
 {
@@ -100,7 +118,7 @@ void Collider::RenderDebug()
 {
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	myDebugSprite->SetSizeRelativeToScreen({ myRadius * 4, myRadius * 4 });
+	myDebugSprite->SetSizeRelativeToScreen({ myRadius/400, myRadius/400});
 	myDebugSprite->Render();
 
 }
