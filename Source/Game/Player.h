@@ -34,8 +34,6 @@ private:
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
 
-    std::shared_ptr<SpriteWrapper> mySprite;
-
     // Movement
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
