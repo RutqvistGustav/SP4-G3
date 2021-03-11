@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Vector2.hpp>
+
 namespace MathHelper
 {
 
@@ -21,4 +23,18 @@ namespace MathHelper
 		return someDeg / static_cast<T>(180) * locPi<T>;
 	}
 
+	static CU::Vector2<float> MoveTowards(CU::Vector2<float> aValue, CU::Vector2<float> aTarget, float aMaxDelta)
+	{
+		CU::Vector2<float> toTarget = aTarget - aValue;
+		float length = toTarget.Length();
+
+		toTarget /= length;
+
+		if (length > aMaxDelta)
+		{
+			length = aMaxDelta;
+		}
+
+		return aValue + toTarget * length;
+	}
 }

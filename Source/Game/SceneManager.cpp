@@ -28,6 +28,8 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 {
 	assert(myActiveScene != nullptr);
 
+	myCamera->Update(aDeltaTime, anUpdateContext);
+
 	if (HasQueuedTransition())
 	{
 		RunTransition(std::move(myQueuedScene));
