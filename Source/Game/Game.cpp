@@ -9,6 +9,7 @@
 
 #include "Metrics.h"
 
+#include "AudioManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
 
@@ -112,6 +113,9 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 
 void CGame::InitCallBack()
 {
+	myAudioManager = std::make_unique<AudioManager>();
+	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
+
 	myRenderManager = std::make_unique<RenderManager>();
 	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 	myJsonManager = std::make_unique <JsonManager>();
@@ -119,6 +123,8 @@ void CGame::InitCallBack()
 	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myAudioManager = myAudioManager.get();
+
 	myUpdateContext.myInputInterface = myInputInterface.get();
 	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();

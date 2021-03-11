@@ -6,38 +6,18 @@
 #include "RenderCommand.h"
 #include "RenderQueue.h"
 
+#include "TgaRenderer.h"
+
 #include <algorithm>
 
 #include <tga2d/sprite/sprite.h>
-
-using Vector2f = CommonUtilities::Vector2<float>;
-
-static inline VECTOR2F GetEngineVectorFromCU(const Vector2f aVector)
-{
-	return VECTOR2F(aVector.x, aVector.y);
-}
-
-static inline VECTOR2F NormalizePosition(const Vector2f aPosition)
-{
-	const Vector2f referenceSize = Metrics::GetReferenceSize();
-
-	return { aPosition.x / referenceSize.x, aPosition.y / referenceSize.y };
-}
-
-static inline VECTOR2F NormalizeSize(const Vector2f aSize)
-{
-	const Vector2f referenceSize = Metrics::GetReferenceSize();
-
-	// NOTE: / y on both is correct
-	return { aSize.x / referenceSize.y, aSize.y / referenceSize.y };
-}
 
 RenderManager::RenderManager()
 {
 	myUpdateQueue = std::make_unique<RenderQueue>();
 	myRenderQueue = std::make_unique<RenderQueue>();
 
-	myRenderSprite = std::make_unique<Tga2D::CSprite>();
+	myRenderer = std::make_unique<TgaRenderer>(&Tga2D::CEngine::GetInstance()->GetDirect3D());
 }
 
 RenderManager::~RenderManager() = default;
@@ -55,21 +35,20 @@ void RenderManager::Render()
 		{
 			auto& data = command.mySpriteRenderData;
 
-			const Vector2f position = data.myPosition - myPan * command.myPanStrengthFactor;
+			const ExtraRenderInformation extraRenderInformation{ myPan * command.myPanStrengthFactor };
 
-			// NOTE: Performance optimization
-			// add SetTexture to Tga2D::CSprite to prevent lookup of texture
-			myRenderSprite->SetTexture(data.myTexture);
-			myRenderSprite->SetTextureRect(data.myTextureRect.myStartX, data.myTextureRect.myStartY, data.myTextureRect.myEndX, data.myTextureRect.myEndY);
+			myRenderer->Render(data, extraRenderInformation);
+		}
 
-			myRenderSprite->SetPosition(NormalizePosition(position));
-			myRenderSprite->SetPivot(GetEngineVectorFromCU(data.myPivot));
-			myRenderSprite->SetSizeRelativeToScreen(NormalizeSize(data.mySize));
-			myRenderSprite->SetRotation(data.myRotation);
+			break;
 
-			myRenderSprite->SetColor(data.myColor);
+		case RenderObjectType::SpriteBatch:
+		{
+			auto& data = command.mySpriteBatchRenderData;
 
-			myRenderSprite->Render();
+			const ExtraRenderInformation extraRenderInformation{ myPan * command.myPanStrengthFactor };
+
+			myRenderer->Render(data, extraRenderInformation);
 		}
 
 			break;

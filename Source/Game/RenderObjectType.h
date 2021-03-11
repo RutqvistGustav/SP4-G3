@@ -5,7 +5,7 @@ enum class RenderObjectType
 	Unknown,
 
 	Sprite,
-	/*Text,
-	SpriteBatch,*/
+	SpriteBatch,
+	/*Text,*/
 
 };

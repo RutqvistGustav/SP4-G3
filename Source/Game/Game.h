@@ -12,6 +12,7 @@ namespace CommonUtilities
 	class Timer;
 }
 
+class AudioManager;
 class JsonManager;
 class RenderManager;
 class SceneManager;
@@ -35,6 +36,7 @@ private:
 
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+	std::unique_ptr<AudioManager> myAudioManager;
 	std::unique_ptr<RenderManager> myRenderManager;
 	std::unique_ptr<JsonManager> myJsonManager;
 	std::unique_ptr<WeaponFactory> myWeaponFactory;

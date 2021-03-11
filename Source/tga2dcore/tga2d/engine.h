@@ -183,6 +183,9 @@ namespace Tga2D
 
 		void SetAmbientLightValue(float aAmbientLight);
 		CDirectEngine& GetDirect3D() const { return *myDirect3D; }
+
+        // NOTE: Engine modification
+        inline float GetTotalTime() const { return myTotalTime; }
     private:
 		static void DestroyInstance();
 

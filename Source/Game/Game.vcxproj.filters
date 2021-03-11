@@ -46,6 +46,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Renderer">
+      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -174,6 +177,24 @@
     <ClInclude Include="RandomHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatchWrapper.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TgaRenderer.h">
+      <Filter>Rendering\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderNormalInstanced.h">
+      <Filter>Rendering\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatchRenderData.h">
+      <Filter>Rendering\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -247,6 +268,18 @@
     </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteBatchWrapper.cpp">
+      <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="TgaRenderer.cpp">
+      <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderNormalInstanced.cpp">
+      <Filter>Rendering\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

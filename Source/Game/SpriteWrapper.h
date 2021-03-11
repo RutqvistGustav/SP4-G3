@@ -3,6 +3,8 @@
 #include "ObjectWrapper.h"
 #include "SpriteRenderData.h"
 
+#include <string>
+
 /// <summary>
 /// OBS! Always wrap in an std::shared_ptr!
 /// </summary>

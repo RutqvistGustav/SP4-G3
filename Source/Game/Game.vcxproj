@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="EventObserver.h" />
@@ -156,14 +157,18 @@
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="RenderContext.h" />
+    <ClInclude Include="IRenderer.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderObjectType.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShaderNormalInstanced.h" />
     <ClInclude Include="ShakeBehaviour.h" />
     <ClInclude Include="Shotgun.h" />
+    <ClInclude Include="SpriteBatchRenderData.h" />
+    <ClInclude Include="SpriteBatchWrapper.h" />
     <ClInclude Include="SpriteRenderData.h" />
     <ClInclude Include="SpriteSheetAnimation.h" />
     <ClInclude Include="SpriteWrapper.h" />
@@ -171,6 +176,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+    <ClInclude Include="TgaRenderer.h" />
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
@@ -178,6 +184,7 @@
     <ClInclude Include="WeaponType.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -193,8 +200,10 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ShaderNormalInstanced.cpp" />
     <ClCompile Include="ShakeBehaviour.cpp" />
     <ClCompile Include="Shotgun.cpp" />
+    <ClCompile Include="SpriteBatchWrapper.cpp" />
     <ClCompile Include="SpriteSheetAnimation.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -204,6 +213,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TgaRenderer.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
   </ItemGroup>

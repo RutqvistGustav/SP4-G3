@@ -11,6 +11,7 @@ namespace Tga2D
 
 class RenderCommand;
 class RenderQueue;
+class IRenderer;
 
 class RenderManager
 {
@@ -39,6 +40,6 @@ private:
 	std::unique_ptr<RenderQueue> myUpdateQueue;
 	std::unique_ptr<RenderQueue> myRenderQueue;
 
-	std::unique_ptr<Tga2D::CSprite> myRenderSprite;
+	std::unique_ptr<IRenderer> myRenderer;
 
 };
