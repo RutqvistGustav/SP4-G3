@@ -71,6 +71,6 @@ private:
     void InitVariables(nlohmann::json someData);
 
     // Tools
-    void IMGUI();
+    void ImGui();
 };
 

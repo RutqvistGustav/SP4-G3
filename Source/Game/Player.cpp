@@ -47,7 +47,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
-	IMGUI();
+	//ImGui();
 	
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
@@ -144,7 +144,7 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
-void Player::IMGUI()
+void Player::ImGui()
 {
 	ImGui::Begin("Player movement");
 
