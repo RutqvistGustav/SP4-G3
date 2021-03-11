@@ -25,6 +25,27 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{97bf9106-c49e-47b6-978b-0ae34e3e7017}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Weapon">
+      <UniqueIdentifier>{597763bd-6463-4439-9bba-ca6a8c02ac69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{de281f14-4079-42e8-aa23-d7e99478d833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{ef93c6ea-060c-4e59-b3a1-9119b6ee7ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Json">
+      <UniqueIdentifier>{74073098-ee23-47fc-bd17-acb94121bdf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InputHandling">
+      <UniqueIdentifier>{f45e1686-f546-4144-b8c7-72bdfa920c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player">
+      <UniqueIdentifier>{a84eed19-bbc1-48a2-94e1-fce12463dd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -66,13 +87,28 @@
     <ClInclude Include="Game.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameWorld.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GameLayer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Grapple.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Shotgun.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="LockedSection.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateContext.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
@@ -81,10 +117,57 @@
     <ClInclude Include="Collider.h">
       <Filter>Core</Filter>
     <ClInclude Include="GameLayer.h">
+    <ClInclude Include="RenderContext.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EventObserver.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSubject.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="JsonManager.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="InputInterface.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponType.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonData.h">
+      <Filter>Json</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponHolder.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFactoryBase.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponFactory.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerWeaponController.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheetAnimation.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerInput.h">
+      <Filter>InputHandling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -109,13 +192,25 @@
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GameWorld.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Grapple.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Shotgun.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
     <ClCompile Include="Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
@@ -123,8 +218,27 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Core</Filter>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="JsonManager.cpp">
+      <Filter>Json</Filter>
+    </ClCompile>
+    <ClCompile Include="InputInterface.cpp">
+      <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponFactory.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObjects</Filter>
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerWeaponController.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheetAnimation.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerInput.cpp">
+      <Filter>InputHandling</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

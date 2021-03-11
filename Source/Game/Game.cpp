@@ -1,8 +1,22 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "GameWorld.h"
+
+#include "Camera.h"
+
+#include <Xinput.h>
+#include "ControllerInput.h"
+#include "InputInterface.h"
+
 #include "Metrics.h"
 #include "RenderManager.h"
+#include "SceneManager.h"
+
+#include "JsonManager.h"
+#include "WeaponFactory.h"
+
+#include "GameScene.h"
+
 #include <InputManager.h>
 #include <Timer.h>
 
@@ -25,10 +39,13 @@ std::wstring BUILD_NAME = L"Release";
 #pragma comment(lib,"CommonUtilities_Retail.lib")
 std::wstring BUILD_NAME = L"Retail";
 #endif // DEBUG
+#pragma comment(lib, "XInput.lib")
+#pragma comment(lib, "XInput9_1_0.lib")
 
 CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
+	, myControllerInput(new ControllerInput())
 {
 	myGameWorld = new CGameWorld();
 
@@ -102,21 +119,40 @@ void CGame::InitCallBack()
 	myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
 
+	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
+	myJsonManager = std::make_unique <JsonManager>();
+	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
+	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
+
+	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myInputInterface = myInputInterface.get();
+	// TODO: Remove when interface works
+	myUpdateContext.myInput = myInput.get();
+
+	// TODO: DEBUG: Load default game scene
+	mySceneManager->Transition(std::make_unique<GameScene>());
 }
 
 void CGame::UpdateCallBack()
 {
 
 	// NOTE: Ready for multithreading
-	RenderQueue* updateQueue = myRenderManager->GetUpdateQueue();
+	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
 	myTimer->Update();
+	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
+
 
 	myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
 	myGameWorld->Render(updateQueue);
+	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
+	mySceneManager->Render(updateQueue, myRenderContext);
 
+	// Rendering
 	myRenderManager->Render();
-	myRenderManager->OnPostFrameThreadSync();
+	
+	myRenderManager->SwapBuffers();
+	myRenderManager->SetPan(mySceneManager->GetCamera()->GetCameraPosition());
 
 	myInput->ResetFrame();
 }

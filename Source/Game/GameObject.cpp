@@ -36,6 +36,16 @@ void GameObject::Render()
 {
 	// Render Wrapped Tga2D::CSprite;
 }
+GameObject::GameObject(Scene* aScene)
+	: myScene(aScene)
+{}
+GameObject::~GameObject() = default;
+
+void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
+{}
+
+void GameObject::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+{}
 
 const CU::Vector2<float>& GameObject::GetPosition() const
 {

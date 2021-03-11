@@ -86,6 +86,16 @@ void SpriteWrapper::SetTexture(const std::string& aSpritePath)
 	SetSize({ static_cast<float>(imageSize.myX), static_cast<float>(imageSize.myY) });
 }
 
+void SpriteWrapper::SetTexture(Tga2D::CTexture* aTexture)
+{
+	myRenderData.myTexture = aTexture;
+}
+
+const Tga2D::CTexture* SpriteWrapper::GetTexture() const
+{
+	return myRenderData.myTexture;
+}
+
 void SpriteWrapper::SetTextureRect(const TextureRect& aTextureRect)
 {
 	myRenderData.myTextureRect = aTextureRect;

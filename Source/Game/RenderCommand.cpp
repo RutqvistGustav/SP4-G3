@@ -19,6 +19,7 @@ void RenderCommand::Init(const std::shared_ptr<SpriteWrapper> aSprite)
 
 	myType = RenderObjectType::Sprite;
 	myLayer = aSprite->GetLayer();
+	myPanStrengthFactor = aSprite->GetPanStrengthFactor();
 
 	new (&mySpriteRenderData) SpriteRenderData(aSprite->myRenderData);
 }
