@@ -160,7 +160,7 @@ void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 	myPosition += myVel * aDeltaTime;
 	mySprite->SetPosition(myPosition);
 
-	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
+	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;
 }
 
@@ -211,7 +211,7 @@ CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
 	if (anInput->IsMovingRight_Down() && myIsMovingLeft == false)
 	{
 		++direction.x;
-		//std::cout << "Right" << std::endl;
+		//std::cout << "Right direction" << direction.x << std::endl;
 	}
 
 	return direction;
