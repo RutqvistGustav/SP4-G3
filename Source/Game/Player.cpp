@@ -12,9 +12,9 @@
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
-//#include <InputManager.h>
 #include "InputInterface.h"
 #include <iostream>
+#include <imgui.h>
 
 // json
 #include <json.hpp>
@@ -46,6 +46,8 @@ Player::~Player() = default;
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
+
+	IMGUI();
 	
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
@@ -119,6 +121,7 @@ void Player::PlayerInput(InputInterface* anInput)
 		}
 		else
 		{
+			myVel.y = 0;
 			myGravityActive = false;
 		}
 	}
@@ -139,6 +142,49 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
+}
+
+void Player::IMGUI()
+{
+	ImGui::Begin("Player movement");
+
+	ImGui::Text("");
+	ImGui::SliderFloat("MovementSpeed", &mySpeed, 0, 100000);
+	ImGui::SliderFloat("MaxSpeedCap", &myMaxSpeed, 0, 100000);
+
+	ImGui::Text("");
+
+	ImGui::Text("To make BrakeStrength stronger then use more zeroes after decimal. Ex. 0.0000001.");
+	ImGui::Text("To make BrakeStrength weaker then use less zeroes after decimal. Ex. 0.0001.");
+	ImGui::InputDouble("BrakeStrength", &myReduceMovementSpeed, 0, 1.0);
+
+	ImGui::Text("");
+
+	ImGui::Text("Will stop player entirely when movement slows down and approaches the StopAtVelocity amount.");
+	ImGui::DragFloat("StopAtVelocity", &myStopAtVelocity, 0, 10000.0f);
+
+	ImGui::Text("");
+
+	ImGui::SliderFloat("GravityStrength", &myGravity, 0, 100000.0f);
+
+	ImGui::SliderInt("JumpCharges", &myJumpCharges, 0, 100);
+	myJumpChargeReset = myJumpCharges;
+
+	ImGui::SliderFloat("JumpStrength", &myJumpStrength, 0, 100000);
+
+	ImGui::Text("");
+
+	ImGui::Text("JumpDuration resets only to the value given in Player.json");
+	ImGui::Text("So if you want the JumpDuration to reset at a different value");
+	ImGui::Text("then change the value in Player.json first.");
+	ImGui::SliderFloat("JumpDuration", &myJumpDuration, 0, 5.0f);
+
+	ImGui::Text("");
+	ImGui::Text("Note!");
+	ImGui::Text("ImGui will not change values in Player.json.");
+	ImGui::Text("You are gonna have to do that yourself :D.");
+
+	ImGui::End();
 }
 
 void Player::Movement(const float aDeltaTime, InputInterface* anInput)
@@ -173,10 +219,7 @@ void Player::Jump(const float aDeltaTime)
 		{
 			if (myHasRemovedNegativeVel == false)
 			{
-				if (myVel.y >= 0)
-				{
-					myVel.y = 0;
-				}
+				myVel.y = 0;
 				myHasRemovedNegativeVel = true;
 			}
 
