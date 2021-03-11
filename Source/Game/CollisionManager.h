@@ -1,5 +1,7 @@
 #pragma once
+#include <map>
 #include <memory>
+
 #include "Collider.h"
 
 namespace Tga2D
@@ -21,7 +23,7 @@ public:
 
 	void Update();
 
-	void AddCollider(Collider* aCollider);
+	void AddCollider(std::shared_ptr<Collider> aCollider);
 
 #ifdef _DEBUG
 	void InitDebug();
@@ -32,5 +34,7 @@ public:
 private:
 	CollisionManager();
 	std::vector<std::shared_ptr<Collider>> myColliders;
+	std::map<int, int> myCollisionIndexes;
+
 };
 

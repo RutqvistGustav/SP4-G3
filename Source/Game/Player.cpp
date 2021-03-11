@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Collider.h"
 
 // Tools
 #include <Vector2.hpp>
@@ -19,6 +20,14 @@ Player::Player()
 	file.close();
 
 	mySpeed = data.at("MovementSpeed");
+
+	myOnGround = false;
+
+	myPosition.x = 0.5f;
+	myPosition.y = 0.5f;
+	myPositionLastFrame = myPosition;
+
+	myIsPlayer = true;//temporary
 }
 
 Player::~Player()
@@ -27,8 +36,8 @@ Player::~Player()
 
 void Player::Update(const float aDeltaTime, CommonUtilities::Input* anInput)
 {
-	GameObject::Update(aDeltaTime);
 	Controller(aDeltaTime, anInput);
+	GameObject::Update(aDeltaTime);
 }
 
 void Player::Render()
@@ -37,12 +46,26 @@ void Player::Render()
 
 void Player::Controller(const float aDeltaTime, CommonUtilities::Input* anInput)
 {
-	CU::Vector2<float> vel = GetVel_KeyboardInput(anInput);
-	myPosition += vel * mySpeed * aDeltaTime;
+	myVelocity = GetVel_KeyboardInput(anInput);
+	static float gravitation = 0.f;
 
-	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl; // temp
+	//if (myCollider->isColliding())
+	//{
+	//	myVelocity = CU::Vector2<float>();
+	//	//myPosition = myPositionLastFrame + CU::Vector2<float>(0.0f, -0.00001f);
+	//	gravitation = 0.0f;
+	//}
+	//else
+	//{
+	//}
+
+		gravitation += 0.01f * aDeltaTime;
+		myVelocity.y += gravitation;
+		myPosition += myVelocity * mySpeed * aDeltaTime;
+
 
 	MouseInput(anInput);
+	myPositionLastFrame = myPosition;
 }
 
 void Player::Shoot()
@@ -53,6 +76,11 @@ void Player::Shoot()
 void Player::Grapple()
 {
 	//std::cout << "Grapple!" << std::endl;
+}
+
+void Player::OnCollision(const GameObject* aGameObject)
+{
+	myOnGround = true;
 }
 
 CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
@@ -68,8 +96,17 @@ CU::Vector2<float> Player::GetVel_KeyboardInput(CommonUtilities::Input* anInput)
 			if (keyLetter == 'D') ++vel.x;
 			if (keyLetter == 'W') --vel.y;
 			if (keyLetter == 'S') ++vel.y;
+
+
+			if (keyLetter == 'L')
+			{
+				myPosition.x = 0.5;
+				myPosition.y = 0.5;
+				myVelocity = CU::Vector2<float>(0.0f, 0.0f);
+			}
 		}
 	}
+	vel.Normalize();
 	return vel;
 }
 

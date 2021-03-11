@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Collider.h"
+#include "GameObject.h"
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
@@ -7,25 +8,27 @@
 
 
 Collider::Collider()
-	: Collider(0.0f, 0.0f, 0.0f)
+	: Collider(nullptr, 0.0f, 0.0f, 0.0f)
 {}
 
-Collider::Collider(CU::Vector2<float> aPos, float aRadius)
+Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
 	: myPos(aPos)
 	, myRadius(aRadius)
+	, myGameObject(aGameObject)
 {
+
 #ifdef _DEBUG
 	myDebugSprite = nullptr;
 #endif // _DEBUG
-	if (aRadius < 0.1f)
+	if (aRadius < 0.01f)//temp
 	{
-		myRadius = 0.1f;
+		myRadius = 0.01f;
 	}
 
 }
 
-Collider::Collider(float aX, float aY, float aRadius)
-	: Collider(CU::Vector2<float>(aX, aY), aRadius)
+Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
+	: Collider(aGameObject, CU::Vector2<float>(aX, aY), aRadius)
 {}
 
 Collider::~Collider()
@@ -36,14 +39,55 @@ Collider::~Collider()
 #endif // _DEBUG
 }
 
+void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
+{
+	myGameObject = std::make_shared<GameObject>(*aGameObject);
+	myPos = aPos;
+	myRadius = aRadius;
+}
+
 void Collider::SetPos(const CU::Vector2<float> aPos)
 {
 	myPos = aPos;
 }
 
-bool Collider::GetCollision(const Collider* aCollider) const
+bool Collider::GetCollision(const Collider* aCollider)
 {
-	return (myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius;
+	if (myIsCube)
+	{
+		if (myPos.x + myRadius > aCollider->myPos.x - aCollider->myRadius &&
+			myPos.x - myRadius < aCollider->myPos.x + aCollider->myRadius &&
+			myPos.y + myRadius > aCollider->myPos.y - aCollider->myRadius &&
+			myPos.y - myRadius < aCollider->myPos.y + aCollider->myRadius)
+		{
+			//AdvanceCollisionStage();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	if ((myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius)
+	{
+		//AdvanceCollisionStage();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+const std::shared_ptr<GameObject> Collider::GetGameObject() const
+{
+	return myGameObject;
+}
+
+const bool Collider::isColliding() const 
+{ 
+	return myIsColliding; 
 }
 
 #ifdef _DEBUG
@@ -54,9 +98,9 @@ void Collider::InitDebug()
 
 void Collider::RenderDebug()
 {
-
+	myDebugSprite->SetPivot({ 0.5f, 0.5f });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	myDebugSprite->SetSizeRelativeToScreen({ myRadius, myRadius });
+	myDebugSprite->SetSizeRelativeToScreen({ myRadius * 4, myRadius * 4 });
 	myDebugSprite->Render();
 
 }
@@ -67,4 +111,19 @@ void Collider::setRenderColor(Tga2D::CColor aColor)
 
 }
 #endif // _DEBUG
+
+const Collider::eCollisionStage Collider::GetCollisionStage() const
+{
+	return myCollisionStage;
+}
+
+void Collider::AdvanceCollisionStage()
+{
+	myCollisionStage = static_cast<Collider::eCollisionStage>(static_cast<int>(myCollisionStage) + 1);
+	if (myCollisionStage == Collider::eCollisionStage::Count)
+	{
+		myCollisionStage = Collider::eCollisionStage::NotColliding;
+	}
+}
+
 

@@ -20,8 +20,11 @@ public:
     void Shoot();
     void Grapple();
 
+    void OnCollision(const GameObject*) override;
+
 private:
     float mySpeed;
+    bool myOnGround;
     // Weapon myShotgun;
 
     CU::Vector2<float> GetVel_KeyboardInput(CommonUtilities::Input* anInput);
