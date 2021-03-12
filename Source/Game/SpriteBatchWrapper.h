@@ -20,11 +20,12 @@ public:
 
 	static constexpr int ourMaxSpriteCount = 2048;
 
+	SpriteBatchWrapper(Tga2D::CTexture* aTexture);
 	SpriteBatchWrapper(const char* aSpritePath);
 	SpriteBatchWrapper(const std::string& aSpritePath);
 
-	bool Add(std::shared_ptr<SpriteWrapper>& aSprite);
-	bool Remove(std::shared_ptr<SpriteWrapper>& aSprite);
+	bool Add(const std::shared_ptr<SpriteWrapper>& aSprite);
+	bool Remove(const std::shared_ptr<SpriteWrapper>& aSprite);
 
 	void Clear();
 
@@ -36,7 +37,7 @@ private:
 
 	friend class RenderCommand;
 
-	Tga2D::CTexture* myTexture;
+	Tga2D::CTexture* myTexture{};
 
 	// NOTE: Could use different data structure if needed
 	std::vector<std::shared_ptr<SpriteWrapper>> mySprites;

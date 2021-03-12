@@ -2,8 +2,10 @@
 
 #include "GameObject.h"
 
+// TODO: Refactor so player does not use json library directly
+#include <nlohmann/json.hpp>
+
 #include <memory>
-#include <json.hpp>
 
 class PlayerWeaponController;
 class SpriteWrapper;

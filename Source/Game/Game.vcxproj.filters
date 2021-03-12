@@ -49,6 +49,9 @@
     <Filter Include="Rendering\Renderer">
       <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -195,6 +198,27 @@
     <ClInclude Include="SpriteBatchRenderData.h">
       <Filter>Rendering\Data</Filter>
     </ClInclude>
+    <ClInclude Include="TileType.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledParser.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledLayer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledTile.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledRenderer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TilesonImport.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -280,6 +304,21 @@
     </ClCompile>
     <ClCompile Include="ShaderNormalInstanced.cpp">
       <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledParser.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledLayer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledTile.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledRenderer.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

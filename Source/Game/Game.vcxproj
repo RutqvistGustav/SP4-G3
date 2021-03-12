@@ -66,7 +66,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -91,7 +91,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -117,7 +117,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -143,6 +143,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="TiledLayer.h" />
+    <ClInclude Include="TiledMap.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
@@ -177,6 +179,11 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
     <ClInclude Include="TgaRenderer.h" />
+    <ClInclude Include="TiledParser.h" />
+    <ClInclude Include="TiledRenderer.h" />
+    <ClInclude Include="TiledTile.h" />
+    <ClInclude Include="TilesonImport.h" />
+    <ClInclude Include="TileType.h" />
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
@@ -188,6 +195,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="TiledLayer.cpp" />
+    <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
@@ -214,6 +223,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TgaRenderer.cpp" />
+    <ClCompile Include="TiledParser.cpp" />
+    <ClCompile Include="TiledRenderer.cpp" />
+    <ClCompile Include="TiledTile.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
   </ItemGroup>
