@@ -2,11 +2,6 @@
 
 #include "TiledLayer.h"
 
-namespace tson
-{
-	class Tileset;
-}
-
 namespace Tga2D
 {
 	class CTexture;
@@ -18,7 +13,7 @@ public:
 
 	TiledMap(int someWidth, int someHeight, int someTileWidth, int someTileHeight);
 
-	bool AddTileset(const tson::Tileset& aTileset);
+	void AddTileset(const std::string& aTilesetKey, Tga2D::CTexture* aTexture);
 	TiledLayer& NewLayer(const std::string& aName, int someOrder);
 
 	Tga2D::CTexture* GetTilesetTexture(const std::string& aTilesetKey) const;

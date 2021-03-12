@@ -3,11 +3,6 @@
 #include "TileType.h"
 #include "TextureRect.h"
 
-namespace tson
-{
-	class Tile;
-}
-
 class TiledTile
 {
 public:

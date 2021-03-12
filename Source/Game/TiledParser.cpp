@@ -9,6 +9,8 @@
 
 #include <cassert>
 
+static const fs::path locBasePath = "Maps";
+
 TiledParser::TiledParser(const std::string& aMapPath)
 {
 	Load(aMapPath);
@@ -68,8 +70,21 @@ bool TiledParser::ParseTileset(tson::Map* aMap)
 
 	for (const tson::Tileset& tileset : tilesets)
 	{
-		if (!myResult->AddTileset(tileset))
+		fs::path imagePath = locBasePath / tileset.getImagePath();
+		imagePath.replace_extension(".dds");
+
+		const std::string finalImagePath = imagePath.u8string();
+
+		Tga2D::CTexture* tilesetTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture(finalImagePath.c_str());
+
+		if (tilesetTexture == nullptr || tilesetTexture->myIsFailedTexture)
+		{
+			ERROR_PRINT("Failed loading texture from tileset! %s", finalImagePath.c_str());
+
 			return false;
+		}
+
+		myResult->AddTileset(tileset.getImagePath().u8string(), tilesetTexture);
 	}
 
 	return true;
