@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "EnemyFactory.h"
+#include <memory>
+
 #include "Enemy.h"
 #include "Zombie.h"
-#include <memory>
+#include "JetPack.h"
 
 std::unique_ptr<Enemy> EnemyFactory::CreateEnemy(EnemyType aType, Scene* aScene)
 {
@@ -20,7 +22,7 @@ std::unique_ptr<Enemy> EnemyFactory::CreateEnemy(EnemyType aType, Scene* aScene)
 	}
 	case(EnemyType::JetPack):
 	{
-		return nullptr;
+		return std::make_unique<JetPack>(aScene);
 		break;
 	}
 	case(EnemyType::Zombie):

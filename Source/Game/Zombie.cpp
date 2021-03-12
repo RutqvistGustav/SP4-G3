@@ -9,11 +9,15 @@ Zombie::Zombie(Scene* aScene)
 	: Enemy(aScene)
 {
 	nlohmann::json data;
-	//std::ifstream file(JSON")
-	myHealth = 10.0f;
-	myDamage = 5.0f;
-	mySpeed = 100.0f;
-	myMaxSpeed = 200.0f;
+	std::ifstream file("JSON/EnemyTypes.json");
+	data = nlohmann::json::parse(file);
+	file.close();
+
+	nlohmann::json zombieData = data.at("Zombie");
+	myHealth = zombieData.at("Health");
+	myDamage = zombieData.at("Damage");
+	mySpeed = zombieData.at("MovementSpeed");
+	myMaxSpeed = zombieData.at("MaxSpeedCap");
 }
 
 Zombie::~Zombie()

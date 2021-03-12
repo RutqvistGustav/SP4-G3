@@ -1,9 +1,23 @@
 #include "stdafx.h"
 #include "JetPack.h"
 
+// JSON
+#include <json.hpp>
+#include <fstream>
+
 JetPack::JetPack(Scene* aScene)
 	: Enemy(aScene)
 {
+	nlohmann::json data;
+	std::ifstream file("JSON/EnemyTypes.json");
+	data = nlohmann::json::parse(file);
+	file.close();
+
+	nlohmann::json zombieData = data.at("JetPack");
+	myHealth = zombieData.at("Health");
+	myDamage = zombieData.at("Damage");
+	mySpeed = zombieData.at("MovementSpeed");
+	myMaxSpeed = zombieData.at("MaxSpeedCap");
 }
 
 JetPack::~JetPack()
