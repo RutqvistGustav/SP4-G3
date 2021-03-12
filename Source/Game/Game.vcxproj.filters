@@ -219,6 +219,9 @@
     <ClInclude Include="TilesonImport.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="TiledCollision.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -318,6 +321,9 @@
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="TiledRenderer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledCollision.cpp">
       <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>

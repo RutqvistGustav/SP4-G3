@@ -6,8 +6,9 @@
 #include "SpriteBatchWrapper.h"
 #include "SpriteWrapper.h"
 
-TiledLayer::TiledLayer(TiledMap* aMap, int someOrder) :
+TiledLayer::TiledLayer(TiledMap* aMap, const std::string& aName, int someOrder) :
 	myMap(aMap),
+	myName(aName),
 	myOrder(someOrder)
 {
 	myTiles.resize(aMap->GetWidth() * aMap->GetHeight());
@@ -20,6 +21,16 @@ void TiledLayer::AddTile(int aPosX, int aPosY, const TiledTile& aTile)
 	myTiles[tileIndex] = std::make_shared<TiledTile>(aTile);
 
 	AddTileToBatch(aPosX, aPosY, aTile);
+}
+
+const TiledTile* TiledLayer::GetTileAt(int aPosX, int aPosY) const
+{
+	if (aPosX < 0 || aPosY < 0 || aPosX >= myMap->GetWidth() || aPosY >= myMap->GetHeight())
+		return nullptr;
+
+	const int tileIndex = aPosX + aPosY * myMap->GetWidth();
+
+	return myTiles[tileIndex].get();
 }
 
 void TiledLayer::AddTileToBatch(int aPosX, int aPosY, const TiledTile& aTile)

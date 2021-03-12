@@ -21,10 +21,14 @@ public:
 		std::shared_ptr<SpriteBatchWrapper> myBatch;
 	};
 
-	TiledLayer(TiledMap* aMap, int someOrder);
+	TiledLayer(TiledMap* aMap, const std::string& aName, int someOrder);
 
 	void AddTile(int aPosX, int aPosY, const TiledTile& aTile);
 
+	const TiledTile* GetTileAt(int aPosX, int aPosY) const;
+
+	inline int GetOrder() const { return myOrder; }
+	inline const std::string& GetName() const { return myName; }
 	inline const std::vector<BatchInformation>& GetRenderBatches() const { return myRenderBatches; }
 
 private:
@@ -38,6 +42,7 @@ private:
 private:
 
 	int myOrder;
+	std::string myName;
 	TiledMap* myMap;
 
 	std::vector<std::shared_ptr<TiledTile>> myTiles;

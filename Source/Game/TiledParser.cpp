@@ -3,6 +3,8 @@
 
 #include "TilesonImport.h"
 
+#include "GameLayer.h"
+
 #include <tga2d/texture/texture_manager.h>
 
 #include <cassert>
@@ -41,9 +43,9 @@ bool TiledParser::Load(const std::string& aMapPath)
 
 	const std::array<std::pair<tson::Layer*, int>, 3> layers = {
 		{
-			{ backgroundLayer, 0 },
-			{ solidLayer, 5 },
-			{ foregroundLayer, 10 }
+			{ backgroundLayer, GameLayer::Background },
+			{ solidLayer, GameLayer::Solid },
+			{ foregroundLayer, GameLayer::Foreground }
 		}
 	};
 
@@ -79,7 +81,7 @@ bool TiledParser::ParseLayer(tson::Layer* aLayer, int someOrder)
 	assert(aLayer->getType() == tson::LayerType::TileLayer); // TODO?: NOTE: Only support tile layers for now
 	assert(!aLayer->getMap()->isInfinite());
 	
-	TiledLayer& newLayer = myResult->NewLayer(someOrder);
+	TiledLayer& newLayer = myResult->NewLayer(aLayer->getName(), someOrder);
 
 	for (const auto& [id, tile] : aLayer->getTileData())
 	{

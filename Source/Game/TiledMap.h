@@ -19,10 +19,11 @@ public:
 	TiledMap(int someWidth, int someHeight, int someTileWidth, int someTileHeight);
 
 	bool AddTileset(const tson::Tileset& aTileset);
-	TiledLayer& NewLayer(int someOrder);
+	TiledLayer& NewLayer(const std::string& aName, int someOrder);
 
 	Tga2D::CTexture* GetTilesetTexture(const std::string& aTilesetKey) const;
 
+	const TiledLayer* GetLayerByName(const std::string& aName) const;
 	inline const std::vector<TiledLayer>& GetLayers() const { return myLayers; }
 
 	inline int GetWidth() const { return myWidth; }

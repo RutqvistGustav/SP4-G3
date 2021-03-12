@@ -143,6 +143,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledLayer.h" />
     <ClInclude Include="TiledMap.h" />
     <ClInclude Include="GameObject.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledLayer.cpp" />
     <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="GameObject.cpp" />

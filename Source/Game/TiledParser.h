@@ -27,6 +27,7 @@ public:
 
 private:
 
+	friend class TiledCollision;
 	friend class TiledRenderer;
 	
 	bool Load(const std::string& aMapPath);
