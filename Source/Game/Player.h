@@ -30,7 +30,7 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
-    void OnCollision(const GameObject*) override;
+    //void OnCollision(const GameObject*) override;
 
     void StopMovement();
 
@@ -50,7 +50,7 @@ private:
     float myMaxSpeed;
     float myReduceMovementSpeed;
     float myStopAtVelocity;
-    float myGravity;
+    //float myGravity;//temporarly placed in GameObject
 
     // Jump
     bool myIsJumping = false;

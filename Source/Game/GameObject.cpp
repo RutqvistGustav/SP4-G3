@@ -4,13 +4,13 @@
 #include "CollisionManager.h"
 
 
-GameObject::GameObject(Scene* aScene, float aX, float aY)
-	: GameObject(aScene)
-{
-	myCollider = nullptr;
-	myPosition.x = aX;
-	myPosition.y = aY;
-}
+//GameObject::GameObject(Scene* aScene, float aX, float aY)
+//	: GameObject(aScene)
+//{
+//	myCollider = nullptr;
+//	myPosition.x = aX;
+//	myPosition.y = aY;
+//}
 
 GameObject::~GameObject()
 {
@@ -19,19 +19,21 @@ GameObject::~GameObject()
 void GameObject::Init()
 {
 
-	myCollider = std::make_shared<Collider>();
+	/*myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
 
 
-	CollisionManager::GetInstance()->AddCollider(myCollider);
+	CollisionManager::GetInstance()->AddCollider(myCollider);*/
 }
 
 
 GameObject::GameObject(Scene* aScene)
 	: myScene(aScene)
 {
-	/*myCollider = std::make_shared<Collider>();
-	CollisionManager::GetInstance()->AddCollider(myCollider);*/
+	myCollider = std::make_shared<Collider>();
+	myCollider->Init(this, myPosition);
+	CollisionManager::GetInstance()->AddCollider(myCollider);
+
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
@@ -50,12 +52,14 @@ const CU::Vector2<float>& GameObject::GetPosition() const
 void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 {
 	myPosition = aPosition;
+	myCollider->SetPos(aPosition);
 }
 
 void GameObject::OnCollision(const GameObject* aGameObject)
 {
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->myPosition);
 	float overlap = 0.0f;
+
 
 	if (myIsPlayer)
 	{
@@ -67,14 +71,24 @@ void GameObject::OnCollision(const GameObject* aGameObject)
 
 			/*myPosition += fromOtherToMe.GetNormalized() *
 				(myCollider->GetRadius() + aGameObject->myCollider->GetRadius()) - fromOtherToMe;*/
-			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->myCollider->GetRadius();
+			if (myCollider->GetIsCube())
+			{
+				myPosition.y = aGameObject->GetPosition().y - aGameObject->myCollider->GetRadius() - myCollider->GetRadius();
+			}
+			else
+			{
+				overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->myCollider->GetRadius();
+				myPosition -= overlap * fromOtherToMe.GetNormalized();
+			}
+			
 
-			myPosition -= overlap * fromOtherToMe.GetNormalized();
-			myVel = CU::Vector2<float>();
-
+			myVel = CU::Vector2<float>(myVel.x , 0.0f);
+			myGravity = 0.0f;
 			myCollider->SetPos(myPosition);
+
 			break;
 		case Collider::eCollisionStage::NotColliding:
+			myGravity = 3000.0f;
 
 
 			break;

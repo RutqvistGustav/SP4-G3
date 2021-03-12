@@ -158,10 +158,10 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
-void Player::OnCollision(const GameObject* aGameObject)
-{
-	myOnGround = true;
-}
+//void Player::OnCollision(const GameObject* aGameObject)
+//{
+//	myOnGround = true;
+//}
 
 
 void Player::StopMovement()

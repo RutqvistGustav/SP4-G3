@@ -24,13 +24,15 @@ void GameScene::Init()
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
 
-	AddGameObject(std::make_shared<GameObject>(this));
 
-	for (int i = 0; i < myGameObjects.size(); i++)
+
+	for (size_t i = 0; i < 10; ++i)
 	{
+		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
+		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
 	}
-	myGameObjects[0]->SetPosition({ 950.0f, 540.0f });
+	
 
 
 }

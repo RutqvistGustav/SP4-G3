@@ -41,7 +41,7 @@ void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRad
 	InitDebug();
 #endif // _DEBUG
 
-	myGameObject = std::make_shared<GameObject>(*aGameObject);
+	myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
 	SetRadius(aRadius);
 }
@@ -142,6 +142,11 @@ void Collider::AdvanceCollisionStage()
 	{
 		myCollisionStage = Collider::eCollisionStage::NotColliding;
 	}
+}
+
+const bool Collider::GetIsCube() const
+{
+	return myIsCube;
 }
 
 

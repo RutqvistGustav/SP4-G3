@@ -19,7 +19,7 @@ public:
 	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 100.f);
 	virtual ~Collider();
 	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
-
+	
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
 	const std::shared_ptr<GameObject> GetGameObject()const;
@@ -48,13 +48,15 @@ public:
 	const eCollisionStage GetCollisionStage()const;
 
 	void AdvanceCollisionStage();
+
+	const bool GetIsCube()const;
 private:
 	
 	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
 
 	bool myIsNotColliding = true;
 	bool myIsColliding = false;
-	bool myIsCube = false;
+	bool myIsCube = true;
 	CommonUtilities::Vector2<float> myPos;
 	float myRadius;
 	std::shared_ptr<GameObject> myGameObject;

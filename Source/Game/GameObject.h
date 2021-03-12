@@ -14,7 +14,7 @@ class GameObject
 {
 public:
 
-	GameObject(Scene* aScene, float aX, float aY);
+	//GameObject(Scene* aScene, float aX, float aY);
 	GameObject(Scene* aScene);
 	virtual ~GameObject();
 
@@ -41,6 +41,7 @@ protected:
 
 
 	bool myIsPlayer = false; //temorary variable
+	float myGravity;//temorary variable
 };
 
 
