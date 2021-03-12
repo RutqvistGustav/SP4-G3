@@ -163,6 +163,7 @@
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="Platform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,5 +230,6 @@
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
     </ClCompile>
+    <ClCompile Include="Platform.cpp" />
   </ItemGroup>
 </Project>
