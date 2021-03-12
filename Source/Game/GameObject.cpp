@@ -3,6 +3,7 @@
 #include "Collider.h"
 #include "CollisionManager.h"
 
+
 GameObject::GameObject(Scene* aScene, float aX, float aY)
 	: GameObject(aScene)
 {
@@ -54,6 +55,7 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 void GameObject::OnCollision(const GameObject* aGameObject)
 {
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->myPosition);
+	float overlap = 0.0f;
 
 	if (myIsPlayer)
 	{
@@ -63,10 +65,14 @@ void GameObject::OnCollision(const GameObject* aGameObject)
 		case Collider::eCollisionStage::MiddleFrames:
 
 
-			myPosition += fromOtherToMe.GetNormalized() *
-				(myCollider->GetRadius() + aGameObject->myCollider->GetRadius() - fromOtherToMe.Length());
+			/*myPosition += fromOtherToMe.GetNormalized() *
+				(myCollider->GetRadius() + aGameObject->myCollider->GetRadius()) - fromOtherToMe;*/
+			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->myCollider->GetRadius();
 
+			myPosition -= overlap * fromOtherToMe.GetNormalized();
+			myVel = CU::Vector2<float>();
 
+			myCollider->SetPos(myPosition);
 			break;
 		case Collider::eCollisionStage::NotColliding:
 
@@ -77,10 +83,6 @@ void GameObject::OnCollision(const GameObject* aGameObject)
 		}
 		//myPosition = myPositionLastFrame;
 		//myVelocity = CU::Vector2<float>();
-	}
-	else
-	{
-		
 	}
 
 	switch (myCollider->GetCollisionStage())

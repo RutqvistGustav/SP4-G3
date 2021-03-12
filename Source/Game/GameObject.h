@@ -34,6 +34,7 @@ protected:
 	Scene* myScene;
 
 	CU::Vector2<float> myPosition;
+	CU::Vector2<float> myVel;
 	// Wrapped Tga2D::CSprite;
 
 	std::shared_ptr<Collider> myCollider;

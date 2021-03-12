@@ -37,8 +37,8 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myPlayer->Update(aDeltaTime, anUpdateContext);
 	CollisionManager::GetInstance()->Update();
+	myPlayer->Update(aDeltaTime, anUpdateContext);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)

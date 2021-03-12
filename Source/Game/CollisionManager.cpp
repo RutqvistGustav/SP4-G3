@@ -64,11 +64,7 @@ void CollisionManager::Update()
 					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject().get());
 
 				}
-
-
 			}
-
-
 		}
 	}
 
