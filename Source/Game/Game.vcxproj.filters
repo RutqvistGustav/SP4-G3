@@ -46,6 +46,12 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Enemies">
+      <UniqueIdentifier>{8c6dac19-9e6a-43f8-bb86-8d5b4040dc65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Enemies\EnemyTypes">
+      <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -163,6 +169,18 @@
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="JetPack.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -228,6 +246,18 @@
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="JetPack.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

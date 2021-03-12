@@ -10,6 +10,10 @@
 
 #include "SpriteWrapper.h"
 
+// Enemy
+#include "EnemyFactory.h"
+#include "Enemy.h"
+
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
 
@@ -20,6 +24,9 @@ void GameScene::Init()
 
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
+
+	Scene* testScene = nullptr;
+	myTestEnemy = EnemyFactory::CreateEnemy(EnemyFactory::EnemyType::Zombie, testScene);
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)

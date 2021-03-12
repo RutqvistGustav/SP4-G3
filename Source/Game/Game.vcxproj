@@ -136,6 +136,8 @@
   <ItemGroup>
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
@@ -145,6 +147,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="InputInterface.h" />
+    <ClInclude Include="JetPack.h" />
     <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
@@ -173,15 +176,19 @@
     <ClInclude Include="WeaponFactory.h" />
     <ClInclude Include="WeaponHolder.h" />
     <ClInclude Include="WeaponType.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="InputInterface.cpp" />
+    <ClCompile Include="JetPack.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="PlayerWeaponController.cpp" />
@@ -201,6 +208,7 @@
     </ClCompile>
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

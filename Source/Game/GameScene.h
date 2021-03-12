@@ -6,6 +6,7 @@
 
 class Player;
 class SpriteWrapper;
+class Enemy;
 
 class GameScene : public Scene
 {
@@ -24,5 +25,6 @@ private:
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
 	std::unique_ptr<Player> myPlayer;
+	std::unique_ptr<Enemy> myTestEnemy;
 
 };
