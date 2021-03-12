@@ -52,6 +52,9 @@
     <Filter Include="GameObjects\Enemies\EnemyTypes">
       <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -181,6 +184,12 @@
     <ClInclude Include="JetPack.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -258,6 +267,12 @@
     </ClCompile>
     <ClCompile Include="JetPack.cpp">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

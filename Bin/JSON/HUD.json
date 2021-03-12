@@ -1,0 +1,14 @@
+{
+  "HealthBar": {
+    "DistanceFromPlayerX": 0.0,
+    "DistanceFromPlayerY": -150.0
+  },
+  "Ammo": {
+    "DistanceFromPlayerX": 0.0,
+    "DistanceFromPlayerY": 0.0
+  },
+  "GrapplingHook": {
+    "DistanceFromPlayerX": 0.0,
+    "DistanceFromPlayerY": 0.0
+  }
+}

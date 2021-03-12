@@ -146,6 +146,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
+    <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="InputInterface.h" />
     <ClInclude Include="JetPack.h" />
     <ClInclude Include="JsonData.h" />
@@ -187,6 +189,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputInterface.cpp" />
     <ClCompile Include="JetPack.cpp" />
     <ClCompile Include="JsonManager.cpp" />
