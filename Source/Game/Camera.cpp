@@ -3,43 +3,63 @@
 #include "Metrics.h"
 
 Camera::Camera(const CU::Vector2<float> aPosition) :
-    myPosition(aPosition),
-    myCameraBounds({0.0f, 0.0f}),
-    myDeltaMovement({ 0.0f, 0.0f })
+    myPosition(aPosition)
 {}
 
-void Camera::Update(const CU::Vector2<float> aPosition)
+void Camera::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 {
-    CU::Vector2<float> previousPosition = myPosition;
-
-    //Temporary calculations for Camerabounds until we have some Macros or global variables for current resolution.
-    if (myPosition.x + Metrics::GetReferenceSize().x / 2 < myCameraBounds.x &&
-        myPosition.y + Metrics::GetReferenceSize().y / 2 < myCameraBounds.x &&
-        myPosition.x - Metrics::GetReferenceSize().x / 2 > 0.0f &&
-        myPosition.y - Metrics::GetReferenceSize().y / 2 > 0.0f)
-    {
-        myPosition = aPosition;
-    }
-
-    myDeltaMovement = aPosition - previousPosition;
+    myShakeBehaviour.Update(aDeltaTime);
 }
 
-void Camera::SetCameraBounds(const CU::Vector2<float> someCameraBounds)
+void Camera::SetLevelBounds(const AABB& someBounds)
 {
-    myCameraBounds = someCameraBounds;
+    myLevelBounds = someBounds;
 }
 
-const CU::Vector2<float> Camera::GetCameraDeltaMovement()
+const CU::Vector2<float> Camera::GetDeltaMovement()
 {
     return myDeltaMovement;
 }
 
-const CU::Vector2<float> Camera::GetCameraPosition()
+const CU::Vector2<float> Camera::GetPositionWithModifiers()
+{
+    return GetPosition() + myShakeBehaviour.GetShakeVector();
+}
+
+const CU::Vector2<float> Camera::GetPosition()
 {
     return myPosition;
 }
 
-void Camera::ActivateScreenShake()
+void Camera::SetPosition(const CU::Vector2<float> aPosition)
 {
-    //TODO
+    CU::Vector2<float> movementDelta = aPosition - GetPosition();
+
+    AABB cameraBounds = AABB(GetPosition(), GetPosition() + Metrics::GetReferenceSize());
+    
+    if (cameraBounds.GetMax().x >= myLevelBounds.GetMax().x)
+    {
+        movementDelta.x += myLevelBounds.GetMax().x - cameraBounds.GetMax().x;
+    }
+    else if (cameraBounds.GetMin().x <= myLevelBounds.GetMin().x)
+    {
+        movementDelta.x += myLevelBounds.GetMin().x - cameraBounds.GetMin().x;
+    }
+
+    if (cameraBounds.GetMax().y >= myLevelBounds.GetMax().y)
+    {
+        movementDelta.y += myLevelBounds.GetMax().y - cameraBounds.GetMax().y;
+    }
+    else if (cameraBounds.GetMin().y <= myLevelBounds.GetMin().y)
+    {
+        movementDelta.y += myLevelBounds.GetMin().y - cameraBounds.GetMin().y;
+    }
+
+    myDeltaMovement = movementDelta;
+    myPosition += movementDelta;
+}
+
+void Camera::ActivateScreenShake(float aSpeed, float anAmplitude, float aDuration)
+{
+    myShakeBehaviour.Configure(aSpeed, anAmplitude, aDuration);
 }
