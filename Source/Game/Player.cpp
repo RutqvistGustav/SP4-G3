@@ -13,9 +13,9 @@
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
-//#include <InputManager.h>
 #include "InputInterface.h"
 #include <iostream>
+#include <imgui.h>
 
 // json
 #include <json.hpp>
@@ -55,22 +55,25 @@ Player::Player(Scene* aScene)
 
 Player::~Player() = default;
 
-void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
+
+	//ImGui();
+
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
-void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
-void Player::Controller(const float aDeltaTime, InputInterface* anInput)
+void Player::Controller(const float aDeltaTime, InputInterface * anInput)
 {
 	Movement(aDeltaTime, anInput);
 }
@@ -94,33 +97,15 @@ void Player::BrakeMovement(const float aDeltaTime)
 	}
 }
 
-void Player::ApplyForce(const CU::Vector2<float>& aForce)
+void Player::ApplyForce(const CU::Vector2<float>&aForce)
 {
 	myVel += aForce;
 }
 
-void Player::PlayerInput(InputInterface* anInput)
+void Player::PlayerInput(InputInterface * anInput)
 {
-	if (anInput->IsMovingLeft_Pressed())
-	{
-		myIsMovingLeft = true;
-		//std::cout << "Left Pressed" << std::endl;
-	}
-	if (anInput->IsMovingRight_Pressed())
-	{
-		myIsMovingRight = true;
-		//std::cout << "Right Pressed" << std::endl;
-	}
-	if (anInput->IsMovingLeft_Released())
-	{
-		myIsMovingLeft = false;
-		//std::cout << "Left Released" << std::endl;
-	}
-	if (anInput->IsMovingRight_Released())
-	{
-		myIsMovingRight = false;
-		//std::cout << "Right Released" << std::endl;
-	}
+	myIsMovingLeft = anInput->IsMovingLeft_Down() ? true : false;
+	myIsMovingRight = anInput->IsMovingRight_Down() ? true : false;
 
 	if (anInput->IsJumping())
 	{
@@ -136,6 +121,7 @@ void Player::PlayerInput(InputInterface* anInput)
 		}
 		else
 		{
+			myVel.y = 0;
 			myGravityActive = false;
 		}
 	}
@@ -169,19 +155,71 @@ void Player::StopMovement()
 	myVel = CU::Vector2<float>();
 }
 
-void Player::Movement(const float aDeltaTime, InputInterface* anInput)
+// void Player::Movement(const float aDeltaTime, InputInterface* anInput)
+void Player::ImGui()
+{
+	ImGui::Begin("Player movement");
+
+	ImGui::Text("");
+	ImGui::SliderFloat("MovementSpeed", &mySpeed, 0, 100000);
+	ImGui::SliderFloat("MaxSpeedCap", &myMaxSpeed, 0, 100000);
+
+	ImGui::Text("");
+
+	ImGui::Text("To make BrakeStrength stronger then use more zeroes after decimal. Ex. 0.0000001.");
+	ImGui::Text("To make BrakeStrength weaker then use less zeroes after decimal. Ex. 0.0001.");
+	ImGui::InputDouble("BrakeStrength", &myReduceMovementSpeed, 0, 1.0);
+
+	ImGui::Text("");
+
+	ImGui::Text("Will stop player entirely when movement slows down and approaches the StopAtVelocity amount.");
+	ImGui::DragFloat("StopAtVelocity", &myStopAtVelocity, 0, 10000.0f);
+
+	ImGui::Text("");
+
+	ImGui::SliderFloat("GravityStrength", &myGravity, 0, 100000.0f);
+
+	ImGui::SliderInt("JumpCharges", &myJumpCharges, 0, 100);
+	myJumpChargeReset = myJumpCharges;
+
+	ImGui::SliderFloat("JumpStrength", &myJumpStrength, 0, 100000);
+
+	ImGui::Text("");
+
+	ImGui::Text("JumpDuration resets only to the value given in Player.json");
+	ImGui::Text("So if you want the JumpDuration to reset at a different value");
+	ImGui::Text("then change the value in Player.json first.");
+	ImGui::SliderFloat("JumpDuration", &myJumpDuration, 0, 5.0f);
+
+	ImGui::Text("");
+	ImGui::Text("Note!");
+	ImGui::Text("ImGui will not change values in Player.json.");
+	ImGui::Text("You are gonna have to do that yourself :D.");
+
+	ImGui::End();
+}
+
+void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 {
 	PlayerInput(anInput);
 	CU::Vector2<float> movement = GetDirection(anInput);
 
-	if (myIsMovingLeft == true || myIsMovingRight == true)
+	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
 	{
-		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
-		{
+// <<<<<<< HEAD
+// 		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
+// 		{
 
 
-			myVel += movement * mySpeed * aDeltaTime;
-		}
+// 			myVel += movement * mySpeed * aDeltaTime;
+// 		}
+// =======
+		myVel += movement * mySpeed * aDeltaTime;
+	}
+	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
+	{
+		myVel += movement * mySpeed * aDeltaTime;
+// >>>>>>> master
 	}
 	BrakeMovement(aDeltaTime);
 
@@ -204,10 +242,7 @@ void Player::Jump(const float aDeltaTime)
 		{
 			if (myHasRemovedNegativeVel == false)
 			{
-				if (myVel.y >= 0)
-				{
-					myVel.y = 0;
-				}
+				myVel.y = 0;
 				myHasRemovedNegativeVel = true;
 			}
 
@@ -231,15 +266,15 @@ void Player::Jump(const float aDeltaTime)
 	}
 }
 
-CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
+CU::Vector2<float> Player::GetDirection(InputInterface * anInput)
 {
 	CU::Vector2<float> direction(0.0f, 0.0f);
-	if (anInput->IsMovingLeft_Down() && myIsMovingRight == false)
+	if (anInput->IsMovingLeft_Down()/* && myIsMovingRight == false*/)
 	{
 		--direction.x;
 		//std::cout << "Left" << std::endl;
 	}
-	if (anInput->IsMovingRight_Down() && myIsMovingLeft == false)
+	if (anInput->IsMovingRight_Down()/* && myIsMovingLeft == false*/)
 	{
 		++direction.x;
 		//std::cout << "Right direction" << direction.x << std::endl;

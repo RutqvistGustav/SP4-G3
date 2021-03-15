@@ -28,22 +28,31 @@ void GameObject::Init()
 }
 
 
-GameObject::GameObject(Scene* aScene)
+#include "SpriteWrapper.h"
+#include "RenderQueue.h"
+#include "RenderCommand.h"
+
+GameObject::GameObject(Scene* aScene, const char* aSpritePath)
 	: myScene(aScene)
 {
 	myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
 	CollisionManager::GetInstance()->AddCollider(myCollider);
 
+	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
+GameObject::~GameObject() = default;
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
 	myCollider->SetPos(myPosition);
 }
 
-void GameObject::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
-{}
+void GameObject::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
+{
+	RenderCommand renderCommand = RenderCommand(mySprite);
+	aRenderQueue->Queue(renderCommand);
+}
 
 const CU::Vector2<float>& GameObject::GetPosition() const
 {
@@ -120,3 +129,6 @@ void GameObject::OnCollision(GameObject* aGameObject)
 	}
 }
 
+
+	mySprite->SetPosition(myPosition);
+}

@@ -9,13 +9,14 @@ struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
 class Scene;
+class SpriteWrapper;
 
 class GameObject
 {
 public:
 
-	//GameObject(Scene* aScene, float aX, float aY);
-	GameObject(Scene* aScene);
+
+	GameObject(Scene* aScene, const char* aSpritePath = nullptr);
 	virtual ~GameObject();
 
 	virtual void Init();
@@ -35,7 +36,7 @@ protected:
 
 	CU::Vector2<float> myPosition;
 	CU::Vector2<float> myVel;
-	// Wrapped Tga2D::CSprite;
+	std::shared_ptr<SpriteWrapper> mySprite;
 
 	std::shared_ptr<Collider> myCollider;
 

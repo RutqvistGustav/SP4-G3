@@ -38,8 +38,6 @@ private:
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
 
-    std::shared_ptr<SpriteWrapper> mySprite;
-
     // Movement
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
@@ -51,12 +49,15 @@ private:
     float myReduceMovementSpeed;
     float myStopAtVelocity;
     //float myGravity;//temporarly placed in GameObject
+    float myStopAtVelocity; 
+    float myGravity;
+    double myReduceMovementSpeed;
 
     // Jump
     bool myIsJumping = false;
     bool myHasRemovedNegativeVel = false;
-    unsigned int myJumpCharges;
-    unsigned int myJumpChargeReset;
+    int myJumpCharges;
+    int myJumpChargeReset;
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;
@@ -75,5 +76,8 @@ private:
 
     // Constructor
     void InitVariables(nlohmann::json someData);
+
+    // Tools
+    void ImGui();
 };
 

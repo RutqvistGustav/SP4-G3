@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="EventObserver.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Metrics.h" />
     <ClInclude Include="ObjectWrapper.h" />
     <ClInclude Include="PlayerWeaponController.h" />
+    <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="RenderContext.h" />
     <ClInclude Include="RenderManager.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShakeBehaviour.h" />
     <ClInclude Include="Shotgun.h" />
     <ClInclude Include="SpriteRenderData.h" />
     <ClInclude Include="SpriteSheetAnimation.h" />
@@ -189,10 +192,12 @@
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="PlayerWeaponController.cpp" />
+    <ClCompile Include="RandomHelper.cpp" />
     <ClCompile Include="RenderCommand.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ShakeBehaviour.cpp" />
     <ClCompile Include="Shotgun.cpp" />
     <ClCompile Include="SpriteSheetAnimation.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />

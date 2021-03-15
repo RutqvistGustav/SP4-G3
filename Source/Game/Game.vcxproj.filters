@@ -132,7 +132,6 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="JsonManager.h">
       <Filter>Json</Filter>
     </ClInclude>
@@ -168,6 +167,18 @@
     </ClInclude>
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="ShakeBehaviour.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomHelper.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +250,15 @@
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="ShakeBehaviour.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomHelper.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
