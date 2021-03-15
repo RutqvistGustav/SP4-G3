@@ -171,7 +171,6 @@
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
-
     <ClInclude Include="EnemyFactory.h">
       <Filter>GameObjects\Enemies</Filter>
     </ClInclude>
@@ -189,7 +188,7 @@
     </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
-    </ClInclude>
+	 </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -284,7 +283,7 @@
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>HUD</Filter>
-	  </ClCompile>
+	</ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
       <Filter>Core</Filter>
     </ClCompile>
