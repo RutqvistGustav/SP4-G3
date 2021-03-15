@@ -249,20 +249,11 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
 	{
-// <<<<<<< HEAD
-// 		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
-// 		{
-
-
-// 			myVel += movement * mySpeed * aDeltaTime;
-// 		}
-// =======
 		myVel += movement * mySpeed * aDeltaTime;
 	}
 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
 	{
 		myVel += movement * mySpeed * aDeltaTime;
-// >>>>>>> master
 	}
 	BrakeMovement(aDeltaTime);
 
