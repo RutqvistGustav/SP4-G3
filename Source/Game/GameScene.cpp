@@ -12,6 +12,10 @@
 
 #include "CollisionManager.h"
 
+#include "TiledParser.h"
+#include "TiledRenderer.h"
+#include "TiledCollision.h"
+
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
 
@@ -34,7 +38,9 @@ void GameScene::Init()
 	}
 	
 
-
+	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
+	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
+	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -51,4 +57,5 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	CollisionManager::GetInstance()->RenderDebug();
 #endif //_DEBUG
 
+	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 }

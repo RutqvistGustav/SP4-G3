@@ -7,6 +7,10 @@
 class Player;
 class SpriteWrapper;
 
+class TiledParser;
+class TiledRenderer;
+class TiledCollision;
+
 class GameScene : public Scene
 {
 public:
@@ -25,5 +29,8 @@ private:
 
 	std::unique_ptr<Player> myPlayer;
 
+	std::unique_ptr<TiledParser> myTiledParser;
+	std::unique_ptr<TiledRenderer> myTiledRenderer;
+	std::unique_ptr<TiledCollision> myTiledCollision;
 
 };
