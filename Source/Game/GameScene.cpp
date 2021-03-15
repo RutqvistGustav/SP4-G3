@@ -11,12 +11,10 @@
 #include "SpriteWrapper.h"
 
 
+#include "CollisionManager.h"
 // Enemy
 #include "EnemyFactory.h"
 #include "Enemy.h"
-
-#include "CollisionManager.h"
-
 
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
@@ -29,10 +27,6 @@ void GameScene::Init()
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 
-
-	Scene* testScene = nullptr;
-	myTestEnemy = EnemyFactory::CreateEnemy(EnemyFactory::EnemyType::Zombie, testScene);
-
 	myPlayer->Init();
 
 
@@ -41,11 +35,9 @@ void GameScene::Init()
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
 	}
 	
-
-
 
 }
 

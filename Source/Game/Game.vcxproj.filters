@@ -47,6 +47,12 @@
       <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
     </Filter>
 
+    <Filter Include="Rendering\Renderer">
+      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
+	</Filter>
     <Filter Include="GameObjects\Enemies">
       <UniqueIdentifier>{8c6dac19-9e6a-43f8-bb86-8d5b4040dc65}</UniqueIdentifier>
     </Filter>
@@ -61,7 +67,7 @@
       <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Map">
-      <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
+      <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

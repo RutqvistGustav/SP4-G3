@@ -32,7 +32,7 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
-    //void OnCollision(const GameObject*) override;
+    void OnCollision(GameObject*) override;
 
     void StopMovement();
 
@@ -63,7 +63,8 @@ private:
     // Weapon myShotgun;
     float myMaxSpeed;
     float myStopAtVelocity;
-    //float myGravity;//temporarly placed in GameObject
+
+    float myGravity;
 
     double myReduceMovementSpeed;
 
@@ -84,7 +85,7 @@ private:
 
     bool myGravityActive = false;
 
-    //CU::Vector2<float> myVel;//temporarly placed in GameObject
+    CU::Vector2<float> myVel;
 
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);
