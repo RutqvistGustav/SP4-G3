@@ -32,7 +32,7 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
-    //void OnCollision(const GameObject*) override;
+    void OnCollision(GameObject*) override;
 
     void StopMovement();
 

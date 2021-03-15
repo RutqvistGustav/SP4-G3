@@ -67,47 +67,6 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 
 void GameObject::OnCollision(GameObject* aGameObject)
 {
-	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->myPosition);
-	float overlap = 0.0f;
-
-
-	if (myIsPlayer)
-	{
-		switch (myCollider->GetCollisionStage())
-		{
-		case Collider::eCollisionStage::FirstFrame:
-		case Collider::eCollisionStage::MiddleFrames:
-
-
-			/*myPosition += fromOtherToMe.GetNormalized() *
-				(myCollider->GetRadius() + aGameObject->myCollider->GetRadius()) - fromOtherToMe;*/
-			if (myCollider->GetIsCube())
-			{
-				myPosition.y = aGameObject->GetPosition().y - aGameObject->myCollider->GetRadius() - myCollider->GetRadius();
-			}
-			else
-			{
-				overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->myCollider->GetRadius();
-				myPosition -= overlap * fromOtherToMe.GetNormalized();
-			}
-			
-
-			myVel = CU::Vector2<float>(myVel.x , 0.0f);
-			myGravity = 0.0f;
-			myCollider->SetPos(myPosition);
-
-			break;
-		case Collider::eCollisionStage::NotColliding:
-			myGravity = 3000.0f;
-
-
-			break;
-		default:
-			break;
-		}
-		//myPosition = myPositionLastFrame;
-		//myVelocity = CU::Vector2<float>();
-	}
 
 	switch (myCollider->GetCollisionStage())
 	{
@@ -127,4 +86,9 @@ void GameObject::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
+}
+
+const Collider* GameObject::GetCollider() const
+{
+	return myCollider.get();
 }
