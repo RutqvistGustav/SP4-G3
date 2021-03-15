@@ -32,6 +32,10 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
+    //void OnCollision(const GameObject*) override;
+
+    void StopMovement();
+
 private:
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
@@ -41,9 +45,11 @@ private:
     bool myIsMovingRight = false;
 
     float mySpeed;
+    bool myOnGround;
+    // Weapon myShotgun;
     float myMaxSpeed;
-    float myStopAtVelocity; 
-    float myGravity;
+    float myStopAtVelocity;
+    //float myGravity;//temporarly placed in GameObject
     double myReduceMovementSpeed;
 
     // Jump
@@ -57,7 +63,7 @@ private:
 
     bool myGravityActive = false;
 
-    CU::Vector2<float> myVel;
+    //CU::Vector2<float> myVel;//temporarly placed in GameObject
 
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);

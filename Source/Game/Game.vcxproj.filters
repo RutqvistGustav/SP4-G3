@@ -117,6 +117,12 @@
     <ClInclude Include="UpdateContext.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Core</Filter>
+    <ClInclude Include="GameLayer.h">
     <ClInclude Include="RenderContext.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -272,6 +278,12 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Core</Filter>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
     </ClCompile>

@@ -6,6 +6,8 @@
 #include <fstream>
 #include <memory>
 
+class CGameWorld;
+
 namespace CommonUtilities
 {
 	class Input;

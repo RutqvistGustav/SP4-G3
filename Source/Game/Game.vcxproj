@@ -134,6 +134,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
@@ -195,6 +197,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Game.cpp" />
