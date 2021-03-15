@@ -41,7 +41,6 @@ GameObject::GameObject(Scene* aScene, const char* aSpritePath)
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
-GameObject::~GameObject() = default;
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
@@ -63,6 +62,7 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 {
 	myPosition = aPosition;
 	myCollider->SetPos(aPosition);
+	mySprite->SetPosition(myPosition);
 }
 
 void GameObject::OnCollision(GameObject* aGameObject)
@@ -127,8 +127,4 @@ void GameObject::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
-}
-
-
-	mySprite->SetPosition(myPosition);
 }

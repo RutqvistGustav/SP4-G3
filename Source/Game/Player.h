@@ -46,11 +46,8 @@ private:
     bool myOnGround;
     // Weapon myShotgun;
     float myMaxSpeed;
-    float myReduceMovementSpeed;
     float myStopAtVelocity;
     //float myGravity;//temporarly placed in GameObject
-    float myStopAtVelocity; 
-    float myGravity;
     double myReduceMovementSpeed;
 
     // Jump
