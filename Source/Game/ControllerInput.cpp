@@ -134,3 +134,8 @@ bool ControllerInput::LeftStickReleased()
 	return(myPreviousLeftStickX != 0 && myLeftStickX == 0);
 }
 
+bool ControllerInput::ControllerConnected()
+{
+	return myControllerId != -1;
+}
+
