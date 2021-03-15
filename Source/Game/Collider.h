@@ -22,7 +22,8 @@ public:
 	
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
-	const std::shared_ptr<GameObject> GetGameObject()const;
+	//const std::shared_ptr<GameObject> GetGameObject()const;
+	GameObject* GetGameObject()const;
 
 	const bool isColliding()const;
 	void SetRadius(const float aRadius);
@@ -59,7 +60,8 @@ private:
 	bool myIsCube = true;
 	CommonUtilities::Vector2<float> myPos;
 	float myRadius;
-	std::shared_ptr<GameObject> myGameObject;
+	//std::shared_ptr<GameObject> myGameObject;
+	GameObject* myGameObject = nullptr;
 
 
 };

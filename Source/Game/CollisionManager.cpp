@@ -60,12 +60,15 @@ void CollisionManager::Update()
 					myCollisionIndexes.erase(j);
 					myColliders[i]->myCollisionStage = Collider::eCollisionStage::NotColliding;
 					myColliders[j]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-					myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject().get());
-					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject().get());
+					/*myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject().get());
+					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject().get());*/
+					myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject());
+					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject());
 
 				}
 			}
 		}
+		//int aNr = myColliders[i].use_count();
 	}
 
 
@@ -86,10 +89,10 @@ void CollisionManager::Update()
 			}
 		}*/
 
-		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject().get());
-		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject().get());
+		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
+		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
 
-
+		
 	}
 
 }

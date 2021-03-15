@@ -24,7 +24,7 @@ public:
 
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
-	virtual void OnCollision(const GameObject* aGameObject);
+	virtual void OnCollision(GameObject* aGameObject);
 
 	inline Scene* GetScene() { return myScene; }
 

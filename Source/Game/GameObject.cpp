@@ -14,6 +14,7 @@
 
 GameObject::~GameObject()
 {
+	myCollider.reset();
 }
 
 void GameObject::Init()
@@ -55,7 +56,7 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 	myCollider->SetPos(aPosition);
 }
 
-void GameObject::OnCollision(const GameObject* aGameObject)
+void GameObject::OnCollision(GameObject* aGameObject)
 {
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->myPosition);
 	float overlap = 0.0f;
