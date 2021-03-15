@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AABB.h" />
+    <ClInclude Include="AmmoCounter.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="Enemy.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+    <ClInclude Include="UIHook.h" />
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -215,6 +218,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="UIHook.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
     <ClCompile Include="Zombie.cpp" />

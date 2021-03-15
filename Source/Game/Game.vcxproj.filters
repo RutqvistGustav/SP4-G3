@@ -188,7 +188,7 @@
     </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
-	 </ClInclude>
+    </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -200,6 +200,12 @@
     </ClInclude>
     <ClInclude Include="RandomHelper.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoCounter.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHook.h">
+      <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,7 +289,7 @@
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>HUD</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -292,6 +298,12 @@
     </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AmmoCounter.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHook.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

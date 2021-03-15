@@ -1,7 +1,8 @@
 #include "stdafx.h"
+#include "HealthBar.h"
+
 #include "RenderCommand.h"
 #include "RenderQueue.h"
-#include "HealthBar.h"
 #include "SpriteWrapper.h"
 
 #include <json.hpp>
@@ -14,9 +15,10 @@ HealthBar::HealthBar(Scene* aScene)
 	std::ifstream file("JSON/HUD.json");
 	data = nlohmann::json::parse(file);
 	file.close();
+	nlohmann::json healthData = data.at("HealthBar");
 
-	myDistanceFromPlayer.x = data.at("HealthBar").at("DistanceFromPlayerX");
-	myDistanceFromPlayer.y = data.at("HealthBar").at("DistanceFromPlayerY");
+	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
+	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 }
