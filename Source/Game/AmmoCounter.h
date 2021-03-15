@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
-#include "json.hpp"
+#include "nlohmann/json.hpp"
 
 class SpriteWrapper;
 

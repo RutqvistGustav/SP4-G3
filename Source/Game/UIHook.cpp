@@ -5,7 +5,7 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <string>
 
