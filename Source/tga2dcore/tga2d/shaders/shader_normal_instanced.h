@@ -1,8 +1,8 @@
 #pragma once
 
-#include "shaders/shader.h"
-#include "shaders/shader_common.h"
-#include "arrays/simple_pointer_array.h"
+#include "tga2d/shaders/shader.h"
+#include "tga2d/shaders/shader_common.h"
+#include "tga2d/arrays/simple_pointer_array.h"
 #include <tga2d/arrays/tinyarrayonheap.h>
 namespace Tga2D
 {

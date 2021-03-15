@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Collider.h"
 
 #include "UpdateContext.h"
 #include "RenderContext.h"
@@ -18,7 +19,7 @@
 #include <imgui.h>
 
 // json
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include <fstream>
 #include <string>
 
@@ -30,6 +31,16 @@ Player::Player(Scene* aScene)
 	std::ifstream file("JSON/Player.json");
 	data = nlohmann::json::parse(file);
 	file.close();
+
+
+	mySpeed = data.at("MovementSpeed");
+
+	myOnGround = false;
+
+	myPosition.x = 0.5f;
+	myPosition.y = 0.5f;
+
+	myIsPlayer = true;//temporary
 
 	InitVariables(data);
 
@@ -43,13 +54,16 @@ Player::Player(Scene* aScene)
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
+
 }
 
 Player::~Player() = default;
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
+	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
+
 
 	//ImGui();
 
@@ -74,6 +88,10 @@ void Player::Controller(const float aDeltaTime, InputInterface * anInput)
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
+
+
+	//MouseInput(anInput);
+	//myPositionLastFrame = myPosition;
 	if (myIsMovingLeft == false && myIsMovingRight == false)
 	{
 		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
@@ -134,6 +152,18 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
+//void Player::OnCollision(const GameObject* aGameObject)
+//{
+//	myOnGround = true;
+//}
+
+
+void Player::StopMovement()
+{
+	myVel = CU::Vector2<float>();
+}
+
+// void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 void Player::ImGui()
 {
 	ImGui::Begin("Player movement");
@@ -184,11 +214,20 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
 	{
+// <<<<<<< HEAD
+// 		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
+// 		{
+
+
+// 			myVel += movement * mySpeed * aDeltaTime;
+// 		}
+// =======
 		myVel += movement * mySpeed * aDeltaTime;
 	}
 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
 	{
 		myVel += movement * mySpeed * aDeltaTime;
+// >>>>>>> master
 	}
 	BrakeMovement(aDeltaTime);
 
@@ -199,6 +238,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;
+
 }
 
 void Player::Jump(const float aDeltaTime)

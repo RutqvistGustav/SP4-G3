@@ -66,7 +66,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -91,7 +91,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -117,7 +117,7 @@
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals\nlohmann;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tga2dcore\;$(SolutionDir)tga2dcore\imgui-master;$(SolutionDir)Externals;$(SolutionDir)CommonUtilities;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -134,8 +134,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
+
     <ClInclude Include="AmmoCounter.h" />
+
+    <ClInclude Include="AudioManager.h" />
+
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="Enemy.h" />
@@ -145,6 +151,11 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="SceneManagerProxy.h" />
+    <ClInclude Include="TiledCollision.h" />
+    <ClInclude Include="TiledEntity.h" />
+    <ClInclude Include="TiledLayer.h" />
+    <ClInclude Include="TiledMap.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grapple.h" />
@@ -162,14 +173,18 @@
     <ClInclude Include="RandomHelper.h" />
     <ClInclude Include="RenderCommand.h" />
     <ClInclude Include="RenderContext.h" />
+    <ClInclude Include="IRenderer.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderObjectType.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShaderNormalInstanced.h" />
     <ClInclude Include="ShakeBehaviour.h" />
     <ClInclude Include="Shotgun.h" />
+    <ClInclude Include="SpriteBatchRenderData.h" />
+    <ClInclude Include="SpriteBatchWrapper.h" />
     <ClInclude Include="SpriteRenderData.h" />
     <ClInclude Include="SpriteSheetAnimation.h" />
     <ClInclude Include="SpriteWrapper.h" />
@@ -177,7 +192,16 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+
     <ClInclude Include="UIHook.h" />
+
+    <ClInclude Include="TgaRenderer.h" />
+    <ClInclude Include="TiledParser.h" />
+    <ClInclude Include="TiledRenderer.h" />
+    <ClInclude Include="TiledTile.h" />
+    <ClInclude Include="TilesonImport.h" />
+    <ClInclude Include="TileType.h" />
+
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
@@ -186,12 +210,23 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
+
     <ClCompile Include="AmmoCounter.cpp" />
+
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
+
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="SceneManagerProxy.cpp" />
+    <ClCompile Include="TiledCollision.cpp" />
+    <ClCompile Include="TiledEntity.cpp" />
+    <ClCompile Include="TiledLayer.cpp" />
+    <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grapple.cpp" />
@@ -207,8 +242,10 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderQueue.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="ShaderNormalInstanced.cpp" />
     <ClCompile Include="ShakeBehaviour.cpp" />
     <ClCompile Include="Shotgun.cpp" />
+    <ClCompile Include="SpriteBatchWrapper.cpp" />
     <ClCompile Include="SpriteSheetAnimation.cpp" />
     <ClCompile Include="SpriteWrapper.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -218,7 +255,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
+
     <ClCompile Include="UIHook.cpp" />
+
+    <ClCompile Include="TgaRenderer.cpp" />
+    <ClCompile Include="TiledParser.cpp" />
+    <ClCompile Include="TiledRenderer.cpp" />
+    <ClCompile Include="TiledTile.cpp" />
+
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
     <ClCompile Include="Zombie.cpp" />

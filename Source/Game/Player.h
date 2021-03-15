@@ -1,8 +1,10 @@
 #pragma once
 #include "GameObject.h"
 
+// TODO: Refactor so player does not use json library directly
+#include <nlohmann/json.hpp>
+
 #include <memory>
-#include <json.hpp>
 
 class PlayerWeaponController;
 class SpriteWrapper;
@@ -30,6 +32,10 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
+    //void OnCollision(const GameObject*) override;
+
+    void StopMovement();
+
 private:
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);
@@ -53,9 +59,11 @@ private:
     bool myIsMovingRight = false;
 
     float mySpeed;
+    bool myOnGround;
+    // Weapon myShotgun;
     float myMaxSpeed;
-    float myStopAtVelocity; 
-    float myGravity;
+    float myStopAtVelocity;
+    //float myGravity;//temporarly placed in GameObject
 
     double myReduceMovementSpeed;
 
@@ -72,5 +80,25 @@ private:
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;
+
+
+    bool myGravityActive = false;
+
+    //CU::Vector2<float> myVel;//temporarly placed in GameObject
+
+    // Movement
+    CU::Vector2<float> GetDirection(InputInterface* anInput);
+    void PlayerInput(InputInterface* anInput);
+
+    void Movement(const float aDeltaTime, InputInterface* anInput);
+    void BrakeMovement(const float aDeltaTime);
+    void Jump(const float aDeltaTime);
+
+    // Constructor
+    void InitVariables(nlohmann::json someData);
+
+    // Tools
+    void ImGui();
+
 };
 

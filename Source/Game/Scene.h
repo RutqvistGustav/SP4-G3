@@ -8,7 +8,7 @@ class GameObject;
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
-class SceneManager;
+class SceneManagerProxy;
 class JsonManager;
 class WeaponFactory;
 
@@ -24,15 +24,16 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	virtual void OnEnter(SceneManager* aSceneManager);
-	virtual void OnExit(SceneManager* aSceneManager);
+	virtual void OnEnter(SceneManagerProxy* aSceneManagerProxy);
+	virtual void OnExit(SceneManagerProxy* aSceneManagerProxy);
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
 
 	JsonManager* GetJsonManager();
 	WeaponFactory* GetWeaponFactory();
 	Camera* GetCamera();
-	inline SceneManager* GetSceneManager() { return mySceneManager; }
+
+	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }
 
 protected:
 
@@ -40,6 +41,6 @@ protected:
 
 private:
 
-	SceneManager* mySceneManager{};
+	SceneManagerProxy* mySceneManagerProxy{};
 
 };

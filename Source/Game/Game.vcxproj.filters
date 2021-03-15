@@ -46,6 +46,7 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="GameObjects\Enemies">
       <UniqueIdentifier>{8c6dac19-9e6a-43f8-bb86-8d5b4040dc65}</UniqueIdentifier>
     </Filter>
@@ -53,7 +54,14 @@
       <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
     </Filter>
     <Filter Include="HUD">
-      <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
+    <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
+	</Filter>
+
+    <Filter Include="Rendering\Renderer">
+      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +107,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameLayer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -118,6 +123,12 @@
       <Filter>Util</Filter>
     </ClInclude>
     <ClInclude Include="UpdateContext.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="RenderContext.h">
@@ -201,11 +212,64 @@
     <ClInclude Include="RandomHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+
     <ClInclude Include="AmmoCounter.h">
       <Filter>HUD</Filter>
     </ClInclude>
     <ClInclude Include="UIHook.h">
       <Filter>HUD</Filter>
+	</ClInclude>
+
+    <ClInclude Include="AudioManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatchWrapper.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TgaRenderer.h">
+      <Filter>Rendering\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderNormalInstanced.h">
+      <Filter>Rendering\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteBatchRenderData.h">
+      <Filter>Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TileType.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledParser.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledMap.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledLayer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledTile.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledRenderer.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TilesonImport.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledCollision.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManagerProxy.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledEntity.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLayer.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -249,6 +313,12 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="JsonManager.cpp">
@@ -299,11 +369,49 @@
     <ClCompile Include="RandomHelper.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+
     <ClCompile Include="AmmoCounter.cpp">
       <Filter>HUD</Filter>
     </ClCompile>
     <ClCompile Include="UIHook.cpp">
       <Filter>HUD</Filter>
+	</ClCompile>
+
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteBatchWrapper.cpp">
+      <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="TgaRenderer.cpp">
+      <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderNormalInstanced.cpp">
+      <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledParser.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledMap.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledLayer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledTile.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledRenderer.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledCollision.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManagerProxy.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledEntity.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

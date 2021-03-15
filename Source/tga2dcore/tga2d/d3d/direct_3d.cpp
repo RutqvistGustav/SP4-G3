@@ -1232,6 +1232,11 @@ int Tga2D::CDirectEngine::GetObjectRenderCount()
 	return myRenderedCount;
 }
 
+void Tga2D::CDirectEngine::SetObjectRenderCount(int aCount)
+{
+	myRenderedCount = aCount;
+}
+
 void Tga2D::CDirectEngine::SetRenderTarget(CSprite* aSpriteTarget)
 {
 	if (!aSpriteTarget)

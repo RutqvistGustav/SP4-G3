@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "GameWorld.h"
 
 #include "Camera.h"
 
@@ -9,6 +10,7 @@
 
 #include "Metrics.h"
 
+#include "AudioManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
 
@@ -47,11 +49,15 @@ CGame::CGame()
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
 {
+	//myGameWorld = new CGameWorld();
+
 }
 
 
 CGame::~CGame()
 {
+	/*delete myGameWorld;
+	myGameWorld = nullptr;*/
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -112,13 +118,19 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 
 void CGame::InitCallBack()
 {
+	myAudioManager = std::make_unique<AudioManager>();
+	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
+	//myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
+
 	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 	myJsonManager = std::make_unique <JsonManager>();
 	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
 	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myAudioManager = myAudioManager.get();
+
 	myUpdateContext.myInputInterface = myInputInterface.get();
 	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
@@ -129,6 +141,7 @@ void CGame::InitCallBack()
 
 void CGame::UpdateCallBack()
 {
+
 	// NOTE: Ready for multithreading
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
@@ -136,11 +149,12 @@ void CGame::UpdateCallBack()
 	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
 
 
+	//myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
+	//myGameWorld->Render(updateQueue);
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
 
 	// Rendering
-
 	myRenderManager->Render();
 	
 	myRenderManager->SwapBuffers();

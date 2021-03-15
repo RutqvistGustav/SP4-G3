@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LockedSection.h"
+#include "SceneManagerProxy.h"
 
 #include <memory>
 
@@ -36,7 +37,9 @@ private:
 	bool HasQueuedTransition() const;
 
 private:
-	
+
+	SceneManagerProxy myProxy;
+
 	LockedSection myActiveSceneLock;
 
 	JsonManager* myJsonManager;

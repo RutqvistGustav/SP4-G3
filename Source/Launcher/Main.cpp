@@ -83,7 +83,7 @@ void Init()
 		versionNumber += std::to_wstring(version[i]); 
 		versionNumber += L",";
 	} 
-	versionNumber.pop_back();  
+	versionNumber.pop_back();
 
 	myGame.Init(versionNumber); // Blocking
 

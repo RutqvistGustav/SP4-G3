@@ -74,7 +74,8 @@ namespace Tga2D
 		Matrix44 myProjWatrix;
 
         int GetObjectRenderCount();
-
+		// NOTE: Engine modification
+		void SetObjectRenderCount(int aCount);
 
 		void SetRenderTarget(CSprite* aSpriteTarget);
 

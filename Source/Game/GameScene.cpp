@@ -10,9 +10,13 @@
 
 #include "SpriteWrapper.h"
 
+
 // Enemy
 #include "EnemyFactory.h"
 #include "Enemy.h"
+
+#include "CollisionManager.h"
+
 
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
@@ -25,12 +29,29 @@ void GameScene::Init()
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 
+
 	Scene* testScene = nullptr;
 	myTestEnemy = EnemyFactory::CreateEnemy(EnemyFactory::EnemyType::Zombie, testScene);
+
+	myPlayer->Init();
+
+
+
+	for (size_t i = 0; i < 10; ++i)
+	{
+		AddGameObject(std::make_shared<GameObject>(this));
+		myGameObjects[i]->Init();
+		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
+	}
+	
+
+
+
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	CollisionManager::GetInstance()->Update();
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 }
 
@@ -38,4 +59,8 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
+#ifdef _DEBUG
+	CollisionManager::GetInstance()->RenderDebug();
+#endif //_DEBUG
+
 }
