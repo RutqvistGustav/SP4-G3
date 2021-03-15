@@ -40,7 +40,6 @@ Player::Player(Scene* aScene)
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
-	myIsPlayer = true;//temporary
 
 	InitVariables(data);
 
@@ -151,10 +150,46 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
-//void Player::OnCollision(const GameObject* aGameObject)
-//{
-//	myOnGround = true;
-//}
+void Player::OnCollision(GameObject* aGameObject)
+{
+	
+
+	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
+	float overlap = 0.0f;
+
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+
+		
+		if (myCollider->GetIsCube())
+		{
+			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+		}
+		else
+		{
+			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
+			myPosition -= overlap * fromOtherToMe.GetNormalized();
+		}
+
+
+		myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		myGravity = 0.0f;
+		myCollider->SetPos(myPosition);
+
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		myGravity = 3000.0f;
+
+
+		break;
+	default:
+		break;
+	}
+}
 
 
 void Player::StopMovement()

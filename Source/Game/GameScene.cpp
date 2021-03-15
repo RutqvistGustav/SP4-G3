@@ -33,7 +33,7 @@ void GameScene::Init()
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
 	}
 	
 }
