@@ -144,6 +144,21 @@ bool TiledParser::ParseEntityLayer(tson::Layer* aLayer)
 		const tson::Property* typeProp = object.getProp("Type");
 		const tson::Property* subTypeProp = object.getProp("SubType");
 		
+		const std::uint32_t objectGid = object.getGid();
+		if (objectGid > 0)
+		{
+			tson::Tileset* objectTileset = aLayer->getMap()->getTilesetByGid(objectGid);
+			assert(objectTileset != nullptr);
+
+			auto tile = objectTileset->getTile(objectGid);
+
+			const tson::Property* tileTypeProp = tile->getProp("Type");
+			const tson::Property* tileSubTypeProp = tile->getProp("SubType");
+
+			if (typeProp == nullptr) typeProp = tileTypeProp;
+			if (subTypeProp == nullptr) subTypeProp = tileSubTypeProp;
+		}
+
 		assert(typeProp != nullptr && "Entity type must be provided!");
 		assert(typeProp->getType() == tson::Type::String && "Entity type must be string!");
 

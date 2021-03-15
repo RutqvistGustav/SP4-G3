@@ -3030,6 +3030,7 @@ namespace tson
 		inline Tile(uint32_t id, tson::Tileset* tileset, tson::Map* map);
 		inline Tile(uint32_t id, tson::Map* map); //v1.2.0
 		inline bool parse(const nlohmann::json& json, tson::Tileset* tileset, tson::Map* map);
+		inline bool parseId(const nlohmann::json& json);
 
 		[[nodiscard]] inline uint32_t getId() const;
 #ifndef DISABLE_CPP17_FILESYSTEM
@@ -3150,20 +3151,13 @@ bool tson::Tile::parse(const nlohmann::json& json, tson::Tileset* tileset, tson:
 	m_tileset = tileset;
 	m_map = map;
 
-	bool allFound = true;
+	bool allFound = parseId(json);
+
 #ifndef DISABLE_CPP17_FILESYSTEM
 	if (json.count("image") > 0) m_image = fs::path(json["image"].get<std::string>()); //Optional
 #else
 	if (json.count("image") > 0) m_image = json["image"].get<std::string>(); //Optional
 #endif
-	if (json.count("id") > 0)
-	{
-		m_id = json["id"].get<uint32_t>() + 1;
-		m_gid = m_id;
-		manageFlipFlagsByIdThenRemoveFlags(m_gid);
-	}
-	else
-		allFound = false;
 
 	if (json.count("type") > 0) m_type = json["type"].get<std::string>(); //Optional
 	if (json.count("objectgroup") > 0) m_objectgroup = tson::Layer(json["objectgroup"], m_map); //Optional
@@ -5098,6 +5092,24 @@ const tson::Vector2i tson::Tile::getTileSize() const
 		return m_map->getTileSize();
 	else
 		return { 0,0 };
+}
+
+bool tson::Tile::parseId(const nlohmann::json& json)
+{
+	if (json.count("id") > 0)
+	{
+		m_id = json["id"].get<uint32_t>() + 1;
+		if (m_tileset != nullptr)
+		{
+			m_id = m_tileset->getFirstgid() + m_id - 1;
+		}
+
+		m_gid = m_id;
+
+		manageFlipFlagsByIdThenRemoveFlags(m_gid);
+		return true;
+	}
+	return false;
 }
 
 /*!
