@@ -15,6 +15,12 @@ public:
 
 private:
     CU::Vector2<float> myDistanceFromPlayer;
+    /*
+    Two sprites
+    One for the frame
+    the other for the red filling in the bar
+    filling will decrease in size when taking damage
+    */
 
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
 };

@@ -9,23 +9,23 @@ class AmmoCounter :
     public GameObject
 {
 public:
+    enum AmmoState
+    {
+        Loaded = 2,
+        HalfEmpty = 1,
+        Reloading = 0
+    };
+
     AmmoCounter(Scene* aScene);
     AmmoCounter() = default;
 
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void RemoveShell();
+    void RemoveBullet();
     void Reload();
 
 private:
-    enum class AmmoState
-    {
-        Loaded,
-        HalfEmpty,
-        Empty,
-        Reloading
-    };
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
     void InitSprites(nlohmann::json someData);
 
@@ -34,7 +34,7 @@ private:
 
     bool myPowerUpActive = false;
 
-    unsigned int myBullets;
+    unsigned int myCurrentBullets;
     unsigned int myResetBullets;
 
     // GameObject holds fully loaded state.

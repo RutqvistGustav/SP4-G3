@@ -18,13 +18,12 @@ AmmoCounter::AmmoCounter(Scene* aScene)
 	file.close();
 	nlohmann::json ammoData = data.at("Ammo");
 
-	myBullets = ammoData.at("AmmoAmount");
-	myResetBullets = myBullets;
+	myCurrentBullets = ammoData.at("AmmoAmount");
+	myResetBullets = myCurrentBullets;
 
 	myState = AmmoState::Loaded;
 
 	InitSprites(ammoData);
-
 }
 
 void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
@@ -46,11 +45,6 @@ void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 		//aRenderQueue->Queue(RenderCommand(myHalfState));
 		break;
 	}
-	case AmmoState::Empty:
-	{
-		//aRenderQueue->Queue(RenderCommand(myEmptyState));
-		break;
-	}
 	case AmmoState::Reloading:
 	{
 		// Animation
@@ -59,8 +53,17 @@ void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 	}
 }
 
-void AmmoCounter::RemoveShell()
+void AmmoCounter::RemoveBullet()
 {
+	--myCurrentBullets;
+	switch (myCurrentBullets)
+	{
+	case AmmoState::Loaded:
+	{
+		break;
+	}
+
+	}
 }
 
 void AmmoCounter::Reload()

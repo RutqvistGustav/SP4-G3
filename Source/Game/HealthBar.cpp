@@ -35,10 +35,12 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 
 void HealthBar::RemoveHP()
 {
+	// decrease size of hp bar.
 }
 
 void HealthBar::AddHP()
 {
+	// restore size of hp bar.
 }
 
 void HealthBar::UpdatePosition(CU::Vector2<float> aPlayerPosition)
