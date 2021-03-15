@@ -9,6 +9,7 @@
 
 #include "PlayerWeaponController.h"
 #include "Scene.h"
+#include "HUD.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -39,7 +40,6 @@ Player::Player(Scene* aScene)
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
-	myIsPlayer = true;//temporary
 
 	InitVariables(data);
 
@@ -51,6 +51,8 @@ Player::Player(Scene* aScene)
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 
+	// Init HUD
+	myHUD = std::make_unique<HUD>(aScene);
 }
 
 Player::~Player() = default;
@@ -63,6 +65,9 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	//ImGui();
 
+	
+	myHUD->Update(myPosition);
+
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
@@ -70,6 +75,7 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderCont
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 
+	myHUD->Render(aRenderQueue, aRenderContext);
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
@@ -144,10 +150,46 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpDurationReset = myJumpDuration;
 }
 
-//void Player::OnCollision(const GameObject* aGameObject)
-//{
-//	myOnGround = true;
-//}
+void Player::OnCollision(GameObject* aGameObject)
+{
+	
+
+	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
+	float overlap = 0.0f;
+
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+
+		
+		if (myCollider->GetIsCube())
+		{
+			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+		}
+		else
+		{
+			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
+			myPosition -= overlap * fromOtherToMe.GetNormalized();
+		}
+
+
+		myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		myGravity = 0.0f;
+		myCollider->SetPos(myPosition);
+
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		myGravity = 3000.0f;
+
+
+		break;
+	default:
+		break;
+	}
+}
 
 
 void Player::StopMovement()
@@ -206,20 +248,11 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
 	{
-// <<<<<<< HEAD
-// 		if (myVel.x <= myMaxSpeed && -myMaxSpeed <= myVel.x)
-// 		{
-
-
-// 			myVel += movement * mySpeed * aDeltaTime;
-// 		}
-// =======
 		myVel += movement * mySpeed * aDeltaTime;
 	}
 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
 	{
 		myVel += movement * mySpeed * aDeltaTime;
-// >>>>>>> master
 	}
 	BrakeMovement(aDeltaTime);
 

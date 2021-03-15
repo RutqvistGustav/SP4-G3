@@ -119,7 +119,7 @@ void Collider::InitDebug()
 void Collider::RenderDebug()
 {
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	myDebugSprite->SetPosition({ myPos.x, myPos.y });
+	myDebugSprite->SetPosition({ myPos.x / (1280*1.5f), myPos.y / (720* 1.5f)});
 	myDebugSprite->SetSizeRelativeToScreen({ myRadius / 400, myRadius / 400 });
 	myDebugSprite->Render();
 

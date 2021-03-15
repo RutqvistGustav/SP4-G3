@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 // TODO: Refactor so player does not use json library directly
@@ -9,6 +8,7 @@
 
 class PlayerWeaponController;
 class SpriteWrapper;
+class HUD;
 
 namespace CommonUtilities
 {
@@ -32,39 +32,11 @@ public:
 
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
-    //void OnCollision(const GameObject*) override;
+    void OnCollision(GameObject*) override;
 
     void StopMovement();
 
 private:
-
-    std::unique_ptr<PlayerWeaponController> myWeaponController;
-
-    // Movement
-    bool myIsMovingLeft = false;
-    bool myIsMovingRight = false;
-
-    float mySpeed;
-    bool myOnGround;
-    // Weapon myShotgun;
-    float myMaxSpeed;
-    float myStopAtVelocity;
-    //float myGravity;//temporarly placed in GameObject
-    double myReduceMovementSpeed;
-
-    // Jump
-    bool myIsJumping = false;
-    bool myHasRemovedNegativeVel = false;
-    int myJumpCharges;
-    int myJumpChargeReset;
-    float myJumpStrength;
-    float myJumpDuration;
-    float myJumpDurationReset;
-
-    bool myGravityActive = false;
-
-    //CU::Vector2<float> myVel;//temporarly placed in GameObject
-
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);
     void PlayerInput(InputInterface* anInput);
@@ -78,5 +50,34 @@ private:
 
     // Tools
     void ImGui();
+
+    std::unique_ptr<PlayerWeaponController> myWeaponController;
+    std::unique_ptr<HUD> myHUD;
+
+    // Movement
+    bool myIsMovingLeft = false;
+    bool myIsMovingRight = false;
+
+    float mySpeed;
+    bool myOnGround;
+    // Weapon myShotgun;
+    float myMaxSpeed;
+    float myStopAtVelocity;
+    float myGravity;
+    double myReduceMovementSpeed;
+
+    CU::Vector2<float> myVel;
+
+    // Jump
+    bool myIsJumping = false;
+    bool myHasRemovedNegativeVel = false;
+    bool myGravityActive = false;
+
+    int myJumpCharges;
+    int myJumpChargeReset;
+
+    float myJumpStrength;
+    float myJumpDuration;
+    float myJumpDurationReset;
 };
 

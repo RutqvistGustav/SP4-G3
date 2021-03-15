@@ -6,6 +6,7 @@
 
 class Player;
 class SpriteWrapper;
+class Enemy;
 
 class TiledParser;
 class TiledRenderer;
@@ -28,6 +29,7 @@ private:
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
 	std::unique_ptr<Player> myPlayer;
+	std::unique_ptr<Enemy> myTestEnemy;
 
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;

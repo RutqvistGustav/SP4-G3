@@ -11,6 +11,9 @@
 #include "SpriteWrapper.h"
 
 #include "CollisionManager.h"
+// Enemy
+#include "EnemyFactory.h"
+#include "Enemy.h"
 
 #include "TiledParser.h"
 #include "TiledRenderer.h"
@@ -34,10 +37,9 @@ void GameScene::Init()
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
 	}
 	
-
 	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());

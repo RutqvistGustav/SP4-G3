@@ -26,6 +26,7 @@ public:
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
 	virtual void OnCollision(GameObject* aGameObject);
+	const Collider* GetCollider()const;
 
 	inline Scene* GetScene() { return myScene; }
 
@@ -35,14 +36,10 @@ protected:
 	Scene* myScene;
 
 	CU::Vector2<float> myPosition;
-	CU::Vector2<float> myVel;
+	CU::Vector2<float> myPositionLastFrame;
 	std::shared_ptr<SpriteWrapper> mySprite;
 
 	std::shared_ptr<Collider> myCollider;
-
-
-	bool myIsPlayer = false; //temorary variable
-	float myGravity;//temorary variable
 };
 
 
