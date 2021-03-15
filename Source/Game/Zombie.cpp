@@ -2,7 +2,7 @@
 #include "Zombie.h"
 
 // JSON
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include <fstream>
 
 Zombie::Zombie(Scene* aScene)

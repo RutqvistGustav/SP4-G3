@@ -79,23 +79,5 @@ private:
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;
-
-    bool myGravityActive = false;
-
-    CU::Vector2<float> myVel;
-
-    // Movement
-    CU::Vector2<float> GetDirection(InputInterface* anInput);
-    void PlayerInput(InputInterface* anInput);
-
-    void Movement(const float aDeltaTime, InputInterface* anInput);
-    void BrakeMovement(const float aDeltaTime);
-    void Jump(const float aDeltaTime);
-
-    // Constructor
-    void InitVariables(nlohmann::json someData);
-
-    // Tools
-    void ImGui();
 };
 

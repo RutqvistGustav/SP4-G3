@@ -4,7 +4,7 @@
 #include "HealthBar.h"
 #include "SpriteWrapper.h"
 
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include <fstream>
 
 HealthBar::HealthBar(Scene* aScene)
