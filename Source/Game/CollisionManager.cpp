@@ -19,7 +19,6 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::Update()
 {
-	//std::map<int, int> myCollisionIndexes;
 	for (int i = 0; i < myColliders.size(); ++i)
 	{
 		for (int j = 0; j < myColliders.size(); ++j)
@@ -28,11 +27,7 @@ void CollisionManager::Update()
 
 			if (myColliders[i]->GetCollision(myColliders[j].get()) && i != j)
 			{
-				/*Player* player = static_cast<Player*>((myColliders[i]->GetGameObject()).get());
-				if (player)
-				{
-					player->OnCollision();
-				}*/
+				
 				bool IsDuplicate = false;
 				for (std::pair<int, int> nrs : myCollisionIndexes)
 				{
@@ -68,31 +63,14 @@ void CollisionManager::Update()
 				}
 			}
 		}
-		//int aNr = myColliders[i].use_count();
 	}
 
 
 
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
-		/*Player* player = dynamic_cast<Player*>((myColliders[pairs.first]->GetGameObject()).get());
-		if (player)
-		{
-			player->StopMovement();
-		}
-		else
-		{
-			Player* player = dynamic_cast<Player*>((myColliders[pairs.second]->GetGameObject()).get());
-			if (player)
-			{
-				player->StopMovement();
-			}
-		}*/
-
 		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
 		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
-
-		
 	}
 
 }

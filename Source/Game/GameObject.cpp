@@ -45,6 +45,8 @@ GameObject::GameObject(Scene* aScene, const char* aSpritePath)
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
 	myCollider->SetPos(myPosition);
+
+	myPositionLastFrame = myPosition;
 }
 
 void GameObject::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
@@ -86,6 +88,7 @@ void GameObject::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
+
 }
 
 const Collider* GameObject::GetCollider() const

@@ -145,7 +145,7 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::OnCollision(GameObject* aGameObject)
 {
-	GameObject::OnCollision(aGameObject);
+	
 
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
 	float overlap = 0.0f;
@@ -156,11 +156,11 @@ void Player::OnCollision(GameObject* aGameObject)
 	case Collider::eCollisionStage::MiddleFrames:
 
 
-		/*myPosition += fromOtherToMe.GetNormalized() *
-			(myCollider->GetRadius() + aGameObject->myCollider->GetRadius()) - fromOtherToMe;*/
+		
 		if (myCollider->GetIsCube())
 		{
-			myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
 		}
 		else
 		{
@@ -182,8 +182,6 @@ void Player::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
-	//myPosition = myPositionLastFrame;
-	//myVelocity = CU::Vector2<float>();
 }
 
 

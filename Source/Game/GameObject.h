@@ -36,13 +36,10 @@ protected:
 	Scene* myScene;
 
 	CU::Vector2<float> myPosition;
-	CU::Vector2<float> myVel;
+	CU::Vector2<float> myPositionLastFrame;
 	std::shared_ptr<SpriteWrapper> mySprite;
 
 	std::shared_ptr<Collider> myCollider;
-
-
-	float myGravity;//temorary variable
 };
 
 
