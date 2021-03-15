@@ -20,4 +20,5 @@ private:
 	std::string myTilesetKey;
 	TextureRect myTextureRect;
 
+
 };
