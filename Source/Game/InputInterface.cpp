@@ -19,57 +19,58 @@ InputInterface::InputInterface(CommonUtilities::Input* aInput, ControllerInput* 
 	}
 }
 
-bool InputInterface::IsJumping()
+bool InputInterface::IsJumping() const
 {
 	return (myInput->IsKeyPressed(VK_SPACE) || myControllerInput->IsPressed(XINPUT_GAMEPAD_A));
 }
 
-bool InputInterface::IsGrappling()
+bool InputInterface::IsGrappling() const
 {
-	return myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::RIGHT) > 0 && (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed ||  myControllerInput->GetLeftTrigger() > 0.0f);
+	return myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::RIGHT) > 0 && (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed || myControllerInput->GetLeftTrigger() > 0.0f);
 }
 
-bool InputInterface::IsShooting()
+bool InputInterface::IsShooting() const
 {
 	return myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::LEFT) > 0 && (myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed || myControllerInput->GetRightTrigger() > 0.0f);
 }
 
-bool InputInterface::IsMovingLeft_Pressed()
+bool InputInterface::IsMovingLeft_Pressed() const
 {
 	return (myInput->IsKeyPressed(VK_LEFT) || myInput->IsKeyPressed('A') || myControllerInput->GetLeftStickX() < 0.0f);
 }
 
-bool InputInterface::IsMovingLeft_Down()
+bool InputInterface::IsMovingLeft_Down() const
 {
-	return (myInput->IsKeyDown(VK_LEFT) || myInput->IsKeyDown('A') ||  myControllerInput->GetLeftStickX() < 0.0f);
+	return (myInput->IsKeyDown(VK_LEFT) || myInput->IsKeyDown('A') || myControllerInput->GetLeftStickX() < 0.0f);
 }
 
-bool InputInterface::IsMovingLeft_Released()
+bool InputInterface::IsMovingLeft_Released() const
 {
 	return (myInput->IsKeyReleased(VK_LEFT) || myInput->IsKeyReleased('A') || myControllerInput->LeftStickReleased());
 }
 
-bool InputInterface::IsMovingRight_Pressed()
+bool InputInterface::IsMovingRight_Pressed() const
 {
 	return (myInput->IsKeyPressed(VK_RIGHT) || myInput->IsKeyPressed('D') || myControllerInput->GetLeftStickX() > 0.0f);
 }
 
-bool InputInterface::IsMovingRight_Down()
+bool InputInterface::IsMovingRight_Down() const
 {
 	return (myInput->IsKeyDown(VK_RIGHT) || myInput->IsKeyDown('D') || myControllerInput->GetLeftStickX() > 0.0f);
 }
 
-bool InputInterface::IsMovingRight_Released()
+bool InputInterface::IsMovingRight_Released() const
 {
 	return (myInput->IsKeyReleased(VK_RIGHT) || myInput->IsKeyReleased('D') || myControllerInput->LeftStickReleased());
 }
 
-bool InputInterface::Is_G_Pressed()
+bool InputInterface::Is_G_Pressed() const
 {
 	return myInput->IsKeyPressed('G');
 }
 
-bool InputInterface::IsPressingUse()
+bool InputInterface::IsPressingUse() const
 {
 	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(XINPUT_GAMEPAD_X));
 }
+

@@ -23,6 +23,8 @@ public:
 	bool isReleased(WORD button);
 	bool LeftStickReleased();
 
+	bool ControllerConnected();
+
 private:
 	float myElapsedTime = 3.0f;
 	float myCheckCooldown = 5.0f;
