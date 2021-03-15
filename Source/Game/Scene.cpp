@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Scene.h"
 
-#include "SceneManager.h"
+#include "SceneManagerProxy.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
@@ -14,20 +14,20 @@ void Scene::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRender
 {
 }
 
-void Scene::OnEnter(SceneManager* aSceneManager)
+void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy)
 {
-	assert(aSceneManager != nullptr);
-	assert(mySceneManager == nullptr);
+	assert(aSceneManagerProxy != nullptr);
+	assert(mySceneManagerProxy == nullptr);
 
-	mySceneManager = aSceneManager;
+	mySceneManagerProxy = aSceneManagerProxy;
 }
 
-void Scene::OnExit(SceneManager* aSceneManager)
+void Scene::OnExit(SceneManagerProxy* aSceneManagerProxy)
 {
-	assert(aSceneManager != nullptr);
-	assert(mySceneManager == aSceneManager);
+	assert(aSceneManagerProxy != nullptr);
+	assert(mySceneManagerProxy == aSceneManagerProxy);
 
-	mySceneManager = nullptr;
+	mySceneManagerProxy = nullptr;
 }
 
 void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
@@ -37,21 +37,21 @@ void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 
 JsonManager* Scene::GetJsonManager()
 {
-	assert(GetSceneManager() != nullptr);
+	assert(GetSceneManagerProxy() != nullptr);
 
-	return GetSceneManager()->GetJsonManager();
+	return GetSceneManagerProxy()->GetJsonManager();
 }
 
 WeaponFactory* Scene::GetWeaponFactory()
 {
-	assert(GetSceneManager() != nullptr);
+	assert(GetSceneManagerProxy() != nullptr);
 
-	return GetSceneManager()->GetWeaponFactory();
+	return GetSceneManagerProxy()->GetWeaponFactory();
 }
 
 Camera* Scene::GetCamera()
 {
-	assert(GetSceneManager() != nullptr);
+	assert(GetSceneManagerProxy() != nullptr);
 
-	return GetSceneManager()->GetCamera();
+	return GetSceneManagerProxy()->GetCamera();
 }

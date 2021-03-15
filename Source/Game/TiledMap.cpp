@@ -8,6 +8,11 @@ TiledMap::TiledMap(int someWidth, int someHeight, int someTileWidth, int someTil
 	myTileHeight(someTileHeight)
 {}
 
+void TiledMap::AddEntity(const TiledEntity& anEntity)
+{
+	myEntities.push_back(anEntity);
+}
+
 void TiledMap::AddTileset(const std::string& aTilesetKey, Tga2D::CTexture* aTexture)
 {
 	myTilesets.insert({ aTilesetKey, aTexture });

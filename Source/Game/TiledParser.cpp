@@ -43,6 +43,8 @@ bool TiledParser::Load(const std::string& aMapPath)
 	tson::Layer* solidLayer = map->getLayer("Solid");
 	tson::Layer* foregroundLayer = map->getLayer("Foreground");
 
+	tson::Layer* entityLayer = map->getLayer("Entities");
+
 	const std::array<std::pair<tson::Layer*, int>, 3> layers = {
 		{
 			{ backgroundLayer, GameLayer::Background },
@@ -53,12 +55,19 @@ bool TiledParser::Load(const std::string& aMapPath)
 
 	for (const auto& layer : layers)
 	{
-		if (layer.first != nullptr && !ParseLayer(layer.first, layer.second))
+		if (layer.first != nullptr && !ParseTileLayer(layer.first, layer.second))
 		{
 			ERROR_PRINT("Failed to parse layer %i in map! %s", layer.second, aMapPath.c_str());
 
 			return false;
 		}
+	}
+
+	if (entityLayer != nullptr && !ParseEntityLayer(entityLayer))
+	{
+		ERROR_PRINT("Failed to parse entity layer in map! %s", aMapPath.c_str());
+
+		return false;
 	}
 
 	return true;
@@ -90,10 +99,10 @@ bool TiledParser::ParseTileset(tson::Map* aMap)
 	return true;
 }
 
-bool TiledParser::ParseLayer(tson::Layer* aLayer, int someOrder)
+bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 {
 	assert(aLayer != nullptr);
-	assert(aLayer->getType() == tson::LayerType::TileLayer); // TODO?: NOTE: Only support tile layers for now
+	assert(aLayer->getType() == tson::LayerType::TileLayer);
 	assert(!aLayer->getMap()->isInfinite());
 	
 	TiledLayer& newLayer = myResult->NewLayer(aLayer->getName(), someOrder);
@@ -116,6 +125,38 @@ bool TiledParser::ParseLayer(tson::Layer* aLayer, int someOrder)
 		TiledTile newTile{ tilsetKey, tileRect };
 
 		newLayer.AddTile(x, y, newTile);
+	}
+
+	return true;
+}
+
+bool TiledParser::ParseEntityLayer(tson::Layer* aLayer)
+{
+	assert(aLayer != nullptr);
+	assert(aLayer->getType() == tson::LayerType::ObjectGroup);
+	assert(!aLayer->getMap()->isInfinite());
+
+	for (auto& object : aLayer->getObjects())
+	{
+		std::string type;
+		std::string subType;
+
+		const tson::Property* typeProp = object.getProp("Type");
+		const tson::Property* subTypeProp = object.getProp("SubType");
+		
+		assert(typeProp != nullptr && "Entity type must be provided!");
+		assert(typeProp->getType() == tson::Type::String && "Entity type must be string!");
+
+		type = typeProp->getValue<std::string>();
+
+		if (subTypeProp != nullptr)
+		{
+			assert(subTypeProp->getType() == tson::Type::String && "Entity subtype must be string!");
+
+			subType = subTypeProp->getValue<std::string>();
+		}
+
+		myResult->AddEntity(TiledEntity(CU::Vector2<float>(static_cast<float>(object.getPosition().x), static_cast<float>(object.getPosition().y)), type, subType));
 	}
 
 	return true;

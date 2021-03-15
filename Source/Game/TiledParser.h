@@ -33,7 +33,8 @@ private:
 	bool Load(const std::string& aMapPath);
 
 	bool ParseTileset(tson::Map* aMap);
-	bool ParseLayer(tson::Layer* aLayer, int someOrder);
+	bool ParseTileLayer(tson::Layer* aLayer, int someOrder);
+	bool ParseEntityLayer(tson::Layer* aLayer);
 
 private:
 

@@ -11,17 +11,15 @@ SceneManager::SceneManager(
 	JsonManager* aJsonManager,
 	WeaponFactory* aWeaponFactory)
 	: myJsonManager(aJsonManager),
-	myWeaponFactory(aWeaponFactory)
+	myWeaponFactory(aWeaponFactory),
+	myProxy(*this)
 {
 	myCamera = std::make_unique<Camera>(CU::Vector2<float>(0.0f, 0.0f));
 }
 
 SceneManager::~SceneManager()
 {
-	if (myActiveScene != nullptr)
-	{
-		myActiveScene->OnExit(this);
-	}
+	RunTransition(nullptr);
 }
 
 void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -70,14 +68,14 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnExit(this);
+		myActiveScene->OnExit(&myProxy);
 	}
 
 	myActiveScene = std::move(aTargetScene);
 
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnEnter(this);
+		myActiveScene->OnEnter(&myProxy);
 		myActiveScene->Init();
 	}
 }
