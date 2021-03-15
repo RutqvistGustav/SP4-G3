@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 // TODO: Refactor so player does not use json library directly
@@ -9,6 +8,7 @@
 
 class PlayerWeaponController;
 class SpriteWrapper;
+class HUD;
 
 namespace CommonUtilities
 {
@@ -37,8 +37,22 @@ public:
     void StopMovement();
 
 private:
+    // Movement
+    CU::Vector2<float> GetDirection(InputInterface* anInput);
+    void PlayerInput(InputInterface* anInput);
+
+    void Movement(const float aDeltaTime, InputInterface* anInput);
+    void BrakeMovement(const float aDeltaTime);
+    void Jump(const float aDeltaTime);
+
+    // Constructor
+    void InitVariables(nlohmann::json someData);
+
+    // Tools
+    void ImGui();
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
+    std::unique_ptr<HUD> myHUD;
 
     // Movement
     bool myIsMovingLeft = false;
@@ -52,11 +66,16 @@ private:
     //float myGravity;//temporarly placed in GameObject
     double myReduceMovementSpeed;
 
+    CU::Vector2<float> myVel;
+
     // Jump
     bool myIsJumping = false;
     bool myHasRemovedNegativeVel = false;
+    bool myGravityActive = false;
+
     int myJumpCharges;
     int myJumpChargeReset;
+
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;

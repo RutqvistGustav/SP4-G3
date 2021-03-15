@@ -51,6 +51,14 @@
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
+    <Filter Include="GameObjects\Enemies">
+      <UniqueIdentifier>{8c6dac19-9e6a-43f8-bb86-8d5b4040dc65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Enemies\EnemyTypes">
+      <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +179,24 @@
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Zombie.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="JetPack.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>HUD</Filter>
+	 </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -305,6 +331,24 @@
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="JetPack.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>HUD</Filter>
+	</ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
       <Filter>Core</Filter>
     </ClCompile>

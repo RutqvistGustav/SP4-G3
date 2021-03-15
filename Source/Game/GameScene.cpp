@@ -11,6 +11,9 @@
 #include "SpriteWrapper.h"
 
 #include "CollisionManager.h"
+// Enemy
+#include "EnemyFactory.h"
+#include "Enemy.h"
 
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
@@ -33,8 +36,6 @@ void GameScene::Init()
 		myGameObjects[i]->SetPosition({ 1900.0f / (i + 1) , 1080.0f});
 	}
 	
-
-
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)

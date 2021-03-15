@@ -9,6 +9,7 @@
 
 #include "PlayerWeaponController.h"
 #include "Scene.h"
+#include "HUD.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -51,6 +52,8 @@ Player::Player(Scene* aScene)
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 
+	// Init HUD
+	myHUD = std::make_unique<HUD>(aScene);
 }
 
 Player::~Player() = default;
@@ -63,6 +66,9 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	//ImGui();
 
+	
+	myHUD->Update(myPosition);
+
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
@@ -70,6 +76,7 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderCont
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 
+	myHUD->Render(aRenderQueue, aRenderContext);
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
