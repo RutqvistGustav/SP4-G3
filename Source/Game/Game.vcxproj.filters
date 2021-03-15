@@ -96,9 +96,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="GameLayer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -122,7 +119,7 @@
     </ClInclude>
     <ClInclude Include="Collider.h">
       <Filter>Core</Filter>
-    <ClInclude Include="GameLayer.h">
+    </ClInclude>
     <ClInclude Include="RenderContext.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -234,6 +231,9 @@
     <ClInclude Include="TiledEntity.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="GameLayer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -283,7 +283,7 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Core</Filter>
-    <ClCompile Include="Camera.cpp" />
+    </ClCompile>
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
     </ClCompile>
