@@ -7,6 +7,7 @@ public:
     HealthBar(Scene* aScene);
     ~HealthBar() = default;
 
+    virtual void Init() override;
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 

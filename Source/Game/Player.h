@@ -25,6 +25,7 @@ public:
     Player(Scene* aScene);
     virtual ~Player() override;
 
+    virtual void Init() override;
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 

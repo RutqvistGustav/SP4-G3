@@ -33,8 +33,6 @@ void GameScene::Init()
 
 	myPlayer->Init();
 
-
-
 	for (size_t i = 0; i < 10; ++i)
 	{
 		AddGameObject(std::make_shared<GameObject>(this));

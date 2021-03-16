@@ -9,8 +9,16 @@
 #include <fstream>
 #include <string>
 
+#include "CollisionManager.h"
+
 AmmoCounter::AmmoCounter(Scene* aScene)
 	: GameObject(aScene)
+{
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
+}
+
+void AmmoCounter::Init()
 {
 	nlohmann::json data;
 	std::ifstream file("JSON/HUD.json");

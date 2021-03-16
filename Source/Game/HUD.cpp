@@ -17,6 +17,13 @@ HUD::HUD(Scene* aScene)
 	myCollider.reset();
 }
 
+void HUD::Init()
+{
+	myHealthBar->Init();
+	myAmmoCounter->Init();
+	myHookIcon->Init();
+}
+
 void HUD::Update(CU::Vector2<float> aPlayerPosition)
 {
 	myHealthBar->Update(aPlayerPosition);

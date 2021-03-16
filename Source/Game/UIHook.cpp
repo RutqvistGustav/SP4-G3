@@ -12,6 +12,10 @@
 UIHook::UIHook(Scene* aScene)
 	: GameObject(aScene)
 {
+}
+
+void UIHook::Init()
+{
 	nlohmann::json data;
 	std::ifstream file("JSON/HUD.json");
 	data = nlohmann::json::parse(file);

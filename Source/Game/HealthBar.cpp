@@ -12,6 +12,12 @@
 HealthBar::HealthBar(Scene* aScene)
 	: GameObject(aScene)
 {
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
+}
+
+void HealthBar::Init()
+{
 	nlohmann::json data;
 	std::ifstream file("JSON/HUD.json");
 	data = nlohmann::json::parse(file);
@@ -22,9 +28,6 @@ HealthBar::HealthBar(Scene* aScene)
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
-
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
-	myCollider.reset();
 }
 
 void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
