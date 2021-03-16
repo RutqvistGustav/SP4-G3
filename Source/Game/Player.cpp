@@ -37,42 +37,45 @@ Player::Player(Scene* aScene)
 	: GameObject(aScene),
 	myCamera(aScene->GetCamera())
 {
-	// json
-	nlohmann::json data;
-	std::ifstream file("JSON/Player.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-
-
-	mySpeed = data.at("MovementSpeed");
-
-	myOnGround = false;
-
-	myPosition.x = 0.5f;
-	myPosition.y = 0.5f;
-
-	InitVariables(data);
-
-	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
-	CU::Vector2<float> startPosition(950.0f, 540.0f);
-	mySprite->SetPosition(startPosition);
-
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
-
-	// Subscribe to events
-	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
-	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
 Player::~Player()
 {
 	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
 	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointSave, this);
+}
+
+void Player::Init()
+{
+	// json
+	nlohmann::json data;
+	std::ifstream file("JSON/Player.json");
+	data = nlohmann::json::parse(file);
+	file.close();
+
+	InitVariables(data);
+
+	myOnGround = false;
+
+	myPosition.x = 0.5f;
+	myPosition.y = 0.5f;
+
+	// Init Sprite
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
+	CU::Vector2<float> startPosition(950.0f, 540.0f);
+	mySprite->SetPosition(startPosition);
+
+	// Init HUD
+	myHUD->Init();
+
+	// Subscribe to events
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
@@ -105,8 +108,6 @@ void Player::Controller(const float aDeltaTime, InputInterface * anInput)
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
-
-
 	//MouseInput(anInput);
 	//myPositionLastFrame = myPosition;
 	if (myIsMovingLeft == false && myIsMovingRight == false)
@@ -240,7 +241,6 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 	return GameMessageAction::Keep;
 }
 
-// void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 void Player::ImGui()
 {
 	ImGui::Begin("Player movement");

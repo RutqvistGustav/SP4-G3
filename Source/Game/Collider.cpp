@@ -137,6 +137,16 @@ const Collider::eCollisionStage Collider::GetCollisionStage() const
 	return myCollisionStage;
 }
 
+//const Collider::eCollisionType Collider::GetCollisionType() const
+//{
+//	return myCollitionType;
+//}
+//
+//void Collider::SetCollitionType(const eCollisionType aCollitionType)
+//{
+//	myCollitionType = aCollitionType;
+//}
+
 void Collider::AdvanceCollisionStage()
 {
 	myCollisionStage = static_cast<Collider::eCollisionStage>(static_cast<int>(myCollisionStage) + 1);
