@@ -84,3 +84,4 @@ private:
 
 };
 
+//TODO:check if the collider is solid
