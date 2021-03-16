@@ -46,13 +46,24 @@ public:
 		Count
 	};
 
-	const eCollisionStage GetCollisionStage()const;
+	/*enum class eCollisionType
+	{
+		PassThrough,
+		Solid,
+		SolidOnTop,
+		Count
+	};*/
 
-	void AdvanceCollisionStage();
+	const eCollisionStage GetCollisionStage()const;
+	/*const eCollisionType GetCollisionType()const;
+
+	void SetCollitionType(const eCollisionType aCollitionType);*/
+
 
 	const bool GetIsCube()const;
 private:
-	
+	void AdvanceCollisionStage();
+	//eCollisionType myCollitionType = eCollisionType::Solid;
 	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
 
 	bool myIsNotColliding = true;

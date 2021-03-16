@@ -3,6 +3,7 @@
 #include "RenderQueue.h"
 #include "HealthBar.h"
 #include "SpriteWrapper.h"
+#include "CollisionManager.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -19,6 +20,9 @@ HealthBar::HealthBar(Scene* aScene)
 	myDistanceFromPlayer.y = data.at("HealthBar").at("DistanceFromPlayerY");
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
+
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
 }
 
 void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
@@ -29,6 +33,10 @@ void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
 void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
+}
+
+void HealthBar::OnCollision(GameObject*)
+{
 }
 
 void HealthBar::RemoveHP()

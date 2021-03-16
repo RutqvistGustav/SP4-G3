@@ -81,3 +81,4 @@ private:
     float myJumpDurationReset;
 };
 
+//TODO:check if the collider is solid

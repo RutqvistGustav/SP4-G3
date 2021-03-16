@@ -63,8 +63,11 @@ const CU::Vector2<float>& GameObject::GetPosition() const
 void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 {
 	myPosition = aPosition;
-	myCollider->SetPos(aPosition);
 	mySprite->SetPosition(myPosition);
+	if (myCollider.get() != nullptr)
+	{
+		myCollider->SetPos(myPosition);
+	}
 }
 
 void GameObject::OnCollision(GameObject* aGameObject)

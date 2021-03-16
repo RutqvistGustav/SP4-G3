@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "HUD.h"
 #include "HealthBar.h"
+#include "CollisionManager.h"
 
 HUD::HUD(Scene* aScene)
 	: GameObject(aScene)
 {
 	myHealthBar = std::make_unique<HealthBar>(aScene);
+
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
 }
 
 void HUD::Update(CU::Vector2<float> aPlayerPosition)
@@ -16,6 +20,11 @@ void HUD::Update(CU::Vector2<float> aPlayerPosition)
 void HUD::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	myHealthBar->Render(aRenderQueue, aRenderContext);
+}
+
+void HUD::OnCollision(GameObject*)
+{
+
 }
 
 HealthBar* HUD::GetHealthBar()

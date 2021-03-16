@@ -10,6 +10,8 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+    void OnCollision(GameObject*) override;
+
     void RemoveHP();
     void AddHP();
 
