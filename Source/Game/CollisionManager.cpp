@@ -85,6 +85,19 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 
 }
 
+void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
+{
+	for (int i = 0; i < myColliders.size(); ++i)
+	{
+		if (aCollider == myColliders[i])
+		{
+			myColliders.erase(myColliders.begin() + i);
+		}
+	}
+}
+
+
+
 #ifdef _DEBUG
 void CollisionManager::InitDebug()
 {

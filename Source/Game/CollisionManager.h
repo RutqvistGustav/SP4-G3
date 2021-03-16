@@ -24,6 +24,7 @@ public:
 	void Update();
 
 	void AddCollider(std::shared_ptr<Collider> aCollider);
+	void RemoveCollider(std::shared_ptr<Collider> aCollider);
 
 #ifdef _DEBUG
 	void InitDebug();
