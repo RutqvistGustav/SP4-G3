@@ -147,6 +147,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />

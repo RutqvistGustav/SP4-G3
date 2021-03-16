@@ -197,7 +197,7 @@
     </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
-	 </ClInclude>
+    </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
     </ClInclude>
@@ -260,6 +260,9 @@
     </ClInclude>
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,7 +352,7 @@
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>HUD</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -394,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
