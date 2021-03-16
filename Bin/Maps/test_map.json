@@ -55,7 +55,7 @@
         {
          "columns":32,
          "firstgid":1,
-         "image":"..\/..\/..\/..\/..\/Downloads\/spriteSheet_test_01.png",
+         "image":"spriteSheet_test_01.png",
          "imageheight":2048,
          "imagewidth":2048,
          "margin":0,

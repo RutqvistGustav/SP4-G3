@@ -26,28 +26,6 @@
 Player::Player(Scene* aScene)
 	: GameObject(aScene)
 {
-	// json
-	nlohmann::json data;
-	std::ifstream file("JSON/Player.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-
-
-	mySpeed = data.at("MovementSpeed");
-
-	myOnGround = false;
-
-	myPosition.x = 0.5f;
-	myPosition.y = 0.5f;
-
-
-	InitVariables(data);
-
-	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
-	CU::Vector2<float> startPosition(950.0f, 540.0f);
-	mySprite->SetPosition(startPosition);
-
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 
@@ -57,11 +35,34 @@ Player::Player(Scene* aScene)
 
 Player::~Player() = default;
 
+void Player::Init()
+{
+	// json
+	nlohmann::json data;
+	std::ifstream file("JSON/Player.json");
+	data = nlohmann::json::parse(file);
+	file.close();
+
+	InitVariables(data);
+
+	myOnGround = false;
+
+	myPosition.x = 0.5f;
+	myPosition.y = 0.5f;
+
+
+	// Init Sprite
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
+	CU::Vector2<float> startPosition(950.0f, 540.0f);
+	mySprite->SetPosition(startPosition);
+
+	myHUD->Init();
+}
+
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
-
 
 	//ImGui();
 
@@ -86,8 +87,6 @@ void Player::Controller(const float aDeltaTime, InputInterface * anInput)
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
-
-
 	//MouseInput(anInput);
 	//myPositionLastFrame = myPosition;
 	if (myIsMovingLeft == false && myIsMovingRight == false)
@@ -197,7 +196,6 @@ void Player::StopMovement()
 	myVel = CU::Vector2<float>();
 }
 
-// void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 void Player::ImGui()
 {
 	ImGui::Begin("Player movement");

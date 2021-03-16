@@ -58,7 +58,13 @@
     <Filter Include="GameObjects\Enemies\EnemyTypes">
       <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HUD">
+    <Filter Include="Rendering\Renderer">
+      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\HUD">
       <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects\Mouse">
@@ -196,10 +202,10 @@
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
-      <Filter>HUD</Filter>
+      <Filter>GameObjects\HUD</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
-      <Filter>HUD</Filter>
+      <Filter>GameObjects\HUD</Filter>
     </ClInclude>
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
@@ -212,6 +218,12 @@
     </ClInclude>
     <ClInclude Include="RandomHelper.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="AmmoCounter.h">
+      <Filter>GameObjects\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHook.h">
+      <Filter>GameObjects\HUD</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Core</Filter>
@@ -357,10 +369,10 @@
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
-      <Filter>HUD</Filter>
+      <Filter>GameObjects\HUD</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
-      <Filter>HUD</Filter>
+      <Filter>GameObjects\HUD</Filter>
     </ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
       <Filter>Core</Filter>
@@ -370,6 +382,12 @@
     </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="AmmoCounter.cpp">
+      <Filter>GameObjects\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHook.cpp">
+      <Filter>GameObjects\HUD</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>Core</Filter>

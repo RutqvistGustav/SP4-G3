@@ -25,6 +25,7 @@ public:
     Player(Scene* aScene);
     virtual ~Player() override;
 
+    virtual void Init() override;
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
@@ -63,7 +64,9 @@ private:
     // Weapon myShotgun;
     float myMaxSpeed;
     float myStopAtVelocity;
+
     float myGravity;
+
     double myReduceMovementSpeed;
 
     CU::Vector2<float> myVel;
@@ -79,5 +82,7 @@ private:
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;
+
 };
 
+//TODO:check if the collider is solid

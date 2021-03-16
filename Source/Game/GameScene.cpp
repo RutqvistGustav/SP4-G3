@@ -10,6 +10,7 @@
 
 #include "SpriteWrapper.h"
 
+
 #include "CollisionManager.h"
 // Enemy
 #include "EnemyFactory.h"
@@ -29,9 +30,8 @@ void GameScene::Init()
 
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
+
 	myPlayer->Init();
-
-
 
 	for (size_t i = 0; i < 10; ++i)
 	{
@@ -40,6 +40,7 @@ void GameScene::Init()
 		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
 	}
 	
+
 	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
