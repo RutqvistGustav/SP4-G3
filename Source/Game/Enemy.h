@@ -6,7 +6,7 @@ class Enemy :
     public GameObject
 {
 public:
-    Enemy(Scene* aScene);
+    Enemy(Scene* aScene, const char* aSpritePath = nullptr);
     virtual ~Enemy();
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext/*, CU::Vector2& aPlayer*/) override;  // Need Player position for tracking
