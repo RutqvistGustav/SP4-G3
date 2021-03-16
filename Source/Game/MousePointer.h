@@ -16,25 +16,22 @@ public:
 	virtual ~MousePointer() override;
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 	void OnCollision(GameObject* aGameObject) override;
 
-	//void ActivateMouse(bool aActivation);
 	bool GetLMBDown();
-	CU::Vector2<float> GetMouseCoordinates();
-	CU::Vector2<float> GetMouseDrag();
+	bool ButtonClicked();
+	GameObject::eObjectType ClickedButton();
 
 private:
 
 	CU::Vector2<float> myMousePointer;
-	CU::Vector2<float> myLastPos;
-	CU::Vector2<float> myDragPos;
 
-	float myTimer;
+	bool myClicked;
+	bool myMouseButtonPressed;
+	bool myButtonClicked;
+	GameObject::eObjectType myClickedButton;
 
-	bool myLastPosCalculate;
-	bool myClickIsTrue;
-	bool myButtonPress;
-
-	void ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput);
+	void ReadingMouseCoordinates(CommonUtilities::Input* aInput);
 	void ReadingLMBInput(CommonUtilities::Input* aInput);
 };

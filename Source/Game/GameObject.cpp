@@ -27,7 +27,6 @@ void GameObject::Init()
 	CollisionManager::GetInstance()->AddCollider(myCollider);*/
 }
 
-
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
@@ -97,4 +96,14 @@ void GameObject::OnCollision(GameObject* aGameObject)
 const Collider* GameObject::GetCollider() const
 {
 	return myCollider.get();
+}
+
+GameObject::eObjectType GameObject::GetType()
+{
+	return myType;
+}
+
+void GameObject::SetType(eObjectType aType)
+{
+	myType = aType;
 }

@@ -14,6 +14,16 @@ class SpriteWrapper;
 class GameObject
 {
 public:
+	enum class eObjectType
+	{
+		Object,
+		Player,
+		Enemy,
+		PlayButton,
+		QuitButton,
+		MousePointer,
+		Count
+	};
 
 	GameObject() = default;
 	GameObject(Scene* aScene, const char* aSpritePath = nullptr);
@@ -27,13 +37,14 @@ public:
 	void SetPosition(const CU::Vector2<float> aPosition);
 	virtual void OnCollision(GameObject* aGameObject);
 	const Collider* GetCollider()const;
-
+	eObjectType GetType();
+	void SetType(eObjectType aType);
 	inline Scene* GetScene() { return myScene; }
 
 protected:
 
-
 	Scene* myScene;
+	eObjectType myType = eObjectType::Object;
 
 	CU::Vector2<float> myPosition;
 	CU::Vector2<float> myPositionLastFrame;

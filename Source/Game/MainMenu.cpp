@@ -3,6 +3,8 @@
 #include "GameObject.h"
 #include "Metrics.h"
 #include "MousePointer.h"
+#include "SceneManagerProxy.h"
+#include "GameScene.h"
 
 MainMenu::MainMenu()
 {
@@ -19,14 +21,15 @@ void MainMenu::Init()
 
 	myStartButton = std::make_unique<GameObject>(this, "Sprites/StartButton.png");
 	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.4f));
+	myStartButton->SetType(GameObject::eObjectType::PlayButton);
 	myButtons.push_back(std::move(myStartButton));
 
 	myQuitButton = std::make_unique<GameObject>(this, "Sprites/QuitButton.png");
 	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.5f));
+	myQuitButton->SetType(GameObject::eObjectType::QuitButton);
 	myButtons.push_back(std::move(myQuitButton));
 
 	myMousePointer = std::make_unique<MousePointer>(this);
-	myMousePointer->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.5f));
 }
 
 void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -38,18 +41,25 @@ void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		o->Update(aDeltaTime, anUpdateContext);
 	}
 
-	if (myMousePointer->GetLMBDown())
+	if (myMousePointer->ButtonClicked())
 	{
-
+		switch (myMousePointer->ClickedButton())
+		{
+		case GameObject::eObjectType::PlayButton:
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+			break;
+		}
+		}
 	}
 }
 
 void MainMenu::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	myMousePointer->Render(aRenderQueue, aRenderContext);
-
 	for (auto& o : myButtons)
 	{
 		o->Render(aRenderQueue, aRenderContext);
 	}
+
+	myMousePointer->Render(aRenderQueue, aRenderContext);
 }

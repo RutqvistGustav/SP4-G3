@@ -18,6 +18,7 @@
 #include "WeaponFactory.h"
 
 #include "MainMenu.h"
+#include "GameScene.h"
 
 #include <InputManager.h>
 #include <Timer.h>
@@ -135,7 +136,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
-	mySceneManager->Transition(std::make_unique<MainMenu>());
+	mySceneManager->Transition(std::make_unique<GameScene>());
 }
 
 void CGame::UpdateCallBack()
@@ -147,9 +148,6 @@ void CGame::UpdateCallBack()
 	myTimer->Update();
 	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
 
-
-	//myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
-	//myGameWorld->Render(updateQueue);
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
 

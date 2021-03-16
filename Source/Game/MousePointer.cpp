@@ -5,13 +5,16 @@
 #include "CoordinateHelper.h"
 #include "CollisionManager.h"
 #include "SpriteWrapper.h"
+#include "RenderQueue.h"
+#include "RenderCommand.h"
 
 MousePointer::MousePointer(Scene* aScene)
 	: GameObject(aScene)
 {
+	myType = eObjectType::MousePointer;
 	myScene = aScene;
 	myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myPosition);
+	myCollider->Init(this, myMousePointer);
 	CollisionManager::GetInstance()->AddCollider(myCollider);
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Pointer.png"));
@@ -21,72 +24,62 @@ MousePointer::~MousePointer() = default;
 
 void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 {	
-	ReadingMouseCoordinates(aDeltaTime, anUpdateContext.myInput);
+	ReadingMouseCoordinates(anUpdateContext.myInput);
 	ReadingLMBInput(anUpdateContext.myInput);
+
+	myCollider->SetPos(myMousePointer);
+	mySprite->SetPosition(myMousePointer);
+}
+
+void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{
+	RenderCommand renderCommand = RenderCommand(mySprite);
+	aRenderQueue->Queue(renderCommand);
 }
 
 void MousePointer::OnCollision(GameObject* aGameObject)
 {
-	
+	if (GetLMBDown())
+	{
+		myButtonClicked = true;
+		myClickedButton = aGameObject->GetType();
+	}
 }
 
 bool MousePointer::GetLMBDown()
 {
-	return myClickIsTrue;
+	return myClicked;
 }
 
-CU::Vector2<float> MousePointer::GetMouseCoordinates()
+bool MousePointer::ButtonClicked()
 {
-	return myMousePointer;
+	return myButtonClicked;
 }
 
-CU::Vector2<float> MousePointer::GetMouseDrag()
+GameObject::eObjectType MousePointer::ClickedButton()
 {
-	return myDragPos;
+	return myClickedButton;
 }
 
-void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
+void MousePointer::ReadingMouseCoordinates(CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
 
-	if (myLastPosCalculate == false)
-	{
-		myLastPosCalculate = true;
-		myLastPos.x = static_cast<float>(mousePos.myMouseX);
-		myLastPos.y = static_cast<float>(mousePos.myMouseY);
-	}
-	else
-	{
-		myTimer += aDeltaTime;
-		if (myTimer >= 0.02f)
-		{
-			myTimer = {};
-			myLastPosCalculate = false;
-			CU::Vector2<float> currentPos = { static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY) };
-			myDragPos = { myLastPos.x - currentPos.x, myLastPos.y - currentPos.y };
-		}
-	}
-
-
-	myMousePointer.x = static_cast<float>(mousePos.myMouseX);
-	myMousePointer.y = static_cast<float>(mousePos.myMouseY);
-
-	myMousePointer = CoordinateHelper::GetClientPositionAsVirtual(myMousePointer);
+	myMousePointer = CU::Vector2(static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY));
 }
 
 void MousePointer::ReadingLMBInput(CommonUtilities::Input* aInput)
 {
-	if (myButtonPress == true)
-		myClickIsTrue = false;
+	if (myMouseButtonPressed == true)
+		myClicked = false;
 
-	if (aInput->IsKeyPressed(static_cast<int>(CommonUtilities::Input::EMouseKey::LEFT)) && myButtonPress == false)
+	if (aInput->IsKeyPressed(static_cast<int>(CommonUtilities::Input::EMouseKey::LEFT)) && myMouseButtonPressed == false)
 	{
-		myClickIsTrue = true;
-		myButtonPress = true;
-
+		myClicked = true;
+		myMouseButtonPressed = true;
 	}
 	else if (aInput->IsKeyReleased(static_cast<int>(CommonUtilities::Input::EMouseKey::LEFT)))
 	{
-		myButtonPress = false;
+		myMouseButtonPressed = false;
 	}
 }
