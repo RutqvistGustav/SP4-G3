@@ -11,6 +11,9 @@
 #include "Scene.h"
 #include "HUD.h"
 
+#include "Camera.h"
+#include "MathHelper.h"
+
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
@@ -24,7 +27,8 @@
 #include <string>
 
 Player::Player(Scene* aScene)
-	: GameObject(aScene)
+	: GameObject(aScene),
+	myCamera(aScene->GetCamera())
 {
 	// json
 	nlohmann::json data;
@@ -39,7 +43,6 @@ Player::Player(Scene* aScene)
 
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
-
 
 	InitVariables(data);
 
@@ -62,10 +65,11 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
-
 	//ImGui();
 
-	
+	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
+	myCamera->SetPosition(newCameraPosition);
+
 	myHUD->Update(myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
@@ -135,6 +139,8 @@ void Player::PlayerInput(InputInterface * anInput)
 
 void Player::InitVariables(nlohmann::json someData)
 {
+	myCameraFollowSpeed = someData.value("CameraFollowSpeed", 2000.0f);
+
 	// Movement
 	mySpeed = someData.at("MovementSpeed");
 	myMaxSpeed = someData.at("MaxSpeedCap");
@@ -152,7 +158,7 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::OnCollision(GameObject* aGameObject)
 {
-	
+	return;
 
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
 	float overlap = 0.0f;

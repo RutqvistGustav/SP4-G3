@@ -158,7 +158,7 @@ void CGame::UpdateCallBack()
 	myRenderManager->Render();
 	
 	myRenderManager->SwapBuffers();
-	myRenderManager->SetPan(mySceneManager->GetCamera()->GetPositionWithModifiers());
+	myRenderManager->SetPan(mySceneManager->GetCamera()->GetPositionWithModifiers() * -1.0f);
 
 	myInput->ResetFrame();
 }

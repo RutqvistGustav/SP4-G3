@@ -15,6 +15,7 @@ namespace CommonUtilities
     class Input;
 }
 
+class Camera;
 class InputInterface;
 
 class Player :
@@ -50,6 +51,11 @@ private:
 
     // Tools
     void ImGui();
+
+private:
+
+    Camera* myCamera;
+    float myCameraFollowSpeed;
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
     std::unique_ptr<HUD> myHUD;

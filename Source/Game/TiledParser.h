@@ -25,6 +25,12 @@ public:
 	TiledParser(const std::string& aMapPath);
 	~TiledParser();
 
+	int GetWidthInTiles() const;
+	int GetHeightInTiles() const;
+
+	float GetWidth() const;
+	float GetHeight() const;
+
 private:
 
 	friend class TiledCollision;

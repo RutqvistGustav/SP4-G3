@@ -18,6 +18,26 @@ TiledParser::TiledParser(const std::string& aMapPath)
 
 TiledParser::~TiledParser() = default;
 
+int TiledParser::GetWidthInTiles() const
+{
+	return myResult->GetWidth();
+}
+
+int TiledParser::GetHeightInTiles() const
+{
+	return myResult->GetHeight();
+}
+
+float TiledParser::GetWidth() const
+{
+	return static_cast<float>(myResult->GetWidth() * myResult->GetTileWidth());
+}
+
+float TiledParser::GetHeight() const
+{
+	return static_cast<float>(myResult->GetHeight() * myResult->GetTileHeight());
+}
+
 bool TiledParser::Load(const std::string& aMapPath)
 {
 	tson::Tileson tileson;
