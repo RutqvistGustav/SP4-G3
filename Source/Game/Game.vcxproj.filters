@@ -61,6 +61,9 @@
     <Filter Include="HUD">
       <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Mouse">
+      <UniqueIdentifier>{be8a1779-2f3e-4edd-8360-ae5fd162adac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -264,6 +267,12 @@
     <ClInclude Include="MainMenu.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="MousePointer.h">
+      <Filter>GameObjects\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinateHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -400,6 +409,12 @@
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePointer.cpp">
+      <Filter>GameObjects\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateHelper.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

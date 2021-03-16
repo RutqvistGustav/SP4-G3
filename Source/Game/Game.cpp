@@ -17,7 +17,7 @@
 #include "JsonManager.h"
 #include "WeaponFactory.h"
 
-#include "GameScene.h"
+#include "MainMenu.h"
 
 #include <InputManager.h>
 #include <Timer.h>
@@ -120,7 +120,6 @@ void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
 	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
-	//myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
 
 	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
@@ -136,7 +135,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
-	mySceneManager->Transition(std::make_unique<GameScene>());
+	mySceneManager->Transition(std::make_unique<MainMenu>());
 }
 
 void CGame::UpdateCallBack()

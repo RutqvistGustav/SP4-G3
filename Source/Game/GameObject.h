@@ -15,7 +15,7 @@ class GameObject
 {
 public:
 
-
+	GameObject() = default;
 	GameObject(Scene* aScene, const char* aSpritePath = nullptr);
 	virtual ~GameObject();
 

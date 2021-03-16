@@ -140,6 +140,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
+    <ClInclude Include="CoordinateHelper.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EventObserver.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MousePointer.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
@@ -208,10 +210,12 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
+    <ClCompile Include="CoordinateHelper.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
