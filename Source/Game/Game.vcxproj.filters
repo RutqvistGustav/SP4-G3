@@ -431,9 +431,6 @@
     <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="IGameMessageSubscriber.cpp">
-      <Filter>Core\MessageSystem</Filter>
-    </ClCompile>
     <ClCompile Include="GameMessenger.cpp">
       <Filter>Core\MessageSystem</Filter>
     </ClCompile>

@@ -220,7 +220,6 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
-    <ClCompile Include="IGameMessageSubscriber.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
