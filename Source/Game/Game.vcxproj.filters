@@ -67,6 +67,9 @@
     <Filter Include="GameObjects\HUD">
       <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Weapon\GrappleHook">
+      <UniqueIdentifier>{3325c79d-f1fd-452b-8606-7affb64e18b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -110,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Grapple.h">
-      <Filter>Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Shotgun.h">
       <Filter>Weapon</Filter>
@@ -273,6 +273,12 @@
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Grapple.h">
+      <Filter>Weapon\GrappleHook</Filter>
+    </ClInclude>
+    <ClInclude Include="GrappleHookProjectile.h">
+      <Filter>Weapon\GrappleHook</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -298,9 +304,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Grapple.cpp">
-      <Filter>Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Shotgun.cpp">
       <Filter>Weapon</Filter>
@@ -412,6 +415,12 @@
     </ClCompile>
     <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Grapple.cpp">
+      <Filter>Weapon\GrappleHook</Filter>
+    </ClCompile>
+    <ClCompile Include="GrappleHookProjectile.cpp">
+      <Filter>Weapon\GrappleHook</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

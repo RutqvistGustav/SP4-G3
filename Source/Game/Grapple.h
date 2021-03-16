@@ -1,6 +1,8 @@
 #pragma once
-
+#include <memory>
 #include "Weapon.h"
+
+class SpriteWrapper;
 
 class Grapple : public Weapon
 {
@@ -9,6 +11,7 @@ public:
 	Grapple(IWeaponHolder* aWeaponHolder);
 	virtual ~Grapple() override;
 
+	virtual void Init();
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
@@ -20,9 +23,8 @@ protected:
 	virtual void Setup() override;
 
 private:
-
-	float myMaxDistance{};
-	float myHookSpeed{};
-	float myContractSpeed{};
-
+	// Variables moved to GrapplingHookProjectile
+	//float myMaxDistance{};
+	//float myHookSpeed{};
+	//float myContractSpeed{};
 };

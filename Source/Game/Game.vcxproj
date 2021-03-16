@@ -137,11 +137,8 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
-
     <ClInclude Include="AmmoCounter.h" />
-
     <ClInclude Include="AudioManager.h" />
-
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="Enemy.h" />
@@ -151,6 +148,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="GrappleHookProjectile.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
@@ -192,16 +190,13 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
-
     <ClInclude Include="UIHook.h" />
-
     <ClInclude Include="TgaRenderer.h" />
     <ClInclude Include="TiledParser.h" />
     <ClInclude Include="TiledRenderer.h" />
     <ClInclude Include="TiledTile.h" />
     <ClInclude Include="TilesonImport.h" />
     <ClInclude Include="TileType.h" />
-
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
@@ -210,18 +205,16 @@
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <ItemGroup>
-
     <ClCompile Include="AmmoCounter.cpp" />
-
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
-
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GrappleHookProjectile.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
@@ -255,14 +248,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
-
     <ClCompile Include="UIHook.cpp" />
-
     <ClCompile Include="TgaRenderer.cpp" />
     <ClCompile Include="TiledParser.cpp" />
     <ClCompile Include="TiledRenderer.cpp" />
     <ClCompile Include="TiledTile.cpp" />
-
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
     <ClCompile Include="Zombie.cpp" />

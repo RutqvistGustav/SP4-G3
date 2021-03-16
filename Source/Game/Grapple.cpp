@@ -12,8 +12,13 @@ Grapple::Grapple(IWeaponHolder* aWeaponHolder) :
 
 Grapple::~Grapple() = default;
 
+void Grapple::Init()
+{
+}
+
 void Grapple::Update(float /*aDeltaTime*/, UpdateContext & /*anUpdateContext*/)
 {
+	// myProjectile.Update(vector2 aPlayerPosition);
 }
 
 void Grapple::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
@@ -22,14 +27,15 @@ void Grapple::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRend
 
 bool Grapple::Shoot()
 {
+	// Spawn projectile, Insert shoot direction.
 	return false;
 }
 
 void Grapple::LoadJson(const JsonData& someJsonData)
 {
-	myMaxDistance = someJsonData["maxDistance"];
-	myHookSpeed = someJsonData["hookSpeed"];
-	myContractSpeed = someJsonData["contractSpeed"];
+	//myMaxDistance = someJsonData["maxDistance"];
+	//myHookSpeed = someJsonData["hookSpeed"];
+	//myContractSpeed = someJsonData["contractSpeed"];
 
 }
 
