@@ -10,6 +10,7 @@ struct RenderContext;
 class RenderQueue;
 class Scene;
 class SpriteWrapper;
+class GlobalServiceProvider;
 
 class GameObject
 {
@@ -27,6 +28,8 @@ public:
 	void SetPosition(const CU::Vector2<float> aPosition);
 	virtual void OnCollision(GameObject* aGameObject);
 	const Collider* GetCollider()const;
+
+	GlobalServiceProvider* GetGlobalServiceProvider();
 
 	inline Scene* GetScene() { return myScene; }
 

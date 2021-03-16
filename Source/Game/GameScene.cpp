@@ -21,6 +21,11 @@
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
 
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "CheckpointMessage.h"
+#include "CheckpointContext.h"
+
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
 
@@ -38,7 +43,7 @@ void GameScene::Init()
 		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
 	}
 	
-	// TODO: Load different map based on which level we are on
+	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
@@ -62,4 +67,24 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 #endif //_DEBUG
 
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+}
+
+CheckpointContext GameScene::SaveCheckpoint()
+{
+	CheckpointContext checkpointContext;
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &checkpointContext;
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointSave, &checkpointMessageData);
+
+	return checkpointContext;
+}
+
+void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
+{
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
 }

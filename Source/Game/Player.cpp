@@ -9,7 +9,14 @@
 
 #include "PlayerWeaponController.h"
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
 #include "HUD.h"
+
+#include "CheckpointMessage.h"
+#include "CheckpointContext.h"
+
+#include "GameMessenger.h"
+#include "Scene.h"
 
 #include "Camera.h"
 #include "MathHelper.h"
@@ -52,13 +59,21 @@ Player::Player(Scene* aScene)
 	mySprite->SetPosition(startPosition);
 
 	// Init weapon controller
-	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
+
+	// Subscribe to events
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
-Player::~Player() = default;
+Player::~Player()
+{
+	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
+	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointSave, this);
+}
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
@@ -201,6 +216,28 @@ void Player::OnCollision(GameObject* aGameObject)
 void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
+}
+
+GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
+{
+	switch (aMessage)
+	{
+	case GameMessage::CheckpointSave:
+		// TODO
+
+		break;
+
+	case GameMessage::CheckpointLoad:
+		// TODO
+
+		break;
+
+	default:
+		assert(false);
+		break;
+	}
+
+	return GameMessageAction::Keep;
 }
 
 // void Player::Movement(const float aDeltaTime, InputInterface* anInput)

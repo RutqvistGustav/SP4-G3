@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "GameObject.h"
+
 #include "Collider.h"
 #include "CollisionManager.h"
 
+#include "Scene.h"
 
 //GameObject::GameObject(Scene* aScene, float aX, float aY)
 //	: GameObject(aScene)
@@ -19,7 +21,6 @@ GameObject::~GameObject()
 
 void GameObject::Init()
 {
-
 	/*myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
 
@@ -94,4 +95,9 @@ void GameObject::OnCollision(GameObject* aGameObject)
 const Collider* GameObject::GetCollider() const
 {
 	return myCollider.get();
+}
+
+GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
+{
+	return GetScene()->GetGlobalServiceProvider();
 }

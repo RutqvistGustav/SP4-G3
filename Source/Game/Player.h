@@ -1,5 +1,8 @@
 #pragma once
+
 #include "GameObject.h"
+
+#include "CheckpointMessage.h"
 
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
@@ -19,7 +22,8 @@ class Camera;
 class InputInterface;
 
 class Player :
-    public GameObject
+    public GameObject,
+    public CheckpointMessage
 {
 public:
     
@@ -36,6 +40,10 @@ public:
     void OnCollision(GameObject*) override;
 
     void StopMovement();
+
+protected:
+
+    virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
 private:
     // Movement
