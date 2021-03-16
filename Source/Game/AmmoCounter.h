@@ -13,7 +13,7 @@ public:
     {
         Loaded = 2,
         HalfEmpty = 1,
-        Reloading = 0
+        Empty = 0
     };
 
     AmmoCounter(Scene* aScene);
@@ -29,7 +29,6 @@ private:
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
     void InitSprites(nlohmann::json someData);
 
-    AmmoState myState;
     CU::Vector2<float> myDistanceFromPlayer;
 
     bool myPowerUpActive = false;

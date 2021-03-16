@@ -21,8 +21,6 @@ AmmoCounter::AmmoCounter(Scene* aScene)
 	myCurrentBullets = ammoData.at("AmmoAmount");
 	myResetBullets = myCurrentBullets;
 
-	myState = AmmoState::Loaded;
-
 	InitSprites(ammoData);
 }
 
@@ -33,7 +31,7 @@ void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
 
 void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	switch (myState)
+	switch (myCurrentBullets)
 	{
 	case AmmoState::Loaded:
 	{
@@ -45,9 +43,10 @@ void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 		//aRenderQueue->Queue(RenderCommand(myHalfState));
 		break;
 	}
-	case AmmoState::Reloading:
+	case AmmoState::Empty:
 	{
 		// Animation
+		Reload();
 		break;
 	}
 	}
@@ -56,18 +55,15 @@ void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 void AmmoCounter::RemoveBullet()
 {
 	--myCurrentBullets;
-	switch (myCurrentBullets)
-	{
-	case AmmoState::Loaded:
-	{
-		break;
-	}
-
-	}
 }
 
 void AmmoCounter::Reload()
 {
+	// Play reload animation
+	/*if (myAnimation.GetState() == "End")
+	{
+		myCurrentBullets = myResetBullets; // sets state to loaded
+	}*/
 }
 
 void AmmoCounter::UpdatePosition(CU::Vector2<float> aPlayerPosition)
