@@ -134,6 +134,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CheckpointContext.h" />
+    <ClInclude Include="CheckpointMessage.h" />
+    <ClInclude Include="CheckpointObjectData.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
@@ -148,8 +151,18 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
+
     <ClInclude Include="GrappleHookProjectile.h" />
+
+    <ClInclude Include="GameMessage.h" />
+    <ClInclude Include="GameMessageAction.h" />
+    <ClInclude Include="GameMessenger.h" />
+    <ClInclude Include="GameObjectTag.h" />
+    <ClInclude Include="GenericGameMessageSubscriber.h" />
+    <ClInclude Include="IGameMessageSubscriber.h" />
+
     <ClInclude Include="SceneManagerProxy.h" />
+    <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
     <ClInclude Include="TiledLayer.h" />
@@ -190,6 +203,9 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+
+    <ClInclude Include="TriggerVolume.h" />
+
     <ClInclude Include="UIHook.h" />
     <ClInclude Include="TgaRenderer.h" />
     <ClInclude Include="TiledParser.h" />
@@ -214,8 +230,13 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="Game.cpp" />
+
     <ClCompile Include="GrappleHookProjectile.cpp" />
+
+    <ClCompile Include="GameMessenger.cpp" />
+
     <ClCompile Include="SceneManagerProxy.cpp" />
+    <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
     <ClCompile Include="TiledLayer.cpp" />
@@ -248,6 +269,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
+
+    <ClCompile Include="TriggerVolume.cpp" />
+
     <ClCompile Include="UIHook.cpp" />
     <ClCompile Include="TgaRenderer.cpp" />
     <ClCompile Include="TiledParser.cpp" />

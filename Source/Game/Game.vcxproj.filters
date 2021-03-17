@@ -67,8 +67,19 @@
     <Filter Include="GameObjects\HUD">
       <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Weapon\GrappleHook">
       <UniqueIdentifier>{3325c79d-f1fd-452b-8606-7affb64e18b0}</UniqueIdentifier>
+	</Filter>
+
+    <Filter Include="Core\MessageSystem">
+      <UniqueIdentifier>{20cadf9b-9b18-4c32-b3b7-09c45d29dbc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\MessageSystem\Messages">
+      <UniqueIdentifier>{00e5e44d-e44f-41e0-9486-13b040cefa92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Checkpoints">
+      <UniqueIdentifier>{9291c18e-def3-4de6-9af1-14e8f2bf85bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -273,11 +284,47 @@
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
     </ClInclude>
+
     <ClInclude Include="Grapple.h">
       <Filter>Weapon\GrappleHook</Filter>
     </ClInclude>
     <ClInclude Include="GrappleHookProjectile.h">
       <Filter>Weapon\GrappleHook</Filter>
+	</ClInclude>
+
+    <ClInclude Include="IGameMessageSubscriber.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessage.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessenger.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericGameMessageSubscriber.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessageAction.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalServiceProvider.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointContext.h">
+      <Filter>Core\Checkpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointObjectData.h">
+      <Filter>Core\Checkpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TriggerVolume.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectTag.h">
+      <Filter>Core</Filter>
+
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -416,11 +463,21 @@
     <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+
     <ClCompile Include="Grapple.cpp">
       <Filter>Weapon\GrappleHook</Filter>
     </ClCompile>
     <ClCompile Include="GrappleHookProjectile.cpp">
       <Filter>Weapon\GrappleHook</Filter>
+	</ClCompile>
+    <ClCompile Include="GameMessenger.cpp">
+      <Filter>Core\MessageSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalServiceProvider.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerVolume.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
