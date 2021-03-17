@@ -6,7 +6,7 @@ Camera::Camera(const CU::Vector2<float> aPosition) :
     myPosition(aPosition)
 {}
 
-void Camera::Update(float aDeltaTime, UpdateContext& anUpdateContext)
+void Camera::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
     myShakeBehaviour.Update(aDeltaTime);
 }

@@ -34,7 +34,7 @@
 #include <string>
 
 Player::Player(Scene* aScene)
-	: GameObject(aScene),
+	: GameObject(aScene, GameObjectTag::Player),
 	myCamera(aScene->GetCamera())
 {
 	// Init weapon controller
@@ -52,6 +52,8 @@ Player::~Player()
 
 void Player::Init()
 {
+	GameObject::Init();
+
 	// json
 	nlohmann::json data;
 	std::ifstream file("JSON/Player.json");
@@ -174,8 +176,6 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::OnCollision(GameObject* aGameObject)
 {
-	return;
-
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
 	float overlap = 0.0f;
 
@@ -301,8 +301,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	Jump(aDeltaTime);
 
-	myPosition += myVel * aDeltaTime;
-	mySprite->SetPosition(myPosition);
+	SetPosition(GetPosition() + myVel * aDeltaTime);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;

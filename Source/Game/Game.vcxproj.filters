@@ -309,6 +309,12 @@
     <ClInclude Include="CheckpointObjectData.h">
       <Filter>Core\Checkpoints</Filter>
     </ClInclude>
+    <ClInclude Include="TriggerVolume.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectTag.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -453,6 +459,9 @@
       <Filter>Core\MessageSystem</Filter>
     </ClCompile>
     <ClCompile Include="GlobalServiceProvider.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="TriggerVolume.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
