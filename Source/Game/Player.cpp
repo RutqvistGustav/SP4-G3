@@ -75,6 +75,8 @@ void Player::Init()
 	// Init HUD
 	myHUD->Init();
 
+	//myWeaponController->Init();
+	
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
@@ -92,7 +94,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext);
+	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
