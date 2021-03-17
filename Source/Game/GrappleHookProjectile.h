@@ -12,9 +12,9 @@ public:
     void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     void OnCollision(GameObject* /*GrapplingHook point*/) override;
 
-    void Movement(const float aDeltaTime);
+    void Movement(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition);
     bool HasFoundGrapplingTarget();
-    void SetIsFiring(const CU::Vector2<float> aPlayerPosition, const CU::Vector2<float> aDirection);
+    void SpawnProjectile(const CU::Vector2<float> aDirection);
     void ResetProjectile();
     CU::Vector2<float>& GetGrapplingPoint();
 
@@ -22,11 +22,12 @@ private:
     bool myIsFiring = false;
     bool myHasFoundValidTarget = false;
 
-    float myDistanceTraveled;
     float myMaxDistance{};
     float myHookSpeed{};
     float myContractSpeed{};
 
+    CU::Vector2<float> myDistanceTraveled;
     CU::Vector2<float> myGrapplingPoint;
+    CU::Vector2<float> myDirection;
 };
 

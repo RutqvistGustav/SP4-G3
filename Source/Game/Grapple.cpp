@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Grapple.h"
+#include "GrappleHookProjectile.h"
+
+#include "Scene.h"
 
 // TODO - Instatiate Hook towards nearest Grapple object
 //		- Pull Player in Hook direction
@@ -14,21 +17,22 @@ Grapple::~Grapple() = default;
 
 void Grapple::Init()
 {
+	//Scene* scene = nullptr; // temp
+	//myProjectile = std::make_unique<GrappleHookProjectile>(scene); // needs scene
 }
 
-void Grapple::Update(float /*aDeltaTime*/, UpdateContext & /*anUpdateContext*/)
+void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
 {
-	// myProjectile.Update(vector2 aPlayerPosition);
+	//myProjectile->Update(aDeltaTime, aPlayerPosition);
 }
 
 void Grapple::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 }
 
-bool Grapple::Shoot()
+void Grapple::Shoot()
 {
-	// Spawn projectile, Insert shoot direction.
-	return false;
+	myProjectile->SpawnProjectile(GetDirection());
 }
 
 void Grapple::LoadJson(const JsonData& someJsonData)

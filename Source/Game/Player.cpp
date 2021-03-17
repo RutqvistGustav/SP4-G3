@@ -28,6 +28,7 @@ Player::Player(Scene* aScene)
 {
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
+	
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
@@ -50,6 +51,7 @@ void Player::Init()
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
+	
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
@@ -57,6 +59,8 @@ void Player::Init()
 	mySprite->SetPosition(startPosition);
 
 	myHUD->Init();
+
+	//myWeaponController->Init();
 }
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
@@ -69,7 +73,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext);
+	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
