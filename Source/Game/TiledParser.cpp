@@ -152,12 +152,12 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 
 			for (const auto& object : tile->getObjectgroup().getObjects())
 			{
-				const float x = static_cast<float>(object.getPosition().x);
-				const float y = static_cast<float>(object.getPosition().x);
-				const float w = static_cast<float>(object.getSize().x);
-				const float h = static_cast<float>(object.getSize().y);
+				const float objectX = static_cast<float>(object.getPosition().x);
+				const float objectY = static_cast<float>(object.getPosition().x);
+				const float objectW = static_cast<float>(object.getSize().x);
+				const float objectH = static_cast<float>(object.getSize().y);
 
-				gameTile->AddCollisionBox({ x, y, w, h });
+				gameTile->AddCollisionBox({ objectX, objectY, objectW, objectH });
 			}
 
 			myTiledCache.AddTile(gid, gameTile);
