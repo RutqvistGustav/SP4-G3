@@ -291,6 +291,9 @@
     <ClInclude Include="MenuButton.h">
       <Filter>GameObjects\HUD\Buttons</Filter>
     </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -442,6 +445,9 @@
     </ClCompile>
     <ClCompile Include="MenuButton.cpp">
       <Filter>GameObjects\HUD\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,6 +22,8 @@ public:
 		PlayButton,
 		QuitButton,
 		MousePointer,
+		MuteSound,
+		OptionsButton,
 		Count
 	};
 

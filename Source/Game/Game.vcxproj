@@ -152,6 +152,7 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />

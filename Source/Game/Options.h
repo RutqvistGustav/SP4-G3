@@ -3,12 +3,12 @@
 
 class MenuButton;
 
-class MainMenu :
+class Options :
     public Scene
 {
 public:
-	MainMenu();
-	virtual ~MainMenu() override;
+	Options();
+	virtual ~Options() override;
 
 	virtual void Init() override;
 
@@ -16,9 +16,7 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
-	std::unique_ptr<MenuButton> myStartButton;
-	std::unique_ptr<MenuButton> myQuitButton;
-	std::unique_ptr<MenuButton> myOptionsButton;
+	std::unique_ptr<MenuButton> myMuteSound;
 
 	std::vector<std::unique_ptr<GameObject>> myButtons;
 };

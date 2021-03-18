@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 #include "SceneManagerProxy.h"
+#include "MousePointer.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
@@ -19,6 +20,7 @@ void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy)
 	assert(aSceneManagerProxy != nullptr);
 	assert(mySceneManagerProxy == nullptr);
 
+	myMousePointer = std::make_unique<MousePointer>(this);
 	mySceneManagerProxy = aSceneManagerProxy;
 }
 

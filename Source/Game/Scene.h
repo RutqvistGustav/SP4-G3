@@ -11,6 +11,7 @@ class RenderQueue;
 class SceneManagerProxy;
 class JsonManager;
 class WeaponFactory;
+class MousePointer;
 
 class Scene
 {
@@ -37,6 +38,7 @@ public:
 
 protected:
 
+	std::unique_ptr<MousePointer> myMousePointer;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 
 private:

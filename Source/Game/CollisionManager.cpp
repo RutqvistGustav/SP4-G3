@@ -65,8 +65,6 @@ void CollisionManager::Update()
 		}
 	}
 
-
-
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
 		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
