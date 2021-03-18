@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameObject.h"
+
 #include "Vector2.hpp"
 
 #include "WeaponType.h"
@@ -11,16 +13,16 @@ class JsonManager;
 class RenderQueue;
 class IWeaponHolder;
 
-class Weapon
+class Weapon : public GameObject
 {
 public:
 
-	Weapon(const WeaponType aWeaponType, IWeaponHolder* aWeaponHolder);
+	Weapon(const WeaponType aWeaponType, Scene* aScene, IWeaponHolder* aWeaponHolder);
 	virtual ~Weapon() = 0;
 
 	virtual void Init(const JsonData& someJsonData);
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) = 0;
+	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) = 0;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;
 
 	virtual void Shoot() = 0;
@@ -31,6 +33,8 @@ public:
 	inline const WeaponType GetWeaponType() const { return myWeaponType; }
 
 protected:
+
+	using GameObject::Init;
 
 	virtual void LoadJson(const JsonData& someJsonData) = 0;
 	virtual void Setup() = 0;

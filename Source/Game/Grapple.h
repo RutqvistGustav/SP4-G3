@@ -9,11 +9,11 @@ class Grapple : public Weapon
 {
 public:
 
-	Grapple(IWeaponHolder* aWeaponHolder);
+	Grapple(Scene* aScene, IWeaponHolder* aWeaponHolder);
 	virtual ~Grapple() override;
 
-	virtual void Init(); // const JsonData& someJsonData
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
+	virtual void Init();
+	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	virtual void Shoot() override;

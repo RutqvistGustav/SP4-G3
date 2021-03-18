@@ -9,35 +9,42 @@
 #include "MathHelper.h"
 #include "Metrics.h"
 
+#include "GlobalServiceProvider.h"
 #include "Player.h"
+#include "Scene.h"
 
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
-PlayerWeaponController::PlayerWeaponController(const WeaponFactory* aWeaponFactory, Player* aPlayer)
-	: myPlayer(aPlayer)
+PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
+	myScene(aScene),
+	myPlayer(aPlayer)
 {
 	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
-	myGrapple = aWeaponFactory->CreateWeapon("grapple", this);
-	myShotgun = aWeaponFactory->CreateWeapon("shotgun", this);
+	myGrapple = aScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("grapple", aScene, this);
+	myShotgun = aScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("shotgun", aScene, this);
 }
 
 PlayerWeaponController::~PlayerWeaponController() = default;
 
 void PlayerWeaponController::Init(const JsonData& someJsonData)
 {
-	//myGrapple->Init(someJsonData);
+	myGrapple->Init(someJsonData);
+	myShotgun->Init(someJsonData);
 }
 
-void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
+void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
+
+	myGrapple->SetPosition(myPlayer->GetPosition());
+	myShotgun->SetPosition(myPlayer->GetPosition());
 
 	myGrapple->SetDirection(aimDirection);
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
-	myShotgun->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
+	myGrapple->Update(aDeltaTime, anUpdateContext);
+	myShotgun->Update(aDeltaTime, anUpdateContext);
 
 	if (anUpdateContext.myInputInterface->IsGrappling())
 	{

@@ -11,6 +11,8 @@ class RenderQueue;
 
 class Player;
 
+class Scene;
+
 class Weapon;
 class WeaponFactory;
 
@@ -18,11 +20,12 @@ class PlayerWeaponController : protected IWeaponHolder
 {
 public:
 
-	PlayerWeaponController(const WeaponFactory* aWeaponFactory, Player* aPlayer);
+	PlayerWeaponController(Scene* aScene, Player* aPlayer);
 	~PlayerWeaponController();
 
 	void Init(const JsonData& someJsonData);
-	void Update(const float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition);
+
+	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
 protected:
@@ -33,6 +36,7 @@ protected:
 
 private:
 
+	Scene* myScene;
 	Player* myPlayer;
 
 	std::shared_ptr<Weapon> myGrapple;

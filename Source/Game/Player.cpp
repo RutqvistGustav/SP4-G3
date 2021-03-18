@@ -38,7 +38,7 @@ Player::Player(Scene* aScene)
 	myCamera(aScene->GetCamera())
 {
 	// Init weapon controller
-	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
@@ -94,7 +94,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)

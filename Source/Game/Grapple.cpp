@@ -9,8 +9,8 @@
 //		- Cancel Hook midair for some momentum
 //		- Independant cooldown on the two charges
 
-Grapple::Grapple(IWeaponHolder* aWeaponHolder) :
-	Weapon(WeaponType::Grapple, aWeaponHolder)
+Grapple::Grapple(Scene* aScene, IWeaponHolder* aWeaponHolder) :
+	Weapon(WeaponType::Grapple, aScene, aWeaponHolder)
 {}
 
 Grapple::~Grapple() = default;
@@ -21,7 +21,7 @@ void Grapple::Init()
 	//myProjectile = std::make_unique<GrappleHookProjectile>(scene); // needs scene
 }
 
-void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
+void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	//myProjectile->Update(aDeltaTime, aPlayerPosition);
 }
