@@ -2,8 +2,8 @@
 #include "Enemy.h"
 #include "Scene.h"
 
-Enemy::Enemy(Scene* aScene, const char* aSpritePath)
-	: GameObject(aScene, aSpritePath)
+Enemy::Enemy(Scene* aScene)
+	: GameObject(aScene, GameObjectTag::Enemy)
 {
 }
 
