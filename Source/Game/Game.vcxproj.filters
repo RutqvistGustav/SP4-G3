@@ -300,6 +300,12 @@
     <ClInclude Include="GameObjectTag.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="TiledCache.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledCollisionBox.h">
+      <Filter>Map</Filter>
+    </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
@@ -478,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="TriggerVolume.cpp">
       <Filter>Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledCache.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

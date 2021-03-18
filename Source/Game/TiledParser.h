@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TiledMap.h"
+#include "TiledCache.h"
 
 #include <unordered_map>
 #include <string>
@@ -45,5 +46,6 @@ private:
 private:
 
 	std::unique_ptr<TiledMap> myResult;
+	TiledCache myTiledCache;
 
 };
