@@ -7,6 +7,7 @@
 
 #include "RenderCommand.h"
 #include "RenderQueue.h"
+#include "UpdateContext.h"
 
 #include "SpriteWrapper.h"
 
@@ -44,18 +45,24 @@ void GameScene::Init()
 	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
+
+	myTestEnemy = EnemyFactory::CreateEnemy(EnemyFactory::EnemyType::Zombie, this);
+	myTestEnemy->SetPosition({840.0f, 540.0f});
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	anUpdateContext.myPlayer = myPlayer.get();
 	CollisionManager::GetInstance()->Update();
 	myPlayer->Update(aDeltaTime, anUpdateContext);
+	myTestEnemy->Update(aDeltaTime, anUpdateContext);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
+	myTestEnemy->Render(aRenderQueue, aRenderContext);
 #ifdef _DEBUG
 	CollisionManager::GetInstance()->RenderDebug();
 #endif //_DEBUG

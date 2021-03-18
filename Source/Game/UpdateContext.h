@@ -9,11 +9,13 @@ namespace CommonUtilities
 
 class AudioManager;
 class InputInterface;
+class Player;
 
 struct UpdateContext
 {
 	AudioManager* myAudioManager;
 
+	Player* myPlayer;
 	CommonUtilities::Input* myInput;
 	InputInterface* myInputInterface;
 };

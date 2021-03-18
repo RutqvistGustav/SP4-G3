@@ -12,7 +12,7 @@ public:
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext/*, CU::Vector2& aPlayer*/) override;  // Need Player position for tracking
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     
-    //virtual void OnCollision();
+    virtual void OnCollision(GameObject* aGameObject) = 0;
     //virtual void DealDamage();
     //virtual void TakeDamage();
     //virtual void Behavior();

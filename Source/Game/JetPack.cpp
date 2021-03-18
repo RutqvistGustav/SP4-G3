@@ -31,3 +31,7 @@ void JetPack::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 void JetPack::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 }
+
+void JetPack::OnCollision(GameObject* aGameObject)
+{
+}

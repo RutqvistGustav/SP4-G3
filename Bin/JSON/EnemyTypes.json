@@ -2,8 +2,8 @@
   "Zombie": {
     "Health": 1,
     "Damage": 5,
-    "MovementSpeed": 100.0,
-    "MaxSpeedCap" :  200.0
+    "MovementSpeed": 150.0,
+    "MaxSpeedCap" :  300.0
   },
   "JetPack": {
     "Health": 1,
