@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 
-class GameObject;
+class MenuButton;
 class MousePointer;
 
 class MainMenu :
@@ -17,8 +17,8 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
-	std::unique_ptr<GameObject> myStartButton;
-	std::unique_ptr<GameObject> myQuitButton;
+	std::unique_ptr<MenuButton> myStartButton;
+	std::unique_ptr<MenuButton> myQuitButton;
 	std::unique_ptr<MousePointer> myMousePointer;
 
 	std::vector<std::unique_ptr<GameObject>> myButtons;

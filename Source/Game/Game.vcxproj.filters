@@ -70,6 +70,9 @@
     <Filter Include="GameObjects\Mouse">
       <UniqueIdentifier>{be8a1779-2f3e-4edd-8360-ae5fd162adac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\HUD\Buttons">
+      <UniqueIdentifier>{37211139-851d-4b29-ab28-d434240e674d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -285,6 +288,9 @@
     <ClInclude Include="CoordinateHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>GameObjects\HUD\Buttons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="CoordinateHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>GameObjects\HUD\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

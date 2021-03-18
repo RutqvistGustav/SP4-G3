@@ -50,15 +50,13 @@ CGame::CGame()
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
 {
-	//myGameWorld = new CGameWorld();
 
 }
 
 
 CGame::~CGame()
 {
-	/*delete myGameWorld;
-	myGameWorld = nullptr;*/
+
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -136,12 +134,11 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
-	mySceneManager->Transition(std::make_unique<GameScene>());
+	mySceneManager->Transition(std::make_unique<MainMenu>());
 }
 
 void CGame::UpdateCallBack()
 {
-
 	// NOTE: Ready for multithreading
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 

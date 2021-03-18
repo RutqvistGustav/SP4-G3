@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "MainMenu.h"
-#include "GameObject.h"
 #include "Metrics.h"
 #include "MousePointer.h"
 #include "SceneManagerProxy.h"
 #include "GameScene.h"
+#include "MenuButton.h"
+#include "CollisionManager.h"
 
 MainMenu::MainMenu()
 {
@@ -19,13 +20,13 @@ void MainMenu::Init()
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
-	myStartButton = std::make_unique<GameObject>(this, "Sprites/StartButton.png");
-	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.4f));
+	myStartButton = std::make_unique<MenuButton>(this, "Sprites/StartButton.png");
+	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.3f));
 	myStartButton->SetType(GameObject::eObjectType::PlayButton);
 	myButtons.push_back(std::move(myStartButton));
 
-	myQuitButton = std::make_unique<GameObject>(this, "Sprites/QuitButton.png");
-	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.5f));
+	myQuitButton = std::make_unique<MenuButton>(this, "Sprites/QuitButton.png");
+	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
 	myQuitButton->SetType(GameObject::eObjectType::QuitButton);
 	myButtons.push_back(std::move(myQuitButton));
 
@@ -34,12 +35,14 @@ void MainMenu::Init()
 
 void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
+	CollisionManager::GetInstance()->Update();
 
 	for (auto& o : myButtons)
 	{
 		o->Update(aDeltaTime, anUpdateContext);
 	}
+
+	myMousePointer->Update(aDeltaTime, anUpdateContext);
 
 	if (myMousePointer->ButtonClicked())
 	{
@@ -48,6 +51,11 @@ void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		case GameObject::eObjectType::PlayButton:
 		{
 			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+			break;
+		}
+		case GameObject::eObjectType::QuitButton:
+		{
+			PostMessage(*Tga2D::CEngine::GetInstance()->GetHWND(), WM_USER + 0, 0, 0);
 			break;
 		}
 		}
