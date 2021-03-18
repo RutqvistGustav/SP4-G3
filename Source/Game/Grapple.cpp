@@ -3,6 +3,8 @@
 #include "GrappleHookProjectile.h"
 
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
+#include "JsonManager.h"
 
 // TODO - Instatiate Hook towards nearest Grapple object
 //		- Pull Player in Hook direction
@@ -11,23 +13,26 @@
 
 Grapple::Grapple(IWeaponHolder* aWeaponHolder) :
 	Weapon(WeaponType::Grapple, aWeaponHolder)
-{}
+{
+}
 
 Grapple::~Grapple() = default;
 
-void Grapple::Init()
+void Grapple::InitGameObjects(Scene* aScene)
 {
-	//Scene* scene = nullptr; // temp
-	//myProjectile = std::make_unique<GrappleHookProjectile>(scene); // needs scene
+	myProjectile = std::make_unique<GrappleHookProjectile>(aScene);
+	myProjectile->SetVariables(myMaxDistance, myHookSpeed, myContractSpeed);
+	//myProjectile->Init(aScene->GetGlobalServiceProvider()->GetJsonManager()->GetData(""));
 }
 
 void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
 {
-	//myProjectile->Update(aDeltaTime, aPlayerPosition);
+	myProjectile->Update(aDeltaTime, aPlayerPosition);
 }
 
-void Grapple::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	myProjectile->Render(aRenderQueue, aRenderContext);
 }
 
 void Grapple::Shoot()
@@ -35,12 +40,11 @@ void Grapple::Shoot()
 	myProjectile->SpawnProjectile(GetDirection());
 }
 
-void Grapple::LoadJson(const JsonData& someJsonData)
+void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to GrappleHookProjectile
 {
-	//myMaxDistance = someJsonData["maxDistance"];
-	//myHookSpeed = someJsonData["hookSpeed"];
-	//myContractSpeed = someJsonData["contractSpeed"];
-
+	myMaxDistance = someJsonData["maxDistance"];
+	myHookSpeed = someJsonData["hookSpeed"];
+	myContractSpeed = someJsonData["contractSpeed"];
 }
 
 void Grapple::Setup()

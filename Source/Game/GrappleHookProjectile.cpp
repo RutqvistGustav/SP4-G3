@@ -1,13 +1,38 @@
 #include "stdafx.h"
 #include "GrappleHookProjectile.h"
 
+#include "RenderQueue.h"
+#include "RenderContext.h"
+#include "RenderCommand.h"
+#include "SpriteWrapper.h"
+
+#include "CollisionManager.h"
+#include <iostream>
+
 GrappleHookProjectile::GrappleHookProjectile(Scene* aScene)
 	: GameObject(aScene)
 {
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/Hook.dds");
 }
 
-void GrappleHookProjectile::Init()
+void GrappleHookProjectile::Init(const JsonData& someJsonData)
 {
+	//myMaxDistance = someJsonData["maxDistance"];
+	//myHookSpeed = someJsonData["hookSpeed"];
+	//myContractSpeed = someJsonData["contractSpeed"];
+
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
+}
+
+void GrappleHookProjectile::SetVariables(float aMaxDistance, float aHookSpeed, float aContractSpeed)
+{
+	myMaxDistance = aMaxDistance;
+	myHookSpeed = aHookSpeed;
+	myContractSpeed = aContractSpeed;
+
+	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myCollider.reset();
 }
 
 void GrappleHookProjectile::Update(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
@@ -22,7 +47,7 @@ void GrappleHookProjectile::Render(RenderQueue* const aRenderQueue, RenderContex
 {
 	if (myIsFiring == true)
 	{
-		// render
+		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
 }
 
@@ -37,16 +62,19 @@ void GrappleHookProjectile::OnCollision(GameObject* aGrapplingPoint)
 
 void GrappleHookProjectile::Movement(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
 {
-	myDistanceTraveled += myDirection * aDeltaTime;
-	if (myDistanceTraveled.Length() < myMaxDistance)
+
+
+	
+	//SetPosition();
+
+	/*if (myDistanceTraveled.Length() < myMaxDistance)
 	{
-		CU::Vector2<float> currentPosition = (aPlayerPosition + myDistanceTraveled) * aDeltaTime;
-		SetPosition(currentPosition);
+		
 	}
-	else
+	else 
 	{
 		ResetProjectile();
-	}
+	}*/
 }
 
 bool GrappleHookProjectile::HasFoundGrapplingTarget()
@@ -58,7 +86,6 @@ void GrappleHookProjectile::SpawnProjectile(const CU::Vector2<float> aDirection)
 {
 	myIsFiring = true;
 	myDirection = aDirection;
-	myDirection *= myHookSpeed;
 }
 
 void GrappleHookProjectile::ResetProjectile()

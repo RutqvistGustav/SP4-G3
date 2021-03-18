@@ -11,6 +11,9 @@ class JsonManager;
 class RenderQueue;
 class IWeaponHolder;
 
+class JsonManager;
+class Scene;
+
 class Weapon
 {
 public:
@@ -19,6 +22,8 @@ public:
 	virtual ~Weapon() = 0;
 
 	virtual void Init(const JsonData& someJsonData);
+
+	virtual void InitGameObjects(Scene* aScene);
 
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) = 0;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;

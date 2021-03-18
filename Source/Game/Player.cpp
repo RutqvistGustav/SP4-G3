@@ -27,6 +27,7 @@
 #include "InputInterface.h"
 #include <iostream>
 #include <imgui.h>
+#include "JsonManager.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -75,7 +76,7 @@ void Player::Init()
 	// Init HUD
 	myHUD->Init();
 
-	//myWeaponController->Init();
+	myWeaponController->Init();
 	
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);

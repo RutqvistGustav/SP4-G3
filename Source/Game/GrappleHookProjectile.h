@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "JsonData.h"
+
 class GrappleHookProjectile :
     public GameObject
 {
@@ -7,7 +9,8 @@ public:
     GrappleHookProjectile(Scene* aScene);
     ~GrappleHookProjectile() = default;
 
-    void Init() override;
+    void Init(const JsonData& someJsonData);
+    void SetVariables(float aMaxDistance, float aHookSpeed, float aContractSpeed); // temp
     void Update(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition);
     void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     void OnCollision(GameObject* /*GrapplingHook point*/) override;
