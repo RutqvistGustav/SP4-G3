@@ -4,6 +4,7 @@
 #include "HealthBar.h"
 #include "SpriteWrapper.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -21,7 +22,7 @@ HealthBar::HealthBar(Scene* aScene)
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 

@@ -11,6 +11,7 @@ class RenderQueue;
 class SceneManagerProxy;
 class JsonManager;
 class WeaponFactory;
+class CollisionManager;
 
 class Scene
 {
@@ -34,9 +35,11 @@ public:
 	Camera* GetCamera();
 
 	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }
+	inline CollisionManager* GetCollisionManager() { return myCollisionManager.get(); }
 
 protected:
 
+	std::unique_ptr<CollisionManager> myCollisionManager;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 
 private:

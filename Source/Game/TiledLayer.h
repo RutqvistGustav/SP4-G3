@@ -27,6 +27,7 @@ public:
 
 	const TiledTile* GetTileAt(int aPosX, int aPosY) const;
 
+	inline TiledMap* GetMap() const { return myMap; }
 	inline int GetOrder() const { return myOrder; }
 	inline const std::string& GetName() const { return myName; }
 	inline const std::vector<BatchInformation>& GetRenderBatches() const { return myRenderBatches; }

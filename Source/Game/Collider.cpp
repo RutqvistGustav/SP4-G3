@@ -1,6 +1,10 @@
 #include "stdafx.h"
 #include "Collider.h"
 #include "GameObject.h"
+#include "TiledCollision.h"
+#include "TiledTile.h"
+#include "TiledLayer.h"
+#include "TiledMap.h"
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
@@ -8,7 +12,7 @@
 
 
 Collider::Collider()
-	: Collider(nullptr, 0.0f, 0.0f, 0.0f)
+	: Collider(nullptr, 0.0f, 0.0f, 100.0f)
 {}
 
 Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
@@ -20,7 +24,8 @@ Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadi
 	myDebugSprite = nullptr;
 #endif // _DEBUG
 
-	SetRadius(aRadius);
+	myDimentions.x = aRadius;
+	myDimentions.y = aRadius;
 }
 
 Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
@@ -45,7 +50,8 @@ void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRad
 	myGameObject = aGameObject;
 	//myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
-	SetRadius(aRadius);
+	myDimentions.x = aRadius;
+	myDimentions.y = aRadius;
 }
 
 void Collider::SetPos(const CU::Vector2<float> aPos)
@@ -55,23 +61,11 @@ void Collider::SetPos(const CU::Vector2<float> aPos)
 
 bool Collider::GetCollision(const Collider* aCollider)
 {
-	if (myIsCube)
-	{
-		if (myPos.x + myRadius > aCollider->myPos.x - aCollider->myRadius &&
-			myPos.x - myRadius < aCollider->myPos.x + aCollider->myRadius &&
-			myPos.y + myRadius > aCollider->myPos.y - aCollider->myRadius &&
-			myPos.y - myRadius < aCollider->myPos.y + aCollider->myRadius)
-		{
-			//AdvanceCollisionStage();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
 
-	if ((myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius)
+	if (myPos.x < aCollider->myPos.x + aCollider->myDimentions.x &&
+		myPos.x + myDimentions.x > aCollider->myPos.x &&
+		myPos.y < aCollider->myPos.y + aCollider->myDimentions.y &&
+		myPos.y + myDimentions.y > aCollider->myPos.y)
 	{
 		//AdvanceCollisionStage();
 		return true;
@@ -80,6 +74,38 @@ bool Collider::GetCollision(const Collider* aCollider)
 	{
 		return false;
 	}
+
+
+	//if ((myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius)
+	//{
+	//	//AdvanceCollisionStage();
+	//	return true;
+	//}
+	//else
+	//{
+	//	return false;
+	//}
+}
+
+const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision)
+{
+	if (aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y + myDimentions.y * 0.5f)) != nullptr)
+	{
+
+		//if (box collider med tile(world pos & tile.dimensions) )
+		CU::Vector2<float> tileDim = CU::Vector2<float>(aTiledCollision->GetLayer()->GetMap()->GetTileWidth(), aTiledCollision->GetLayer()->GetMap()->GetTileHeight());
+
+
+		/*if (myPos.x < aCollider->myPos.x + aCollider->myDimentions.x &&
+			myPos.x + myDimentions.x > aCollider->myPos.x &&
+			myPos.y < aCollider->myPos.y + aCollider->myDimentions.y &&
+			myPos.y + myDimentions.y > aCollider->myPos.y)
+		{
+
+		}*/
+		return aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y - myDimentions.y * 0.5f));
+	}
+		return nullptr;
 }
 
 GameObject* Collider::GetGameObject() const
@@ -87,27 +113,42 @@ GameObject* Collider::GetGameObject() const
 	return myGameObject;
 }
 
-const bool Collider::isColliding() const
+//const bool Collider::isColliding() const
+//{
+//	return myIsColliding;
+//}
+
+//void Collider::SetRadius(const float aRadius)
+//{
+//	if (aRadius < 100.f)//temp
+//	{
+//		myRadius = 100.f;
+//	}
+//	else
+//	{
+//		myRadius = aRadius;
+//	}
+//
+//}
+
+//const float Collider::GetRadius() const
+//{
+//	return myRadius;
+//}
+
+const CU::Vector2<float> Collider::GetPosition() const
 {
-	return myIsColliding;
+	return myPos;
 }
 
-void Collider::SetRadius(const float aRadius)
+const float Collider::GetWidth() const
 {
-	if (aRadius < 100.f)//temp
-	{
-		myRadius = 100.f;
-	}
-	else
-	{
-		myRadius = aRadius;
-	}
-
+	return myDimentions.x;
 }
 
-const float Collider::GetRadius() const
+const float Collider::GetHight() const
 {
-	return myRadius;
+	return myDimentions.y;
 }
 
 #ifdef _DEBUG
@@ -119,8 +160,8 @@ void Collider::InitDebug()
 void Collider::RenderDebug()
 {
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	myDebugSprite->SetPosition({ myPos.x / (1280*1.5f), myPos.y / (720* 1.5f)});
-	myDebugSprite->SetSizeRelativeToScreen({ myRadius / 400, myRadius / 400 });
+	myDebugSprite->SetPosition({ myPos.x / (1280 * 1.5f), myPos.y / (720 * 1.5f) });
+	myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 400, myDimentions.y / 400 });
 	myDebugSprite->Render();
 
 }
@@ -156,9 +197,9 @@ void Collider::AdvanceCollisionStage()
 	}
 }
 
-const bool Collider::GetIsCube() const
-{
-	return myIsCube;
-}
+//const bool Collider::GetIsCube() const
+//{
+//	return myIsCube;
+//}
 
 

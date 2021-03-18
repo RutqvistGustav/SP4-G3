@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "HUD.h"
 #include "HealthBar.h"
+#include "Scene.h"
 #include "CollisionManager.h"
 
 HUD::HUD(Scene* aScene)
@@ -8,7 +9,8 @@ HUD::HUD(Scene* aScene)
 {
 	myHealthBar = std::make_unique<HealthBar>(aScene);
 
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	//CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 

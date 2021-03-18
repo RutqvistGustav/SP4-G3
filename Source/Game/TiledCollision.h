@@ -12,7 +12,9 @@ public:
 
 	TiledCollision(const TiledParser* aParser);
 
-	const TiledTile* GetTileAt(const CU::Vector2<float>& aPosition);
+	const TiledTile* GetTileAt(const CU::Vector2<float>& aPosition)const;
+
+	inline const TiledLayer* GetLayer()const { return mySolidLayer; }
 
 private:
 

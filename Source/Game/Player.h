@@ -33,6 +33,7 @@ public:
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
     void OnCollision(GameObject*) override;
+    void OnCollision(TileType aTileType) override;
 
     void StopMovement();
 
@@ -80,5 +81,3 @@ private:
     float myJumpDuration;
     float myJumpDurationReset;
 };
-
-//TODO:check if the collider is solid

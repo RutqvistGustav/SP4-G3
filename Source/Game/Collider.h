@@ -9,6 +9,8 @@ namespace Tga2D
 #endif // _DEBUG
 
 class GameObject;
+class TiledCollision;
+class TiledTile;
 
 class Collider
 {
@@ -22,12 +24,16 @@ public:
 	
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
+	const TiledTile* GetCollision(const TiledCollision* aTiledCollision);
 	//const std::shared_ptr<GameObject> GetGameObject()const;
 	GameObject* GetGameObject()const;
 
-	const bool isColliding()const;
-	void SetRadius(const float aRadius);
-	const float GetRadius()const;
+
+	//void SetRadius(const float aRadius);
+	//const float GetRadius()const;
+	const CU::Vector2<float> GetPosition()const;
+	const float GetWidth()const;
+	const float GetHight()const;
 
 #ifdef _DEBUG
 	void InitDebug();
@@ -45,32 +51,19 @@ public:
 		LastFrame,//används ej
 		Count
 	};
-
-	/*enum class eCollisionType
-	{
-		PassThrough,
-		Solid,
-		SolidOnTop,
-		Count
-	};*/
-
 	const eCollisionStage GetCollisionStage()const;
-	/*const eCollisionType GetCollisionType()const;
+	//const bool GetIsCube()const;
 
-	void SetCollitionType(const eCollisionType aCollitionType);*/
-
-
-	const bool GetIsCube()const;
 private:
 	void AdvanceCollisionStage();
-	//eCollisionType myCollitionType = eCollisionType::Solid;
 	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
+	//TileType myCollisionType = TileType::Solid;
 
-	bool myIsNotColliding = true;
-	bool myIsColliding = false;
-	bool myIsCube = true;
+
+	//bool myIsCube = true;//temp var
 	CommonUtilities::Vector2<float> myPos;
-	float myRadius;
+	//float myRadius;
+	CU::Vector2<float> myDimentions;
 	//std::shared_ptr<GameObject> myGameObject;
 	GameObject* myGameObject = nullptr;
 

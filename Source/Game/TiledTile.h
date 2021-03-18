@@ -13,6 +13,7 @@ public:
 	inline const std::string& GetTilesetKey() const { return myTilesetKey; }
 	inline const TextureRect& GetTextureRect() const { return myTextureRect; }
 
+
 private:
 
 	TileType myType{ TileType::None };

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 
 //GameObject::GameObject(Scene* aScene, float aX, float aY)
@@ -37,7 +38,7 @@ GameObject::GameObject(Scene* aScene, const char* aSpritePath)
 {
 	myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
-	CollisionManager::GetInstance()->AddCollider(myCollider);
+	aScene->GetCollisionManager()->AddCollider(myCollider);
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
@@ -91,6 +92,11 @@ void GameObject::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
+
+}
+
+void GameObject::OnCollision(TileType aTileType)
+{
 
 }
 

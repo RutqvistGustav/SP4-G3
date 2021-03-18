@@ -164,25 +164,63 @@ void Player::OnCollision(GameObject* aGameObject)
 
 
 		
-		if (myCollider->GetIsCube())
-		{
+		/*if (myCollider->GetIsCube())
+		{*/
 			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
 			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
-		}
+		/*}
 		else
 		{
 			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
 			myPosition -= overlap * fromOtherToMe.GetNormalized();
-		}
+		}*/
 
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		myGravity = 0.0f;
+		myGravityActive = false;
 		myCollider->SetPos(myPosition);
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravity = 3000.0f;
+		myGravityActive = true;
+
+
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::OnCollision(TileType aTileType)
+{
+	float overlap = 0.0f;
+
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+
+
+		/*if (myCollider->GetIsCube())
+		{*/
+		myPosition = myPositionLastFrame + CU::Vector2<float>(0.f, -0.01f);
+		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+	/*}
+	else
+	{
+		overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
+		myPosition -= overlap * fromOtherToMe.GetNormalized();
+	}*/
+
+
+		myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		myGravityActive = false;
+		myCollider->SetPos(myPosition);
+
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		myGravityActive = true;
 
 
 		break;
@@ -197,7 +235,6 @@ void Player::StopMovement()
 	myVel = CU::Vector2<float>();
 }
 
-// void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 void Player::ImGui()
 {
 	ImGui::Begin("Player movement");
@@ -257,6 +294,11 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	BrakeMovement(aDeltaTime);
 
 	Jump(aDeltaTime);
+
+	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
+	//{
+	//	myVel = myVel.GetNormalized() * 64.f;
+	//}
 
 	myPosition += myVel * aDeltaTime;
 	mySprite->SetPosition(myPosition);
