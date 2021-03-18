@@ -22,7 +22,7 @@ public:
 	~PlayerWeaponController();
 
 	void Init();
-	void Update(const float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition);
+	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
 protected:
@@ -30,6 +30,7 @@ protected:
 	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
 	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength) override;
+	virtual void OnGrappleHit(/*GameObjectType , */ const CU::Vector2<float>& aTargetPosition) override;
 
 private:
 

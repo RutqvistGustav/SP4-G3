@@ -29,23 +29,23 @@ void PlayerWeaponController::Init()
 	myGrapple->InitGameObjects(myPlayer->GetScene());
 }
 
-void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
+void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
 	myGrapple->SetDirection(aimDirection);
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
-	myShotgun->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
+	myGrapple->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
+	myShotgun->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
 
 	if (anUpdateContext.myInputInterface->IsGrappling())
 	{
-		myGrapple->Shoot();
+		myGrapple->Shoot(myPlayer->GetPosition());
 	}
 	else if (anUpdateContext.myInputInterface->IsShooting())
 	{
-		myShotgun->Shoot();
+		myShotgun->Shoot(myPlayer->GetPosition());
 	}
 }
 
@@ -78,4 +78,9 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
 {
 	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
+}
+
+void PlayerWeaponController::OnGrappleHit(const CU::Vector2<float>& aTargetPosition)
+{
+	myPlayer->SetPosition(aTargetPosition);
 }

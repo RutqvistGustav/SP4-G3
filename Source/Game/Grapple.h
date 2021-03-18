@@ -17,7 +17,7 @@ public:
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	virtual void Shoot() override;
+	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
 
 protected:
 

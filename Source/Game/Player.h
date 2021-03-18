@@ -42,12 +42,14 @@ public:
 
     void StopMovement();
 
+
 protected:
 
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
 private:
     // Movement
+    void GrappleTowardsTarget();
     CU::Vector2<float> GetDirection(InputInterface* anInput);
     void PlayerInput(InputInterface* anInput);
 
@@ -96,6 +98,8 @@ private:
     float myJumpStrength;
     float myJumpDuration;
     float myJumpDurationReset;
+
+    CU::Vector2<float> myGrappleTarget;
 
 };
 

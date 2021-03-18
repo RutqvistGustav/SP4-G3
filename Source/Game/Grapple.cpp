@@ -20,7 +20,7 @@ Grapple::~Grapple() = default;
 
 void Grapple::InitGameObjects(Scene* aScene)
 {
-	myProjectile = std::make_unique<GrappleHookProjectile>(aScene);
+	myProjectile = std::make_unique<GrappleHookProjectile>(aScene, GetWeaponHolder());
 	myProjectile->SetVariables(myMaxDistance, myHookSpeed, myContractSpeed);
 	//myProjectile->Init(aScene->GetGlobalServiceProvider()->GetJsonManager()->GetData(""));
 }
@@ -35,8 +35,9 @@ void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 	myProjectile->Render(aRenderQueue, aRenderContext);
 }
 
-void Grapple::Shoot()
+void Grapple::Shoot(const CU::Vector2<float> aPlayerPosition)
 {
+	myProjectile->SetPosition(aPlayerPosition);
 	myProjectile->SpawnProjectile(GetDirection());
 }
 

@@ -95,7 +95,8 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
+
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)

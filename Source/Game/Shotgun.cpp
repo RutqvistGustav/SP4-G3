@@ -27,7 +27,7 @@ void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRend
 	// TODO: Render weapon?
 }
 
-void Shotgun::Shoot()
+void Shotgun::Shoot(const CU::Vector2<float> aPlayerPosition)
 {
 	if (!IsLoaded())
 	{
