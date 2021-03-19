@@ -8,6 +8,8 @@
 #include "RenderCommand.h"
 #include "RenderQueue.h"
 
+#include "Camera.h"
+
 #include "SpriteWrapper.h"
 
 #include "CollisionManager.h"
@@ -19,21 +21,30 @@
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
 
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "CheckpointMessage.h"
+#include "CheckpointContext.h"
+
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
-	myTga2dLogoSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 
+	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>("Maps/HampusTestMap.json");
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 
-	for (size_t i = 0; i < 10; ++i)//temp floor
+
+	myPlayer = std::make_unique<Player>(this);
+	myPlayer->Init();
+
+	for (size_t i = 0; i < 10; ++i)
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
@@ -43,6 +54,8 @@ void GameScene::Init()
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
+	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
+	GetCamera()->SetPosition(CU::Vector2<float>());
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -60,4 +73,24 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 #endif //_DEBUG
 
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+}
+
+CheckpointContext GameScene::SaveCheckpoint()
+{
+	CheckpointContext checkpointContext;
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &checkpointContext;
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointSave, &checkpointMessageData);
+
+	return checkpointContext;
+}
+
+void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
+{
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
 }

@@ -9,7 +9,17 @@
 
 #include "PlayerWeaponController.h"
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
 #include "HUD.h"
+
+#include "CheckpointMessage.h"
+#include "CheckpointContext.h"
+
+#include "GameMessenger.h"
+#include "Scene.h"
+
+#include "Camera.h"
+#include "MathHelper.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -24,51 +34,67 @@
 #include <string>
 
 Player::Player(Scene* aScene)
-	: GameObject(aScene)
+	: GameObject(aScene, GameObjectTag::Player),
+	myCamera(aScene->GetCamera())
 {
+	// Init weapon controller
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
+
+	// Init HUD
+	myHUD = std::make_unique<HUD>(aScene);
+}
+
+Player::~Player()
+{
+	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
+	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointSave, this);
+}
+
+void Player::Init()
+{
+	GameObject::Init();
+
 	// json
 	nlohmann::json data;
 	std::ifstream file("JSON/Player.json");
 	data = nlohmann::json::parse(file);
 	file.close();
 
-
-	mySpeed = data.at("MovementSpeed");
+	InitVariables(data);
 
 	myOnGround = false;
 
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
-
-	InitVariables(data);
-
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
-	// Init weapon controller
-	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
-
 	// Init HUD
-	myHUD = std::make_unique<HUD>(aScene);
-}
+	myHUD->Init();
 
-Player::~Player() = default;
+	//myWeaponController->Init();
+	
+	// Subscribe to events
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
+}
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
-
 	//ImGui();
 
-	
+	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
+	myCamera->SetPosition(newCameraPosition);
+
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext);
+	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
@@ -86,8 +112,6 @@ void Player::Controller(const float aDeltaTime, InputInterface * anInput)
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
-
-
 	//MouseInput(anInput);
 	//myPositionLastFrame = myPosition;
 	if (myIsMovingLeft == false && myIsMovingRight == false)
@@ -135,6 +159,8 @@ void Player::PlayerInput(InputInterface * anInput)
 
 void Player::InitVariables(nlohmann::json someData)
 {
+	myCameraFollowSpeed = someData.value("CameraFollowSpeed", 2000.0f);
+
 	// Movement
 	mySpeed = someData.at("MovementSpeed");
 	myMaxSpeed = someData.at("MaxSpeedCap");
@@ -152,8 +178,6 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::OnCollision(GameObject* aGameObject)
 {
-	
-
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
 	float overlap = 0.0f;
 
@@ -235,6 +259,29 @@ void Player::StopMovement()
 	myVel = CU::Vector2<float>();
 }
 
+
+GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
+{
+	switch (aMessage)
+	{
+	case GameMessage::CheckpointSave:
+		// TODO
+
+		break;
+
+	case GameMessage::CheckpointLoad:
+		// TODO
+
+		break;
+
+	default:
+		assert(false);
+		break;
+	}
+
+	return GameMessageAction::Keep;
+}
+
 void Player::ImGui()
 {
 	ImGui::Begin("Player movement");
@@ -302,6 +349,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	myPosition += myVel * aDeltaTime;
 	mySprite->SetPosition(myPosition);
+	SetPosition(GetPosition() + myVel * aDeltaTime);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;

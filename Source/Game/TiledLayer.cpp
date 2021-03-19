@@ -14,13 +14,13 @@ TiledLayer::TiledLayer(TiledMap* aMap, const std::string& aName, int someOrder) 
 	myTiles.resize(aMap->GetWidth() * aMap->GetHeight());
 }
 
-void TiledLayer::AddTile(int aPosX, int aPosY, const TiledTile& aTile)
+void TiledLayer::AddTile(int aPosX, int aPosY, std::shared_ptr<TiledTile> aTile)
 {
 	const int tileIndex = aPosX + aPosY * myMap->GetWidth();
 
-	myTiles[tileIndex] = std::make_shared<TiledTile>(aTile);
+	myTiles[tileIndex] = aTile;
 
-	AddTileToBatch(aPosX, aPosY, aTile);
+	AddTileToBatch(aPosX, aPosY, *aTile);
 }
 
 const TiledTile* TiledLayer::GetTileAt(int aPosX, int aPosY) const

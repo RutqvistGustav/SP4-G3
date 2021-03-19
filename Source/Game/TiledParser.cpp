@@ -18,6 +18,26 @@ TiledParser::TiledParser(const std::string& aMapPath)
 
 TiledParser::~TiledParser() = default;
 
+int TiledParser::GetWidthInTiles() const
+{
+	return myResult->GetWidth();
+}
+
+int TiledParser::GetHeightInTiles() const
+{
+	return myResult->GetHeight();
+}
+
+float TiledParser::GetWidth() const
+{
+	return static_cast<float>(myResult->GetWidth() * myResult->GetTileWidth());
+}
+
+float TiledParser::GetHeight() const
+{
+	return static_cast<float>(myResult->GetHeight() * myResult->GetTileHeight());
+}
+
 bool TiledParser::Load(const std::string& aMapPath)
 {
 	tson::Tileson tileson;
@@ -112,19 +132,38 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 		const int x = std::get<0>(id);
 		const int y = std::get<1>(id);
 
-		const std::string tilsetKey = tile->getTileset()->getImagePath().u8string();
-		const auto& tilesetSize = tile->getTileset()->getImageSize();
-		const auto& drawingRect = tile->getDrawingRect();
+		const std::uint32_t gid = tile->getGid();
 
-		TextureRect tileRect{};
-		tileRect.myStartX = static_cast<float>(drawingRect.x) / static_cast<float>(tilesetSize.x);
-		tileRect.myStartY = static_cast<float>(drawingRect.y) / static_cast<float>(tilesetSize.y);
-		tileRect.myEndX = tileRect.myStartX + static_cast<float>(drawingRect.width) / static_cast<float>(tilesetSize.x);
-		tileRect.myEndY = tileRect.myStartY + static_cast<float>(drawingRect.height) / static_cast<float>(tilesetSize.y);
+		std::shared_ptr<TiledTile> gameTile = myTiledCache.TryFindTile(gid);
 
-		TiledTile newTile{ tilsetKey, tileRect };
+		if (gameTile == nullptr)
+		{
+			const std::string tilsetKey = tile->getTileset()->getImagePath().u8string();
+			const auto& tilesetSize = tile->getTileset()->getImageSize();
+			const auto& drawingRect = tile->getDrawingRect();
 
-		newLayer.AddTile(x, y, newTile);
+			TextureRect tileRect{};
+			tileRect.myStartX = static_cast<float>(drawingRect.x) / static_cast<float>(tilesetSize.x);
+			tileRect.myStartY = static_cast<float>(drawingRect.y) / static_cast<float>(tilesetSize.y);
+			tileRect.myEndX = tileRect.myStartX + static_cast<float>(drawingRect.width) / static_cast<float>(tilesetSize.x);
+			tileRect.myEndY = tileRect.myStartY + static_cast<float>(drawingRect.height) / static_cast<float>(tilesetSize.y);
+
+			gameTile = std::make_shared<TiledTile>(tilsetKey, tileRect);
+
+			for (const auto& object : tile->getObjectgroup().getObjects())
+			{
+				const float objectX = static_cast<float>(object.getPosition().x);
+				const float objectY = static_cast<float>(object.getPosition().x);
+				const float objectW = static_cast<float>(object.getSize().x);
+				const float objectH = static_cast<float>(object.getSize().y);
+
+				gameTile->AddCollisionBox({ objectX, objectY, objectW, objectH });
+			}
+
+			myTiledCache.AddTile(gid, gameTile);
+		}
+
+		newLayer.AddTile(x, y, gameTile);
 	}
 
 	return true;

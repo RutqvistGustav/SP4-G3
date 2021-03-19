@@ -1,6 +1,8 @@
 #pragma once
 
+#include "GameObjectTag.h"
 #include "Vector2.hpp"
+
 #include <memory>
 #include "TileType.h"
 
@@ -11,31 +13,45 @@ struct RenderContext;
 class RenderQueue;
 class Scene;
 class SpriteWrapper;
+class GlobalServiceProvider;
 
 class GameObject
 {
 public:
 
-
 	GameObject(Scene* aScene, const char* aSpritePath = nullptr);
+	GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePath = nullptr);
+
 	virtual ~GameObject();
 
 	virtual void Init();
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
+	virtual void OnCollision(GameObject* aGameObject);
+
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
 	virtual void OnCollision(GameObject* aGameObject);//TODO:create another OnCollision that uses Tiles
 	virtual void OnCollision(TileType aTileType);
+
 	const Collider* GetCollider()const;
+
+	GlobalServiceProvider* GetGlobalServiceProvider();
 
 	inline Scene* GetScene() { return myScene; }
 
+	inline const GameObjectTag GetTag() const { return myTag; }
+
 protected:
 
+	inline void SetTag(const GameObjectTag aTag) { myTag = aTag; }
+
+protected:
 
 	Scene* myScene;
+
+	GameObjectTag myTag{ GameObjectTag::Default };
 
 	CU::Vector2<float> myPosition;
 	CU::Vector2<float> myPositionLastFrame;

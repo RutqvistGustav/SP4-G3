@@ -1,14 +1,26 @@
 {
   "HealthBar": {
+    "SpritePath": "Sprites/HUD/HealthBar.dds",
     "DistanceFromPlayerX": 0.0,
     "DistanceFromPlayerY": -150.0
   },
   "Ammo": {
-    "DistanceFromPlayerX": 0.0,
-    "DistanceFromPlayerY": 0.0
+    "LoadedStatePath": "Sprites/HUD/Shell.dds",
+    "HalfEmptyStatePath": "Sprites/HUD/",
+    "EmptyStatePath": "Sprites/HUD/",
+    "ReloadAnimationPath": "Sprites/HUD/",
+    "DistanceFromPlayerX": 230.0,
+    "DistanceFromPlayerY": -150.0,
+    "SizeX": 100.0,
+    "SizeY": 100.0,
+    "AmmoAmount": 2
   },
   "GrapplingHook": {
-    "DistanceFromPlayerX": 0.0,
-    "DistanceFromPlayerY": 0.0
+    "HookPath": "Sprites/HUD/Hook.dds",
+    "HighlightHookPath": "Sprites/HUD/",
+    "DistanceFromPlayerX": 330.0,
+    "DistanceFromPlayerY": -150.0,
+    "SizeX": 100.0,
+    "SizeY": 100.0
   }
 }
