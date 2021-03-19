@@ -19,6 +19,8 @@ public:
 
 	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
 
+	GrappleHookProjectile* GetProjectile();
+
 protected:
 
 	virtual void LoadJson(const JsonData& someJsonData) override;

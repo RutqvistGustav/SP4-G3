@@ -11,6 +11,8 @@
 
 #include "Player.h"
 
+#include "Grapple.h"
+#include "GrappleHookProjectile.h"
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
@@ -18,7 +20,7 @@ PlayerWeaponController::PlayerWeaponController(const WeaponFactory* aWeaponFacto
 	: myPlayer(aPlayer)
 {
 	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
-	myGrapple = aWeaponFactory->CreateWeapon("grapple", this);
+	myGrapple = std::static_pointer_cast<Grapple> (aWeaponFactory->CreateWeapon("grapple", this));
 	myShotgun = aWeaponFactory->CreateWeapon("shotgun", this);
 }
 
@@ -80,7 +82,12 @@ void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStr
 	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
 }
 
-void PlayerWeaponController::OnGrappleHit(const CU::Vector2<float>& aTargetPosition)
+void PlayerWeaponController::OnGrappleHit(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
 {
-	myPlayer->SetPosition(aTargetPosition);
+	myPlayer->StartGrappling(aTargetPosition, aGrapplingDirection);
+}
+
+void PlayerWeaponController::StopGrappling()
+{
+	myGrapple->GetProjectile()->ResetProjectile();
 }

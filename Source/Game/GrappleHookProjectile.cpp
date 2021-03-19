@@ -19,11 +19,9 @@ GrappleHookProjectile::GrappleHookProjectile(Scene* aScene, IWeaponHolder* aWeap
 
 void GrappleHookProjectile::Init(const JsonData& someJsonData)
 {
-	
 	//myMaxDistance = someJsonData["maxDistance"];
 	//myHookSpeed = someJsonData["hookSpeed"];
 	//myContractSpeed = someJsonData["contractSpeed"];
-
 }
 
 void GrappleHookProjectile::SetVariables(float aMaxDistance, float aHookSpeed, float aContractSpeed)
@@ -52,27 +50,28 @@ void GrappleHookProjectile::Render(RenderQueue* const aRenderQueue, RenderContex
 
 void GrappleHookProjectile::OnCollision(GameObject* aGrapplingPoint)
 {
-	if (aGrapplingPoint->GetTag() == GameObjectTag::Default && myHasSentPosition == false) // should not collide with Player
+	if (aGrapplingPoint->GetTag() == GameObjectTag::Default && myHasFoundTarget == false) // should not collide with Player
 	{
-		myWeaponHolder->OnGrappleHit(GetPosition());
-		myHasSentPosition = true;
+		myWeaponHolder->OnGrappleHit(GetPosition(), myDirection);
+		myHasFoundTarget = true;
 	}
 }
 
 void GrappleHookProjectile::Movement(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
 {
-	if (myDistanceTraveled < myMaxDistance)
+	if (myHasFoundTarget == false)
 	{
-		myDistanceTraveled += myHookSpeed * aDeltaTime;
-		SetPosition(aPlayerPosition + myDistanceTraveled * myDirection);
-	}
-	else 
-	{
-		ResetProjectile();
+		if (myDistanceTraveled < myMaxDistance)
+		{
+			myDistanceTraveled += myHookSpeed * aDeltaTime;
+			SetPosition(aPlayerPosition + myDistanceTraveled * myDirection);
+		}
+		else
+		{
+			ResetProjectile();
+		}
 	}
 }
-
-
 
 void GrappleHookProjectile::SpawnProjectile(const CU::Vector2<float> aDirection)
 {
@@ -82,17 +81,11 @@ void GrappleHookProjectile::SpawnProjectile(const CU::Vector2<float> aDirection)
 
 void GrappleHookProjectile::ResetProjectile()
 {
-	myHasSentPosition = false;
 	myIsFiring = false;
-	myHasFoundValidTarget = false;
+	myHasFoundTarget = false;
 
 	myDistanceTraveled = 0;
 	myGrapplingPoint = { 0.0f,0.0f };
-}
-
-bool GrappleHookProjectile::HasFoundGrapplingTarget()
-{
-	return myHasFoundValidTarget;
 }
 
 CU::Vector2<float>& GrappleHookProjectile::GetGrapplingPoint()

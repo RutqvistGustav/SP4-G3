@@ -1,5 +1,4 @@
 #pragma once
-
 #include "GameObject.h"
 
 #include "CheckpointMessage.h"
@@ -42,6 +41,7 @@ public:
 
     void StopMovement();
 
+    void StartGrappling(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection);
 
 protected:
 
@@ -49,22 +49,18 @@ protected:
 
 private:
     // Movement
-    void GrappleTowardsTarget();
-    CU::Vector2<float> GetDirection(InputInterface* anInput);
-    void PlayerInput(InputInterface* anInput);
-
+    void GrappleTowardsTarget(const float aDeltaTime);
     void Movement(const float aDeltaTime, InputInterface* anInput);
     void BrakeMovement(const float aDeltaTime);
     void Jump(const float aDeltaTime);
 
-    // Constructor
-    void InitVariables(nlohmann::json someData);
-
     // Tools
+    CU::Vector2<float> GetDirection(InputInterface* anInput);
+    void InitVariables(nlohmann::json someData);
+    void PlayerInput(InputInterface* anInput);
     void ImGui();
 
 private:
-
     Camera* myCamera;
     float myCameraFollowSpeed;
 
@@ -74,18 +70,15 @@ private:
     // Movement
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
+    bool myOnGround;
 
     float mySpeed;
-    bool myOnGround;
-    // Weapon myShotgun;
     float myMaxSpeed;
     float myStopAtVelocity;
+    double myReduceMovementSpeed;
+    CU::Vector2<float> myVel;
 
     float myGravity;
-
-    double myReduceMovementSpeed;
-
-    CU::Vector2<float> myVel;
 
     // Jump
     bool myIsJumping = false;
@@ -99,8 +92,12 @@ private:
     float myJumpDuration;
     float myJumpDurationReset;
 
+    // Grapple hook
+    bool myIsGrappling = false;
+    float myPullSpeed;
+    float myStopAtOffset;
+    CU::Vector2<float> myGrappleDirection;
     CU::Vector2<float> myGrappleTarget;
-
 };
 
 //TODO:check if the collider is solid

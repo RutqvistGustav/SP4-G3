@@ -41,6 +41,11 @@ void Grapple::Shoot(const CU::Vector2<float> aPlayerPosition)
 	myProjectile->SpawnProjectile(GetDirection());
 }
 
+GrappleHookProjectile* Grapple::GetProjectile()
+{
+	return myProjectile.get();
+}
+
 void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to GrappleHookProjectile
 {
 	myMaxDistance = someJsonData["maxDistance"];
