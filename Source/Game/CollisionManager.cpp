@@ -30,10 +30,12 @@ void CollisionManager::Update()
 
 		//TileType* tileToCheck = myColliders[i]->GetCollision(myTiledCollision);
 
-		if (myColliders[i]->GetCollision(myTiledCollision) != nullptr)
+		auto colliderPtr = myColliders[i]->GetCollision(myTiledCollision);
+
+		if (colliderPtr != nullptr)
 		{
 			myColliders[i]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[i]->myGameObject->OnCollision(myColliders[i]->GetCollision(myTiledCollision)->GetType());
+			myColliders[i]->myGameObject->OnCollision(colliderPtr->GetType());
 		}
 		else if(myColliders[i]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
 		{

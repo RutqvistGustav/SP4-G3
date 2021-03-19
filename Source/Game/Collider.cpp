@@ -89,7 +89,11 @@ bool Collider::GetCollision(const Collider* aCollider)
 
 const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision)
 {
-	if (aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y + myDimentions.y * 0.5f)) != nullptr)
+
+	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y + myDimentions.y * 0.5f));
+
+
+	if (tileToCheck != nullptr)
 	{
 
 		//if (box collider med tile(world pos & tile.dimensions) )
@@ -103,7 +107,7 @@ const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision)
 		{
 
 		}*/
-		return aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y - myDimentions.y * 0.5f));
+		return tileToCheck;
 	}
 		return nullptr;
 }
