@@ -6,7 +6,7 @@ Camera::Camera(const CU::Vector2<float> aPosition) :
     myPosition(aPosition)
 {}
 
-void Camera::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
+void Camera::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 {
     myShakeBehaviour.Update(aDeltaTime);
 }
@@ -23,8 +23,7 @@ const CU::Vector2<float> Camera::GetDeltaMovement()
 
 const CU::Vector2<float> Camera::GetPositionWithModifiers()
 {
-    const CU::Vector2<float> centeringOffset = -0.5f * Metrics::GetReferenceSize();
-    return centeringOffset + GetPosition() + myShakeBehaviour.GetShakeVector();
+    return GetPosition() + myShakeBehaviour.GetShakeVector();
 }
 
 const CU::Vector2<float> Camera::GetPosition()
@@ -36,7 +35,7 @@ void Camera::SetPosition(const CU::Vector2<float> aPosition)
 {
     CU::Vector2<float> movementDelta = aPosition - GetPosition();
 
-    AABB cameraBounds = AABB::FromCenterAndSize(aPosition, Metrics::GetReferenceSize());
+    AABB cameraBounds = AABB(GetPosition(), GetPosition() + Metrics::GetReferenceSize());
     
     if (cameraBounds.GetMax().x >= myLevelBounds.GetMax().x)
     {

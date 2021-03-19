@@ -9,17 +9,7 @@
 
 #include "PlayerWeaponController.h"
 #include "Scene.h"
-#include "GlobalServiceProvider.h"
 #include "HUD.h"
-
-#include "CheckpointMessage.h"
-#include "CheckpointContext.h"
-
-#include "GameMessenger.h"
-#include "Scene.h"
-
-#include "Camera.h"
-#include "MathHelper.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -34,26 +24,19 @@
 #include <string>
 
 Player::Player(Scene* aScene)
-	: GameObject(aScene, GameObjectTag::Player),
-	myCamera(aScene->GetCamera())
+	: GameObject(aScene)
 {
 	// Init weapon controller
-	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene()->GetWeaponFactory(), this);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
 }
 
-Player::~Player()
-{
-	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
-	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointSave, this);
-}
+Player::~Player() = default;
 
 void Player::Init()
 {
-	GameObject::Init();
-
 	// json
 	nlohmann::json data;
 	std::ifstream file("JSON/Player.json");
@@ -67,19 +50,13 @@ void Player::Init()
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
+
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
-	// Init HUD
 	myHUD->Init();
-
-	//myWeaponController->Init();
-	
-	// Subscribe to events
-	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
-	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
@@ -89,12 +66,10 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	//ImGui();
 
-	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
-	myCamera->SetPosition(newCameraPosition);
-
+	
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
@@ -159,8 +134,6 @@ void Player::PlayerInput(InputInterface * anInput)
 
 void Player::InitVariables(nlohmann::json someData)
 {
-	myCameraFollowSpeed = someData.value("CameraFollowSpeed", 2000.0f);
-
 	// Movement
 	mySpeed = someData.at("MovementSpeed");
 	myMaxSpeed = someData.at("MaxSpeedCap");
@@ -178,6 +151,8 @@ void Player::InitVariables(nlohmann::json someData)
 
 void Player::OnCollision(GameObject* aGameObject)
 {
+	
+
 	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
 	float overlap = 0.0f;
 
@@ -219,28 +194,6 @@ void Player::OnCollision(GameObject* aGameObject)
 void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
-}
-
-GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
-{
-	switch (aMessage)
-	{
-	case GameMessage::CheckpointSave:
-		// TODO
-
-		break;
-
-	case GameMessage::CheckpointLoad:
-		// TODO
-
-		break;
-
-	default:
-		assert(false);
-		break;
-	}
-
-	return GameMessageAction::Keep;
 }
 
 void Player::ImGui()
@@ -303,7 +256,8 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 	Jump(aDeltaTime);
 
-	SetPosition(GetPosition() + myVel * aDeltaTime);
+	myPosition += myVel * aDeltaTime;
+	mySprite->SetPosition(myPosition);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;

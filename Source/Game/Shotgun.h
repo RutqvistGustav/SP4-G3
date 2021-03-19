@@ -9,10 +9,10 @@ public:
 	Shotgun(IWeaponHolder* aWeaponHolder);
 	virtual ~Shotgun() override;
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
+	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	virtual void Shoot() override;
+	virtual bool Shoot() override;
 
 	virtual void Reload();
 

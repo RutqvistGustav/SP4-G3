@@ -3,7 +3,7 @@
 #include "Scene.h"
 
 Enemy::Enemy(Scene* aScene)
-	: GameObject(aScene, GameObjectTag::Enemy)
+	: GameObject(aScene)
 {
 }
 

@@ -5,7 +5,6 @@
 #include "InputManager.h"
 #include "InputInterface.h"
 
-
 #include "MathHelper.h"
 #include "Metrics.h"
 
@@ -24,20 +23,15 @@ PlayerWeaponController::PlayerWeaponController(const WeaponFactory* aWeaponFacto
 
 PlayerWeaponController::~PlayerWeaponController() = default;
 
-void PlayerWeaponController::Init(const JsonData& someJsonData)
-{
-	//myGrapple->Init(someJsonData);
-}
-
-void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
+void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
 	myGrapple->SetDirection(aimDirection);
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
-	myShotgun->Update(aDeltaTime, anUpdateContext, aPlayerPosition);
+	myGrapple->Update(aDeltaTime, anUpdateContext);
+	myShotgun->Update(aDeltaTime, anUpdateContext);
 
 	if (anUpdateContext.myInputInterface->IsGrappling())
 	{

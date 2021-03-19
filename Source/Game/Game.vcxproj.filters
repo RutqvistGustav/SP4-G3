@@ -72,23 +72,6 @@
     </Filter>
     <Filter Include="GameObjects\HUD\Buttons">
       <UniqueIdentifier>{37211139-851d-4b29-ab28-d434240e674d}</UniqueIdentifier>
-    <Filter Include="Weapon\GrappleHook">
-      <UniqueIdentifier>{3325c79d-f1fd-452b-8606-7affb64e18b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\MessageSystem">
-      <UniqueIdentifier>{20cadf9b-9b18-4c32-b3b7-09c45d29dbc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\MessageSystem\Messages">
-      <UniqueIdentifier>{00e5e44d-e44f-41e0-9486-13b040cefa92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Checkpoints">
-      <UniqueIdentifier>{9291c18e-def3-4de6-9af1-14e8f2bf85bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Managers">
-      <UniqueIdentifier>{52ea0387-f1f1-485e-992e-2949de9abeec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Components">
-      <UniqueIdentifier>{baa89655-304a-4278-8bfe-77110cf39f6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,6 +117,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Grapple.h">
+      <Filter>Weapon</Filter>
+    </ClInclude>
     <ClInclude Include="Shotgun.h">
       <Filter>Weapon</Filter>
     </ClInclude>
@@ -149,6 +135,12 @@
     <ClInclude Include="UpdateContext.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="RenderContext.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -160,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="EventSubject.h">
       <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="JsonManager.h">
       <Filter>Json</Filter>
@@ -191,6 +186,9 @@
     <ClInclude Include="MathHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteSheetAnimation.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="ControllerInput.h">
       <Filter>InputHandling</Filter>
     </ClInclude>
@@ -215,6 +213,12 @@
     <ClInclude Include="AABB.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="ShakeBehaviour.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="RandomHelper.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -223,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="UIHook.h">
       <Filter>GameObjects\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBatchWrapper.h">
       <Filter>Wrappers</Filter>
@@ -263,6 +270,9 @@
     <ClInclude Include="TiledCollision.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManagerProxy.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="TiledEntity.h">
       <Filter>Map</Filter>
     </ClInclude>
@@ -283,74 +293,6 @@
     </ClInclude>
     <ClInclude Include="Options.h">
       <Filter>Scenes</Filter>
-    <ClInclude Include="Grapple.h">
-      <Filter>Weapon\GrappleHook</Filter>
-    </ClInclude>
-    <ClInclude Include="GrappleHookProjectile.h">
-      <Filter>Weapon\GrappleHook</Filter>
-    </ClInclude>
-    <ClInclude Include="IGameMessageSubscriber.h">
-      <Filter>Core\MessageSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMessage.h">
-      <Filter>Core\MessageSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMessenger.h">
-      <Filter>Core\MessageSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GenericGameMessageSubscriber.h">
-      <Filter>Core\MessageSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckpointMessage.h">
-      <Filter>Core\MessageSystem\Messages</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMessageAction.h">
-      <Filter>Core\MessageSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalServiceProvider.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckpointContext.h">
-      <Filter>Core\Checkpoints</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckpointObjectData.h">
-      <Filter>Core\Checkpoints</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectTag.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="TiledCache.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="TiledCollisionBox.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManagerProxy.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ShakeBehaviour.h">
-      <Filter>Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteSheetAnimation.h">
-      <Filter>Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TriggerVolume.h">
-      <Filter>Core\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,6 +320,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Grapple.cpp">
+      <Filter>Weapon</Filter>
+    </ClCompile>
     <ClCompile Include="Shotgun.cpp">
       <Filter>Weapon</Filter>
     </ClCompile>
@@ -389,6 +334,15 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="JsonManager.cpp">
       <Filter>Json</Filter>
@@ -404,6 +358,9 @@
     </ClCompile>
     <ClCompile Include="PlayerWeaponController.cpp">
       <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheetAnimation.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ControllerInput.cpp">
       <Filter>InputHandling</Filter>
@@ -426,6 +383,12 @@
     <ClCompile Include="HealthBar.cpp">
       <Filter>GameObjects\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="ShakeBehaviour.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="RandomHelper.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
@@ -434,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="UIHook.cpp">
       <Filter>GameObjects\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="SpriteBatchWrapper.cpp">
       <Filter>Wrappers</Filter>
@@ -462,49 +428,10 @@
     <ClCompile Include="TiledCollision.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="TiledEntity.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Grapple.cpp">
-      <Filter>Weapon\GrappleHook</Filter>
-    </ClCompile>
-    <ClCompile Include="GrappleHookProjectile.cpp">
-      <Filter>Weapon\GrappleHook</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMessenger.cpp">
-      <Filter>Core\MessageSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalServiceProvider.cpp">
+    <ClCompile Include="SceneManagerProxy.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Core\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Core\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManagerProxy.cpp">
-      <Filter>Core\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Core\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ShakeBehaviour.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteSheetAnimation.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TriggerVolume.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TiledCache.cpp">
+    <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">

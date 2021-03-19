@@ -1988,7 +1988,6 @@ namespace tson
 		[[nodiscard]] inline std::vector<tson::Chunk>& getChunks();
 		[[nodiscard]] inline std::vector<tson::Layer>& getLayers();
 		[[nodiscard]] inline std::vector<tson::Object>& getObjects();
-		[[nodiscard]] inline const std::vector<tson::Object>& getObjects() const;
 		[[nodiscard]] inline PropertyCollection& getProperties();
 
 		inline tson::Object* getObj(int id);
@@ -2390,15 +2389,6 @@ std::vector<tson::Layer>& tson::Layer::getLayers()
  * @return
  */
 std::vector<tson::Object>& tson::Layer::getObjects()
-{
-	return m_objects;
-}
-
-/*!
- * 'objects': Array of objects. objectgroup only.
- * @return
- */
-const std::vector<tson::Object>& tson::Layer::getObjects() const
 {
 	return m_objects;
 }

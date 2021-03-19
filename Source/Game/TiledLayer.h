@@ -23,7 +23,7 @@ public:
 
 	TiledLayer(TiledMap* aMap, const std::string& aName, int someOrder);
 
-	void AddTile(int aPosX, int aPosY, std::shared_ptr<TiledTile> aTile);
+	void AddTile(int aPosX, int aPosY, const TiledTile& aTile);
 
 	const TiledTile* GetTileAt(int aPosX, int aPosY) const;
 

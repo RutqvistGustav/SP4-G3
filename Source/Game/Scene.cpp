@@ -15,22 +15,19 @@ void Scene::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRender
 {
 }
 
-void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy, GlobalServiceProvider* aGlobalServiceProvider)
+void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy)
 {
 	assert(aSceneManagerProxy != nullptr);
 	assert(mySceneManagerProxy == nullptr);
 
 	myMousePointer = std::make_unique<MousePointer>(this);
-	assert(aGlobalServiceProvider != nullptr);
-	assert(myGlobalServiceProvider == nullptr);
-
 	mySceneManagerProxy = aSceneManagerProxy;
-	myGlobalServiceProvider = aGlobalServiceProvider;
 }
 
-void Scene::OnExit()
+void Scene::OnExit(SceneManagerProxy* aSceneManagerProxy)
 {
-	assert(mySceneManagerProxy != nullptr);
+	assert(aSceneManagerProxy != nullptr);
+	assert(mySceneManagerProxy == aSceneManagerProxy);
 
 	mySceneManagerProxy = nullptr;
 }
@@ -38,6 +35,20 @@ void Scene::OnExit()
 void Scene::AddGameObject(std::shared_ptr<GameObject> aGameObject)
 {
 	myGameObjects.push_back(aGameObject);
+}
+
+JsonManager* Scene::GetJsonManager()
+{
+	assert(GetSceneManagerProxy() != nullptr);
+
+	return GetSceneManagerProxy()->GetJsonManager();
+}
+
+WeaponFactory* Scene::GetWeaponFactory()
+{
+	assert(GetSceneManagerProxy() != nullptr);
+
+	return GetSceneManagerProxy()->GetWeaponFactory();
 }
 
 Camera* Scene::GetCamera()

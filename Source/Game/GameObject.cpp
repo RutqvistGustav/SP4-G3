@@ -1,47 +1,57 @@
 #include "stdafx.h"
 #include "GameObject.h"
-
 #include "Collider.h"
 #include "CollisionManager.h"
 
-#include "Scene.h"
+
+//GameObject::GameObject(Scene* aScene, float aX, float aY)
+//	: GameObject(aScene)
+//{
+//	myCollider = nullptr;
+//	myPosition.x = aX;
+//	myPosition.y = aY;
+//}
+
+GameObject::~GameObject()
+{
+	myCollider.reset();
+}
+
+void GameObject::Init()
+{
+
+	/*myCollider = std::make_shared<Collider>();
+	myCollider->Init(this, myPosition);
+
+
+	CollisionManager::GetInstance()->AddCollider(myCollider);*/
+}
 
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 
-GameObject::GameObject(Scene* aScene, const char* aSpritePath) :
-	GameObject(aScene, GameObjectTag::Default, aSpritePath)
-{}
-
-GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePath) :
-	myScene(aScene),
-	myTag(aTag)
+GameObject::GameObject(Scene* aScene, const char* aSpritePath)
+	: myScene(aScene)
 {
 	myCollider = std::make_shared<Collider>();
-
-	mySprite = std::make_shared<SpriteWrapper>(aSpritePath);
-}
-
-GameObject::~GameObject()
-{
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
-}
-
-void GameObject::Init()
-{
 	myCollider->Init(this, myPosition);
 	CollisionManager::GetInstance()->AddCollider(myCollider);
+
+	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
+	myCollider->SetPos(myPosition);
+
 	myPositionLastFrame = myPosition;
 }
 
 void GameObject::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
-	aRenderQueue->Queue(RenderCommand(mySprite));
+	RenderCommand renderCommand = RenderCommand(mySprite);
+	aRenderQueue->Queue(renderCommand);
 }
 
 const CU::Vector2<float>& GameObject::GetPosition() const
@@ -53,15 +63,15 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 {
 	myPosition = aPosition;
 	mySprite->SetPosition(myPosition);
-
 	if (myCollider.get() != nullptr)
 	{
 		myCollider->SetPos(myPosition);
 	}
 }
 
-void GameObject::OnCollision(GameObject* /*aGameObject*/)
+void GameObject::OnCollision(GameObject* aGameObject)
 {
+
 	switch (myCollider->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
@@ -80,6 +90,7 @@ void GameObject::OnCollision(GameObject* /*aGameObject*/)
 	default:
 		break;
 	}
+
 }
 
 const Collider* GameObject::GetCollider() const
@@ -95,9 +106,4 @@ GameObject::eObjectType GameObject::GetType()
 void GameObject::SetType(eObjectType aType)
 {
 	myType = aType;
-}
-
-GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
-{
-	return GetScene()->GetGlobalServiceProvider();
 }

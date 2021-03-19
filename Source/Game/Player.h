@@ -1,8 +1,5 @@
 #pragma once
-
 #include "GameObject.h"
-
-#include "CheckpointMessage.h"
 
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
@@ -18,12 +15,10 @@ namespace CommonUtilities
     class Input;
 }
 
-class Camera;
 class InputInterface;
 
 class Player :
-    public GameObject,
-    public CheckpointMessage
+    public GameObject
 {
 public:
     
@@ -42,10 +37,6 @@ public:
 
     void StopMovement();
 
-protected:
-
-    virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
-
 private:
     // Movement
     CU::Vector2<float> GetDirection(InputInterface* anInput);
@@ -60,11 +51,6 @@ private:
 
     // Tools
     void ImGui();
-
-private:
-
-    Camera* myCamera;
-    float myCameraFollowSpeed;
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
     std::unique_ptr<HUD> myHUD;

@@ -7,10 +7,12 @@
 
 #include <cassert>
 
-SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
-	myGlobalServiceProvider(aGlobalServiceProvider),
+SceneManager::SceneManager(
+	JsonManager* aJsonManager,
+	WeaponFactory* aWeaponFactory)
+	: myJsonManager(aJsonManager),
+	myWeaponFactory(aWeaponFactory),
 	myProxy(*this)
-
 {
 	myCamera = std::make_unique<Camera>(CU::Vector2<float>(0.0f, 0.0f));
 }
@@ -66,14 +68,14 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnExit();
+		myActiveScene->OnExit(&myProxy);
 	}
 
 	myActiveScene = std::move(aTargetScene);
 
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnEnter(&myProxy, myGlobalServiceProvider);
+		myActiveScene->OnEnter(&myProxy);
 		myActiveScene->Init();
 	}
 }

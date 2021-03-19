@@ -20,9 +20,6 @@
 #include "MainMenu.h"
 #include "GameScene.h"
 
-#include "GlobalServiceProvider.h"
-#include "GameMessenger.h"
-
 #include <InputManager.h>
 #include <Timer.h>
 
@@ -123,22 +120,16 @@ void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
 	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
-
-	myJsonManager = std::make_unique <JsonManager>();
-	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
-	myGameMessenger = std::make_unique<GameMessenger>();
-
-	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myGameMessenger.get());
-
-	mySceneManager = std::make_unique<SceneManager>(myGlobalServiceProvider.get());
-
-	//myGameWorld->Init();
-
 	myRenderManager = std::make_unique<RenderManager>();
 
 	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
+	myJsonManager = std::make_unique <JsonManager>();
+	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
+	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
+	myUpdateContext.myAudioManager = myAudioManager.get();
+
 	myUpdateContext.myInputInterface = myInputInterface.get();
 	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
@@ -162,7 +153,7 @@ void CGame::UpdateCallBack()
 	myRenderManager->Render();
 	
 	myRenderManager->SwapBuffers();
-	myRenderManager->SetPan(mySceneManager->GetCamera()->GetPositionWithModifiers() * -1.0f);
+	myRenderManager->SetPan(mySceneManager->GetCamera()->GetPositionWithModifiers());
 
 	myInput->ResetFrame();
 }

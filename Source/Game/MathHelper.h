@@ -28,11 +28,6 @@ namespace MathHelper
 		CU::Vector2<float> toTarget = aTarget - aValue;
 		float length = toTarget.Length();
 
-		if (length <= 0.0f)
-		{
-			return aTarget;
-		}
-
 		toTarget /= length;
 
 		if (length > aMaxDelta)

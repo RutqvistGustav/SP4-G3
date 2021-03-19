@@ -11,7 +11,7 @@ Shotgun::Shotgun(IWeaponHolder* aWeaponHolder)
 
 Shotgun::~Shotgun() = default;
 
-void Shotgun::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/, const CU::Vector2<float>& aPlayerPosition)
+void Shotgun::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	myTime += aDeltaTime;
 
@@ -27,11 +27,11 @@ void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRend
 	// TODO: Render weapon?
 }
 
-void Shotgun::Shoot()
+bool Shotgun::Shoot()
 {
 	if (!IsLoaded())
 	{
-		return;
+		return false;
 	}
 
 	// TODO: Shoot actual bullet or do a shapecast?
@@ -44,6 +44,8 @@ void Shotgun::Shoot()
 	{
 		Reload();
 	}
+
+	return true;
 }
 
 void Shotgun::Reload()
