@@ -24,6 +24,7 @@ public:
 		MousePointer,
 		MuteSound,
 		OptionsButton,
+		BackButton,
 		Count
 	};
 

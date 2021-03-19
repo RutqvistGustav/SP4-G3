@@ -6,6 +6,8 @@
 #include "CollisionManager.h"
 #include "GameScene.h"
 #include "SceneManagerProxy.h"
+#include "MainMenu.h"
+#include "AudioManager.h"
 
 Options::Options()
 {
@@ -20,10 +22,19 @@ void Options::Init()
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
-	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/StartButton.png");
+	myIsMuted = false;
+
+	myAudioManager = std::make_unique<AudioManager>();
+
+	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png");
 	myMuteSound->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.3f));
 	myMuteSound->SetType(GameObject::eObjectType::MuteSound);
 	myButtons.push_back(std::move(myMuteSound));
+
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png");
+	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
+	myBackButton->SetType(GameObject::eObjectType::BackButton);
+	myButtons.push_back(std::move(myBackButton));
 }
 
 void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -43,6 +54,12 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		{
 		case GameObject::eObjectType::MuteSound:
 		{
+			MuteSound();
+			break;
+		}		
+		case GameObject::eObjectType::BackButton:
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
 			break;
 		}
 		}
@@ -51,4 +68,26 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	for (auto& o : myButtons)
+	{
+		o->Render(aRenderQueue, aRenderContext);
+	}
+
+	myMousePointer->Render(aRenderQueue, aRenderContext);
+}
+
+void Options::MuteSound()
+{
+	if (!myIsMuted)
+	{
+		myAudioManager->SetMasterVolume(0.0f);
+
+		myIsMuted = true;
+	}
+	else
+	{
+		myAudioManager->SetMasterVolume(0.2f);
+
+		myIsMuted = false;
+	}
 }

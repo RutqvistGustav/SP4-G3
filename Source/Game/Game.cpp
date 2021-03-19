@@ -24,6 +24,7 @@
 #include <Timer.h>
 
 #include <tga2d/error/error_manager.h>
+#include "Options.h"
 
 using namespace std::placeholders;
 
@@ -134,7 +135,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
-	mySceneManager->Transition(std::make_unique<MainMenu>());
+	mySceneManager->Transition(std::make_unique<Options>());
 }
 
 void CGame::UpdateCallBack()

@@ -2,6 +2,7 @@
 #include "Scene.h"
 
 class MenuButton;
+class AudioManager;
 
 class Options :
     public Scene
@@ -16,7 +17,13 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+	void MuteSound();
+
+	bool myIsMuted;
+
 	std::unique_ptr<MenuButton> myMuteSound;
+	std::unique_ptr<MenuButton> myBackButton;
+	std::unique_ptr<AudioManager> myAudioManager;
 
 	std::vector<std::unique_ptr<GameObject>> myButtons;
 };
