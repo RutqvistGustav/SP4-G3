@@ -26,15 +26,15 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 
 GameObject::~GameObject()
 {
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 }
 
 void GameObject::Init()
 {
 	myCollider->Init(this, myPosition);
-	aScene->GetCollisionManager()->AddCollider(myCollider);
+	myScene->GetCollisionManager()->AddCollider(myCollider);
 
-	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
+	//mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
@@ -85,7 +85,7 @@ void GameObject::OnCollision(GameObject* /*aGameObject*/)
 	}
 }
 
-void GameObject::OnCollision(TileType aTileType)
+void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 {
 
 }

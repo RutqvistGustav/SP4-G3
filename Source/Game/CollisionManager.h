@@ -36,7 +36,7 @@ public:
 #endif // _DEBUG
 private:
 
-	void CheckTileCollision(const int& anIndex);
+	void CheckTileCollision(const int& anIndex, const CU::Vector2<float> anOffset);
 
 private:
 	std::vector<std::shared_ptr<Collider>> myColliders;

@@ -39,7 +39,7 @@ public:
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
     void OnCollision(GameObject*) override;
-    void OnCollision(TileType aTileType) override;
+    void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
 
     void StopMovement();
 

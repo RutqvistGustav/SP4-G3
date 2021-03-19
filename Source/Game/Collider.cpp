@@ -87,10 +87,10 @@ bool Collider::GetCollision(const Collider* aCollider)
 	//}
 }
 
-const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision)
+const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection)
 {
 
-	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y + myDimentions.y * 0.5f));
+	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * GetRadius());
 
 
 	if (tileToCheck != nullptr)
@@ -122,23 +122,16 @@ GameObject* Collider::GetGameObject() const
 //	return myIsColliding;
 //}
 
-//void Collider::SetRadius(const float aRadius)
-//{
-//	if (aRadius < 100.f)//temp
-//	{
-//		myRadius = 100.f;
-//	}
-//	else
-//	{
-//		myRadius = aRadius;
-//	}
-//
-//}
+void Collider::SetRadius(const float aRadius)
+{
+	myDimentions.x = aRadius * 2;
+	myDimentions.y = aRadius * 2;
+}
 
-//const float Collider::GetRadius() const
-//{
-//	return myRadius;
-//}
+const float Collider::GetRadius() const
+{
+	return myDimentions.x * 0.5f;
+}
 
 const CU::Vector2<float> Collider::GetPosition() const
 {

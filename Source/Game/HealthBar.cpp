@@ -13,7 +13,7 @@
 HealthBar::HealthBar(Scene* aScene)
 	: GameObject(aScene)
 {
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 
@@ -30,7 +30,7 @@ void HealthBar::Init()
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 
-	aScene->GetCollisionManager()->RemoveCollider(myCollider);
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 

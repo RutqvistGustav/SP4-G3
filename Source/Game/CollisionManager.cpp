@@ -29,19 +29,15 @@ void CollisionManager::Update()
 		//CheckTileCollision(i);
 
 		//TileType* tileToCheck = myColliders[i]->GetCollision(myTiledCollision);
-
-		auto colliderPtr = myColliders[i]->GetCollision(myTiledCollision);
-
-		if (colliderPtr != nullptr)
-		{
-			myColliders[i]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[i]->myGameObject->OnCollision(colliderPtr->GetType());
-		}
-		else if(myColliders[i]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
-		{
-			myColliders[i]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-			myColliders[i]->myGameObject->OnCollision(TileType::None);
-		}
+		CU::Vector2<float> vecDown = CU::Vector2<float>(0.f, 1.0f);
+		CU::Vector2<float> vecUp = CU::Vector2<float>(0.f, -1.0f);
+		CU::Vector2<float> vecRight = CU::Vector2<float>(1.0f, 0.0f);
+		CU::Vector2<float> vecLeft = CU::Vector2<float>(-1.f, 0.0f);
+		CheckTileCollision(i, vecDown);
+		//CheckTileCollision(i, vecUp);
+		//CheckTileCollision(i, vecRight);
+		//CheckTileCollision(i, vecLeft);
+		
 
 		for (int j = 0; j < myColliders.size(); ++j)
 		{
@@ -126,16 +122,30 @@ void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
 	}
 }
 
-void CollisionManager::CheckTileCollision(const int& anIndex)
+void CollisionManager::CheckTileCollision(const int& anIndex, const CU::Vector2<float> anOffset)
 {
-	const TiledTile* tileToCheck = myTiledCollision->GetTileAt(myColliders[anIndex]->GetPosition() + CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f));
+	auto colliderPtr = myColliders[anIndex]->GetCollision(myTiledCollision, anOffset);
+
+	if (colliderPtr != nullptr)
+	{
+		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+		myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset);
+	}
+	else if (myColliders[anIndex]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
+	{
+		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::NotColliding;
+		myColliders[anIndex]->myGameObject->OnCollision(TileType::None, CU::Vector2<float>());
+	}
+
+
+	/*const TiledTile* tileToCheck = myTiledCollision->GetTileAt(myColliders[anIndex]->GetPosition() + CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f));
 	if (tileToCheck != nullptr)
 	{
 		if (tileToCheck->GetType() == TileType::None)
 		{
 			myTileCollisionIndexes[anIndex] = myColliders[anIndex]->GetPosition() - CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f);
 		}
-	}
+	}*/
 }
 
 

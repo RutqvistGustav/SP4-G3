@@ -186,7 +186,7 @@ void Player::OnCollision(GameObject* aGameObject)
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-
+		//TODO:FIX - this part is never reached
 		
 		/*if (myCollider->GetIsCube())
 		{*/
@@ -215,7 +215,7 @@ void Player::OnCollision(GameObject* aGameObject)
 	}
 }
 
-void Player::OnCollision(TileType aTileType)
+void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 {
 	float overlap = 0.0f;
 
@@ -228,7 +228,7 @@ void Player::OnCollision(TileType aTileType)
 
 		/*if (myCollider->GetIsCube())
 		{*/
-		myPosition = myPositionLastFrame + CU::Vector2<float>(0.f, -0.01f);
+		myPosition = myPositionLastFrame - anOffset * 0.01f;
 		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
 	/*}
 	else

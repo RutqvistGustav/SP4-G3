@@ -24,13 +24,13 @@ public:
 	
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
-	const TiledTile* GetCollision(const TiledCollision* aTiledCollision);
+	const TiledTile* GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection);
 	//const std::shared_ptr<GameObject> GetGameObject()const;
 	GameObject* GetGameObject()const;
 
 
-	//void SetRadius(const float aRadius);
-	//const float GetRadius()const;
+	void SetRadius(const float aRadius);//will be moved to a CircleCollider
+	const float GetRadius()const;//will be moved to a CircleCollider
 	const CU::Vector2<float> GetPosition()const;
 	const float GetWidth()const;
 	const float GetHight()const;
