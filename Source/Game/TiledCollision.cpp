@@ -10,7 +10,7 @@ TiledCollision::TiledCollision(const TiledParser* aParser) :
 	assert(myParser != nullptr);
 
 	myTileWidth = myParser->myResult->GetTileWidth();
-	myTileHeight = myParser->myResult->GetTileWidth();
+	myTileHeight = myParser->myResult->GetTileHeight();
 
 	mySolidLayer = myParser->myResult->GetLayerByName("Solid");
 

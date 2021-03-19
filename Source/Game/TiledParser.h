@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TiledMap.h"
+#include "TiledCache.h"
 
 #include <unordered_map>
 #include <string>
@@ -25,6 +26,12 @@ public:
 	TiledParser(const std::string& aMapPath);
 	~TiledParser();
 
+	int GetWidthInTiles() const;
+	int GetHeightInTiles() const;
+
+	float GetWidth() const;
+	float GetHeight() const;
+
 private:
 
 	friend class TiledCollision;
@@ -39,5 +46,6 @@ private:
 private:
 
 	std::unique_ptr<TiledMap> myResult;
+	TiledCache myTiledCache;
 
 };

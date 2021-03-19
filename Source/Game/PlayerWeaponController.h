@@ -3,6 +3,7 @@
 #include "Vector2.hpp"
 
 #include "WeaponHolder.h"
+#include "JsonData.h"
 
 struct UpdateContext;
 struct RenderContext;
@@ -20,7 +21,8 @@ public:
 	PlayerWeaponController(const WeaponFactory* aWeaponFactory, Player* aPlayer);
 	~PlayerWeaponController();
 
-	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
+	void Init(const JsonData& someJsonData);
+	void Update(const float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
 protected:
