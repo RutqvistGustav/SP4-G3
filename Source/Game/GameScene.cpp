@@ -27,7 +27,8 @@ void GameScene::Init()
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 	myTga2dLogoSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 
-	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
+	myTiledParser = std::make_unique<TiledParser>("Maps/VilgotBlockout.json");
+	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
