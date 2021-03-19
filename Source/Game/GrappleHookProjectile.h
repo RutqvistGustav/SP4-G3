@@ -33,6 +33,7 @@ private:
     float myMaxDistance{};
     float myHookSpeed{};
     float myContractSpeed{};
+    float myCoolDown{};
 
     CU::Vector2<float> myGrapplingPoint;
     CU::Vector2<float> myDirection;

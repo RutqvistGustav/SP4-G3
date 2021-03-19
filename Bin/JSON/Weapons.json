@@ -19,6 +19,7 @@
 
         "maxDistance": 600.0,
         "hookSpeed": 3000.0,
-        "contractSpeed": 500.0
+      "contractSpeed": 500.0,
+      "coolDown" : 0.5
     }
 }

@@ -28,6 +28,7 @@ void Grapple::InitGameObjects(Scene* aScene)
 void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
 {
 	myProjectile->Update(aDeltaTime, aPlayerPosition);
+	Reload(aDeltaTime);
 }
 
 void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -37,8 +38,29 @@ void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 
 void Grapple::Shoot(const CU::Vector2<float> aPlayerPosition)
 {
+	if (!myIsLoaded) return;
+
 	myProjectile->SetPosition(aPlayerPosition);
 	myProjectile->SpawnProjectile(GetDirection());
+	myIsLoaded = false;
+}
+
+const bool& Grapple::IsLoaded() const
+{
+	return myIsLoaded;
+}
+
+void Grapple::Reload(const float aDeltaTime)
+{
+	if (!myIsLoaded)
+	{
+		myCoolDown -= aDeltaTime;
+		if (myCoolDown <= 0)
+		{
+			myIsLoaded = true;
+			myCoolDown = myCoolDownReset;
+		}
+	}
 }
 
 GrappleHookProjectile* Grapple::GetProjectile()
@@ -51,6 +73,8 @@ void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to Grapp
 	myMaxDistance = someJsonData["maxDistance"];
 	myHookSpeed = someJsonData["hookSpeed"];
 	myContractSpeed = someJsonData["contractSpeed"];
+	myCoolDown = someJsonData["coolDown"];
+	myCoolDownReset = myCoolDown;
 }
 
 void Grapple::Setup()
