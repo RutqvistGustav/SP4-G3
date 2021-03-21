@@ -333,6 +333,10 @@
     <ClInclude Include="TriggerVolume.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -488,5 +492,6 @@
     <ClCompile Include="TiledCache.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyManager.cpp" />
   </ItemGroup>
 </Project>

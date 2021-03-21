@@ -40,6 +40,9 @@ public:
 
 	inline const GameObjectTag GetTag() const { return myTag; }
 
+	bool GetDeleteThisFrame();
+	void SetDeleteThisFrame();
+
 protected:
 
 	inline void SetTag(const GameObjectTag aTag) { myTag = aTag; }
@@ -47,6 +50,7 @@ protected:
 protected:
 
 	Scene* myScene;
+	bool myDeleteThisFrame = false;
 
 	GameObjectTag myTag{ GameObjectTag::Default };
 

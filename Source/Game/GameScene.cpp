@@ -15,6 +15,7 @@
 
 #include "CollisionManager.h"
 // Enemy
+#include "EnemyManager.h"
 #include "EnemyFactory.h"
 #include "Enemy.h"
 
@@ -37,6 +38,7 @@ void GameScene::Init()
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->Init();
 
+
 	for (size_t i = 0; i < 10; ++i)
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
@@ -49,10 +51,10 @@ void GameScene::Init()
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 
-	myTestEnemy = EnemyFactory::CreateEnemy(EnemyFactory::EnemyType::Zombie, this);
-	myTestEnemy->SetPosition({840.0f, 540.0f});
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
+
+	myEnemyManager = std::make_unique<EnemyManager>(this);
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -60,14 +62,19 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	anUpdateContext.myPlayer = myPlayer.get();
 	CollisionManager::GetInstance()->Update();
 	myPlayer->Update(aDeltaTime, anUpdateContext);
-	myTestEnemy->Update(aDeltaTime, anUpdateContext);
+	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+
+	if (anUpdateContext.myInputInterface->IsPressingUse())
+	{
+		SpawnEnemy();
+	}
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
-	myTestEnemy->Render(aRenderQueue, aRenderContext);
+	myEnemyManager->Render(aRenderQueue, aRenderContext);
 #ifdef _DEBUG
 	CollisionManager::GetInstance()->RenderDebug();
 #endif //_DEBUG
@@ -93,4 +100,13 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
+}
+
+void GameScene::SpawnEnemy()
+{
+	EnemyMessageData enemyMessageData{};
+	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
+	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 }

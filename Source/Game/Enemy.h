@@ -17,6 +17,8 @@ public:
     //virtual void TakeDamage();
     //virtual void Behavior();
 
+
+
 protected:
     int myHealth;
     int myDamage;

@@ -91,3 +91,14 @@ GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 {
 	return GetScene()->GetGlobalServiceProvider();
 }
+
+
+bool GameObject::GetDeleteThisFrame()
+{
+	return myDeleteThisFrame;
+}
+
+void GameObject::SetDeleteThisFrame()
+{
+	myDeleteThisFrame = true;
+}

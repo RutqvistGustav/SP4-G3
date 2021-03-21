@@ -8,6 +8,7 @@
 class Player;
 class SpriteWrapper;
 class Enemy;
+class EnemyManager;
 
 class TiledParser;
 class TiledRenderer;
@@ -30,12 +31,14 @@ private:
 	CheckpointContext SaveCheckpoint();
 	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
 
-private:
+	void SpawnEnemy();
 
+private:
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
 	std::unique_ptr<Player> myPlayer;
 	std::unique_ptr<Enemy> myTestEnemy;
+	std::unique_ptr<EnemyManager> myEnemyManager;
 
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;

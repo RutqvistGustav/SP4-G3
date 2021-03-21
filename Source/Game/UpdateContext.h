@@ -12,6 +12,7 @@ class Player;
 
 struct UpdateContext
 {
+	Player* myPlayer;
 	CommonUtilities::Input* myInput;
 	InputInterface* myInputInterface;
 };
