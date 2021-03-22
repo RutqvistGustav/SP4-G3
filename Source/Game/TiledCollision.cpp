@@ -12,9 +12,9 @@ TiledCollision::TiledCollision(const TiledParser* aParser) :
 	myTileWidth = myParser->myResult->GetTileWidth();
 	myTileHeight = myParser->myResult->GetTileHeight();
 
-	mySolidLayer = myParser->myResult->GetLayerByName("Solid");
-
-	assert(mySolidLayer != nullptr && "No solid layer, should always exist!");
+	mySolidLayers[0] = myParser->myResult->GetLayerByName("SolidBack");
+	mySolidLayers[1] = myParser->myResult->GetLayerByName("Solid");
+	mySolidLayers[2] = myParser->myResult->GetLayerByName("SolidFront");
 }
 
 const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)const
@@ -22,5 +22,19 @@ const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)c
 	const int tileX = static_cast<int>(std::floorf(aPosition.x / myTileWidth));
 	const int tileY = static_cast<int>(std::floorf(aPosition.y / myTileHeight));
 
-	return mySolidLayer->GetTileAt(tileX, tileY);
+	// TODO: If performance is a problem and depending on what information is needed from the tiles this could be optimized by merging all layers into one
+	for (std::size_t i = 0; i < mySolidLayers.size(); ++i)
+	{
+		const TiledTile* tile{};
+		if (mySolidLayers[i] != nullptr)
+		{
+			tile = mySolidLayers[i]->GetTileAt(tileX, tileY);
+			if (tile != nullptr)
+			{
+				return tile;
+			}
+		}
+	}
+
+	return nullptr;
 }
