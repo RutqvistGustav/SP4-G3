@@ -1,6 +1,6 @@
 #pragma once
-#include "render/render_object.h"
-#include "render/render_common.h"
+#include "tga2d/render/render_object.h"
+#include "tga2d/render/render_common.h"
 
 namespace Tga2D
 {

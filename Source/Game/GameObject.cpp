@@ -26,7 +26,10 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 
 GameObject::~GameObject()
 {
-	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	if (myCollider != nullptr)
+	{
+		CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	}
 }
 
 void GameObject::Init()

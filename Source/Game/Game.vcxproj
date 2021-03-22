@@ -137,6 +137,7 @@
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
+    <ClInclude Include="Collectable.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
@@ -144,6 +145,8 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
+    <ClInclude Include="CutscenePlayer.h" />
+    <ClInclude Include="DamageVolume.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -160,6 +163,8 @@
     <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="GenericGameMessageSubscriber.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
+    <ClInclude Include="IJsonInitializable.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TiledCache.h" />
@@ -222,16 +227,20 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
+    <ClCompile Include="CutscenePlayer.cpp" />
+    <ClCompile Include="DamageVolume.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GrappleHookProjectile.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCache.cpp" />

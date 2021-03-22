@@ -65,7 +65,8 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myCollisionManager->Update();
+	Scene::Update(aDeltaTime, anUpdateContext);
+
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 
@@ -73,10 +74,14 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	{
 		SpawnEnemy();
 	}
+
+	myCollisionManager->Update();
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	Scene::Render(aRenderQueue, aRenderContext);
+
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myEnemyManager->Render(aRenderQueue, aRenderContext);
