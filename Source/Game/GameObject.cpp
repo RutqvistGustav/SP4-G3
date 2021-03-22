@@ -28,7 +28,7 @@ GameObject::~GameObject()
 {
 	if (myCollider != nullptr)
 	{
-		CollisionManager::GetInstance()->RemoveCollider(myCollider);
+		myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	}
 }
 
