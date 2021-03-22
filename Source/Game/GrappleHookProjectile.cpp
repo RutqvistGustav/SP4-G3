@@ -19,17 +19,10 @@ GrappleHookProjectile::GrappleHookProjectile(Scene* aScene, IWeaponHolder* aWeap
 
 void GrappleHookProjectile::Init(const JsonData& someJsonData)
 {
-	//myMaxDistance = someJsonData["maxDistance"];
-	//myHookSpeed = someJsonData["hookSpeed"];
-	//myContractSpeed = someJsonData["contractSpeed"];
-}
-
-void GrappleHookProjectile::SetVariables(float aMaxDistance, float aHookSpeed, float aContractSpeed)
-{
 	GameObject::Init();
-	myMaxDistance = aMaxDistance;
-	myHookSpeed = aHookSpeed;
-	myContractSpeed = aContractSpeed;
+	myMaxDistance = someJsonData["maxDistance"];
+	myHookSpeed = someJsonData["hookSpeed"];
+	myContractSpeed = someJsonData["contractSpeed"];
 }
 
 void GrappleHookProjectile::Update(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
