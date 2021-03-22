@@ -106,6 +106,7 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 
 void GameScene::SpawnEnemy()
 {
+	//Example of how to spawn an enemy through the Postmaster
 	EnemyMessageData enemyMessageData{};
 	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
 	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
