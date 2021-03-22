@@ -30,12 +30,10 @@ Zombie::~Zombie()
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	// TODO: Get a Target
-	//		 Follow Target
-	//		 Jump when near walls
+	// TODO: Jump when near walls
 	//		 Climb on eachother?
 
-	Movement(aDeltaTime, anUpdateContext.myPlayer->GetPosition());
+	Movement(aDeltaTime);
 	GameObject::Update(aDeltaTime, anUpdateContext);
 }
 
@@ -44,13 +42,13 @@ void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 	GameObject::Render(aRenderQueue, aRenderContext);
 }
 
-void Zombie::Movement(const float aDeltaTime, const CU::Vector2<float>& aTarget)
+void Zombie::Movement(const float aDeltaTime)
 {
-	CU::Vector2<float> direction = aTarget - myPosition;
+	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	//float distance = direction.x * direction.x + direction.y * direction.y;
 	//distance = pow(distance, 0.5f);
 
-	if (aTarget.x < myPosition.x && -myMaxSpeed <= myVelocity.x)
+	if (myTarget->GetPosition().x < myPosition.x && -myMaxSpeed <= myVelocity.x)
 	{
 		if (myVelocity.x > 20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
 		else
@@ -58,7 +56,7 @@ void Zombie::Movement(const float aDeltaTime, const CU::Vector2<float>& aTarget)
 			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
 		}
 	}
-	if (aTarget.x > myPosition.x && myVelocity.x <= myMaxSpeed)
+	if (myTarget->GetPosition().x > myPosition.x && myVelocity.x <= myMaxSpeed)
 	{
 		if (myVelocity.x < -20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
 		else
@@ -91,19 +89,21 @@ void Zombie::OnCollision(GameObject* aGameObject)
 
 		if (myCollider->GetIsCube())
 		{
-			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized() * 0.01f;
-			myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
 		}
 		else
 		{
-			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
-			myPosition -= overlap * fromOtherToMe.GetNormalized();
 		}
 
-
-		myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
+		if (aGameObject->GetTag() == GameObjectTag::Player)
+		{
+			myVelocity = CU::Vector2<float>(0.0f, 0.0f);
+			//TODO - Add DamagePlayer§§
+		}
+		else if (aGameObject->GetTag() != GameObjectTag::Enemy)
+		{
+			myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
+		}
 		myGravity = 0;
-		//myCollider->SetPos(myPosition);
 
 		break;
 	case Collider::eCollisionStage::NotColliding:

@@ -35,7 +35,7 @@ void GameScene::Init()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 
-	myPlayer = std::make_unique<Player>(this);
+	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
 
 
@@ -59,7 +59,6 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	anUpdateContext.myPlayer = myPlayer.get();
 	CollisionManager::GetInstance()->Update();
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 	myEnemyManager->Update(aDeltaTime, anUpdateContext);
@@ -107,6 +106,7 @@ void GameScene::SpawnEnemy()
 	EnemyMessageData enemyMessageData{};
 	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
 	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
+	enemyMessageData.myTarget = myPlayer;
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 }

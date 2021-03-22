@@ -18,7 +18,7 @@ public:
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	void AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition);
+	void AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget);
 
 	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData) override;
 private:

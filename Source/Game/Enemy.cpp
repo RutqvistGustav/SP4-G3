@@ -18,3 +18,8 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 }
+
+void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
+{
+	myTarget = aTarget;
+}

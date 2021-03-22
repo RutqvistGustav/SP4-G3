@@ -36,7 +36,8 @@ private:
 private:
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
-	std::unique_ptr<Player> myPlayer;
+	std::shared_ptr<Player> myPlayer;
+
 	std::unique_ptr<Enemy> myTestEnemy;
 	std::unique_ptr<EnemyManager> myEnemyManager;
 

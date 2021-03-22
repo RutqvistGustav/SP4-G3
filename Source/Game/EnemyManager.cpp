@@ -38,11 +38,16 @@ void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 	}
 }
 
-void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition)
+void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget)
 {
 	std::shared_ptr<Enemy> enemy = EnemyFactory::CreateEnemy(anEnemyType, myScene);
 	enemy->SetPosition(aPosition);
 	enemy->Init();
+
+	if (aTarget != nullptr)
+	{
+		enemy->SetTarget(aTarget);
+	}
 
 	myEnemies.push_back(enemy);
 	myScene->AddGameObject(enemy);
@@ -50,7 +55,7 @@ void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<flo
 
 GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData)
 {
-	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition);
+	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget);
 	return GameMessageAction::Keep;
 }
 

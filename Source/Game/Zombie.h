@@ -11,7 +11,7 @@ public:
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void         Movement(const float aDeltaTime, const CU::Vector2<float>& aTarget);
+    void         Movement(const float aDeltaTime);
     void         UpdateGravity(const float aDeltaTime);
     void         OnCollision(GameObject* aGameObject) override;
 
