@@ -83,11 +83,11 @@ void Zombie::IdleMovement(const float aDeltaTime)
 	UpdateGravity(aDeltaTime);
 	if (myVelocity.x > 0.0f)
 	{
-		myVelocity.x = myMaxSpeed;
+		myVelocity.x = myMaxSpeed * 0.5f;
 	}
-	else if (myVelocity.x > 0.0f)
+	else if (myVelocity.x < 0.0f)
 	{
-		myVelocity.x = -myMaxSpeed;
+		myVelocity.x = -myMaxSpeed * 0.5f;
 	}
 	CU::Vector2<float> frameMovement = myPosition;
 	frameMovement += myVelocity * aDeltaTime;
