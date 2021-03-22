@@ -85,7 +85,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
-	//ImGui();
+	ImGui();
 
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
 	myCamera->SetPosition(newCameraPosition);

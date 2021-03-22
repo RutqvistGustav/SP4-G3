@@ -69,6 +69,7 @@ GrappleHookProjectile* Grapple::GetProjectile()
 
 void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to GrappleHookProjectile
 {
+	myMaxDistance = someJsonData["maxDistance"];
 	myCoolDown = someJsonData["coolDown"];
 	myCoolDownReset = myCoolDown;
 }

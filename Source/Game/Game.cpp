@@ -127,19 +127,19 @@ void CGame::InitCallBack()
 	myJsonManager = std::make_unique <JsonManager>();
 	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
 	myGameMessenger = std::make_unique<GameMessenger>();
+	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 
-	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myGameMessenger.get());
+
+	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myInputInterface.get(), myGameMessenger.get());
 
 	mySceneManager = std::make_unique<SceneManager>(myGlobalServiceProvider.get());
 
 	//myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
 
-	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
-	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
