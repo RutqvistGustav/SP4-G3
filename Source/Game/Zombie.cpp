@@ -21,6 +21,7 @@ Zombie::Zombie(Scene* aScene)
 	myDamage = zombieData.at("Damage");
 	mySpeed = zombieData.at("MovementSpeed");
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
+	myDetectionRange = zombieData.at("DetectionRange");
 	myGravity = 3000.0f;
 }
 
@@ -32,8 +33,14 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	// TODO: Jump when near walls
 	//		 Climb on eachother?
-
-	Movement(aDeltaTime);
+	if (CheckIdle())
+	{
+		IdleMovement(aDeltaTime);
+	}
+	else
+	{
+		Movement(aDeltaTime);
+	}
 	GameObject::Update(aDeltaTime, anUpdateContext);
 }
 
@@ -45,7 +52,6 @@ void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 void Zombie::Movement(const float aDeltaTime)
 {
 	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	//float distance = direction.x * direction.x + direction.y * direction.y;
 	//distance = pow(distance, 0.5f);
 
 	if (myTarget->GetPosition().x < myPosition.x && -myMaxSpeed <= myVelocity.x)
@@ -71,6 +77,23 @@ void Zombie::Movement(const float aDeltaTime)
 	direction += myVelocity * aDeltaTime;
 	SetPosition(direction);
 }
+
+void Zombie::IdleMovement(const float aDeltaTime)
+{
+	UpdateGravity(aDeltaTime);
+	if (myVelocity.x > 0.0f)
+	{
+		myVelocity.x = myMaxSpeed;
+	}
+	else if (myVelocity.x > 0.0f)
+	{
+		myVelocity.x = -myMaxSpeed;
+	}
+	CU::Vector2<float> frameMovement = myPosition;
+	frameMovement += myVelocity * aDeltaTime;
+	SetPosition(frameMovement);
+}
+
 
 void Zombie::UpdateGravity(const float aDeltaTime)
 {
@@ -112,4 +135,12 @@ void Zombie::OnCollision(GameObject* aGameObject)
 	default:
 		break;
 	}
+}
+
+bool Zombie::CheckIdle()
+{
+	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
+	float distance = direction.x * direction.x + direction.y * direction.y;
+
+	return (distance <= myDetectionRange * myDetectionRange) ? false : true;
 }

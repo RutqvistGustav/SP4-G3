@@ -24,6 +24,7 @@ protected:
     int myDamage;
     float mySpeed;
     float myMaxSpeed;
+    float myDetectionRange;
     std::shared_ptr<GameObject> myTarget;
 };
 
