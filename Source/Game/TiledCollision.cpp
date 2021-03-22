@@ -17,7 +17,7 @@ TiledCollision::TiledCollision(const TiledParser* aParser) :
 	assert(mySolidLayer != nullptr && "No solid layer, should always exist!");
 }
 
-const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)
+const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)const
 {
 	const int tileX = static_cast<int>(std::floorf(aPosition.x / myTileWidth));
 	const int tileY = static_cast<int>(std::floorf(aPosition.y / myTileHeight));

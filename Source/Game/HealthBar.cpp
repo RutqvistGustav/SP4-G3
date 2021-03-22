@@ -5,6 +5,7 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -12,7 +13,7 @@
 HealthBar::HealthBar(Scene* aScene)
 	: GameObject(aScene)
 {
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 
@@ -28,6 +29,9 @@ void HealthBar::Init()
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
+
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	myCollider.reset();
 }
 
 void HealthBar::Update(CU::Vector2<float> aPlayerPosition)

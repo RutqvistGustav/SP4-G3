@@ -33,6 +33,14 @@ void GameScene::Init()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 
+	// TODO: Load different file based on which level we are on
+	myTiledParser = std::make_unique<TiledParser>("Maps/TestMap.json");
+	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
+	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
+	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
+	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+
+
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->Init();
 
@@ -40,21 +48,19 @@ void GameScene::Init()
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 190.0f * (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 200.0f * (i + 1) , 1080.0f});
 	}
-	
-	// TODO: Load different file based on which level we are on
-	myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
-	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
-	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 
+	myPlayer = std::make_unique<Player>(this);
+	myPlayer->SetPosition({ 950.0f, 540.0f });
+	myPlayer->Init();
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	CollisionManager::GetInstance()->Update();
+	myCollisionManager->Update();
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 }
 
@@ -63,7 +69,7 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 #ifdef _DEBUG
-	CollisionManager::GetInstance()->RenderDebug();
+	myCollisionManager->RenderDebug();
 #endif //_DEBUG
 
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);

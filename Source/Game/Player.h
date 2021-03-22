@@ -38,6 +38,7 @@ public:
     void Controller(const float aDeltaTime, InputInterface* anInput);
 
     void OnCollision(GameObject*) override;
+    void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
 
     void StopMovement();
 
@@ -100,4 +101,3 @@ private:
     CU::Vector2<float> myGrappleTarget;
 };
 
-//TODO:check if the collider is solid

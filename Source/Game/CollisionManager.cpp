@@ -2,15 +2,19 @@
 #include "CollisionManager.h"
 #include "GameObject.h"
 #include "Player.h"
+#include "TiledCollision.h"
+#include "TiledTile.h"
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
 #endif // _DEBUG
 
 
-CollisionManager::CollisionManager()
+CollisionManager::CollisionManager(TiledCollision* aTiledCollision)
+	: myTiledCollision(aTiledCollision)
 {
 
+	assert(aTiledCollision != nullptr && "CollisionManager is being created without a TiledCollision.");
 }
 
 CollisionManager::~CollisionManager()
@@ -21,6 +25,20 @@ void CollisionManager::Update()
 {
 	for (int i = 0; i < myColliders.size(); ++i)
 	{
+
+		//CheckTileCollision(i);
+
+		//TileType* tileToCheck = myColliders[i]->GetCollision(myTiledCollision);
+		CU::Vector2<float> vecDown = CU::Vector2<float>(0.f, 1.0f);
+		CU::Vector2<float> vecUp = CU::Vector2<float>(0.f, -1.0f);
+		CU::Vector2<float> vecRight = CU::Vector2<float>(1.0f, 0.0f);
+		CU::Vector2<float> vecLeft = CU::Vector2<float>(-1.f, 0.0f);
+		CheckTileCollision(i, vecDown);
+		CheckTileCollision(i, vecUp);
+		//CheckTileCollision(i, vecRight);
+		//CheckTileCollision(i, vecLeft);
+		
+
 		for (int j = 0; j < myColliders.size(); ++j)
 		{
 
@@ -69,8 +87,19 @@ void CollisionManager::Update()
 
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
+
+		myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+		myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
 		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
 		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
+	}
+	for (std::pair<int, CU::Vector2<float>> pairs : myTileCollisionIndexes)
+	{
+		myColliders[pairs.first]->GetGameObject()->SetPosition(pairs.second);
+		myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::NotColliding;
+		//myTileCollisionIndexes.erase(pairs.first);
+
+		//myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject());
 	}
 
 }
@@ -96,6 +125,31 @@ void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
 	}
 }
 
+void CollisionManager::CheckTileCollision(const int& anIndex, const CU::Vector2<float> anOffset)
+{
+	auto colliderPtr = myColliders[anIndex]->GetCollision(myTiledCollision, anOffset);
+
+	if (colliderPtr != nullptr)
+	{
+		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+		myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset);
+	}
+	else if (myColliders[anIndex]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
+	{
+		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::NotColliding;
+		myColliders[anIndex]->myGameObject->OnCollision(TileType::None, CU::Vector2<float>());
+	}
+
+
+	/*const TiledTile* tileToCheck = myTiledCollision->GetTileAt(myColliders[anIndex]->GetPosition() + CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f));
+	if (tileToCheck != nullptr)
+	{
+		if (tileToCheck->GetType() == TileType::None)
+		{
+			myTileCollisionIndexes[anIndex] = myColliders[anIndex]->GetPosition() - CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f);
+		}
+	}*/
+}
 
 
 #ifdef _DEBUG
