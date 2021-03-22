@@ -113,8 +113,8 @@ void Player::BrakeMovement(const float aDeltaTime)
 {
 	//MouseInput(anInput);
 	//myPositionLastFrame = myPosition;
-	if (myIsMovingLeft == false && myIsMovingRight == false)
-	{
+	/*if (myIsMovingLeft == false && myIsMovingRight == false)
+	{*/
 		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
 		{
 			myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
@@ -123,7 +123,7 @@ void Player::BrakeMovement(const float aDeltaTime)
 		{
 			myVel.x = 0;
 		}
-	}
+	//}
 }
 
 void Player::ApplyForce(const CU::Vector2<float>&aForce)
@@ -140,6 +140,8 @@ void Player::PlayerInput(InputInterface * anInput)
 	{
 		myIsJumping = true;
 		myHasRemovedNegativeVel = false;
+		myJumpDuration = myJumpDurationReset;
+		--myJumpCharges;
 	}
 
 	if (anInput->Is_G_Pressed())
@@ -239,6 +241,8 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		myPosition -= overlap * fromOtherToMe.GetNormalized();
 	}*/
 
+		myJumpDuration = myJumpDurationReset; // TODO ask Hampus where i jumpreset logic should be in.
+		myJumpCharges = myJumpChargeReset;
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
 		myGravityActive = false;
@@ -247,6 +251,7 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		break;
 	case Collider::eCollisionStage::NotColliding:
 		myGravityActive = true;
+
 
 
 		break;
@@ -331,17 +336,34 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	PlayerInput(anInput);
 	CU::Vector2<float> direction = GetDirection(anInput);
 
-	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
+	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
 	{
-		myVel += direction * mySpeed * aDeltaTime;
+		if (myVel.x > 0)
+		{
+			BrakeMovement(aDeltaTime);
+		}
+		else
+		{
+			myVel += direction * mySpeed * aDeltaTime;
+		}
 	}
-	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
+	if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
 	{
-		myVel += direction * mySpeed * aDeltaTime;
+		if (myVel.x < 0)
+		{
+			BrakeMovement(aDeltaTime);
+		}
+		else
+		{
+			myVel += direction * mySpeed * aDeltaTime;
+		}
 	}
 
-	BrakeMovement(aDeltaTime);
 	Jump(aDeltaTime);
+	if (myIsMovingLeft == false && myIsMovingRight == false)
+	{
+		BrakeMovement(aDeltaTime);
+	}
 	GrappleTowardsTarget(aDeltaTime);
 
 	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
@@ -359,7 +381,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 void Player::Jump(const float aDeltaTime)
 {
-	if (myIsJumping == true /*&& myJumpCharges > 0*/)
+	if (myIsJumping == true && myJumpCharges > 0)
 	{
 		myJumpDuration -= aDeltaTime;
 		if (myJumpDuration > 0)
@@ -376,10 +398,7 @@ void Player::Jump(const float aDeltaTime)
 		{
 			myIsJumping = false;
 			myJumpDuration = myJumpDurationReset;
-			//--myJumpCharges;
 		}
-		// if landed set myVel.y = 0
-		// Reset myJumpCharges
 	}
 	else
 	{
