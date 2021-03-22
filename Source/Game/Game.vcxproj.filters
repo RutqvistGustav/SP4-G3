@@ -91,6 +91,9 @@
     <Filter Include="GameObjects\Volumes">
       <UniqueIdentifier>{4c6d94c0-078a-41f3-acaa-b0717bbfb37d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Cutscenes">
+      <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -351,6 +354,9 @@
     <ClInclude Include="IJsonInitializable.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="CutscenePlayer.h">
+      <Filter>Core\Cutscenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -514,6 +520,9 @@
     </ClCompile>
     <ClCompile Include="DamageVolume.cpp">
       <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="CutscenePlayer.cpp">
+      <Filter>Core\Cutscenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

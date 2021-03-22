@@ -145,6 +145,7 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
+    <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
+    <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
