@@ -13,7 +13,3 @@ void Weapon::Init(const JsonData& someJsonData)
 	LoadJson(someJsonData);
 	Setup();
 }
-
-void Weapon::InitGameObjects(Scene* aScene)
-{
-}

@@ -13,7 +13,7 @@ public:
 	Grapple(IWeaponHolder* aWeaponHolder);
 	virtual ~Grapple() override;
 
-	void InitGameObjects(Scene* aScene) override;
+	void InitGameObjects(Scene* aScene);
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
@@ -31,15 +31,8 @@ protected:
 private:
 	bool myIsLoaded = true;
 
-	float myMaxDistance{};
-	float myHookSpeed{};
-	float myContractSpeed{};
 	float myCoolDown{};
 	float myCoolDownReset{};
 
 	std::unique_ptr<GrappleHookProjectile> myProjectile;
-
-	//float myMaxDistance{};
-	//float myHookSpeed{};
-	//float myContractSpeed{};
 };
