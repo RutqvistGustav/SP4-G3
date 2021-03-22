@@ -102,25 +102,19 @@ void Zombie::UpdateGravity(const float aDeltaTime)
 
 void Zombie::OnCollision(GameObject* aGameObject)
 {
-	CU::Vector2<float> fromOtherToMe(aGameObject->GetPosition() - myPosition);
-	float overlap = 0.0f;
+	//Is below needed?
+	//CU::Vector2<float> fromOtherToMe(aGameObject->GetPosition() - myPosition);
+	//float overlap = 0.0f;
 
 	switch (myCollider->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-		if (myCollider->GetIsCube())
-		{
-		}
-		else
-		{
-		}
-
 		if (aGameObject->GetTag() == GameObjectTag::Player)
 		{
 			myVelocity = CU::Vector2<float>(0.0f, 0.0f);
-			//TODO - Add DamagePlayer§§
+			//TODO - Add DamagePlayer
 		}
 		else if (aGameObject->GetTag() != GameObjectTag::Enemy)
 		{
