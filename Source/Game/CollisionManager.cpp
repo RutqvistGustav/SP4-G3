@@ -34,7 +34,7 @@ void CollisionManager::Update()
 		CU::Vector2<float> vecRight = CU::Vector2<float>(1.0f, 0.0f);
 		CU::Vector2<float> vecLeft = CU::Vector2<float>(-1.f, 0.0f);
 		CheckTileCollision(i, vecDown);
-		//CheckTileCollision(i, vecUp);
+		CheckTileCollision(i, vecUp);
 		//CheckTileCollision(i, vecRight);
 		//CheckTileCollision(i, vecLeft);
 		
@@ -87,6 +87,9 @@ void CollisionManager::Update()
 
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
+
+		myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+		myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
 		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
 		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
 	}

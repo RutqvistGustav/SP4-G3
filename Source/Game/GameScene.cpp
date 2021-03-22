@@ -34,7 +34,7 @@ void GameScene::Init()
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 
 	// TODO: Load different file based on which level we are on
-	myTiledParser = std::make_unique<TiledParser>("Maps/HampusTestMap.json");
+	myTiledParser = std::make_unique<TiledParser>("Maps/TestMap.json");
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());

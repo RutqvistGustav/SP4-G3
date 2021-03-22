@@ -186,11 +186,10 @@ void Player::OnCollision(GameObject* aGameObject)
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-		//TODO:FIX - this part is never reached
 		
 		/*if (myCollider->GetIsCube())
 		{*/
-			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+			//myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
 			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
 		/*}
 		else
@@ -200,13 +199,13 @@ void Player::OnCollision(GameObject* aGameObject)
 		}*/
 
 
-		myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		/*myVel = CU::Vector2<float>(myVel.x, 0.0f);
 		myGravityActive = false;
-		myCollider->SetPos(myPosition);
+		myCollider->SetPos(myPosition);*/
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravityActive = true;
+		//myGravityActive = true;
 
 
 		break;

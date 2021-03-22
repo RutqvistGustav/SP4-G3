@@ -45,7 +45,5 @@ private:
 	TiledCollision* myTiledCollision;
 };
 
-//TODO:bugg - spelaren rör sig när hen står stilla
-//TODO:make tiles collidable
+
 //TODO:make colliders with fall-through
-//TODO:test the scene from Vilgot & pull Robins change from main
