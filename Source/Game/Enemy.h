@@ -13,6 +13,7 @@ public:
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     
     virtual void OnCollision(GameObject* aGameObject) = 0;
+    virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) = 0;
     //virtual void DealDamage();
     //virtual void TakeDamage();
     //virtual void Behavior();

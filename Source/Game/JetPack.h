@@ -11,6 +11,7 @@ public:
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     void OnCollision(GameObject* aGameObject) override;
+    virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
 
 private:
 

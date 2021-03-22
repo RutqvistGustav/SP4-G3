@@ -35,3 +35,7 @@ void JetPack::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 void JetPack::OnCollision(GameObject* aGameObject)
 {
 }
+
+void JetPack::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+}

@@ -120,11 +120,30 @@ void Zombie::OnCollision(GameObject* aGameObject)
 		{
 			myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
 		}
-		myGravity = 0;
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		break;
+	default:
+		break;
+	}
+}
 
+void Zombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+		myPosition = myPositionLastFrame - anOffset * 0.01f;
+
+		myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
+		myGravity = 0;
 		break;
 	case Collider::eCollisionStage::NotColliding:
 		myGravity = 3000;
+
+
 		break;
 	default:
 		break;

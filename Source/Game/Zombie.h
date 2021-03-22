@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "TileType.h"
 
 class Zombie :
     public Enemy
@@ -15,6 +16,7 @@ public:
     void         IdleMovement(const float aDeltaTime);
     void         UpdateGravity(const float aDeltaTime);
     void         OnCollision(GameObject* aGameObject) override;
+    void         OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
     bool         CheckIdle();
 
 private:
