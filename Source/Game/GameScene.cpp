@@ -43,9 +43,6 @@ void GameScene::Init()
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 
 
-	myPlayer = std::make_shared<Player>(this);
-	myPlayer->Init();
-
 
 	for (size_t i = 0; i < 10; ++i)
 	{
@@ -54,7 +51,7 @@ void GameScene::Init()
 		myGameObjects[i]->SetPosition({ 200.0f * (i + 1) , 1080.0f});
 	}
 
-	myPlayer = std::make_unique<Player>(this);
+	myPlayer = std::make_shared<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
@@ -114,6 +111,7 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 
 void GameScene::SpawnEnemy()
 {
+	//Example of how to spawn an enemy through the Postmaster
 	EnemyMessageData enemyMessageData{};
 	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
 	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
