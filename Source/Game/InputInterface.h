@@ -16,13 +16,13 @@ public:
 	bool IsGrappling()const;
 	bool IsShooting()const;
 
-	bool IsMovingLeft_Pressed();
+	bool IsMovingLeft_Pressed()const;
 	bool IsMovingLeft_Down();
-	bool IsMovingLeft_Released();
+	bool IsMovingLeft_Released()const;
 
-	bool IsMovingRight_Pressed();
+	bool IsMovingRight_Pressed()const;
 	bool IsMovingRight_Down();
-	bool IsMovingRight_Released();
+	bool IsMovingRight_Released()const;
 
 	bool Is_G_Pressed()const;
 
