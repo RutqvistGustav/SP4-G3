@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Weapon.h"
+#include "Ray.hpp"
 
 class SpriteWrapper;
 class GrappleHookProjectile;
@@ -31,8 +32,10 @@ protected:
 private:
 	bool myIsLoaded = true;
 
+	float myMaxDistance{};
 	float myCoolDown{};
 	float myCoolDownReset{};
 
 	std::unique_ptr<GrappleHookProjectile> myProjectile;
+	//CU::Ray<float> myRay;
 };

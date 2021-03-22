@@ -25,12 +25,13 @@ namespace CommonUtilities
 			InitWith2Points(aOrigin, aPoint);
 		}
 
-
 		// Init the ray with two points, the same as the constructor above.
+		// myDirection now holds direction and length since it's not normalized.
 		void InitWith2Points(const Vector3<T>& aOrigin, const Vector3<T>& aPoint)
 		{
 			myOrigin = aOrigin;
-			myDirection = (aPoint - aOrigin).GetNormalized();
+			myDirection = aPoint;
+			//myDirection = (aPoint - aOrigin).GetNormalized();
 		}
 
 		// Init the ray with an origin and a direction.
