@@ -1,17 +1,27 @@
 #include "stdafx.h"
 #include "Scene.h"
 
+#include "GameObject.h"
+
 #include "SceneManagerProxy.h"
 
 Scene::Scene() = default;
 Scene::~Scene() = default;
 
-void Scene::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
+void Scene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	for (std::shared_ptr<GameObject>& gameObject : myGameObjects)
+	{
+		gameObject->Update(aDeltaTime, anUpdateContext);
+	}
 }
 
-void Scene::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+void Scene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	for (std::shared_ptr<GameObject>& gameObject : myGameObjects)
+	{
+		gameObject->Render(aRenderQueue, aRenderContext);
+	}
 }
 
 void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy, GlobalServiceProvider* aGlobalServiceProvider)

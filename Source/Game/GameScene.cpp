@@ -54,12 +54,17 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	CollisionManager::GetInstance()->Update();
+	Scene::Update(aDeltaTime, anUpdateContext);
+
 	myPlayer->Update(aDeltaTime, anUpdateContext);
+
+	CollisionManager::GetInstance()->Update();
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	Scene::Render(aRenderQueue, aRenderContext);
+
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 #ifdef _DEBUG

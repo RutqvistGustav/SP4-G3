@@ -85,6 +85,12 @@
     <Filter Include="Core\Components">
       <UniqueIdentifier>{baa89655-304a-4278-8bfe-77110cf39f6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Collectables">
+      <UniqueIdentifier>{73d5a481-f519-4d68-9b13-3b19ad9e0ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Volumes">
+      <UniqueIdentifier>{4c6d94c0-078a-41f3-acaa-b0717bbfb37d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -333,6 +339,18 @@
     <ClInclude Include="TriggerVolume.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Collectable.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageVolume.h">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="IJsonInitializable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -487,6 +505,15 @@
     </ClCompile>
     <ClCompile Include="TiledCache.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Collectable.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageVolume.cpp">
+      <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
