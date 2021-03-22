@@ -67,7 +67,16 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 		anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
 	};
 
-	const CU::Vector2<float> direction = mousePosition - myPlayer->GetPosition();
+	CU::Vector2<float> direction;
+
+	if (anUpdateContext.myInputInterface->IsUsingController())
+	{
+		direction = { anUpdateContext.myInputInterface->GetRightStickX(), -anUpdateContext.myInputInterface->GetRightStickY() };
+	}
+	else
+	{
+		direction = mousePosition - myPlayer->GetPosition();
+	}
 
 	const float radians = std::atan2f(direction.y, direction.x);
 	const float step = 2.0f * MathHelper::locPif / 8.0f;
