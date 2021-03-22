@@ -3,6 +3,7 @@
 
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 #include "Scene.h"
 
@@ -25,13 +26,15 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 
 GameObject::~GameObject()
 {
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 }
 
 void GameObject::Init()
 {
 	myCollider->Init(this, myPosition);
-	CollisionManager::GetInstance()->AddCollider(myCollider);
+	myScene->GetCollisionManager()->AddCollider(myCollider);
+
+	//mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
@@ -80,6 +83,11 @@ void GameObject::OnCollision(GameObject* /*aGameObject*/)
 	default:
 		break;
 	}
+}
+
+void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+
 }
 
 const Collider* GameObject::GetCollider() const

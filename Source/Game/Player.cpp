@@ -27,6 +27,7 @@
 #include "InputInterface.h"
 #include <iostream>
 #include <imgui.h>
+#include "JsonManager.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -63,7 +64,6 @@ void Player::Init()
 	InitVariables(data);
 
 	myOnGround = false;
-
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
@@ -72,10 +72,8 @@ void Player::Init()
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
-	// Init HUD
 	myHUD->Init();
-
-	//myWeaponController->Init();
+	myWeaponController->Init();
 	
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -94,7 +92,8 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 	myHUD->Update(myPosition);
 
-	myWeaponController->Update(aDeltaTime, anUpdateContext, GetPosition());
+	myWeaponController->Update(aDeltaTime, anUpdateContext);
+
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
@@ -174,6 +173,10 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
+
+	// Grappling hook
+	myPullSpeed = someData.at("PullSpeed");
+	myStopAtOffset = someData.at("StopAtOffSet");
 }
 
 void Player::OnCollision(GameObject* aGameObject)
@@ -186,27 +189,26 @@ void Player::OnCollision(GameObject* aGameObject)
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-
 		
-		if (myCollider->GetIsCube())
-		{
-			myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+		/*if (myCollider->GetIsCube())
+		{*/
+			//myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
 			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
-		}
+		/*}
 		else
 		{
 			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
 			myPosition -= overlap * fromOtherToMe.GetNormalized();
-		}
+		}*/
 
 
-		myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		myGravity = 0.0f;
-		myCollider->SetPos(myPosition);
+		/*myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		myGravityActive = false;
+		myCollider->SetPos(myPosition);*/
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravity = 3000.0f;
+		//myGravityActive = true;
 
 
 		break;
@@ -215,11 +217,49 @@ void Player::OnCollision(GameObject* aGameObject)
 	}
 }
 
+void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+	float overlap = 0.0f;
+
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+
+
+		/*if (myCollider->GetIsCube())
+		{*/
+		myPosition = myPositionLastFrame - anOffset * 0.01f;
+		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+	/*}
+	else
+	{
+		overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
+		myPosition -= overlap * fromOtherToMe.GetNormalized();
+	}*/
+
+
+		myVel = CU::Vector2<float>(myVel.x, 0.0f);
+		myGravityActive = false;
+		myCollider->SetPos(myPosition);
+
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		myGravityActive = true;
+
+
+		break;
+	default:
+		break;
+	}
+}
 
 void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
 }
+
 
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
@@ -289,25 +329,32 @@ void Player::ImGui()
 void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 {
 	PlayerInput(anInput);
-	CU::Vector2<float> movement = GetDirection(anInput);
+	CU::Vector2<float> direction = GetDirection(anInput);
 
 	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
 	{
-		myVel += movement * mySpeed * aDeltaTime;
+		myVel += direction * mySpeed * aDeltaTime;
 	}
 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
 	{
-		myVel += movement * mySpeed * aDeltaTime;
+		myVel += direction * mySpeed * aDeltaTime;
 	}
+
 	BrakeMovement(aDeltaTime);
-
 	Jump(aDeltaTime);
+	GrappleTowardsTarget(aDeltaTime);
 
+	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
+	//{
+	//	myVel = myVel.GetNormalized() * 64.f;
+	//}
+
+	myPosition += myVel * aDeltaTime;
+	mySprite->SetPosition(myPosition);
 	SetPosition(GetPosition() + myVel * aDeltaTime);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
 	//std::cout << "Velocity " << myVel.x << std::endl;
-
 }
 
 void Player::Jump(const float aDeltaTime)
@@ -343,19 +390,33 @@ void Player::Jump(const float aDeltaTime)
 	}
 }
 
+void Player::GrappleTowardsTarget(const float aDeltaTime)
+{
+	if (myIsGrappling == true)
+	{
+		myVel += myGrappleDirection * myPullSpeed * aDeltaTime;
+		if ((myGrappleTarget.Length() - GetPosition().Length()) <= myStopAtOffset) // Stop and reset Grapplehook when close to target
+		{
+			myIsGrappling = false;
+			myGrappleDirection = CU::Vector2<float>();
+			myGrappleTarget = CU::Vector2<float>();
+			myWeaponController->StopGrappling();
+		}
+	}
+}
+
+void Player::StartGrappling(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
+{
+	myGrappleDirection = aGrapplingDirection;
+	myGrappleTarget = aTargetPosition;
+	myIsGrappling = true;
+}
+
 CU::Vector2<float> Player::GetDirection(InputInterface * anInput)
 {
 	CU::Vector2<float> direction(0.0f, 0.0f);
-	if (anInput->IsMovingLeft_Down()/* && myIsMovingRight == false*/)
-	{
-		--direction.x;
-		//std::cout << "Left" << std::endl;
-	}
-	if (anInput->IsMovingRight_Down()/* && myIsMovingLeft == false*/)
-	{
-		++direction.x;
-		//std::cout << "Right direction" << direction.x << std::endl;
-	}
+	if (anInput->IsMovingLeft_Down()) --direction.x;
+	if (anInput->IsMovingRight_Down()) ++direction.x;
 
 	return direction;
 }

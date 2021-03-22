@@ -4,6 +4,7 @@
 #include "RenderCommand.h"
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
+#include "Scene.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -14,7 +15,7 @@
 AmmoCounter::AmmoCounter(Scene* aScene)
 	: GameObject(aScene)
 {
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 

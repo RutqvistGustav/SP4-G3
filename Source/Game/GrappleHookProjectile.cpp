@@ -1,13 +1,35 @@
 #include "stdafx.h"
 #include "GrappleHookProjectile.h"
 
-GrappleHookProjectile::GrappleHookProjectile(Scene* aScene)
+#include "RenderQueue.h"
+#include "RenderContext.h"
+#include "RenderCommand.h"
+#include "SpriteWrapper.h"
+
+#include "CollisionManager.h"
+#include <iostream>
+
+GrappleHookProjectile::GrappleHookProjectile(Scene* aScene, IWeaponHolder* aWeaponHolder)
 	: GameObject(aScene)
 {
+	myWeaponHolder = aWeaponHolder;
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/Hook.dds");
+
 }
 
-void GrappleHookProjectile::Init()
+void GrappleHookProjectile::Init(const JsonData& someJsonData)
 {
+	//myMaxDistance = someJsonData["maxDistance"];
+	//myHookSpeed = someJsonData["hookSpeed"];
+	//myContractSpeed = someJsonData["contractSpeed"];
+}
+
+void GrappleHookProjectile::SetVariables(float aMaxDistance, float aHookSpeed, float aContractSpeed)
+{
+	GameObject::Init();
+	myMaxDistance = aMaxDistance;
+	myHookSpeed = aHookSpeed;
+	myContractSpeed = aContractSpeed;
 }
 
 void GrappleHookProjectile::Update(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
@@ -22,51 +44,47 @@ void GrappleHookProjectile::Render(RenderQueue* const aRenderQueue, RenderContex
 {
 	if (myIsFiring == true)
 	{
-		// render
+		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
 }
 
 void GrappleHookProjectile::OnCollision(GameObject* aGrapplingPoint)
 {
-	//if (/*GameObject is valid target*/) // should not collide with Player
-	//{
-	//	myGrapplingPoint = aGrapplingPoint;
-	//	myHasFoundValidTarget = true;
-	//}
+	if (aGrapplingPoint->GetTag() == GameObjectTag::Default && myHasFoundTarget == false) // should not collide with Player
+	{
+		myWeaponHolder->OnGrappleHit(GetPosition(), myDirection);
+		myHasFoundTarget = true;
+	}
 }
 
 void GrappleHookProjectile::Movement(const float aDeltaTime, const CU::Vector2<float>& aPlayerPosition)
 {
-	myDistanceTraveled += myDirection * aDeltaTime;
-	if (myDistanceTraveled.Length() < myMaxDistance)
+	if (myHasFoundTarget == false)
 	{
-		CU::Vector2<float> currentPosition = (aPlayerPosition + myDistanceTraveled) * aDeltaTime;
-		SetPosition(currentPosition);
+		if (myDistanceTraveled < myMaxDistance)
+		{
+			myDistanceTraveled += myHookSpeed * aDeltaTime;
+			SetPosition(aPlayerPosition + myDistanceTraveled * myDirection);
+		}
+		else
+		{
+			ResetProjectile();
+		}
 	}
-	else
-	{
-		ResetProjectile();
-	}
-}
-
-bool GrappleHookProjectile::HasFoundGrapplingTarget()
-{
-	return myHasFoundValidTarget;
 }
 
 void GrappleHookProjectile::SpawnProjectile(const CU::Vector2<float> aDirection)
 {
 	myIsFiring = true;
 	myDirection = aDirection;
-	myDirection *= myHookSpeed;
 }
 
 void GrappleHookProjectile::ResetProjectile()
 {
 	myIsFiring = false;
-	myHasFoundValidTarget = false;
+	myHasFoundTarget = false;
 
-	myDistanceTraveled = { 0.0f,0.0f };
+	myDistanceTraveled = 0;
 	myGrapplingPoint = { 0.0f,0.0f };
 }
 

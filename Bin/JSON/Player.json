@@ -5,6 +5,9 @@
   "StopAtVelocity": 100.0,
   "GravityStrength": 3000.0,
 
+  "PullSpeed": 10000.0,
+  "StopAtOffSet" : 450.0,
+
   "JumpCharges": 2,
   "JumpStrength": 13000.0,
   "JumpDuration": 0.1

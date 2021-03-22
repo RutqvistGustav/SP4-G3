@@ -8,8 +8,12 @@ Weapon::Weapon(const WeaponType aWeaponType, IWeaponHolder* aWeaponHolder)
 
 Weapon::~Weapon() = default;
 
-void Weapon::Init(const JsonData & someJsonData)
+void Weapon::Init(const JsonData& someJsonData)
 {
 	LoadJson(someJsonData);
 	Setup();
+}
+
+void Weapon::InitGameObjects(Scene* aScene)
+{
 }
