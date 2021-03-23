@@ -12,6 +12,8 @@
 #include "Player.h"
 #include "Scene.h"
 
+#include "Camera.h"
+
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
@@ -50,14 +52,6 @@ void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderConte
 
 CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
 {
-	// TODO: Figure out direction of weapons and update
-	// NOTE: Will have to be changed, this is just to test with a mouse
-
-	const CU::Vector2<float> mousePosition = {
-		anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
-		anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
-	};
-
 	CU::Vector2<float> direction;
 
 	if (anUpdateContext.myInputInterface->IsUsingController())
@@ -66,7 +60,14 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 	}
 	else
 	{
-		direction = mousePosition - myPlayer->GetPosition();
+		const CU::Vector2<float> mousePosition = {
+			anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
+			anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
+		};
+
+		const CU::Vector2<float> windowRelativePlayerPosition = myPlayer->GetPosition() - myScene->GetCamera()->GetPosition() + Metrics::GetReferenceSize() * 0.5f;
+
+		direction = mousePosition - windowRelativePlayerPosition;
 	}
 
 	const float radians = std::atan2f(direction.y, direction.x);
