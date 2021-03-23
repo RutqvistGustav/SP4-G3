@@ -6,7 +6,11 @@
 #include "TiledTile.h"
 
 #ifdef _DEBUG
-#include <tga2d/sprite/sprite.h>
+//#include <tga2d/sprite/sprite.h>
+#include "RenderQueue.h"
+#include "RenderContext.h"
+#include "InputInterface.h"
+#include "InputManager.h"
 #endif // _DEBUG
 
 
@@ -84,10 +88,8 @@ void CollisionManager::Update()
 	}
 
 
-
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
-
 		myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
 		myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
 		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
@@ -109,7 +111,8 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 	myColliders.push_back(aCollider);
 
 #ifdef _DEBUG
-	myColliders.back().get()->myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
+	//myColliders.back().get()->myDebugSprite = new Tga2D::CSprite("debugCookieSquare.png");
 #endif // _DEBUG
 
 }
@@ -160,11 +163,11 @@ void CollisionManager::InitDebug()
 		myColliders[i]->InitDebug();
 	}
 }
-void CollisionManager::RenderDebug()
+void CollisionManager::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	for (int i = 0; i < myColliders.size(); ++i)
+	for (int i = 0; i < myColliders.size() && myDoRender; ++i)
 	{
-		myColliders[i]->RenderDebug();
+		myColliders[i]->RenderDebug(aRenderQueue, aRenderContext);
 	}
 }
 #endif // _DEBUG

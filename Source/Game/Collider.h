@@ -6,11 +6,15 @@ namespace Tga2D
 {
 	class CSprite;
 }
+#include "SpriteWrapper.h"
 #endif // _DEBUG
 
+class SpriteWrapper;
 class GameObject;
 class TiledCollision;
 class TiledTile;
+class RenderQueue;
+class RenderContext;
 
 class Collider
 {
@@ -38,9 +42,9 @@ public:
 #ifdef _DEBUG
 	void InitDebug();
 
-	void RenderDebug();
+	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	void setRenderColor(Tga2D::CColor aColor);
-	Tga2D::CSprite* myDebugSprite;
+	std::shared_ptr<SpriteWrapper> myDebugSprite;
 #endif // _DEBUG
 
 	enum class eCollisionStage
@@ -70,3 +74,5 @@ private:
 
 };
 
+//TODO:Sync colliders with correct positon
+//TODO:man kan fråga collision manager om collisions

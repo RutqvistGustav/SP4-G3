@@ -44,11 +44,11 @@ void GameScene::Init()
 	myPlayer = std::make_unique<Player>(this);
 	myPlayer->Init();
 
-	for (size_t i = 0; i < 10; ++i)
+	for (size_t i = 0; i < 1; ++i)
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 200.0f * (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 800.0f * (i + 1) , 1080.0f / 2.0f + 100.f});
 	}
 
 	myPlayer = std::make_unique<Player>(this);
@@ -68,11 +68,12 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 {
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
-#ifdef _DEBUG
-	myCollisionManager->RenderDebug();
-#endif //_DEBUG
 
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+
+#ifdef _DEBUG
+	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+#endif //_DEBUG
 }
 
 CheckpointContext GameScene::SaveCheckpoint()

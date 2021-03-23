@@ -6,6 +6,11 @@
 #include <memory>
 #include "TileType.h"
 
+#ifdef _DEBUG
+#include "tga2d/math/vector2.h"
+#include "tga2d/sprite/sprite.h"
+#endif // _DEBUG
+
 class Collider;
 
 struct UpdateContext;
@@ -40,6 +45,10 @@ public:
 	inline Scene* GetScene() { return myScene; }
 
 	inline const GameObjectTag GetTag() const { return myTag; }
+
+#ifdef _DEBUG
+	const Tga2D::Vector2f GetSpritePos()const;
+#endif // _DEBUG
 
 protected:
 

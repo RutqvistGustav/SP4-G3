@@ -99,3 +99,13 @@ GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 {
 	return GetScene()->GetGlobalServiceProvider();
 }
+
+
+#ifdef _DEBUG
+const Tga2D::Vector2f GameObject::GetSpritePos() const
+{
+	
+	CU::Vector2<float> result = mySprite->GetPosition();
+	return { result.x, result.y };
+}
+#endif // _DEBUG

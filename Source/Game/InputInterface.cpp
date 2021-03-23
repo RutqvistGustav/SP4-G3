@@ -69,6 +69,11 @@ bool InputInterface::Is_G_Pressed() const
 	return myInput->IsKeyPressed('G');
 }
 
+bool InputInterface::Is_C_Pressed() const
+{
+	return myInput->IsKeyPressed('C');
+}
+
 bool InputInterface::IsPressingUse() const
 {
 	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(XINPUT_GAMEPAD_X));
