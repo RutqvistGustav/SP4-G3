@@ -20,6 +20,7 @@
 
 #include "Camera.h"
 #include "MathHelper.h"
+#include "Health.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -175,6 +176,9 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
+
+	//Health
+	myHealth = std::make_unique<Health>(someData.at("Health"));
 }
 
 void Player::OnCollision(GameObject* aGameObject)
@@ -259,6 +263,16 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
+}
+
+void Player::TakeDamage(const int aDamage)
+{
+	myHealth->TakeDamage(aDamage);
+}
+
+void Player::AddHealth(const int aHealthAmount)
+{
+	myHealth->AddHealth(aHealthAmount);
 }
 
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
