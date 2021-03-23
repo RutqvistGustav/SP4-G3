@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "Scene.h"
+#include "Health.h"
 
 Enemy::Enemy(Scene* aScene, const char* aSpritePath)
 	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath)
@@ -26,11 +27,8 @@ const int Enemy::DealDamage()
 
 void Enemy::TakeDamage(const int aDamage)
 {
-	myHealth -= aDamage;
-	if (myHealth <= 0)
-	{
-		myDeleteThisFrame = true;
-	}
+	myHealth->TakeDamage(aDamage);
+	myDeleteThisFrame = myHealth->IsDead();
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)

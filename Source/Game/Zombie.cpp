@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
+#include "Health.h"
 // JSON
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -16,7 +17,8 @@ Zombie::Zombie(Scene* aScene)
 {
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
 	nlohmann::json zombieData = data.at("Zombie");
-	myHealth = zombieData.at("Health");
+	myHealth = std::make_unique<Health>(zombieData.at("Health"));
+	myHealth->SetInvincibilityTimer(zombieData.at("Invincibility"));
 	myDamage = zombieData.at("Damage");
 	mySpeed = zombieData.at("MovementSpeed");
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
