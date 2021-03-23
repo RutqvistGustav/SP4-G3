@@ -28,8 +28,6 @@ void EnemyManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 	{
 		enemy->Update(aDeltaTime, anUpdateContext);
 	}
-
-	DeleteMarkedEnemies();
 }
 
 void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
