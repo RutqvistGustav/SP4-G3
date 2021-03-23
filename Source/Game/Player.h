@@ -35,8 +35,6 @@ public:
 
     void ApplyForce(const CU::Vector2<float>& aForce);
 
-    void Controller(const float aDeltaTime, InputInterface* anInput);
-
     void OnCollision(GameObject*) override;
     void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
 
@@ -68,7 +66,7 @@ private:
     // Movement
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
-    bool myOnGround;
+    bool myIsOnGround = false;
 
     float mySpeed;
     float myMaxSpeed;
@@ -81,7 +79,7 @@ private:
     // Jump
     bool myIsJumping = false;
     bool myHasRemovedNegativeVel = false;
-    bool myGravityActive = false;
+    bool myGravityActive = true;
 
     int myJumpCharges;
     int myJumpChargeReset;
