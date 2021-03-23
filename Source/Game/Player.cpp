@@ -246,7 +246,6 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravityActive = true;
 
 
 
@@ -389,16 +388,14 @@ void Player::Jump(const float aDeltaTime)
 		}
 		else
 		{
+			myGravityActive = true;
 			myIsJumping = false;
 			myJumpDuration = myJumpDurationReset;
 		}
 	}
-	else
+	else if (myGravityActive == true)
 	{
-		if (myGravityActive == true)
-		{
-			myVel.y += myGravity * aDeltaTime;
-		}
+		myVel.y += myGravity * aDeltaTime;
 	}
 }
 
