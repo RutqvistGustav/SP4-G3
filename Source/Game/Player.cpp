@@ -241,8 +241,8 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		myPosition -= overlap * fromOtherToMe.GetNormalized();
 	}*/
 
-		myJumpDuration = myJumpDurationReset; // TODO ask Hampus where i jumpreset logic should be in.
 		myJumpCharges = myJumpChargeReset;
+		myIsJumping = false;
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
 		myGravityActive = false;
@@ -264,7 +264,6 @@ void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
 }
-
 
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
@@ -312,7 +311,6 @@ void Player::ImGui()
 	ImGui::SliderFloat("GravityStrength", &myGravity, 0, 100000.0f);
 
 	ImGui::SliderInt("JumpCharges", &myJumpCharges, 0, 100);
-	myJumpChargeReset = myJumpCharges;
 
 	ImGui::SliderFloat("JumpStrength", &myJumpStrength, 0, 100000);
 
@@ -381,7 +379,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 void Player::Jump(const float aDeltaTime)
 {
-	if (myIsJumping == true && myJumpCharges > 0)
+	if (myIsJumping == true && myJumpCharges >= 0)
 	{
 		myJumpDuration -= aDeltaTime;
 		if (myJumpDuration > 0)
