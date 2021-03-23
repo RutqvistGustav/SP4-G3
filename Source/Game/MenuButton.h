@@ -12,7 +12,7 @@ public:
 
 
     virtual void Init() override;
-    virtual void Update(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+    virtual void Update();
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext) override;
     void SetPosition(const CU::Vector2<float> aPosition);
 

@@ -70,8 +70,11 @@
     <Filter Include="GameObjects\Mouse">
       <UniqueIdentifier>{be8a1779-2f3e-4edd-8360-ae5fd162adac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\HUD\Buttons">
+    <Filter Include="GameObjects\Buttons">
       <UniqueIdentifier>{37211139-851d-4b29-ab28-d434240e674d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Menus">
+      <UniqueIdentifier>{661c0c37-56bf-48b4-a18f-8d4716ea3925}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -279,9 +282,6 @@
     <ClInclude Include="GameLayer.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
     </ClInclude>
@@ -289,10 +289,16 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="MenuButton.h">
-      <Filter>GameObjects\HUD\Buttons</Filter>
+      <Filter>GameObjects\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes\Menus</Filter>
     </ClInclude>
     <ClInclude Include="Options.h">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,9 +440,6 @@
     <ClCompile Include="TiledEntity.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="MousePointer.cpp">
       <Filter>GameObjects\Mouse</Filter>
     </ClCompile>
@@ -444,10 +447,16 @@
       <Filter>Helpers</Filter>
     </ClCompile>
     <ClCompile Include="MenuButton.cpp">
-      <Filter>GameObjects\HUD\Buttons</Filter>
+      <Filter>GameObjects\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelect.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
     <ClCompile Include="Options.cpp">
-      <Filter>Scenes</Filter>
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

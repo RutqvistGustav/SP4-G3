@@ -17,6 +17,7 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+	void InitButtons();
 	void MuteSound();
 
 	bool myIsMuted;
@@ -25,6 +26,6 @@ private:
 	std::unique_ptr<MenuButton> myBackButton;
 	std::unique_ptr<AudioManager> myAudioManager;
 
-	std::vector<std::unique_ptr<GameObject>> myButtons;
+	std::vector<std::unique_ptr<MenuButton>> myButtons;
 };
 

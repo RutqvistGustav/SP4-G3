@@ -17,9 +17,10 @@ void MenuButton::Init()
 
 }
 
-void MenuButton::Update(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void MenuButton::Update()
 {
 	myCollider->SetPos(myPosition);
+	myPositionLastFrame = myPosition;
 }
 
 void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)

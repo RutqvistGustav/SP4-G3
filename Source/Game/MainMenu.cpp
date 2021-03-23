@@ -18,24 +18,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::Init()
 {
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
-
-	myStartButton = std::make_unique<MenuButton>(this, "Sprites/StartButton.png");
-	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.10f));
-	myStartButton->SetType(GameObject::eObjectType::PlayButton);
-	myButtons.push_back(std::move(myStartButton));
-
-	myOptionsButton = std::make_unique<MenuButton>(this, "Sprites/OptionsButton.png");
-	myOptionsButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.50f));
-	myOptionsButton->SetType(GameObject::eObjectType::OptionsButton);
-	myButtons.push_back(std::move(myOptionsButton));
-
-	myQuitButton = std::make_unique<MenuButton>(this, "Sprites/QuitButton.png");
-	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.90f));
-	myQuitButton->SetType(GameObject::eObjectType::QuitButton);
-	myButtons.push_back(std::move(myQuitButton));
-
+	InitButtons();
 }
 
 void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -80,4 +63,30 @@ void MainMenu::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCon
 	}
 
 	myMousePointer->Render(aRenderQueue, aRenderContext);
+}
+
+void MainMenu::InitButtons()
+{
+	float x = Metrics::GetReferenceSize().x;
+	float y = Metrics::GetReferenceSize().y;
+
+	myStartButton = std::make_unique<MenuButton>(this, "Sprites/StartButton.png");
+	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.10f));
+	myStartButton->SetType(GameObject::eObjectType::PlayButton);
+	myButtons.push_back(std::move(myStartButton));
+
+	myOptionsButton = std::make_unique<MenuButton>(this, "Sprites/OptionsButton.png");
+	myOptionsButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.50f));
+	myOptionsButton->SetType(GameObject::eObjectType::OptionsButton);
+	myButtons.push_back(std::move(myOptionsButton));
+
+	myQuitButton = std::make_unique<MenuButton>(this, "Sprites/QuitButton.png");
+	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.90f));
+	myQuitButton->SetType(GameObject::eObjectType::QuitButton);
+	myButtons.push_back(std::move(myQuitButton));
+
+	myLevelSelectButton = std::make_unique<MenuButton>(this, "Sprites/LevelSelectButton.png");
+	myLevelSelectButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.90f));
+	myLevelSelectButton->SetType(GameObject::eObjectType::LevelSelect);
+	myButtons.push_back(std::move(myLevelSelectButton));
 }

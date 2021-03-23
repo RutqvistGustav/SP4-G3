@@ -3,12 +3,12 @@
 
 class MenuButton;
 
-class MainMenu :
+
+class LevelSelect :
     public Scene
 {
-public:
-	MainMenu();
-	virtual ~MainMenu() override;
+    LevelSelect();
+    virtual ~LevelSelect() override;
 
 	virtual void Init() override;
 
@@ -18,11 +18,10 @@ public:
 private:
 	void InitButtons();
 
-	std::unique_ptr<MenuButton> myStartButton;
-	std::unique_ptr<MenuButton> myQuitButton;
-	std::unique_ptr<MenuButton> myOptionsButton;
-	std::unique_ptr<MenuButton> myLevelSelectButton;
+	std::unique_ptr<MenuButton> myLevel1;
+	std::unique_ptr<MenuButton> myBackButton;
+	
+	std::vector<std::unique_ptr<MenuButton>> myButtons;
 
-	std::vector<std::unique_ptr<GameObject>> myButtons;
 };
 

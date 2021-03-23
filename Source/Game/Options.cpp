@@ -11,6 +11,7 @@
 
 Options::Options()
 {
+	myIsMuted = false;
 }
 
 Options::~Options()
@@ -19,22 +20,9 @@ Options::~Options()
 
 void Options::Init()
 {
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
-
-	myIsMuted = false;
-
 	myAudioManager = std::make_unique<AudioManager>();
 
-	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png");
-	myMuteSound->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.3f));
-	myMuteSound->SetType(GameObject::eObjectType::MuteSound);
-	myButtons.push_back(std::move(myMuteSound));
-
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png");
-	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
-	myBackButton->SetType(GameObject::eObjectType::BackButton);
-	myButtons.push_back(std::move(myBackButton));
+	InitButtons();
 }
 
 void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -43,7 +31,7 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	for (auto& o : myButtons)
 	{
-		o->Update(aDeltaTime, anUpdateContext);
+		o->Update();
 	}
 
 	myMousePointer->Update(aDeltaTime, anUpdateContext);
@@ -74,6 +62,22 @@ void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 	}
 
 	myMousePointer->Render(aRenderQueue, aRenderContext);
+}
+
+void Options::InitButtons()
+{
+	float x = Metrics::GetReferenceSize().x;
+	float y = Metrics::GetReferenceSize().y;
+
+	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png");
+	myMuteSound->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.3f));
+	myMuteSound->SetType(GameObject::eObjectType::MuteSound);
+	myButtons.push_back(std::move(myMuteSound));
+
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png");
+	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
+	myBackButton->SetType(GameObject::eObjectType::BackButton);
+	myButtons.push_back(std::move(myBackButton));
 }
 
 void Options::MuteSound()

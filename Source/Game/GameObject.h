@@ -25,6 +25,8 @@ public:
 		MuteSound,
 		OptionsButton,
 		BackButton,
+		LevelSelect,
+		Level1,
 		Count
 	};
 
