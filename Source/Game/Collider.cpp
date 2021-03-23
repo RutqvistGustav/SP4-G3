@@ -163,6 +163,9 @@ void Collider::InitDebug()
 
 void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	if (!myDoRender)
+		return;
+
 	CU::Vector2<float> cameraPos(myGameObject->GetScene()->GetCamera()->GetPosition());
 
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });

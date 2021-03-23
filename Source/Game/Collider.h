@@ -45,6 +45,7 @@ public:
 	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	void setRenderColor(Tga2D::CColor aColor);
 	std::shared_ptr<SpriteWrapper> myDebugSprite;
+	bool myDoRender = true;
 #endif // _DEBUG
 
 	enum class eCollisionStage
