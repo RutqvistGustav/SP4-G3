@@ -1,5 +1,5 @@
 {
-  "MovementSpeed": 2000.0,
+  "MovementSpeed": 1250.0,
   "MaxSpeedCap": 1000.0,
   "BrakeStrength": 0.000001,
   "StopAtVelocity": 100.0,

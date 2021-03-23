@@ -6,20 +6,11 @@
 
         "reloadDuration": 0.3,
 
-        "damage": 10.0,
+        "damage": 10,
 
         "aoeAngle": 50.0,
         "aoeLength": 300.0,
 
         "recoilKnockbackStrength": 1000.0
-    },
-
-    "grapple": {
-        "type": "grapple",
-
-        "maxDistance": 600.0,
-        "hookSpeed": 3000.0,
-      "contractSpeed": 500.0,
-      "coolDown" : 0.5
     }
 }
