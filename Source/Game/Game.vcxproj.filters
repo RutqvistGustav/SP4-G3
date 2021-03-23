@@ -351,9 +351,11 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Health.h" />
     <ClInclude Include="HealthPickup.h">
       <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="Health.h">
+      <Filter>Core\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -516,9 +518,11 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp">
       <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Core\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
