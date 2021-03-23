@@ -64,6 +64,11 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 	{
 		myCollider->SetPos(myPosition);
 	}
+
+	if (myPositionLastFrame.x + myPositionLastFrame.y == 0.0f)
+	{
+		myPositionLastFrame = myPosition;
+	}
 }
 
 void GameObject::OnCollision(GameObject* /*aGameObject*/)

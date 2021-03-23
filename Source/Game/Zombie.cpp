@@ -53,6 +53,7 @@ void Zombie::Movement(const float aDeltaTime)
 {
 	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	//distance = pow(distance, 0.5f);
+	UpdateGravity(aDeltaTime);
 
 	if (myTarget->GetPosition().x < myPosition.x && -myMaxSpeed <= myVelocity.x)
 	{
@@ -71,8 +72,7 @@ void Zombie::Movement(const float aDeltaTime)
 		}
 	}
 
-	UpdateGravity(aDeltaTime);
-	
+
 	direction = myPosition;
 	direction += myVelocity * aDeltaTime;
 	SetPosition(direction);
@@ -80,6 +80,7 @@ void Zombie::Movement(const float aDeltaTime)
 
 void Zombie::IdleMovement(const float aDeltaTime)
 {
+	//TODO - Change Direction when hitting a wall
 	UpdateGravity(aDeltaTime);
 	if (myVelocity.x > 0.0f)
 	{
@@ -97,7 +98,14 @@ void Zombie::IdleMovement(const float aDeltaTime)
 
 void Zombie::UpdateGravity(const float aDeltaTime)
 {
-	myVelocity.y += myGravity * aDeltaTime;
+	if (myApplyGravity)
+	{
+		myVelocity.y += myGravity * aDeltaTime;
+	}
+	else
+	{
+		myVelocity.y = 0.0f;
+	}
 }
 
 void Zombie::OnCollision(GameObject* aGameObject)
@@ -116,10 +124,10 @@ void Zombie::OnCollision(GameObject* aGameObject)
 			myVelocity = CU::Vector2<float>(0.0f, 0.0f);
 			//TODO - Add DamagePlayer
 		}
-		else if (aGameObject->GetTag() != GameObjectTag::Enemy)
-		{
-			myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
-		}
+		//if (aGameObject->GetTag() != GameObjectTag::Enemy)
+		//{
+		//	myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
+		//}
 		break;
 	case Collider::eCollisionStage::NotColliding:
 		break;
@@ -135,13 +143,13 @@ void Zombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-		myPosition = myPositionLastFrame - anOffset * 0.01f;
+		myPosition = myPositionLastFrame - anOffset * 0.05f;
 
 		myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
-		myGravity = 0;
+		myApplyGravity = false;
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravity = 3000;
+		myApplyGravity = true;
 
 
 		break;
