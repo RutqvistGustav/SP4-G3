@@ -15,5 +15,5 @@ HealthPickup::HealthPickup(Scene* aScene)
 
 void HealthPickup::OnCollect(Player* aPlayer)
 {
-	//TODO - Give Player The Healing Value;
+	aPlayer->AddHealth(myHealingValue);
 }
