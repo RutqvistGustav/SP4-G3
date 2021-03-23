@@ -30,8 +30,8 @@ namespace CommonUtilities
 		void InitWith2Points(const Vector3<T>& aOrigin, const Vector3<T>& aPoint)
 		{
 			myOrigin = aOrigin;
-			myDirection = aPoint;
-			//myDirection = (aPoint - aOrigin).GetNormalized();
+			//myDirection = aPoint;
+			myDirection = (aPoint - aOrigin).GetNormalized();
 		}
 
 		// Init the ray with an origin and a direction.
@@ -50,9 +50,9 @@ namespace CommonUtilities
 			return myDirection;
 		}
 
-	private:
 		Vector3<T> myOrigin;
 		Vector3<T> myDirection;
+	private:
 	};
 }
 

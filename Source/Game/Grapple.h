@@ -18,6 +18,7 @@ public:
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+	void UpdateRay(const float aDeltaTime);
 	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
 	const bool& IsLoaded() const;
 	void Reload(const float aDeltaTime);
@@ -37,5 +38,5 @@ private:
 	float myCoolDownReset{};
 
 	std::unique_ptr<GrappleHookProjectile> myProjectile;
-	//CU::Ray<float> myRay;
+	CU::Ray<float> myRay;
 };

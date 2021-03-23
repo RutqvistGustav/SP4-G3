@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
+#include "Ray.hpp"
 
 // TODO - Instatiate Hook towards nearest Grapple object
 //		- Pull Player in Hook direction
@@ -22,6 +23,7 @@ void Grapple::InitGameObjects(Scene* aScene)
 {
 	myProjectile = std::make_unique<GrappleHookProjectile>(aScene, GetWeaponHolder());
 	myProjectile->Init(aScene->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Weapons.json")["grapple"]);
+	//myRay.InitWith2Points(CU::Vector2<float>(), );
 }
 
 void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
@@ -33,6 +35,10 @@ void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU:
 void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	myProjectile->Render(aRenderQueue, aRenderContext);
+}
+
+void Grapple::UpdateRay(const float aDeltaTime)
+{
 }
 
 void Grapple::Shoot(const CU::Vector2<float> aPlayerPosition)
