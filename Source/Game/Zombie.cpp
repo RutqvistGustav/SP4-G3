@@ -4,6 +4,9 @@
 #include "UpdateContext.h"
 #include "Player.h"
 #include "Collider.h"
+#include "Scene.h"
+#include "GlobalServiceProvider.h"
+#include "JsonManager.h"
 // JSON
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -11,11 +14,7 @@
 Zombie::Zombie(Scene* aScene)
 	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
 {
-	nlohmann::json data;
-	std::ifstream file("JSON/EnemyTypes.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-
+	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
 	nlohmann::json zombieData = data.at("Zombie");
 	myHealth = zombieData.at("Health");
 	myDamage = zombieData.at("Damage");
