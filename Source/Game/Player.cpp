@@ -35,6 +35,13 @@
 #include <fstream>
 #include <string>
 
+
+#ifdef _DEBUG
+#include "CollisionManager.h"
+#endif // _DEBUG
+
+
+
 Player::Player(Scene* aScene)
 	: GameObject(aScene, GameObjectTag::Player),
 	myCamera(aScene->GetCamera())
@@ -157,6 +164,15 @@ void Player::PlayerInput(InputInterface * anInput)
 			myGravityActive = false;
 		}
 	}
+
+#ifdef _DEBUG
+	if (anInput->Is_C_Pressed())
+	{
+		myScene->GetCollisionManager()->myDoRender = !myScene->GetCollisionManager()->myDoRender;
+	}
+#endif // _DEBUG
+
+
 }
 
 void Player::InitVariables(nlohmann::json someData)
