@@ -20,6 +20,7 @@ public:
     bool         CheckIdle();
     void         ApplyForce(const CU::Vector2<float>& aForce) override;
 private:
+    bool myApplyGravity = true;
     float myGravity = 0.0f;
     CU::Vector2<float> myVelocity;
 };
