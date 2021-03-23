@@ -30,8 +30,8 @@ public:
 	
 	bool IsUsingController()const;
 
-	float GetRightStickX();
-	float GetRightStickY();
+	float GetRightStickX() const;
+	float GetRightStickY() const;
 
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 private:

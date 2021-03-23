@@ -101,12 +101,12 @@ bool InputInterface::IsUsingController() const
 	return myIsUsingController;
 }
 
-float InputInterface::GetRightStickX()
+float InputInterface::GetRightStickX() const
 {
 	return myControllerInput->GetRightStickX();
 }
 
-float InputInterface::GetRightStickY()
+float InputInterface::GetRightStickY() const
 {
 	return myControllerInput->GetRightStickY();
 }
