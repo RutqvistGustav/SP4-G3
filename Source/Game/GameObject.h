@@ -4,6 +4,7 @@
 #include "Vector2.hpp"
 
 #include <memory>
+#include "TileType.h"
 
 class Collider;
 
@@ -27,10 +28,10 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	virtual void OnCollision(GameObject* aGameObject);
-
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
+	virtual void OnCollision(GameObject* aGameObject);//TODO:create another OnCollision that uses Tiles
+	virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
 
 	const Collider* GetCollider()const;
 
@@ -40,6 +41,9 @@ public:
 
 	inline const GameObjectTag GetTag() const { return myTag; }
 
+	bool GetDeleteThisFrame();
+	void SetDeleteThisFrame();
+
 protected:
 
 	inline void SetTag(const GameObjectTag aTag) { myTag = aTag; }
@@ -47,6 +51,7 @@ protected:
 protected:
 
 	Scene* myScene;
+	bool myDeleteThisFrame = false;
 
 	GameObjectTag myTag{ GameObjectTag::Default };
 

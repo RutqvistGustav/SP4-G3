@@ -3,6 +3,7 @@
 #include "GrappleHookProjectile.h"
 
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
 
 // TODO - Instatiate Hook towards nearest Grapple object
 //		- Pull Player in Hook direction
@@ -15,32 +16,58 @@ Grapple::Grapple(Scene* aScene, IWeaponHolder* aWeaponHolder) :
 
 Grapple::~Grapple() = default;
 
-void Grapple::Init()
+void Grapple::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	//Scene* scene = nullptr; // temp
-	//myProjectile = std::make_unique<GrappleHookProjectile>(scene); // needs scene
+	myProjectile->Update(aDeltaTime, GetPosition());
+
+	Reload(aDeltaTime);
 }
 
-void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext)
+void Grapple::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//myProjectile->Update(aDeltaTime, aPlayerPosition);
-}
-
-void Grapple::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
-{
+	myProjectile->Render(aRenderQueue, aRenderContext);
 }
 
 void Grapple::Shoot()
 {
+	if (!myIsLoaded) return;
+
+	myProjectile->SetPosition(GetPosition());
 	myProjectile->SpawnProjectile(GetDirection());
+	myIsLoaded = false;
 }
 
-void Grapple::LoadJson(const JsonData& someJsonData)
+const bool& Grapple::IsLoaded() const
 {
-	//myMaxDistance = someJsonData["maxDistance"];
-	//myHookSpeed = someJsonData["hookSpeed"];
-	//myContractSpeed = someJsonData["contractSpeed"];
+	return myIsLoaded;
+}
 
+void Grapple::Reload(const float aDeltaTime)
+{
+	if (!myIsLoaded)
+	{
+		myCoolDown -= aDeltaTime;
+		if (myCoolDown <= 0)
+		{
+			myIsLoaded = true;
+			myCoolDown = myCoolDownReset;
+		}
+	}
+}
+
+GrappleHookProjectile* Grapple::GetProjectile()
+{
+	return myProjectile.get();
+}
+
+void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to GrappleHookProjectile
+{
+	myProjectile = std::make_unique<GrappleHookProjectile>(GetScene(), GetWeaponHolder());
+	myProjectile->Init(someJsonData);
+
+	myMaxDistance = someJsonData["maxDistance"];
+	myCoolDown = someJsonData["coolDown"];
+	myCoolDownReset = myCoolDown;
 }
 
 void Grapple::Setup()

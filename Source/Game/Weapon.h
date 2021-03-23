@@ -22,7 +22,7 @@ public:
 
 	virtual void Init(const JsonData& someJsonData);
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) = 0;
+	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) = 0;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;
 
 	virtual void Shoot() = 0;

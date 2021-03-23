@@ -4,7 +4,6 @@
 
 #include "Enemy.h"
 #include "Zombie.h"
-#include "JetPack.h"
 
 std::unique_ptr<Enemy> EnemyFactory::CreateEnemy(EnemyType aType, Scene* aScene)
 {
@@ -18,11 +17,6 @@ std::unique_ptr<Enemy> EnemyFactory::CreateEnemy(EnemyType aType, Scene* aScene)
 	case(EnemyType::Hunter):
 	{
 		return nullptr;
-		break;
-	}
-	case(EnemyType::JetPack):
-	{
-		return std::make_unique<JetPack>(aScene);
 		break;
 	}
 	case(EnemyType::Zombie):

@@ -13,7 +13,7 @@ public:
 	Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder);
 	virtual ~Shotgun() override;
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
+	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	virtual void Shoot() override;
@@ -51,7 +51,7 @@ private:
 
 	float myReloadDuration{};
 
-	float myDamage{};
+	int myDamage{};
 
 	float myAoeAngle{};
 	float myAoeLength{};

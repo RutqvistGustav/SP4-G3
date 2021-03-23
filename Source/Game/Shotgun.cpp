@@ -10,21 +10,20 @@
 
 #include "MathHelper.h"
 
-// TODO: DEBUG: REMOVE
-#include <iostream>
+#include "Scene.h"
 
 Shotgun::Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder)
-	: Weapon(WeaponType::Shotgun, myScene, aWeaponHolder)
+	: Weapon(WeaponType::Shotgun, aScene, aWeaponHolder)
 {
 	myShotVolume = std::make_shared<Collider>(this, myPosition);
 }
 
 Shotgun::~Shotgun()
 {
-	CollisionManager::GetInstance()->RemoveCollider(myShotVolume);
+	myScene->GetCollisionManager()->RemoveCollider(myShotVolume);
 }
 
-void Shotgun::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
+void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	myTime += aDeltaTime;
 
@@ -85,14 +84,20 @@ void Shotgun::OnCollision(GameObject* aGameObject)
 	if (aGameObject->GetTag() == GameObjectTag::Enemy)
 	{
 		const CU::Vector2<float> toEnemy = aGameObject->GetPosition() - GetPosition();
-		const float degDiff = MathHelper::radToDeg(std::fabsf(std::atan2f(toEnemy.y, toEnemy.x) - std::atan2f(GetDirection().y, GetDirection().x)));
+		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
+		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
+
+		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
+		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
+
+		const float degDiff = MathHelper::radToDeg(std::fabsf(enemyAngle - myAngle));
 
 		if (degDiff <= myAoeAngle)
 		{
 			Enemy* enemy = static_cast<Enemy*>(aGameObject);
-			// TODO: Damage enemy
 
-			std::cout << "Damage enemy!" << std::endl;
+			enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+			enemy->TakeDamage(myDamage);
 		}
 	}
 }
@@ -117,7 +122,7 @@ void Shotgun::Setup()
 
 	myShotVolume->SetRadius(myAoeLength);
 
-	CollisionManager::GetInstance()->AddCollider(myShotVolume);
+	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }
 
 void Shotgun::SetLoadedAmmo(int anAmount)

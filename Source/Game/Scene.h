@@ -9,6 +9,9 @@ struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
 class SceneManagerProxy;
+class JsonManager;
+class WeaponFactory;
+class CollisionManager;
 class GlobalServiceProvider;
 
 class Scene
@@ -31,10 +34,14 @@ public:
 	Camera* GetCamera();
 
 	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }
+
+	inline CollisionManager* GetCollisionManager() { return myCollisionManager.get(); }
+
 	inline GlobalServiceProvider* GetGlobalServiceProvider() { return myGlobalServiceProvider; }
-	
+
 protected:
 
+	std::unique_ptr<CollisionManager> myCollisionManager;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 
 private:

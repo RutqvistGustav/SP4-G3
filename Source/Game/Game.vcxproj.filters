@@ -85,6 +85,15 @@
     <Filter Include="Core\Components">
       <UniqueIdentifier>{baa89655-304a-4278-8bfe-77110cf39f6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Collectables">
+      <UniqueIdentifier>{73d5a481-f519-4d68-9b13-3b19ad9e0ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Volumes">
+      <UniqueIdentifier>{4c6d94c0-078a-41f3-acaa-b0717bbfb37d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Cutscenes">
+      <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -196,9 +205,6 @@
       <Filter>GameObjects\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Zombie.h">
-      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="JetPack.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
@@ -333,6 +339,25 @@
     <ClInclude Include="TriggerVolume.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="Collectable.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="DamageVolume.h">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="IJsonInitializable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CutscenePlayer.h">
+      <Filter>Core\Cutscenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -396,9 +421,6 @@
       <Filter>GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
-      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="JetPack.cpp">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
@@ -487,6 +509,19 @@
     </ClCompile>
     <ClCompile Include="TiledCache.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="Collectable.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="DamageVolume.cpp">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="CutscenePlayer.cpp">
+      <Filter>Core\Cutscenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

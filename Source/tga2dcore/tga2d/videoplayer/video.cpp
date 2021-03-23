@@ -67,6 +67,7 @@ void Tga2D::CVideo::Restart()
 	myWantsToPlay = true;
 	myPlayer->RestartStream();
 }
+
 #include <functional>
 bool CVideo::Init(const char* aPath, bool aPlayAudio)
 {
@@ -217,6 +218,11 @@ bool CVideo::Render()
 		return true;
 	}
 	return false;
+}
+
+CTexture* Tga2D::CVideo::GetTexture()
+{
+	return mySprite->GetTexturedQuad()->myTexture;
 }
 
 #endif

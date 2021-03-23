@@ -28,11 +28,13 @@ namespace Tga2D
 		/* Will return false if there was something wrong with the load of the video */
 		bool Render();
 		void Restart();
-		
+
 		class CSprite* GetSprite() const { return mySprite; }
 
 		VECTOR2I GetVideoSize() const { return mySize; }
 		VideoStatus GetStatus() const { return myStatus; }
+
+		class CTexture* GetTexture();
 	private:
 		class CSprite* mySprite;
 		class CVideoPlayer* myPlayer;

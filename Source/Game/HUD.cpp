@@ -2,6 +2,7 @@
 #include "HUD.h"
 
 #include "HealthBar.h"
+#include "Scene.h"
 #include "AmmoCounter.h"
 #include "UIHook.h"
 #include "CollisionManager.h"
@@ -13,7 +14,8 @@ HUD::HUD(Scene* aScene)
 	myAmmoCounter = std::make_unique<AmmoCounter>(aScene);
 	myHookIcon = std::make_unique<UIHook>(aScene);
 
-	CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	//CollisionManager::GetInstance()->RemoveCollider(myCollider);
+	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
 }
 
