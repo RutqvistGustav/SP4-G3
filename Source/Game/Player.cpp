@@ -133,8 +133,8 @@ void Player::ApplyForce(const CU::Vector2<float>&aForce)
 
 void Player::PlayerInput(InputInterface * anInput)
 {
-	myIsMovingLeft = anInput->IsMovingLeft_Down() ? true : false;
-	myIsMovingRight = anInput->IsMovingRight_Down() ? true : false;
+	myIsMovingLeft = anInput->IsMovingLeft_Down();
+	myIsMovingRight = anInput->IsMovingRight_Down();
 
 	if (anInput->IsJumping())
 	{
@@ -175,10 +175,6 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
-
-	// Grappling hook
-	myPullSpeed = someData.at("PullSpeed");
-	myStopAtOffset = someData.at("StopAtOffSet");
 }
 
 void Player::OnCollision(GameObject* aGameObject)
@@ -362,7 +358,6 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	{
 		BrakeMovement(aDeltaTime);
 	}
-	GrappleTowardsTarget(aDeltaTime);
 
 	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
 	//{
@@ -405,28 +400,6 @@ void Player::Jump(const float aDeltaTime)
 			myVel.y += myGravity * aDeltaTime;
 		}
 	}
-}
-
-void Player::GrappleTowardsTarget(const float aDeltaTime)
-{
-	if (myIsGrappling == true)
-	{
-		myVel += myGrappleDirection * myPullSpeed * aDeltaTime;
-		if ((myGrappleTarget.Length() - GetPosition().Length()) <= myStopAtOffset) // Stop and reset Grapplehook when close to target
-		{
-			myIsGrappling = false;
-			myGrappleDirection = CU::Vector2<float>();
-			myGrappleTarget = CU::Vector2<float>();
-			myWeaponController->StopGrappling();
-		}
-	}
-}
-
-void Player::StartGrappling(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
-{
-	myGrappleDirection = aGrapplingDirection;
-	myGrappleTarget = aTargetPosition;
-	myIsGrappling = true;
 }
 
 CU::Vector2<float> Player::GetDirection(InputInterface * anInput)

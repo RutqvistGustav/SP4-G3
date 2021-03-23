@@ -12,23 +12,18 @@
 #include "Player.h"
 #include "Scene.h"
 
-#include "Grapple.h"
-#include "GrappleHookProjectile.h"
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
 PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
 	myScene(aScene),
 	myPlayer(aPlayer)
-{
-}
+{}
 
 PlayerWeaponController::~PlayerWeaponController() = default;
 
 void PlayerWeaponController::Init()
 {
-	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
-	myGrapple = std::static_pointer_cast<Grapple> (myScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("grapple", myScene, this));
 	myShotgun = myScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("shotgun", myScene, this);
 }
 
@@ -36,20 +31,13 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
-	myGrapple->SetPosition(myPlayer->GetPosition());
 	myShotgun->SetPosition(myPlayer->GetPosition());
 
-	myGrapple->SetDirection(aimDirection);
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext);
 	myShotgun->Update(aDeltaTime, anUpdateContext);
 
-	if (anUpdateContext.myInputInterface->IsGrappling())
-	{
-		myGrapple->Shoot();
-	}
-	else if (anUpdateContext.myInputInterface->IsShooting())
+	if (anUpdateContext.myInputInterface->IsShooting())
 	{
 		myShotgun->Shoot();
 	}
@@ -57,7 +45,6 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 
 void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	myGrapple->Render(aRenderQueue, aRenderContext);
 	myShotgun->Render(aRenderQueue, aRenderContext);
 }
 
@@ -93,14 +80,4 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
 {
 	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
-}
-
-void PlayerWeaponController::OnGrappleHit(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
-{
-	myPlayer->StartGrappling(aTargetPosition, aGrapplingDirection);
-}
-
-void PlayerWeaponController::StopGrappling()
-{
-	myGrapple->GetProjectile()->ResetProjectile();
 }
