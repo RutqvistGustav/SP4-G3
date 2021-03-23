@@ -7,6 +7,8 @@ enum class GameObjectTag
 	Player,
 	Enemy,
 
+	DamageVolume,
+
 	Trigger,
 	PowerUp,
 };

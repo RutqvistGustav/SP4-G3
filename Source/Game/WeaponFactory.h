@@ -6,16 +6,17 @@
 
 class IWeaponHolder;
 class JsonManager;
+class Scene;
 class Weapon;
 
-class WeaponFactory : public BehaviourFactoryBase<std::string, Weapon, std::string, std::string, IWeaponHolder*>
+class WeaponFactory : public BehaviourFactoryBase<std::string, Weapon, std::string, std::string, Scene*, IWeaponHolder*>
 {
 public:
 
 	WeaponFactory(const JsonManager* aJsonManager);
 	virtual ~WeaponFactory() override;
 
-	std::shared_ptr<Weapon> CreateWeapon(const std::string& aKey, IWeaponHolder* aWeaponHolder) const;
+	std::shared_ptr<Weapon> CreateWeapon(const std::string& aKey, Scene* aScene, IWeaponHolder* aWeaponHolder) const;
 
 protected:
 

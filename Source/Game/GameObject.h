@@ -46,9 +46,8 @@ public:
 
 	inline const GameObjectTag GetTag() const { return myTag; }
 
-#ifdef _DEBUG
-	const Tga2D::Vector2f GetSpritePos()const;
-#endif // _DEBUG
+	bool GetDeleteThisFrame();
+	void SetDeleteThisFrame();
 
 protected:
 
@@ -57,6 +56,7 @@ protected:
 protected:
 
 	Scene* myScene;
+	bool myDeleteThisFrame = false;
 
 	GameObjectTag myTag{ GameObjectTag::Default };
 

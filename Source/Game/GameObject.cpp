@@ -26,7 +26,10 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 
 GameObject::~GameObject()
 {
-	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	if (myCollider != nullptr)
+	{
+		myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	}
 }
 
 void GameObject::Init()
@@ -60,6 +63,11 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 	if (myCollider.get() != nullptr)
 	{
 		myCollider->SetPos(myPosition);
+	}
+
+	if (myPositionLastFrame.x + myPositionLastFrame.y == 0.0f)
+	{
+		myPositionLastFrame = myPosition;
 	}
 }
 
@@ -100,12 +108,12 @@ GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 	return GetScene()->GetGlobalServiceProvider();
 }
 
-
-#ifdef _DEBUG
-const Tga2D::Vector2f GameObject::GetSpritePos() const
+bool GameObject::GetDeleteThisFrame()
 {
-	
-	CU::Vector2<float> result = mySprite->GetPosition();
-	return { result.x, result.y };
+	return myDeleteThisFrame;
 }
-#endif // _DEBUG
+
+void GameObject::SetDeleteThisFrame()
+{
+	myDeleteThisFrame = true;
+}

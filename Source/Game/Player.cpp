@@ -46,7 +46,7 @@ Player::Player(Scene* aScene)
 	myCamera(aScene->GetCamera())
 {
 	// Init weapon controller
-	myWeaponController = std::make_unique<PlayerWeaponController>(GetGlobalServiceProvider()->GetWeaponFactory(), this);
+	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(aScene);
@@ -75,7 +75,7 @@ void Player::Init()
 	myPosition.y = 0.5f;
 
 	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
+	mySprite = std::make_shared<SpriteWrapper>(data.at("SpritePath"));
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
@@ -92,7 +92,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Controller(aDeltaTime, anUpdateContext.myInputInterface);
 
-	//ImGui();
+	ImGui();
 
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
 	myCamera->SetPosition(newCameraPosition);
@@ -120,8 +120,8 @@ void Player::BrakeMovement(const float aDeltaTime)
 {
 	//MouseInput(anInput);
 	//myPositionLastFrame = myPosition;
-	if (myIsMovingLeft == false && myIsMovingRight == false)
-	{
+	/*if (myIsMovingLeft == false && myIsMovingRight == false)
+	{*/
 		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
 		{
 			myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
@@ -130,7 +130,7 @@ void Player::BrakeMovement(const float aDeltaTime)
 		{
 			myVel.x = 0;
 		}
-	}
+	//}
 }
 
 void Player::ApplyForce(const CU::Vector2<float>&aForce)
@@ -140,13 +140,15 @@ void Player::ApplyForce(const CU::Vector2<float>&aForce)
 
 void Player::PlayerInput(InputInterface * anInput)
 {
-	myIsMovingLeft = anInput->IsMovingLeft_Down() ? true : false;
-	myIsMovingRight = anInput->IsMovingRight_Down() ? true : false;
+	myIsMovingLeft = anInput->IsMovingLeft_Down();
+	myIsMovingRight = anInput->IsMovingRight_Down();
 
 	if (anInput->IsJumping())
 	{
 		myIsJumping = true;
 		myHasRemovedNegativeVel = false;
+		myJumpDuration = myJumpDurationReset;
+		--myJumpCharges;
 	}
 
 	if (anInput->Is_G_Pressed())
@@ -189,10 +191,6 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
-
-	// Grappling hook
-	myPullSpeed = someData.at("PullSpeed");
-	myStopAtOffset = someData.at("StopAtOffSet");
 }
 
 void Player::OnCollision(GameObject* aGameObject)
@@ -255,6 +253,8 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		myPosition -= overlap * fromOtherToMe.GetNormalized();
 	}*/
 
+		myJumpCharges = myJumpChargeReset;
+		myIsJumping = false;
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
 		myGravityActive = false;
@@ -262,7 +262,7 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravityActive = true;
+
 
 
 		break;
@@ -275,7 +275,6 @@ void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
 }
-
 
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
@@ -323,7 +322,6 @@ void Player::ImGui()
 	ImGui::SliderFloat("GravityStrength", &myGravity, 0, 100000.0f);
 
 	ImGui::SliderInt("JumpCharges", &myJumpCharges, 0, 100);
-	myJumpChargeReset = myJumpCharges;
 
 	ImGui::SliderFloat("JumpStrength", &myJumpStrength, 0, 100000);
 
@@ -347,18 +345,34 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	PlayerInput(anInput);
 	CU::Vector2<float> direction = GetDirection(anInput);
 
-	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x)
+	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
 	{
-		myVel += direction * mySpeed * aDeltaTime;
+		if (myVel.x > 0)
+		{
+			BrakeMovement(aDeltaTime);
+		}
+		else
+		{
+			myVel.x += direction.x * mySpeed * aDeltaTime;
+		}
 	}
-	if (myIsMovingRight == true && myVel.x <= myMaxSpeed)
+	if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
 	{
-		myVel += direction * mySpeed * aDeltaTime;
+		if (myVel.x < 0)
+		{
+			BrakeMovement(aDeltaTime);
+		}
+		else
+		{
+			myVel.x += direction.x * mySpeed * aDeltaTime;
+		}
 	}
 
-	BrakeMovement(aDeltaTime);
 	Jump(aDeltaTime);
-	GrappleTowardsTarget(aDeltaTime);
+	if (myIsMovingLeft == false && myIsMovingRight == false)
+	{
+		BrakeMovement(aDeltaTime);
+	}
 
 	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
 	//{
@@ -375,7 +389,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 
 void Player::Jump(const float aDeltaTime)
 {
-	if (myIsJumping == true /*&& myJumpCharges > 0*/)
+	if (myIsJumping == true && myJumpCharges >= 0)
 	{
 		myJumpDuration -= aDeltaTime;
 		if (myJumpDuration > 0)
@@ -390,42 +404,15 @@ void Player::Jump(const float aDeltaTime)
 		}
 		else
 		{
+			myGravityActive = true;
 			myIsJumping = false;
 			myJumpDuration = myJumpDurationReset;
-			//--myJumpCharges;
 		}
-		// if landed set myVel.y = 0
-		// Reset myJumpCharges
 	}
-	else
+	else if (myGravityActive == true)
 	{
-		if (myGravityActive == true)
-		{
-			myVel.y += myGravity * aDeltaTime;
-		}
+		myVel.y += myGravity * aDeltaTime;
 	}
-}
-
-void Player::GrappleTowardsTarget(const float aDeltaTime)
-{
-	if (myIsGrappling == true)
-	{
-		myVel += myGrappleDirection * myPullSpeed * aDeltaTime;
-		if ((myGrappleTarget.Length() - GetPosition().Length()) <= myStopAtOffset) // Stop and reset Grapplehook when close to target
-		{
-			myIsGrappling = false;
-			myGrappleDirection = CU::Vector2<float>();
-			myGrappleTarget = CU::Vector2<float>();
-			myWeaponController->StopGrappling();
-		}
-	}
-}
-
-void Player::StartGrappling(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
-{
-	myGrappleDirection = aGrapplingDirection;
-	myGrappleTarget = aTargetPosition;
-	myIsGrappling = true;
 }
 
 CU::Vector2<float> Player::GetDirection(InputInterface * anInput)

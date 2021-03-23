@@ -17,25 +17,28 @@ public:
 	bool IsShooting()const;
 
 	bool IsMovingLeft_Pressed()const;
-	bool IsMovingLeft_Down()const;
+	bool IsMovingLeft_Down();
 	bool IsMovingLeft_Released()const;
 
 	bool IsMovingRight_Pressed()const;
-	bool IsMovingRight_Down()const;
+	bool IsMovingRight_Down();
 	bool IsMovingRight_Released()const;
 
 	bool Is_G_Pressed()const;
 	bool Is_C_Pressed()const;
 
 	bool IsPressingUse()const;
+	
+	bool IsUsingController()const;
 
+	float GetRightStickX() const;
+	float GetRightStickY() const;
 
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
-	void GetAimDirection();
 private:
 
+	bool myIsUsingController;
 	CommonUtilities::Input* myInput = nullptr;
 	ControllerInput* myControllerInput = nullptr;
-
 };
 
