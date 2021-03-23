@@ -179,7 +179,6 @@
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputInterface.h" />
-    <ClInclude Include="JetPack.h" />
     <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
@@ -254,7 +253,6 @@
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputInterface.cpp" />
-    <ClCompile Include="JetPack.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="PlayerWeaponController.cpp" />

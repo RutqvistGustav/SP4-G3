@@ -18,7 +18,7 @@ public:
     void         OnCollision(GameObject* aGameObject) override;
     void         OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
     bool         CheckIdle();
-
+    void         ApplyForce(const CU::Vector2<float>& aForce) override;
 private:
     float myGravity = 0.0f;
     CU::Vector2<float> myVelocity;

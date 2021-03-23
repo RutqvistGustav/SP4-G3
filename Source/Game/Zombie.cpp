@@ -157,3 +157,8 @@ bool Zombie::CheckIdle()
 
 	return (distance <= myDetectionRange * myDetectionRange) ? false : true;
 }
+
+void Zombie::ApplyForce(const CU::Vector2<float>& aForce)
+{
+	myVelocity += aForce;
+}

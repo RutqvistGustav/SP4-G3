@@ -207,9 +207,6 @@
     <ClInclude Include="Zombie.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
-    <ClInclude Include="JetPack.h">
-      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
-    </ClInclude>
     <ClInclude Include="HUD.h">
       <Filter>GameObjects\HUD</Filter>
     </ClInclude>
@@ -424,9 +421,6 @@
       <Filter>GameObjects\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Zombie.cpp">
-      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="JetPack.cpp">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
