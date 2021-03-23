@@ -134,6 +134,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CheckpointContext.h" />
+    <ClInclude Include="CheckpointMessage.h" />
+    <ClInclude Include="CheckpointObjectData.h" />
+    <ClInclude Include="Collectable.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
@@ -142,8 +146,12 @@
     <ClInclude Include="BehaviourFactoryBase.h" />
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="CoordinateHelper.h" />
+    <ClInclude Include="CutscenePlayer.h" />
+    <ClInclude Include="DamageVolume.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
+    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemyMessage.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
@@ -154,6 +162,15 @@
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="GrappleHookProjectile.h" />
+    <ClInclude Include="GameMessage.h" />
+    <ClInclude Include="GameMessageAction.h" />
+    <ClInclude Include="GameMessenger.h" />
+    <ClInclude Include="GameObjectTag.h" />
+    <ClInclude Include="GenericGameMessageSubscriber.h" />
+    <ClInclude Include="IGameMessageSubscriber.h" />
+    <ClInclude Include="IJsonInitializable.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledEntity.h" />
@@ -165,7 +182,6 @@
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputInterface.h" />
-    <ClInclude Include="JetPack.h" />
     <ClInclude Include="JsonData.h" />
     <ClInclude Include="JsonManager.h" />
     <ClInclude Include="LockedSection.h" />
@@ -195,6 +211,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureRect.h" />
+    <ClInclude Include="TriggerVolume.h" />
     <ClInclude Include="UIHook.h" />
     <ClInclude Include="TgaRenderer.h" />
     <ClInclude Include="TiledParser.h" />
@@ -212,19 +229,26 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="CoordinateHelper.cpp" />
+    <ClCompile Include="CutscenePlayer.cpp" />
+    <ClCompile Include="DamageVolume.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="GrappleHookProjectile.cpp" />
+    <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
@@ -236,7 +260,6 @@
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputInterface.cpp" />
-    <ClCompile Include="JetPack.cpp" />
     <ClCompile Include="JsonManager.cpp" />
     <ClCompile Include="Metrics.cpp" />
     <ClCompile Include="PlayerWeaponController.cpp" />
@@ -258,6 +281,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TriggerVolume.cpp" />
     <ClCompile Include="UIHook.cpp" />
     <ClCompile Include="TgaRenderer.cpp" />
     <ClCompile Include="TiledParser.cpp" />

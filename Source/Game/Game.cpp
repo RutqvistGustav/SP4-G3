@@ -122,16 +122,25 @@ void CGame::InitCallBack()
 	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
 	myRenderManager = std::make_unique<RenderManager>();
 
-	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
+	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
+
 	myJsonManager = std::make_unique <JsonManager>();
 	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
-	mySceneManager = std::make_unique<SceneManager>(myJsonManager.get(), myWeaponFactory.get());
+	myGameMessenger = std::make_unique<GameMessenger>();
+	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
+
+
+	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myInputInterface.get(), myGameMessenger.get());
+
+	mySceneManager = std::make_unique<SceneManager>(myGlobalServiceProvider.get());
+
+	//myGameWorld->Init();
+	myRenderManager = std::make_unique<RenderManager>();
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myAudioManager = myAudioManager.get();
 
 	myUpdateContext.myInputInterface = myInputInterface.get();
-	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
@@ -143,10 +152,18 @@ void CGame::UpdateCallBack()
 	// NOTE: Ready for multithreading
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
-	myTimer->Update();
-	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
+	float deltaTime = myTimer->GetDeltaTime();
+	// NOTE: Cap high delta time values, will result in the game lagging behind when running slower than 30 fps but prevents spikes in delta time
+	// that can cause all sorts of problems.
+	if (deltaTime > 1.0f / 30.0f)
+	{
+		deltaTime = 1.0f / 30.0f;
+	}
 
 	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
+	myTimer->Update();
+	myControllerInput->UpdateControllerState(deltaTime);
+
 	mySceneManager->Render(updateQueue, myRenderContext);
 
 	// Rendering

@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Collider.h"
 #include "CollisionManager.h"
+#include "Scene.h"
 
 
 //GameObject::GameObject(Scene* aScene, float aX, float aY)
@@ -19,12 +20,10 @@ GameObject::~GameObject()
 
 void GameObject::Init()
 {
-
-	/*myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myPosition);
-
-
-	CollisionManager::GetInstance()->AddCollider(myCollider);*/
+	if (myCollider != nullptr)
+	{
+		myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	}
 }
 
 #include "SpriteWrapper.h"
@@ -36,9 +35,10 @@ GameObject::GameObject(Scene* aScene, const char* aSpritePath)
 {
 	myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition);
-	CollisionManager::GetInstance()->AddCollider(myCollider);
 
-	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
+	myScene->GetCollisionManager()->AddCollider(myCollider);
+
+	//mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
@@ -93,6 +93,11 @@ void GameObject::OnCollision(GameObject* aGameObject)
 
 }
 
+void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+
+}
+
 const Collider* GameObject::GetCollider() const
 {
 	return myCollider.get();
@@ -106,4 +111,15 @@ GameObject::eObjectType GameObject::GetType()
 void GameObject::SetType(eObjectType aType)
 {
 	myType = aType;
+}
+
+
+bool GameObject::GetDeleteThisFrame()
+{
+	return myDeleteThisFrame;
+}
+
+void GameObject::SetDeleteThisFrame()
+{
+	myDeleteThisFrame = true;
 }

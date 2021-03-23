@@ -11,6 +11,9 @@ class JsonManager;
 class RenderQueue;
 class IWeaponHolder;
 
+class JsonManager;
+class Scene;
+
 class Weapon
 {
 public:
@@ -20,10 +23,10 @@ public:
 
 	virtual void Init(const JsonData& someJsonData);
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) = 0;
+	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) = 0;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;
 
-	virtual bool Shoot() = 0;
+	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) = 0;
 
 	inline void SetDirection(const CU::Vector2<float>& aDirection) { myDirection = aDirection; }
 	inline const CU::Vector2<float>& GetDirection() const { return myDirection; }

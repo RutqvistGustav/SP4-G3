@@ -12,6 +12,8 @@ class SceneManagerProxy;
 class JsonManager;
 class WeaponFactory;
 class MousePointer;
+class CollisionManager;
+class GlobalServiceProvider;
 
 class Scene
 {
@@ -36,8 +38,14 @@ public:
 
 	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }
 
+
+	inline CollisionManager* GetCollisionManager() { return myCollisionManager.get(); }
+
+	inline GlobalServiceProvider* GetGlobalServiceProvider() { return myGlobalServiceProvider; }
+
 protected:
 
+	std::unique_ptr<CollisionManager> myCollisionManager;
 	std::unique_ptr<MousePointer> myMousePointer;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 

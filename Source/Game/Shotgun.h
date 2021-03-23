@@ -12,7 +12,7 @@ public:
 	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	virtual bool Shoot() override;
+	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
 
 	virtual void Reload();
 
