@@ -98,6 +98,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
 	myCamera->SetPosition(newCameraPosition);
 
+	myHealth->Update(aDeltaTime);
 	myHUD->Update(myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
@@ -195,6 +196,7 @@ void Player::InitVariables(nlohmann::json someData)
 
 	//Health
 	myHealth = std::make_unique<Health>(someData.at("Health"));
+	myHealth->SetInvincibilityTimer(someData.at("Invincibility"));
 }
 
 void Player::OnCollision(GameObject* aGameObject)

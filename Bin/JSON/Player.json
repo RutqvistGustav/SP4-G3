@@ -14,5 +14,6 @@
   "JumpStrength": 13000.0,
   "JumpDuration": 0.1,
 
-  "Health" : 10
+  "Health" : 10,
+  "Invincibility" : 1.0
 }
