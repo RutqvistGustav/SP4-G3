@@ -6,7 +6,7 @@
 
         "reloadDuration": 0.3,
 
-        "damage": 10.0,
+        "damage": 10,
 
         "aoeAngle": 50.0,
         "aoeLength": 300.0,

@@ -1,7 +1,8 @@
 #pragma once
-#include <memory>
+
 #include "Weapon.h"
-#include "Ray.hpp"
+
+#include <memory>
 
 class SpriteWrapper;
 class GrappleHookProjectile;
@@ -11,14 +12,14 @@ class Grapple : public Weapon
 {
 public:
 
-	Grapple(IWeaponHolder* aWeaponHolder);
+	Grapple(Scene* aScene, IWeaponHolder* aWeaponHolder);
 	virtual ~Grapple() override;
 
-	void InitGameObjects(Scene* aScene);
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
+	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
+	virtual void Shoot() override;
+
 	const bool& IsLoaded() const;
 	void Reload(const float aDeltaTime);
 
@@ -30,6 +31,7 @@ protected:
 	virtual void Setup() override;
 
 private:
+
 	bool myIsLoaded = true;
 
 	float myMaxDistance{};
@@ -37,5 +39,5 @@ private:
 	float myCoolDownReset{};
 
 	std::unique_ptr<GrappleHookProjectile> myProjectile;
-	//CU::Ray<float> myRay;
+
 };

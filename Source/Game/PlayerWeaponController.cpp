@@ -4,50 +4,54 @@
 #include "UpdateContext.h"
 #include "InputManager.h"
 #include "InputInterface.h"
-#include "JsonManager.h"
 
 #include "MathHelper.h"
 #include "Metrics.h"
 
+#include "GlobalServiceProvider.h"
 #include "Player.h"
+#include "Scene.h"
 
 #include "Grapple.h"
 #include "GrappleHookProjectile.h"
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
-PlayerWeaponController::PlayerWeaponController(const WeaponFactory* aWeaponFactory, Player* aPlayer)
-	: myPlayer(aPlayer)
+PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
+	myScene(aScene),
+	myPlayer(aPlayer)
 {
-	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
-	myGrapple = std::static_pointer_cast<Grapple> (aWeaponFactory->CreateWeapon("grapple", this));
-	myShotgun = aWeaponFactory->CreateWeapon("shotgun", this);
 }
 
 PlayerWeaponController::~PlayerWeaponController() = default;
 
 void PlayerWeaponController::Init()
 {
-	myGrapple->InitGameObjects(myPlayer->GetScene());
+	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
+	myGrapple = std::static_pointer_cast<Grapple> (myScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("grapple", myScene, this));
+	myShotgun = myScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("shotgun", myScene, this);
 }
 
 void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
+	myGrapple->SetPosition(myPlayer->GetPosition());
+	myShotgun->SetPosition(myPlayer->GetPosition());
+
 	myGrapple->SetDirection(aimDirection);
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
-	myShotgun->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
+	myGrapple->Update(aDeltaTime, anUpdateContext);
+	myShotgun->Update(aDeltaTime, anUpdateContext);
 
 	if (anUpdateContext.myInputInterface->IsGrappling())
 	{
-		myGrapple->Shoot(myPlayer->GetPosition());
+		myGrapple->Shoot();
 	}
 	else if (anUpdateContext.myInputInterface->IsShooting())
 	{
-		myShotgun->Shoot(myPlayer->GetPosition());
+		myShotgun->Shoot();
 	}
 }
 
