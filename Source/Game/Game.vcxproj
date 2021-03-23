@@ -147,6 +147,7 @@
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
+    <ClInclude Include="DynamicTexture.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TiledCache.h" />
@@ -231,12 +233,14 @@
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
+    <ClCompile Include="DynamicTexture.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCache.cpp" />

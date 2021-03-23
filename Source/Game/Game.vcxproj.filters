@@ -91,6 +91,9 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Minimap">
+      <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -330,7 +333,6 @@
     <ClInclude Include="TriggerVolume.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
@@ -348,6 +350,15 @@
     </ClInclude>
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Core\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTexture.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,7 +506,6 @@
     <ClCompile Include="TiledCache.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Collectable.cpp">
       <Filter>GameObjects\Collectables</Filter>
     </ClCompile>
@@ -507,6 +517,15 @@
     </ClCompile>
     <ClCompile Include="CutscenePlayer.cpp">
       <Filter>Core\Cutscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Core\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicTexture.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
