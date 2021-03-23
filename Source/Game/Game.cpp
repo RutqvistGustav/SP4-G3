@@ -127,19 +127,19 @@ void CGame::InitCallBack()
 	myJsonManager = std::make_unique <JsonManager>();
 	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());
 	myGameMessenger = std::make_unique<GameMessenger>();
+	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 
-	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myGameMessenger.get());
+
+	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myInputInterface.get(), myGameMessenger.get());
 
 	mySceneManager = std::make_unique<SceneManager>(myGlobalServiceProvider.get());
 
 	//myGameWorld->Init();
 	myRenderManager = std::make_unique<RenderManager>();
 
-	myInputInterface = std::make_unique<InputInterface>(myInput.get(), myControllerInput.get());
 
 	// NOTE: Fill myUpdateContext & myRenderContext after needs
 	myUpdateContext.myInputInterface = myInputInterface.get();
-	// TODO: Remove when interface works
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
@@ -148,17 +148,21 @@ void CGame::InitCallBack()
 
 void CGame::UpdateCallBack()
 {
-
 	// NOTE: Ready for multithreading
 	RenderQueue* const updateQueue = myRenderManager->GetUpdateQueue();
 
+	float deltaTime = myTimer->GetDeltaTime();
+	// NOTE: Cap high delta time values, will result in the game lagging behind when running slower than 30 fps but prevents spikes in delta time
+	// that can cause all sorts of problems.
+	if (deltaTime > 1.0f / 30.0f)
+	{
+		deltaTime = 1.0f / 30.0f;
+	}
+
 	myTimer->Update();
-	myControllerInput->UpdateControllerState(myTimer->GetDeltaTime());
+	myControllerInput->UpdateControllerState(deltaTime);
 
-
-	//myGameWorld->Update(myTimer->GetDeltaTime(), myInput.get());
-	//myGameWorld->Render(updateQueue);
-	mySceneManager->Update(myTimer->GetDeltaTime(), myUpdateContext);
+	mySceneManager->Update(deltaTime, myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
 
 	// Rendering

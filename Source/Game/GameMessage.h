@@ -4,4 +4,5 @@ enum class GameMessage
 {
 	CheckpointSave,
 	CheckpointLoad,
+	SpawnEnemy,
 };

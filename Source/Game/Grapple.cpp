@@ -21,8 +21,7 @@ Grapple::~Grapple() = default;
 void Grapple::InitGameObjects(Scene* aScene)
 {
 	myProjectile = std::make_unique<GrappleHookProjectile>(aScene, GetWeaponHolder());
-	myProjectile->SetVariables(myMaxDistance, myHookSpeed, myContractSpeed);
-	//myProjectile->Init(aScene->GetGlobalServiceProvider()->GetJsonManager()->GetData(""));
+	myProjectile->Init(aScene->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Weapons.json")["grapple"]);
 }
 
 void Grapple::Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition)
@@ -71,8 +70,6 @@ GrappleHookProjectile* Grapple::GetProjectile()
 void Grapple::LoadJson(const JsonData& someJsonData) // variables moved to GrappleHookProjectile
 {
 	myMaxDistance = someJsonData["maxDistance"];
-	myHookSpeed = someJsonData["hookSpeed"];
-	myContractSpeed = someJsonData["contractSpeed"];
 	myCoolDown = someJsonData["coolDown"];
 	myCoolDownReset = myCoolDown;
 }

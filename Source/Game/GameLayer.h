@@ -15,4 +15,6 @@ namespace GameLayer
 	static constexpr Layer ParticleEffects = 9;
 
 	static constexpr Layer Foreground = 10;
+
+	static constexpr Layer Cutscene = 999;
 }

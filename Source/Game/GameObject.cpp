@@ -26,7 +26,10 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 
 GameObject::~GameObject()
 {
-	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	if (myCollider != nullptr)
+	{
+		myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	}
 }
 
 void GameObject::Init()
@@ -98,4 +101,15 @@ const Collider* GameObject::GetCollider() const
 GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 {
 	return GetScene()->GetGlobalServiceProvider();
+}
+
+
+bool GameObject::GetDeleteThisFrame()
+{
+	return myDeleteThisFrame;
+}
+
+void GameObject::SetDeleteThisFrame()
+{
+	myDeleteThisFrame = true;
 }
