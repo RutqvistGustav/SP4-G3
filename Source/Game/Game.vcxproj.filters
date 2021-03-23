@@ -330,7 +330,6 @@
     <ClInclude Include="TriggerVolume.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
@@ -349,6 +348,10 @@
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPickup.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -495,7 +498,6 @@
     <ClCompile Include="TiledCache.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Collectable.cpp">
       <Filter>GameObjects\Collectables</Filter>
     </ClCompile>
@@ -508,5 +510,9 @@
     <ClCompile Include="CutscenePlayer.cpp">
       <Filter>Core\Cutscenes</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPickup.cpp" />
   </ItemGroup>
 </Project>

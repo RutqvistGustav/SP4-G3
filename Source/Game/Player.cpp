@@ -68,7 +68,7 @@ void Player::Init()
 	myPosition.y = 0.5f;
 
 	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/Grump.dds");
+	mySprite = std::make_shared<SpriteWrapper>(data.at("SpritePath"));
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
 
@@ -246,7 +246,6 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
-		myGravityActive = true;
 
 
 
@@ -369,7 +368,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	SetPosition(GetPosition() + myVel * aDeltaTime);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
-	std::cout << "Velocity " << myVel.x << std::endl;
+	//std::cout << "Velocity " << myVel.x << std::endl;
 }
 
 void Player::Jump(const float aDeltaTime)
@@ -389,16 +388,14 @@ void Player::Jump(const float aDeltaTime)
 		}
 		else
 		{
+			myGravityActive = true;
 			myIsJumping = false;
 			myJumpDuration = myJumpDurationReset;
 		}
 	}
-	else
+	else if (myGravityActive == true)
 	{
-		if (myGravityActive == true)
-		{
-			myVel.y += myGravity * aDeltaTime;
-		}
+		myVel.y += myGravity * aDeltaTime;
 	}
 }
 
