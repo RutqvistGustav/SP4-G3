@@ -2,19 +2,25 @@
 
 #include "Weapon.h"
 
+#include <memory>
+
+class Collider;
+
 class Shotgun : public Weapon
 {
 public:
 
-	Shotgun(IWeaponHolder* aWeaponHolder);
+	Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder);
 	virtual ~Shotgun() override;
 
-	virtual void Update(float aDeltaTime, UpdateContext& anUpdateContext, const CU::Vector2<float>& aPlayerPosition) override;
+	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	virtual void Shoot(const CU::Vector2<float> aPlayerPosition) override;
+	virtual void Shoot() override;
 
 	virtual void Reload();
+
+	virtual void OnCollision(GameObject* aGameObject) override;
 
 protected:
 
@@ -29,6 +35,10 @@ protected:
 
 private:
 
+	std::shared_ptr<Collider> myShotVolume;
+	// TODO: NOTE: If / when immediate shape test is available from CollisionManager this can be removed
+	bool myIsShotVolumeActive{};
+
 	int myLoadedAmmo{};
 
 	float myTime{};
@@ -41,7 +51,7 @@ private:
 
 	float myReloadDuration{};
 
-	float myDamage{};
+	int myDamage{};
 
 	float myAoeAngle{};
 	float myAoeLength{};

@@ -156,7 +156,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
-    <ClInclude Include="GrappleHookProjectile.h" />
     <ClInclude Include="GameMessage.h" />
     <ClInclude Include="GameMessageAction.h" />
     <ClInclude Include="GameMessenger.h" />
@@ -175,7 +174,6 @@
     <ClInclude Include="TiledMap.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Grapple.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputInterface.h" />
@@ -237,7 +235,6 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GrappleHookProjectile.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
@@ -249,7 +246,6 @@
     <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputInterface.cpp" />

@@ -28,6 +28,8 @@ void EnemyManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 	{
 		enemy->Update(aDeltaTime, anUpdateContext);
 	}
+
+	DeleteMarkedEnemies();
 }
 
 void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -61,11 +63,14 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Enem
 
 void EnemyManager::DeleteMarkedEnemies()
 {
-	for (int enemyIndex = static_cast<int>(myEnemies.size()); enemyIndex >= 0; enemyIndex--)
+	if (myEnemies.size() > 0)
 	{
-		if (myEnemies[enemyIndex]->GetDeleteThisFrame())
+		for (int enemyIndex = static_cast<int>(myEnemies.size()) - 1; enemyIndex >= 0; enemyIndex--)
 		{
-			myEnemies.erase(myEnemies.begin() + enemyIndex);
+			if (myEnemies[enemyIndex]->GetDeleteThisFrame())
+			{
+				myEnemies.erase(myEnemies.begin() + enemyIndex);
+			}
 		}
 	}
 }
