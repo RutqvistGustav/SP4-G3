@@ -342,7 +342,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 		}
 		else
 		{
-			myVel += direction * mySpeed * aDeltaTime;
+			myVel.x += direction.x * mySpeed * aDeltaTime;
 		}
 	}
 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
@@ -353,7 +353,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 		}
 		else
 		{
-			myVel += direction * mySpeed * aDeltaTime;
+			myVel.x += direction.x * mySpeed * aDeltaTime;
 		}
 	}
 
@@ -374,7 +374,7 @@ void Player::Movement(const float aDeltaTime, InputInterface * anInput)
 	SetPosition(GetPosition() + myVel * aDeltaTime);
 
 	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
-	//std::cout << "Velocity " << myVel.x << std::endl;
+	std::cout << "Velocity " << myVel.x << std::endl;
 }
 
 void Player::Jump(const float aDeltaTime)
