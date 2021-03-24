@@ -8,6 +8,7 @@
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
 #include "Health.h"
+#include "DamageVolume.h"
 // JSON
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -23,6 +24,7 @@ Zombie::Zombie(Scene* aScene)
 	mySpeed = zombieData.at("MovementSpeed");
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
+	myKnockback = zombieData.at("KnockBack");
 	myGravity = 3000.0f;
 }
 
@@ -123,6 +125,10 @@ void Zombie::OnCollision(GameObject* aGameObject)
 		if (aGameObject->GetTag() == GameObjectTag::Player)
 		{
 			myVelocity = CU::Vector2<float>(0.0f, 0.0f);
+
+			Player* player = static_cast<Player*>(myTarget.get());
+			player->TakeDamage(myDamage);
+			player->ApplyForce((player->GetPosition() - GetPosition()).GetNormalized() * myKnockback);
 			//TODO - Add DamagePlayer
 		}
 		//if (aGameObject->GetTag() != GameObjectTag::Enemy)

@@ -27,6 +27,7 @@ protected:
     float mySpeed;
     float myMaxSpeed;
     float myDetectionRange;
+    float myKnockback;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
 };
