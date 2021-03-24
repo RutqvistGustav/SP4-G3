@@ -8,6 +8,13 @@
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
+#include "SpriteWrapper.h"
+#include "RenderQueue.h"
+#include "RenderContext.h"
+#include "RenderCommand.h"
+#include "Camera.h"
+#include "Metrics.h"
+#include "Scene.h"
 #endif // _DEBUG
 
 
@@ -24,8 +31,8 @@ Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadi
 	myDebugSprite = nullptr;
 #endif // _DEBUG
 
-	myDimentions.x = aRadius;
-	myDimentions.y = aRadius;
+	myDimentions.x = aRadius * 2;
+	myDimentions.y = aRadius * 2;
 }
 
 Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
@@ -35,8 +42,8 @@ Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
 Collider::~Collider()
 {
 #ifdef _DEBUG
-	delete myDebugSprite;
-	myDebugSprite = nullptr;
+	/*delete myDebugSprite;
+	myDebugSprite = nullptr;*/
 #endif // _DEBUG
 	myGameObject = nullptr;
 }
@@ -50,8 +57,8 @@ void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRad
 	myGameObject = aGameObject;
 	//myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
-	myDimentions.x = aRadius;
-	myDimentions.y = aRadius;
+	myDimentions.x = aRadius * 2;
+	myDimentions.y = aRadius * 2;
 }
 
 void Collider::SetPos(const CU::Vector2<float> aPos)
@@ -90,7 +97,7 @@ bool Collider::GetCollision(const Collider* aCollider)
 const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection)
 {
 
-	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * GetRadius());
+	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * GetRadius() * 0.5f);
 
 
 	if (tileToCheck != nullptr)
@@ -154,12 +161,23 @@ void Collider::InitDebug()
 	//myDebugSprite = new Tga2D::CSprite("debugCookie.png");
 }
 
-void Collider::RenderDebug()
+void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	if (!myDoRender)
+		return;
+
+	CU::Vector2<float> cameraPos(myGameObject->GetScene()->GetCamera()->GetPosition());
+
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	myDebugSprite->SetPosition({ myPos.x / (1280 * 1.5f), myPos.y / (720 * 1.5f) });
-	myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 400, myDimentions.y / 400 });
-	myDebugSprite->Render();
+	myDebugSprite->SetPosition({  myPos.x / Metrics::GetReferenceSize().x
+								, myPos.y / Metrics::GetReferenceSize().y });
+	myDebugSprite->SetPosition({ myPos.x, myPos.y });
+	//myDebugSprite->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+	myDebugSprite->SetSize(myDimentions);
+	/*myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 1000, myDimentions.y / 1000 });
+	myDebugSprite->Render();*/
+
+	aRenderQueue->Queue(RenderCommand(myDebugSprite));
 
 }
 void Collider::setRenderColor(Tga2D::CColor aColor)

@@ -16,6 +16,10 @@ Shotgun::Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder)
 	: Weapon(WeaponType::Shotgun, aScene, aWeaponHolder)
 {
 	myShotVolume = std::make_shared<Collider>(this, myPosition);
+#ifdef _DEBUG
+	myShotVolume->myDoRender = false;
+#endif // _DEBUG
+
 }
 
 Shotgun::~Shotgun()
