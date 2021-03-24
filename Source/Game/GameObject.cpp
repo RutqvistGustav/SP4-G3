@@ -103,11 +103,16 @@ const Collider* GameObject::GetCollider() const
 	return myCollider.get();
 }
 
+void GameObject::RemoveCollider()
+{
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	myCollider.reset();
+}
+
 GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 {
 	return GetScene()->GetGlobalServiceProvider();
 }
-
 
 bool GameObject::GetDeleteThisFrame()
 {

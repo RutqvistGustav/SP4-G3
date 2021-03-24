@@ -20,6 +20,7 @@
 
 #include "Camera.h"
 #include "MathHelper.h"
+#include "Health.h"
 
 // Tools
 #include "SpriteWrapper.h"
@@ -33,6 +34,13 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <string>
+
+
+#ifdef _DEBUG
+#include "CollisionManager.h"
+#endif // _DEBUG
+
+
 
 Player::Player(Scene* aScene)
 	: GameObject(aScene, GameObjectTag::Player),
@@ -90,6 +98,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
 	myCamera->SetPosition(newCameraPosition);
 
+	myHealth->Update(aDeltaTime);
 	myHUD->Update(myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
@@ -153,6 +162,15 @@ void Player::PlayerInput(InputInterface * anInput)
 			myGravityActive = false;
 		}
 	}
+
+#ifdef _DEBUG
+	if (anInput->Is_C_Pressed())
+	{
+		myScene->GetCollisionManager()->myDoRender = !myScene->GetCollisionManager()->myDoRender;
+	}
+#endif // _DEBUG
+
+
 }
 
 void Player::InitVariables(nlohmann::json someData)
@@ -172,6 +190,10 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpStrength = someData.at("JumpStrength");
 	myJumpDuration = someData.at("JumpDuration");
 	myJumpDurationReset = myJumpDuration;
+
+	//Health
+	myHealth = std::make_unique<Health>(someData.at("Health"));
+	myHealth->SetInvincibilityTimer(someData.at("Invincibility"));
 }
 
 void Player::OnCollision(GameObject* aGameObject)
@@ -261,6 +283,16 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 void Player::StopMovement()
 {
 	myVel = CU::Vector2<float>();
+}
+
+void Player::TakeDamage(const int aDamage)
+{
+	myHealth->TakeDamage(aDamage);
+}
+
+void Player::AddHealth(const int aHealthAmount)
+{
+	myHealth->AddHealth(aHealthAmount);
 }
 
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)

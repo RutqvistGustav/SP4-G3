@@ -4,7 +4,8 @@
     "Damage": 5,
     "MovementSpeed": 150.0,
     "MaxSpeedCap" :  300.0,
-    "DetectionRange" : 1000.0
+    "DetectionRange" : 1000.0,
+    "Invincibility" : 0.5
   },
   "JetPack": {
     "Health": 1,

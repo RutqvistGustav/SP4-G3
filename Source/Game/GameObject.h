@@ -6,6 +6,11 @@
 #include <memory>
 #include "TileType.h"
 
+#ifdef _DEBUG
+#include "tga2d/math/vector2.h"
+#include "tga2d/sprite/sprite.h"
+#endif // _DEBUG
+
 class Collider;
 
 struct UpdateContext;
@@ -34,6 +39,7 @@ public:
 	virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
 
 	const Collider* GetCollider()const;
+	void RemoveCollider();
 
 	GlobalServiceProvider* GetGlobalServiceProvider();
 

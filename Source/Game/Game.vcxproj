@@ -161,6 +161,7 @@
     <ClInclude Include="GameMessenger.h" />
     <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="GenericGameMessageSubscriber.h" />
+    <ClInclude Include="Health.h" />
     <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />

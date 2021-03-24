@@ -38,7 +38,6 @@ void DamageVolume::OnStay(GameObject* aGameObject)
 
 void DamageVolume::Damage(Player* aPlayer)
 {
-	// TODO: Damage player
-
+	aPlayer->TakeDamage(myDamage);
 	aPlayer->ApplyForce((aPlayer->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
 }

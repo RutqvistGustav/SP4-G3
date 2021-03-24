@@ -11,6 +11,7 @@
 class PlayerWeaponController;
 class SpriteWrapper;
 class HUD;
+class Health;
 
 namespace CommonUtilities
 {
@@ -40,6 +41,9 @@ public:
 
     void StopMovement();
 
+    //Health Management
+    void TakeDamage(const int aDamage);
+    void AddHealth(const int aHealthAmount);
 protected:
 
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
@@ -88,4 +92,5 @@ private:
     float myJumpDuration;
     float myJumpDurationReset;
 
+    std::unique_ptr<Health> myHealth;
 };

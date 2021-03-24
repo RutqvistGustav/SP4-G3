@@ -44,11 +44,11 @@ void GameScene::Init()
 
 
 
-	for (size_t i = 0; i < 10; ++i)
+	for (size_t i = 0; i < 1; ++i)
 	{
 		AddGameObject(std::make_shared<GameObject>(this));
 		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 200.0f * (i + 1) , 1080.0f});
+		myGameObjects[i]->SetPosition({ 800.0f * (i + 1) , 1080.0f / 2.0f + 100.f});
 	}
 
 	myPlayer = std::make_shared<Player>(this);
@@ -63,9 +63,7 @@ void GameScene::Init()
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Scene::Update(aDeltaTime, anUpdateContext);
-
 	myPlayer->Update(aDeltaTime, anUpdateContext);
-	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 
 	if (anUpdateContext.myInputInterface->IsPressingUse())
 	{
@@ -73,6 +71,9 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	myCollisionManager->Update();
+
+	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+	Scene::RemoveMarkedObjects();
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -82,11 +83,11 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myEnemyManager->Render(aRenderQueue, aRenderContext);
-#ifdef _DEBUG
-	myCollisionManager->RenderDebug();
-#endif //_DEBUG
-
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+
+#ifdef _DEBUG
+	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+#endif //_DEBUG
 }
 
 CheckpointContext GameScene::SaveCheckpoint()
