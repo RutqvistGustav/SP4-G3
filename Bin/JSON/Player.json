@@ -11,14 +11,9 @@
   "StopAtOffSet" : 950.0,
 
   "JumpCharges": 2,
-<<<<<<< HEAD
-  "JumpStrength": 10000.0,
-  "JumpDuration": 0.05
-=======
-  "JumpStrength": 13000.0,
+  "JumpStrength": 6000.0,
   "JumpDuration": 0.1,
 
   "Health" : 10,
   "Invincibility" : 1.0
->>>>>>> master
 }
