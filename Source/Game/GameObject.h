@@ -40,6 +40,7 @@ public:
 	virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
 
 	const Collider* GetCollider()const;
+	void RemoveCollider();
 
 	GlobalServiceProvider* GetGlobalServiceProvider();
 

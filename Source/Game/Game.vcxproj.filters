@@ -100,6 +100,9 @@
     <Filter Include="GameObjects\Mouse">
       <UniqueIdentifier>{fcfce76a-d045-4e25-bc19-0fa7a843978a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Minimap">
+      <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -357,9 +360,6 @@
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="HealthPickup.h">
       <Filter>GameObjects\Collectables</Filter>
     </ClInclude>
@@ -383,6 +383,18 @@
     </ClInclude>
     <ClInclude Include="CoordinateHelper.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Core\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTexture.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderData.h">
+      <Filter>Rendering\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +580,12 @@
     </ClCompile>
     <ClCompile Include="CoordinateHelper.cpp">
       <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Core\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicTexture.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

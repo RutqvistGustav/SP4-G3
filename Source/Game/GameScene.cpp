@@ -23,6 +23,8 @@
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
 
+#include "Minimap.h"
+
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
 #include "CheckpointMessage.h"
@@ -42,7 +44,7 @@ void GameScene::Init()
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 
-
+	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
 
 	for (size_t i = 0; i < 1; ++i)
 	{
@@ -54,18 +56,21 @@ void GameScene::Init()
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
-	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
-	GetCamera()->SetPosition(CU::Vector2<float>());
 
 	myEnemyManager = std::make_unique<EnemyManager>(this);
+
+	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
+
+	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
+	GetCamera()->SetPosition(CU::Vector2<float>());
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Scene::Update(aDeltaTime, anUpdateContext);
-
 	myPlayer->Update(aDeltaTime, anUpdateContext);
-	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+
+	myMinimap->SetGameView(GetCamera()->GetViewBounds());
 
 	if (anUpdateContext.myInputInterface->IsPressingUse())
 	{
@@ -73,6 +78,9 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	myCollisionManager->Update();
+
+	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+	Scene::RemoveMarkedObjects();
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -83,6 +91,8 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myEnemyManager->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+
+	myMinimap->Render(aRenderQueue);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);

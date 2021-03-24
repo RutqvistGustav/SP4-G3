@@ -24,21 +24,11 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	for (std::shared_ptr<Enemy> enemy : myEnemies)
-	{
-		enemy->Update(aDeltaTime, anUpdateContext);
-	}
-
 	DeleteMarkedEnemies();
 }
 
 void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
-{
-	for (std::shared_ptr<Enemy> enemy : myEnemies)
-	{
-		enemy->Render(aRenderQueue, aRenderContext);
-	}
-}
+{}
 
 void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget)
 {
@@ -63,14 +53,11 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Enem
 
 void EnemyManager::DeleteMarkedEnemies()
 {
-	if (myEnemies.size() > 0)
+	for (int enemyIndex = static_cast<int>(myEnemies.size()) - 1; enemyIndex >= 0; enemyIndex--)
 	{
-		for (int enemyIndex = static_cast<int>(myEnemies.size()) - 1; enemyIndex >= 0; enemyIndex--)
+		if (myEnemies[enemyIndex]->GetDeleteThisFrame())
 		{
-			if (myEnemies[enemyIndex]->GetDeleteThisFrame())
-			{
-				myEnemies.erase(myEnemies.begin() + enemyIndex);
-			}
+			myEnemies.erase(myEnemies.begin() + enemyIndex);
 		}
 	}
 }

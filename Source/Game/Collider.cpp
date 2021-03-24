@@ -104,7 +104,6 @@ const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, C
 	{
 
 		//if (box collider med tile(world pos & tile.dimensions) )
-		CU::Vector2<float> tileDim = CU::Vector2<float>(aTiledCollision->GetLayer()->GetMap()->GetTileWidth(), aTiledCollision->GetLayer()->GetMap()->GetTileHeight());
 
 
 		/*if (myPos.x < aCollider->myPos.x + aCollider->myDimentions.x &&

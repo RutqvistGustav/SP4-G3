@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseRenderData.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="CoordinateHelper.h" />
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
+    <ClInclude Include="DynamicTexture.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -172,6 +174,7 @@
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TiledCache.h" />
@@ -240,6 +243,7 @@
     <ClCompile Include="CoordinateHelper.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
+    <ClCompile Include="DynamicTexture.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
@@ -253,6 +257,7 @@
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCache.cpp" />

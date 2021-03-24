@@ -16,18 +16,23 @@ void Camera::SetLevelBounds(const AABB& someBounds)
     myLevelBounds = someBounds;
 }
 
-const CU::Vector2<float> Camera::GetDeltaMovement()
+AABB Camera::GetViewBounds() const
+{
+    return AABB::FromCenterAndSize(GetPosition(), Metrics::GetReferenceSize());
+}
+
+const CU::Vector2<float> Camera::GetDeltaMovement() const
 {
     return myDeltaMovement;
 }
 
-const CU::Vector2<float> Camera::GetPositionWithModifiers()
+const CU::Vector2<float> Camera::GetPositionWithModifiers() const
 {
     const CU::Vector2<float> centeringOffset = -0.5f * Metrics::GetReferenceSize();
     return centeringOffset + GetPosition() + myShakeBehaviour.GetShakeVector();
 }
 
-const CU::Vector2<float> Camera::GetPosition()
+const CU::Vector2<float> Camera::GetPosition() const
 {
     return myPosition;
 }
