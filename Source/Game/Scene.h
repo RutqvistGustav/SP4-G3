@@ -31,6 +31,8 @@ public:
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
 
+	virtual void RemoveMarkedObjects();
+
 	Camera* GetCamera();
 
 	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }

@@ -63,9 +63,7 @@ void GameScene::Init()
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	Scene::Update(aDeltaTime, anUpdateContext);
-
 	myPlayer->Update(aDeltaTime, anUpdateContext);
-	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 
 	if (anUpdateContext.myInputInterface->IsPressingUse())
 	{
@@ -73,6 +71,9 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	myCollisionManager->Update();
+
+	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+	Scene::RemoveMarkedObjects();
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)

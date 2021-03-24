@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "TiledCollision.h"
 #include "TiledTile.h"
+#include <queue>
 
 #ifdef _DEBUG
 //#include <tga2d/sprite/sprite.h>
@@ -41,7 +42,7 @@ void CollisionManager::Update()
 		CheckTileCollision(i, vecUp);
 		//CheckTileCollision(i, vecRight);
 		//CheckTileCollision(i, vecLeft);
-		
+
 
 		for (int j = 0; j < myColliders.size(); ++j)
 		{
@@ -49,7 +50,7 @@ void CollisionManager::Update()
 
 			if (myColliders[i]->GetCollision(myColliders[j].get()) && i != j)
 			{
-				
+
 				bool IsDuplicate = false;
 				for (std::pair<int, int> nrs : myCollisionIndexes)
 				{
@@ -90,10 +91,13 @@ void CollisionManager::Update()
 
 	for (std::pair<int, int> pairs : myCollisionIndexes)
 	{
-		myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-		myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-		myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
-		myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
+		if (pairs.second < myColliders.size())
+		{
+			myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+			myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
+			myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
+			myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
+		}
 	}
 	for (std::pair<int, CU::Vector2<float>> pairs : myTileCollisionIndexes)
 	{
@@ -119,11 +123,26 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
 {
+	std::queue<int> queue;
 	for (int i = 0; i < myColliders.size(); ++i)
 	{
 		if (aCollider == myColliders[i])
 		{
 			myColliders.erase(myColliders.begin() + i);
+
+			for (std::pair<int, int> pairs : myCollisionIndexes)
+			{
+				if (pairs.first == i || pairs.second == i)
+				{
+					queue.push(pairs.first);
+				}
+			}
+
+			while (!queue.empty())
+			{
+				myCollisionIndexes.erase(queue.front());
+				queue.pop();
+			}
 		}
 	}
 }
