@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BaseRenderData.h"
+
 #include "TextureRect.h"
 
 #include "Vector2.hpp"
@@ -7,7 +9,7 @@
 #include <tga2d/texture/texture.h>
 #include <tga2d/math/color.h>
 
-struct SpriteRenderData
+struct SpriteRenderData : public BaseRenderData
 {
 	CommonUtilities::Vector2<float> myPosition;
 	CommonUtilities::Vector2<float> myPivot{ 0.5f, 0.5f };

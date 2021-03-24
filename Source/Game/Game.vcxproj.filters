@@ -360,6 +360,9 @@
     <ClInclude Include="DynamicTexture.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="BaseRenderData.h">
+      <Filter>Rendering\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
