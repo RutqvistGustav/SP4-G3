@@ -9,6 +9,7 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, GameObjectTag aTa
 	: GameObject(aScene, aSpritePath)
 {
 	SetTag(aTag);
+	mySprite->SetPanStrengthFactor(0);
 }
 
 MenuButton::~MenuButton() = default;

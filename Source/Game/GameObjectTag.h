@@ -16,7 +16,7 @@ enum class GameObjectTag
 
 	//Menu buttons
 	StartButton,
-	OptionsButton,
+	SettingsButton,
 	BackButton,
 	CreditsButton,
 	LevelSelectButton,

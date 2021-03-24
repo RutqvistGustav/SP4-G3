@@ -7,6 +7,7 @@
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
+#include "Metrics.h"
 
 MousePointer::MousePointer(Scene* aScene)
 	: GameObject(aScene)
@@ -18,7 +19,8 @@ MousePointer::MousePointer(Scene* aScene)
 	myCollider->Init(this, myMousePointerPos);
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 
-	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Pointer.png"));
+	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Menue UI/ProgArt/Pointer.png"));
+	mySprite->SetPanStrengthFactor(0);
 }
 
 MousePointer::~MousePointer() = default;
@@ -34,6 +36,16 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	float x = Metrics::GetReferenceSize().x;
+	float y = Metrics::GetReferenceSize().y;
+	const float offSet = 1.5f;
+
+	if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
+		myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
+	{
+		return;
+	}
+
 	RenderCommand renderCommand = RenderCommand(mySprite);
 	aRenderQueue->Queue(renderCommand);
 }

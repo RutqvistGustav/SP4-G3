@@ -3,6 +3,9 @@
 #include <memory>
 
 class MenuButton;
+class TiledParser;
+class TiledRenderer;
+class TiledCollision;
 
 class MainMenu :
     public Scene
@@ -20,10 +23,15 @@ private:
 	void InitButtons();
 
 	std::unique_ptr<MenuButton> myStartButton;
-	std::unique_ptr<MenuButton> myQuitButton;
-	std::unique_ptr<MenuButton> myOptionsButton;
 	std::unique_ptr<MenuButton> myLevelSelectButton;
+	std::unique_ptr<MenuButton> mySettingsButton;
+	std::unique_ptr<MenuButton> myCreditsButton;
+	std::unique_ptr<MenuButton> myQuitButton;
 
 	std::vector<std::unique_ptr<GameObject>> myButtons;
+
+	std::unique_ptr<TiledParser> myTiledParser;
+	std::unique_ptr<TiledRenderer> myTiledRenderer;
+	std::unique_ptr<TiledCollision> myTiledCollision;
 };
 
