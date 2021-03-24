@@ -2,7 +2,7 @@
 
 #include "Vector2.hpp"
 
-#include <array>
+#include <vector>
 
 class TiledLayer;
 class TiledTile;
@@ -16,14 +16,12 @@ public:
 
 	const TiledTile* GetTileAt(const CU::Vector2<float>& aPosition)const;
 
-	// inline const TiledLayer* GetLayer()const { return mySolidLayer; }
-
 private:
 
 	int myTileWidth{};
 	int myTileHeight{};
 
-	std::array<const TiledLayer*, 3> mySolidLayers{};
+	std::vector<const TiledLayer*> mySolidLayers{};
 
 	const TiledParser* myParser;
 
