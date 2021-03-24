@@ -72,6 +72,8 @@
     </Filter>
     <Filter Include="GameObjects\Buttons">
       <UniqueIdentifier>{37211139-851d-4b29-ab28-d434240e674d}</UniqueIdentifier>
+    <Filter Include="Core\MessageSystem">
+      <UniqueIdentifier>{20cadf9b-9b18-4c32-b3b7-09c45d29dbc6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scenes\Menus">
       <UniqueIdentifier>{661c0c37-56bf-48b4-a18f-8d4716ea3925}</UniqueIdentifier>
@@ -290,6 +292,50 @@
     </ClInclude>
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
+    <ClInclude Include="IGameMessageSubscriber.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessage.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessenger.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericGameMessageSubscriber.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessageAction.h">
+      <Filter>Core\MessageSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalServiceProvider.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointContext.h">
+      <Filter>Core\Checkpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckpointObjectData.h">
+      <Filter>Core\Checkpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectTag.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledCache.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledCollisionBox.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManagerProxy.h">
+      <Filter>Core\Managers</Filter>
     </ClInclude>
     <ClInclude Include="CoordinateHelper.h">
       <Filter>Helpers</Filter>
@@ -306,7 +352,6 @@
     <ClInclude Include="Options.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
@@ -324,6 +369,15 @@
     </ClInclude>
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthPickup.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="Health.h">
+      <Filter>Core\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +510,21 @@
     <ClCompile Include="TiledCollision.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="TiledEntity.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMessenger.cpp">
+      <Filter>Core\MessageSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalServiceProvider.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
     <ClCompile Include="SceneManagerProxy.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -480,7 +549,6 @@
     <ClCompile Include="Options.cpp">
       <Filter>Scenes\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Collectable.cpp">
       <Filter>GameObjects\Collectables</Filter>
     </ClCompile>
@@ -492,6 +560,15 @@
     </ClCompile>
     <ClCompile Include="CutscenePlayer.cpp">
       <Filter>Core\Cutscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthPickup.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="Health.cpp">
+      <Filter>Core\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

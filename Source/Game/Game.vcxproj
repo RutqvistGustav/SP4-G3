@@ -162,12 +162,13 @@
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
-    <ClInclude Include="GrappleHookProjectile.h" />
     <ClInclude Include="GameMessage.h" />
     <ClInclude Include="GameMessageAction.h" />
     <ClInclude Include="GameMessenger.h" />
     <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="GenericGameMessageSubscriber.h" />
+    <ClInclude Include="Health.h" />
+    <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Key.h" />
@@ -178,7 +179,6 @@
     <ClInclude Include="TiledMap.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Grapple.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputInterface.h" />
@@ -246,8 +246,9 @@
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
-    <ClCompile Include="GrappleHookProjectile.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="Health.cpp" />
+    <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
@@ -256,7 +257,6 @@
     <ClCompile Include="TiledMap.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputInterface.cpp" />

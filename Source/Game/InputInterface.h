@@ -25,6 +25,7 @@ public:
 	bool IsMovingRight_Released()const;
 
 	bool Is_G_Pressed()const;
+	bool Is_C_Pressed()const;
 
 	bool IsPressingUse()const;
 	

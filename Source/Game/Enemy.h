@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
-
+#include <memory>
+class Health;
 
 class Enemy :
     public GameObject
@@ -22,11 +23,11 @@ public:
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
 protected:
-    int myHealth;
     int myDamage;
     float mySpeed;
     float myMaxSpeed;
     float myDetectionRange;
     std::shared_ptr<GameObject> myTarget;
+    std::unique_ptr<Health> myHealth;
 };
 

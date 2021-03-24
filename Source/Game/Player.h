@@ -9,6 +9,7 @@
 class PlayerWeaponController;
 class SpriteWrapper;
 class HUD;
+class Health;
 
 namespace CommonUtilities
 {
@@ -38,16 +39,15 @@ public:
 
     void StopMovement();
 
-
-    void StartGrappling(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection);
-
+    //Health Management
+    void TakeDamage(const int aDamage);
+    void AddHealth(const int aHealthAmount);
 protected:
 
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
 private:
     // Movement
-    void GrappleTowardsTarget(const float aDeltaTime);
     void Movement(const float aDeltaTime, InputInterface* anInput);
     void BrakeMovement(const float aDeltaTime);
     void Jump(const float aDeltaTime);
@@ -91,11 +91,5 @@ private:
     float myJumpDuration;
     float myJumpDurationReset;
 
-    // Grapple hook
-    bool myIsGrappling = false;
-    float myPullSpeed;
-    float myStopAtOffset;
-    CU::Vector2<float> myGrappleDirection;
-    CU::Vector2<float> myGrappleTarget;
+    std::unique_ptr<Health> myHealth;
 };
-

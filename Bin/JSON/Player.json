@@ -1,4 +1,6 @@
 {
+  "SpritePath" :  "Sprites/Player/Player.dds",
+
   "MovementSpeed": 5000.0,
   "MaxSpeedCap": 2000.0,
   "BrakeStrength": 0.001,
@@ -6,9 +8,12 @@
   "GravityStrength": 3000.0,
 
   "PullSpeed": 10000.0,
-  "StopAtOffSet" : 450.0,
+  "StopAtOffSet": 450.0,
 
   "JumpCharges": 2,
   "JumpStrength": 13000.0,
-  "JumpDuration": 0.1
+  "JumpDuration": 0.1,
+
+  "Health" : 10,
+  "Invincibility" : 1.0
 }

@@ -4,8 +4,8 @@
 #include <iostream>
 
 ControllerInput::ControllerInput() :
-	myXDeadZone(0.15f),
-	myYDeadZone(0.15f),
+	myXDeadZone(0.25f),
+	myYDeadZone(0.25f),
 	myControllerId(-1)
 {}
 

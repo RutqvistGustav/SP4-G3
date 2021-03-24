@@ -10,6 +10,8 @@ namespace Tga2D
 }
 
 class TiledCollision;
+class RenderQueue;
+class RenderContext;
 
 class CollisionManager
 {
@@ -32,7 +34,9 @@ public:
 
 #ifdef _DEBUG
 	void InitDebug();
-	void RenderDebug();
+	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+	bool myDoRender = false;
+
 #endif // _DEBUG
 private:
 

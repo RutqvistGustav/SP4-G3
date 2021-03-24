@@ -5,69 +5,53 @@
 #include "InputManager.h"
 #include "InputInterface.h"
 
-#include "JsonManager.h"
-
 #include "MathHelper.h"
 #include "Metrics.h"
 
+#include "GlobalServiceProvider.h"
 #include "Player.h"
+#include "Scene.h"
 
-#include "Grapple.h"
-#include "GrappleHookProjectile.h"
+#include "Camera.h"
+
 #include "Weapon.h"
 #include "WeaponFactory.h"
 
-PlayerWeaponController::PlayerWeaponController(const WeaponFactory* aWeaponFactory, Player* aPlayer)
-	: myPlayer(aPlayer)
-{
-	// NOTE: For now it seems we are only going to ever have 2 weapons so no need to get fancy
-	myGrapple = std::static_pointer_cast<Grapple> (aWeaponFactory->CreateWeapon("grapple", this));
-	myShotgun = aWeaponFactory->CreateWeapon("shotgun", this);
-}
+PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
+	myScene(aScene),
+	myPlayer(aPlayer)
+{}
 
 PlayerWeaponController::~PlayerWeaponController() = default;
 
 void PlayerWeaponController::Init()
 {
-	myGrapple->InitGameObjects(myPlayer->GetScene());
+	myShotgun = myScene->GetGlobalServiceProvider()->GetWeaponFactory()->CreateWeapon("shotgun", myScene, this);
 }
 
 void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
-	myGrapple->SetDirection(aimDirection);
+	myShotgun->SetPosition(myPlayer->GetPosition());
+
 	myShotgun->SetDirection(aimDirection);
 
-	myGrapple->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
-	myShotgun->Update(aDeltaTime, anUpdateContext, myPlayer->GetPosition());
+	myShotgun->Update(aDeltaTime, anUpdateContext);
 
-	if (anUpdateContext.myInputInterface->IsGrappling())
+	if (anUpdateContext.myInputInterface->IsShooting())
 	{
-		myGrapple->Shoot(myPlayer->GetPosition());
-	}
-	else if (anUpdateContext.myInputInterface->IsShooting())
-	{
-		myShotgun->Shoot(myPlayer->GetPosition());
+		myShotgun->Shoot();
 	}
 }
 
 void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	myGrapple->Render(aRenderQueue, aRenderContext);
 	myShotgun->Render(aRenderQueue, aRenderContext);
 }
 
 CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
 {
-	// TODO: Figure out direction of weapons and update
-	// NOTE: Will have to be changed, this is just to test with a mouse
-
-	const CU::Vector2<float> mousePosition = {
-		anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
-		anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
-	};
-
 	CU::Vector2<float> direction;
 
 	if (anUpdateContext.myInputInterface->IsUsingController())
@@ -76,7 +60,14 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 	}
 	else
 	{
-		direction = mousePosition - myPlayer->GetPosition();
+		const CU::Vector2<float> mousePosition = {
+			anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
+			anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
+		};
+
+		const CU::Vector2<float> windowRelativePlayerPosition = myPlayer->GetPosition() - myScene->GetCamera()->GetPosition() + Metrics::GetReferenceSize() * 0.5f;
+
+		direction = mousePosition - windowRelativePlayerPosition;
 	}
 
 	const float radians = std::atan2f(direction.y, direction.x);
@@ -90,14 +81,4 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
 {
 	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
-}
-
-void PlayerWeaponController::OnGrappleHit(const CU::Vector2<float>& aTargetPosition, const CU::Vector2<float>& aGrapplingDirection)
-{
-	myPlayer->StartGrappling(aTargetPosition, aGrapplingDirection);
-}
-
-void PlayerWeaponController::StopGrappling()
-{
-	myGrapple->GetProjectile()->ResetProjectile();
 }

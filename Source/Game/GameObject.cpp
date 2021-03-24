@@ -118,7 +118,6 @@ void GameObject::SetType(eObjectType aType)
 	myType = aType;
 }
 
-
 bool GameObject::GetDeleteThisFrame()
 {
 	return myDeleteThisFrame;

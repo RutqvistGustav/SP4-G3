@@ -1,19 +1,43 @@
 #include "stdafx.h"
 #include "Shotgun.h"
 
+#include "Collider.h"
+#include "CollisionManager.h"
+
+#include "Enemy.h"
+
 #include "WeaponHolder.h"
 
-// TODO - Instatiate Shotgun AoE
+#include "MathHelper.h"
 
-Shotgun::Shotgun(IWeaponHolder* aWeaponHolder)
-	: Weapon(WeaponType::Shotgun, aWeaponHolder)
-{}
+#include "Scene.h"
 
-Shotgun::~Shotgun() = default;
+Shotgun::Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder)
+	: Weapon(WeaponType::Shotgun, aScene, aWeaponHolder)
+{
+	myShotVolume = std::make_shared<Collider>(this, myPosition);
+#ifdef _DEBUG
+	myShotVolume->myDoRender = false;
+#endif // _DEBUG
+}
 
-void Shotgun::Update(float aDeltaTime, UpdateContext& /*anUpdateContext*/)
+Shotgun::~Shotgun()
+{
+	myScene->GetCollisionManager()->RemoveCollider(myShotVolume);
+}
+
+void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	myTime += aDeltaTime;
+
+	if (myIsShotVolumeActive)
+	{
+		myIsShotVolumeActive = false;
+	}
+	else
+	{
+		myShotVolume->SetPos(GetPosition() + GetDirection() * myShotVolume->GetRadius() * 0.5f);
+	}
 
 	if (IsReloadingComplete())
 	{
@@ -27,14 +51,15 @@ void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRend
 	// TODO: Render weapon?
 }
 
-void Shotgun::Shoot(const CU::Vector2<float> aPlayerPosition)
+void Shotgun::Shoot()
 {
 	if (!IsLoaded())
 	{
 		return false;
 	}
 
-	// TODO: Shoot actual bullet or do a shapecast?
+	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
+	myIsShotVolumeActive = true;
 
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
@@ -56,6 +81,32 @@ void Shotgun::Reload()
 	}
 }
 
+void Shotgun::OnCollision(GameObject* aGameObject)
+{
+	if (!myIsShotVolumeActive)
+		return;
+
+	if (aGameObject->GetTag() == GameObjectTag::Enemy)
+	{
+		const CU::Vector2<float> toEnemy = aGameObject->GetPosition() - GetPosition();
+		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
+		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
+
+		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
+		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
+
+		const float degDiff = MathHelper::radToDeg(std::fabsf(enemyAngle - myAngle));
+
+		if (degDiff <= myAoeAngle)
+		{
+			Enemy* enemy = static_cast<Enemy*>(aGameObject);
+
+			enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+			enemy->TakeDamage(myDamage);
+		}
+	}
+}
+
 void Shotgun::LoadJson(const JsonData& someJsonData)
 {
 	myAmmoPerClip = someJsonData["ammoPerClip"];
@@ -73,6 +124,10 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
+
+	myShotVolume->SetRadius(myAoeLength);
+
+	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }
 
 void Shotgun::SetLoadedAmmo(int anAmount)
