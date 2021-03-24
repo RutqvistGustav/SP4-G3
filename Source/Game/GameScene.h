@@ -14,6 +14,8 @@ class TiledParser;
 class TiledRenderer;
 class TiledCollision;
 
+class Minimap;
+
 class GameScene : public Scene
 {
 public:
@@ -44,5 +46,7 @@ private:
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;
 	std::unique_ptr<TiledCollision> myTiledCollision;
+
+	std::unique_ptr<Minimap> myMinimap;
 
 };

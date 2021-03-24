@@ -104,6 +104,11 @@ void Minimap::AddObject(GameObject* aGameObject, MapObjectType aType)
 
 void Minimap::RemoveObject(GameObject* aGameObject)
 {
+	auto it = std::find_if(myObjects.begin(), myObjects.end(), [aGameObject](const MapObject& anObject) { return anObject.myGameObject == aGameObject; });
+	if (it != myObjects.end())
+	{
+		myObjects.erase(it);
+	}
 }
 
 void Minimap::SetGameView(const AABB& aGameView)
