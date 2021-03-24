@@ -8,13 +8,13 @@
 #include "GameScene.h"
 #include "Metrics.h"
 
-LevelSelect::~LevelSelect()
-{
-}
+LevelSelect::LevelSelect() = default;
+LevelSelect::~LevelSelect() = default;
 
 void LevelSelect::Init()
 {
 	myCollisionManager = std::make_unique<CollisionManager>();
+	myMousePointer = std::make_unique<MousePointer>(this);
 
 	InitButtons();
 }

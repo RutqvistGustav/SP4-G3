@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "CollisionManager.h"
-
+#include "MousePointer.h"
 #include "GameObject.h"
 #include "SceneManagerProxy.h"
 

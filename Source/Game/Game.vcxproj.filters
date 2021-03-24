@@ -381,6 +381,9 @@
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
     </ClInclude>
+    <ClInclude Include="CoordinateHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -562,6 +565,9 @@
     </ClCompile>
     <ClCompile Include="MousePointer.cpp">
       <Filter>GameObjects\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateHelper.cpp">
+      <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

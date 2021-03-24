@@ -8,18 +8,13 @@
 #include "CollisionManager.h"
 #include "Options.h"
 
-MainMenu::MainMenu()
-{
-}
-
-MainMenu::~MainMenu()
-{
-}
+MainMenu::MainMenu() = default;
+MainMenu::~MainMenu() = default;
 
 void MainMenu::Init()
 {
-	myMousePointer = std::make_unique<MousePointer>();
 	myCollisionManager = std::make_unique<CollisionManager>();
+	myMousePointer = std::make_unique<MousePointer>(this);
 	InitButtons();
 }
 

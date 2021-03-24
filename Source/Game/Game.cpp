@@ -17,7 +17,7 @@
 #include "JsonManager.h"
 #include "WeaponFactory.h"
 
-#include "GameScene.h"
+#include "MainMenu.h"
 
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
@@ -143,7 +143,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	// TODO: DEBUG: Load default game scene
-	mySceneManager->Transition(std::make_unique<GameScene>());
+	mySceneManager->Transition(std::make_unique<MainMenu>());
 }
 
 void CGame::UpdateCallBack()

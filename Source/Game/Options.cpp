@@ -14,14 +14,13 @@ Options::Options()
 	myIsMuted = false;
 }
 
-Options::~Options()
-{
-}
+Options::~Options() = default;
 
 void Options::Init()
 {
 	myAudioManager = std::make_unique<AudioManager>();
 	myCollisionManager = std::make_unique<CollisionManager>();
+	myMousePointer = std::make_unique<MousePointer>(this);
 
 	InitButtons();
 }
