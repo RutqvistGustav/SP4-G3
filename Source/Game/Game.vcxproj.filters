@@ -72,6 +72,7 @@
     </Filter>
     <Filter Include="GameObjects\Buttons">
       <UniqueIdentifier>{37211139-851d-4b29-ab28-d434240e674d}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Core\MessageSystem">
       <UniqueIdentifier>{20cadf9b-9b18-4c32-b3b7-09c45d29dbc6}</UniqueIdentifier>
     </Filter>
@@ -292,6 +293,7 @@
     </ClInclude>
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
+    </ClInclude>
     <ClInclude Include="IGameMessageSubscriber.h">
       <Filter>Core\MessageSystem</Filter>
     </ClInclude>
