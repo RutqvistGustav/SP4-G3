@@ -45,7 +45,7 @@ bool ShaderNormalInstanced::Init()
 
 void ShaderNormalInstanced::Render(const SpriteRenderData& someRenderData, const ExtraRenderInformation& someExtraInformation, ID3D11Buffer* anInstanceBuffer, ID3D11Buffer * aVertexBuffer)
 {
-	SetupForRender();
+	SetupForRender(someRenderData);
 
 	const std::vector<SpriteRenderData> renderData{ someRenderData };
 
@@ -59,7 +59,7 @@ void ShaderNormalInstanced::Render(const SpriteRenderData& someRenderData, const
 
 void ShaderNormalInstanced::Render(const SpriteBatchRenderData& someRenderData, const ExtraRenderInformation& someExtraInformation, ID3D11Buffer* anInstanceBuffer, ID3D11Buffer* aVertexBuffer)
 {
-	SetupForRender();
+	SetupForRender(someRenderData);
 
 	const int renderCount = BindForRender(someRenderData.mySprites, someRenderData.myTexture, someExtraInformation, anInstanceBuffer, aVertexBuffer);
 
@@ -159,14 +159,13 @@ bool ShaderNormalInstanced::CreateInputLayout(ID3D10Blob* aVS)
 	return true;
 }
 
-void ShaderNormalInstanced::SetupForRender()
+void ShaderNormalInstanced::SetupForRender(const BaseRenderData& someRenderData)
 {
 	assert(myVertexShader != nullptr);
 	assert(myPixelShader != nullptr);
 	assert(myIsReadyToRender);
 
-	// TODO: Depend on rendered object if we need  to
-	myDirect3dEngine->SetSamplerState(ESamplerFilter::ESamplerFilter_Bilinear, ESamplerAddressMode::ESamplerAddressMode_Clamp);
+	myDirect3dEngine->SetSamplerState(static_cast<ESamplerFilter>(someRenderData.mySamplerFilter), ESamplerAddressMode::ESamplerAddressMode_Clamp);
 	myDirect3dEngine->SetBlendState(EBlendState::EBlendState_Alphablend);
 
 	myDirect3dEngine->GetContext()->VSSetShader(myVertexShader, NULL, 0);

@@ -105,3 +105,13 @@ const TextureRect& SpriteWrapper::GetTextureRect() const
 {
 	return myRenderData.myTextureRect;
 }
+
+void SpriteWrapper::SetSamplerFilter(RenderSamplerFilter aSamplerFilter)
+{
+	myRenderData.mySamplerFilter = aSamplerFilter;
+}
+
+RenderSamplerFilter SpriteWrapper::GetSamplerFilter() const
+{
+	return myRenderData.mySamplerFilter;
+}
