@@ -3,9 +3,6 @@
 
 #include "Collider.h"
 #include "CollisionManager.h"
-#include "Scene.h"
-
-#include "Scene.h"
 
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"

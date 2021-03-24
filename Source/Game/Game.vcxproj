@@ -166,6 +166,11 @@
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="LevelSelect.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="MousePointer.h" />
+    <ClInclude Include="Options.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TiledCache.h" />
@@ -241,6 +246,11 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="LevelSelect.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="MenuButton.cpp" />
+    <ClCompile Include="MousePointer.cpp" />
+    <ClCompile Include="Options.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCache.cpp" />

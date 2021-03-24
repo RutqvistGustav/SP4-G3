@@ -21,6 +21,7 @@ public:
 		static std::shared_ptr<CollisionManager> ourCollisionManager(new CollisionManager);
 		return ourCollisionManager;
 	}*/
+	CollisionManager() = default;
 	CollisionManager(TiledCollision* aTiledCollision);
 	CollisionManager(CollisionManager const&) = delete;
 	void operator=(CollisionManager const&) = delete;

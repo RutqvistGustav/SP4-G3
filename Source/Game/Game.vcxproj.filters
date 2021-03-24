@@ -91,6 +91,15 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Menus">
+      <UniqueIdentifier>{1cdad5b7-0816-4362-a268-45f335235d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Buttons">
+      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Mouse">
+      <UniqueIdentifier>{fcfce76a-d045-4e25-bc19-0fa7a843978a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -357,6 +366,21 @@
     <ClInclude Include="Health.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>GameObjects\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePointer.h">
+      <Filter>GameObjects\Mouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -523,6 +547,21 @@
     </ClCompile>
     <ClCompile Include="Health.cpp">
       <Filter>Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelSelect.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>GameObjects\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePointer.cpp">
+      <Filter>GameObjects\Mouse</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

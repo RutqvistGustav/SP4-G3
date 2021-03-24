@@ -3,7 +3,6 @@
 #include "CollisionManager.h"
 
 #include "GameObject.h"
-
 #include "SceneManagerProxy.h"
 
 Scene::Scene() = default;
