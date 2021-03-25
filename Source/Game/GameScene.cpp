@@ -13,11 +13,9 @@
 
 #include "SpriteWrapper.h"
 
+//Managers
 #include "CollisionManager.h"
-// Enemy
 #include "EnemyManager.h"
-#include "EnemyFactory.h"
-#include "Enemy.h"
 
 #include "TiledParser.h"
 #include "TiledRenderer.h"

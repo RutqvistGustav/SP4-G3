@@ -39,7 +39,6 @@ private:
 
 	std::shared_ptr<Player> myPlayer;
 
-	std::unique_ptr<Enemy> myTestEnemy;
 	std::unique_ptr<EnemyManager> myEnemyManager;
 
 	std::unique_ptr<TiledParser> myTiledParser;
