@@ -17,6 +17,7 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	virtual void Shoot() override;
+	virtual void Boost() override;
 
 	virtual void Reload();
 
@@ -57,5 +58,6 @@ private:
 	float myAoeLength{};
 
 	float myRecoilKnockbackStrength{};
+	float myBoostKnockBackStrength{};
 
 };
