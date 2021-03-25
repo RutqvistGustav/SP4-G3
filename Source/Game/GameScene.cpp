@@ -71,6 +71,7 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 
@@ -82,6 +83,7 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 	Scene::RemoveMarkedObjects();
 
+	//temp
 	myEnemyManager->AddTargetToAllEnemies(myPlayer);
 }
 

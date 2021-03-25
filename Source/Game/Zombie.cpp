@@ -36,15 +36,18 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	// TODO: Jump when near walls
 	//		 Climb on eachother?
-	if (CheckIdle())
+	if (myTarget != nullptr)
 	{
-		IdleMovement(aDeltaTime);
+		if (CheckIdle())
+		{
+			IdleMovement(aDeltaTime);
+		}
+		else
+		{
+			Movement(aDeltaTime);
+		}
+		GameObject::Update(aDeltaTime, anUpdateContext);
 	}
-	else
-	{
-		Movement(aDeltaTime);
-	}
-	GameObject::Update(aDeltaTime, anUpdateContext);
 }
 
 void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
