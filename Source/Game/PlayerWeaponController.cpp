@@ -92,6 +92,7 @@ void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStr
 	}
 	else
 	{
-		myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
+		CommonUtilities::Vector2<float> direction = { aWeapon->GetDirection().x, 0.0f };
+		myPlayer->ApplyForce(direction *someStrength * -1.0f);
 	}
 }
