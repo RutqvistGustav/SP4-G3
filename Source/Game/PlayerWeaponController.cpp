@@ -80,5 +80,6 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
 {
+	myPlayer->StopMovement();
 	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
 }
