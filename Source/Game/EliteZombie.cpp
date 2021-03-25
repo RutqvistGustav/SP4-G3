@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Zombie.h"
+#include "EliteZombie.h"
 #include "SpriteWrapper.h"
 #include "UpdateContext.h"
 #include "Player.h"
@@ -7,19 +7,21 @@
 #include "Scene.h"
 #include "Health.h"
 
-Zombie::Zombie(Scene* aScene)
+EliteZombie::EliteZombie(Scene* aScene)
 	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
 {
-	std::string type = "Zombie";
+	std::string type = "EliteZombie";
 	InitEnemyJsonValues(type);
+	//Temp to see difference
+	mySprite->SetColor({0.5f, 0.0f, 0.0f, 1.0f});
 	myGravity = 3000.0f;
 }
 
-Zombie::~Zombie()
+EliteZombie::~EliteZombie()
 {
 }
 
-void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void EliteZombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	// TODO: Jump when near walls
 	//		 Climb on eachother?
@@ -37,15 +39,15 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 }
 
-void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void EliteZombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	GameObject::Render(aRenderQueue, aRenderContext);
 }
 
-void Zombie::Movement(const float aDeltaTime)
+void EliteZombie::Movement(const float aDeltaTime)
 {
 	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	//distance = pow(distance, 0.5f);
+
 	UpdateGravity(aDeltaTime);
 
 	if (myTarget->GetPosition().x < myPosition.x && -myMaxSpeed <= myVelocity.x)
@@ -53,7 +55,7 @@ void Zombie::Movement(const float aDeltaTime)
 		if (myVelocity.x > 20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
 		else
 		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime;
 		}
 	}
 	if (myTarget->GetPosition().x > myPosition.x && myVelocity.x <= myMaxSpeed)
@@ -61,25 +63,24 @@ void Zombie::Movement(const float aDeltaTime)
 		if (myVelocity.x < -20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
 		else
 		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime;
 		}
 	}
-
 
 	direction = myPosition;
 	direction += myVelocity * aDeltaTime;
 	SetPosition(direction);
 }
 
-void Zombie::IdleMovement(const float aDeltaTime)
+void EliteZombie::IdleMovement(const float aDeltaTime)
 {
 	//TODO - Change Direction when hitting a wall
 	UpdateGravity(aDeltaTime);
-	if (myVelocity.x > 0.0f)
+	if (myVelocity.x > mySpeed)
 	{
 		myVelocity.x = myMaxSpeed * 0.5f;
 	}
-	else if (myVelocity.x < 0.0f)
+	else if (myVelocity.x < -mySpeed)
 	{
 		myVelocity.x = -myMaxSpeed * 0.5f;
 	}
@@ -89,22 +90,16 @@ void Zombie::IdleMovement(const float aDeltaTime)
 }
 
 
-void Zombie::UpdateGravity(const float aDeltaTime)
+void EliteZombie::UpdateGravity(const float aDeltaTime)
 {
 	if (myApplyGravity)
 	{
 		myVelocity.y += myGravity * aDeltaTime;
 	}
-	else
-	{
-		myVelocity.y = 0.0f;
-	}
 }
 
-void Zombie::OnCollision(GameObject* aGameObject)
+void EliteZombie::OnCollision(GameObject* aGameObject)
 {
-
-
 	switch (myCollider->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
@@ -116,8 +111,12 @@ void Zombie::OnCollision(GameObject* aGameObject)
 
 			Player* player = static_cast<Player*>(myTarget.get());
 			player->TakeDamage(myDamage);
-			//player->ApplyForce((player->GetPosition() - GetPosition()).GetNormalized() * myKnockback);
-			//TODO - Add DamagePlayer
+
+			CU::Vector2<float> direction = (player->GetPosition() - GetPosition()).GetNormalized();
+			//if (direction.y > -0.2f && direction.y < 0.2f)
+			//{
+			//	player->ApplyForce(direction * myKnockback);
+			//}
 		}
 		break;
 	case Collider::eCollisionStage::NotColliding:
@@ -127,7 +126,7 @@ void Zombie::OnCollision(GameObject* aGameObject)
 	}
 }
 
-void Zombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+void EliteZombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 {
 	switch (myCollider->GetCollisionStage())
 	{
@@ -141,23 +140,26 @@ void Zombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		break;
 	case Collider::eCollisionStage::NotColliding:
 		myApplyGravity = true;
-
-
 		break;
 	default:
 		break;
 	}
 }
 
-bool Zombie::CheckIdle()
+bool EliteZombie::CheckIdle()
 {
 	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	float distance = direction.x * direction.x + direction.y * direction.y;
 
+	if (direction.y)
+	{
+
+	}
+
 	return (distance <= myDetectionRange * myDetectionRange) ? false : true;
 }
 
-void Zombie::ApplyForce(const CU::Vector2<float>& aForce)
+void EliteZombie::ApplyForce(const CU::Vector2<float>& aForce)
 {
 	myVelocity += aForce;
 }
