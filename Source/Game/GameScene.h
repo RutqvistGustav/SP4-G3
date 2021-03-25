@@ -13,6 +13,7 @@ class EnemyManager;
 class TiledParser;
 class TiledRenderer;
 class TiledCollision;
+class TiledEntities;
 
 class Minimap;
 
@@ -33,8 +34,6 @@ private:
 	CheckpointContext SaveCheckpoint();
 	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
 
-	void SpawnEnemy();
-
 private:
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
@@ -46,6 +45,7 @@ private:
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;
 	std::unique_ptr<TiledCollision> myTiledCollision;
+	std::unique_ptr<TiledEntities> myTiledEntities;
 
 	std::unique_ptr<Minimap> myMinimap;
 

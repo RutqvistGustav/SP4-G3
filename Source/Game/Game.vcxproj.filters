@@ -369,6 +369,7 @@
     <ClInclude Include="BaseRenderData.h">
       <Filter>Rendering\Data</Filter>
     </ClInclude>
+    <ClInclude Include="TiledEntities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -542,5 +543,6 @@
     <ClCompile Include="DynamicTexture.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="TiledEntities.cpp" />
   </ItemGroup>
 </Project>

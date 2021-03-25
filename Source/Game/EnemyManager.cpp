@@ -45,6 +45,14 @@ void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<flo
 	myScene->AddGameObject(enemy);
 }
 
+void EnemyManager::AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget)
+{
+	for (std::shared_ptr<Enemy> enemy : myEnemies)
+	{
+		enemy->SetTarget(aTarget);
+	}
+}
+
 GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData)
 {
 	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget);

@@ -174,6 +174,7 @@
     <ClInclude Include="TiledCache.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledCollisionBox.h" />
+    <ClInclude Include="TiledEntities.h" />
     <ClInclude Include="TiledEntity.h" />
     <ClInclude Include="TiledLayer.h" />
     <ClInclude Include="TiledMap.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
+    <ClCompile Include="TiledEntities.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
     <ClCompile Include="TiledLayer.cpp" />
     <ClCompile Include="TiledMap.cpp" />
