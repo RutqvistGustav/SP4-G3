@@ -73,6 +73,7 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+
     <Filter Include="Core\Wrappers">
       <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
     </Filter>
@@ -87,6 +88,9 @@
     </Filter>
     <Filter Include="Core\Rendering\Renderer">
       <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Core\Minimap">
+      <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -342,20 +346,34 @@
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="HealthPickup.h">
       <Filter>GameObjects\Collectables</Filter>
     </ClInclude>
     <ClInclude Include="Health.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+
     <ClInclude Include="TextWrapper.h">
       <Filter>Core\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="RenderObjectType.h">
       <Filter>Core</Filter>
+	</ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Core\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTexture.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderData.h">
+      <Filter>Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledEntities.h" />
+    <ClInclude Include="EliteZombie.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -524,8 +542,19 @@
     <ClCompile Include="Health.cpp">
       <Filter>Core\Components</Filter>
     </ClCompile>
+
     <ClCompile Include="TextWrapper.cpp">
       <Filter>Core\Wrappers</Filter>
+	</ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Core\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicTexture.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledEntities.cpp" />
+    <ClCompile Include="EliteZombie.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

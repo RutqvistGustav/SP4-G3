@@ -4,7 +4,7 @@
 
 #include <vector>
 
-struct SpriteBatchRenderData
+struct SpriteBatchRenderData : public BaseRenderData
 {
 	SpriteBatchRenderData() = default;
 	~SpriteBatchRenderData() = default;

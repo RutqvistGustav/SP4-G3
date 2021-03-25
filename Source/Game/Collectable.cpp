@@ -49,7 +49,9 @@ void Collectable::OnStay(GameObject * aGameObject)
 		OnCollect(player);
 
 		myIsCollected = true;
+
 		// TODO: Mark GameObject for destruction
+		SetDeleteThisFrame();
 	}
 }
 

@@ -2,16 +2,19 @@
   "Zombie": {
     "Health": 1,
     "Damage": 5,
-    "MovementSpeed": 150.0,
-    "MaxSpeedCap" :  300.0,
+    "MovementSpeed": 200.0,
+    "MaxSpeedCap" :  400.0,
     "DetectionRange" : 1000.0,
-    "Invincibility" : 0.5
+    "Invincibility" : 0.5,
+    "KnockBack" : 20.0
   },
-  "JetPack": {
-    "Health": 1,
+  "EliteZombie": {
+    "Health": 10,
     "Damage": 5,
-    "MovementSpeed": 0.0,
-    "MaxSpeedCap": 0.0,
-    "DetectionRange" : 1000.0
+    "MovementSpeed": 100.0,
+    "MaxSpeedCap": 300.0,
+    "DetectionRange": 2000.0,
+    "Invincibility": 0.5,
+    "KnockBack": 100.0
   }
 }

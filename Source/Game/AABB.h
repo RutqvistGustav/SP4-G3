@@ -35,6 +35,22 @@ public:
 		myMax += aDisplacement;
 	}
 
+	void ClipInside(const AABB& aClipBox)
+	{
+		float tx = 0.0f;
+		float ty = 0.0f;
+
+		tx = max(aClipBox.GetMin().x - GetMin().x, 0.0f);
+		ty = max(aClipBox.GetMin().y - GetMin().y, 0.0f);
+
+		myMin = { min(myMin.x + tx, myMax.x), min(myMin.y + ty, myMax.y) };
+
+		tx = min(aClipBox.GetMax().x - GetMax().x, 0.0f);
+		ty = min(aClipBox.GetMax().y - GetMax().y, 0.0f);
+
+		myMax = { max(myMax.x + tx, myMin.x), max(myMax.y + ty, myMin.y) };
+	}
+
 	inline CU::Vector2<float> GetSize() const { return myMax - myMin; }
 	inline CU::Vector2<float> GetCenter() const { return myMin + GetSize() * 0.5f; }
 

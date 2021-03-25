@@ -6,6 +6,7 @@
 #include <array>
 
 struct ExtraRenderInformation;
+struct BaseRenderData;
 struct SpriteRenderData;
 struct SpriteBatchRenderData;
 
@@ -28,7 +29,7 @@ protected:
 
 private:
 
-	void SetupForRender();
+	void SetupForRender(const BaseRenderData& someRenderData);
 	int BindForRender(const std::vector<SpriteRenderData>& someRenderData, Tga2D::CTexture* aTexture, const ExtraRenderInformation& someExtraInformation, ID3D11Buffer* anInstanceBuffer, ID3D11Buffer* aVertexBuffer);
 
 private:

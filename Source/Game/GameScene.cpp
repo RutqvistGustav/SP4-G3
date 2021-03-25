@@ -13,15 +13,16 @@
 
 #include "SpriteWrapper.h"
 
+//Managers
 #include "CollisionManager.h"
-// Enemy
 #include "EnemyManager.h"
-#include "EnemyFactory.h"
-#include "Enemy.h"
 
 #include "TiledParser.h"
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
+#include "TiledEntities.h"
+
+#include "Minimap.h"
 
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
@@ -41,8 +42,9 @@ void GameScene::Init()
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
-
+	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
 
 	for (size_t i = 0; i < 1; ++i)
 	{
@@ -54,26 +56,33 @@ void GameScene::Init()
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
+
+	myEnemyManager = std::make_unique<EnemyManager>(this);
+
+	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
+
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
-	myEnemyManager = std::make_unique<EnemyManager>(this);
+	myTiledEntities->SpawnEntities();
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 
-	if (anUpdateContext.myInputInterface->IsPressingUse())
-	{
-		SpawnEnemy();
-	}
+	myMinimap->SetGameView(GetCamera()->GetViewBounds());
 
 	myCollisionManager->Update();
 
+	//Removal of marked GameObjects
 	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 	Scene::RemoveMarkedObjects();
+
+	//temp
+	myEnemyManager->AddTargetToAllEnemies(myPlayer);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -82,8 +91,9 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
-	myEnemyManager->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
+
+	myMinimap->Render(aRenderQueue);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
@@ -108,15 +118,4 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
-}
-
-void GameScene::SpawnEnemy()
-{
-	//Example of how to spawn an enemy through the Postmaster
-	EnemyMessageData enemyMessageData{};
-	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
-	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
-	enemyMessageData.myTarget = myPlayer;
-
-	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 }

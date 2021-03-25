@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseRenderData.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
@@ -147,6 +148,8 @@
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
+    <ClInclude Include="DynamicTexture.h" />
+    <ClInclude Include="EliteZombie.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -166,12 +169,14 @@
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TextWrapper.h" />
     <ClInclude Include="TiledCache.h" />
     <ClInclude Include="TiledCollision.h" />
     <ClInclude Include="TiledCollisionBox.h" />
+    <ClInclude Include="TiledEntities.h" />
     <ClInclude Include="TiledEntity.h" />
     <ClInclude Include="TiledLayer.h" />
     <ClInclude Include="TiledMap.h" />
@@ -234,6 +239,8 @@
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
+    <ClCompile Include="DynamicTexture.cpp" />
+    <ClCompile Include="EliteZombie.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
@@ -242,11 +249,13 @@
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
+    <ClCompile Include="TiledEntities.cpp" />
     <ClCompile Include="TiledEntity.cpp" />
     <ClCompile Include="TiledLayer.cpp" />
     <ClCompile Include="TiledMap.cpp" />
