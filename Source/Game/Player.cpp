@@ -71,7 +71,7 @@ void Player::Init()
 
 	InitVariables(data);
 
-	myOnGround = false;
+	myIsOnGround = false;
 	myPosition.x = 0.5f;
 	myPosition.y = 0.5f;
 
@@ -91,7 +91,7 @@ void Player::Init()
 void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
-	Controller(aDeltaTime, anUpdateContext.myInputInterface);
+	Movement(aDeltaTime, anUpdateContext.myInputInterface);
 
 	ImGui();
 
@@ -113,10 +113,7 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderCont
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
-void Player::Controller(const float aDeltaTime, InputInterface * anInput)
-{
-	Movement(aDeltaTime, anInput);
-}
+
 
 void Player::BrakeMovement(const float aDeltaTime)
 {
@@ -261,14 +258,20 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 
 		myJumpCharges = myJumpChargeReset;
 		myIsJumping = false;
+		myIsOnGround = true;
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		myGravityActive = false;
+		//myGravityActive = false;
 		myCollider->SetPos(myPosition);
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
 
+		if (myIsOnGround == true)
+		{
+			myGravityActive = true;
+			myIsOnGround = false;
+		}
 
 
 		break;

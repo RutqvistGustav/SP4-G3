@@ -94,7 +94,7 @@ void Shotgun::OnCollision(GameObject* aGameObject)
 		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
 		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
 
-		const float degDiff = MathHelper::radToDeg(std::fabsf(enemyAngle - myAngle));
+		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
 
 		if (degDiff <= myAoeAngle)
 		{

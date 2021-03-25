@@ -36,6 +36,7 @@ private:
 
 	friend class TiledCollision;
 	friend class TiledRenderer;
+	friend class Minimap;
 	
 	bool Load(const std::string& aMapPath);
 

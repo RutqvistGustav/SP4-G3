@@ -20,10 +20,12 @@ public:
 	//Method to set Current Level bounds.
 	void SetLevelBounds(const AABB& someBounds);
 
+	AABB GetViewBounds() const;
+
 	//Get the total movement of the Camera this frame.
-	const CU::Vector2<float> GetDeltaMovement();
-	const CU::Vector2<float> GetPositionWithModifiers();
-	const CU::Vector2<float> GetPosition();
+	const CU::Vector2<float> GetDeltaMovement() const;
+	const CU::Vector2<float> GetPositionWithModifiers() const;
+	const CU::Vector2<float> GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
 
 	void ActivateScreenShake(float aSpeed, float anAmplitude, float aDuration);

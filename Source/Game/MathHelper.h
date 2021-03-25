@@ -12,15 +12,21 @@ namespace MathHelper
 	static constexpr double locPid = locPi<double>;
 
 	template <typename T>
-	static constexpr T radToDeg(T someRad)
+	static constexpr T RadToDeg(T someRad)
 	{
 		return someRad / locPi<T> * static_cast<T>(180);
 	}
 
 	template <typename T>
-	static constexpr T degToRad(T someDeg)
+	static constexpr T DegToRad(T someDeg)
 	{
 		return someDeg / static_cast<T>(180) * locPi<T>;
+	}
+
+	template <typename T>
+	static constexpr T Clamp(T aValue, T someMin, T someMax)
+	{
+		return aValue < someMin ? someMin : aValue > someMax ? someMax : aValue;
 	}
 
 	static CU::Vector2<float> MoveTowards(CU::Vector2<float> aValue, CU::Vector2<float> aTarget, float aMaxDelta)

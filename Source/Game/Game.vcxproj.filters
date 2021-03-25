@@ -91,6 +91,9 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Minimap">
+      <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -348,14 +351,23 @@
     <ClInclude Include="CutscenePlayer.h">
       <Filter>Core\Cutscenes</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="HealthPickup.h">
       <Filter>GameObjects\Collectables</Filter>
     </ClInclude>
     <ClInclude Include="Health.h">
       <Filter>Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Core\Minimap</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTexture.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderData.h">
+      <Filter>Rendering\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +535,12 @@
     </ClCompile>
     <ClCompile Include="Health.cpp">
       <Filter>Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Core\Minimap</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicTexture.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

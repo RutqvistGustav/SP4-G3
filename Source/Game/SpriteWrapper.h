@@ -38,6 +38,9 @@ public:
 	void SetTextureRect(const TextureRect& aTextureRect);
 	const TextureRect& GetTextureRect() const;
 
+	void SetSamplerFilter(RenderSamplerFilter aSamplerFilter);
+	RenderSamplerFilter GetSamplerFilter() const;
+
 private:
 
 	friend class RenderCommand;
