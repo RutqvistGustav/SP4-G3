@@ -94,6 +94,9 @@
     <Filter Include="Core\Minimap">
       <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Interactables">
+      <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -369,6 +372,12 @@
     <ClInclude Include="BaseRenderData.h">
       <Filter>Rendering\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>GameObjects\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -541,6 +550,9 @@
     </ClCompile>
     <ClCompile Include="DynamicTexture.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>GameObjects\Interactables</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,4 +5,7 @@ enum class GameMessage
 	CheckpointSave,
 	CheckpointLoad,
 	SpawnEnemy,
+
+	InteractableEnter,
+	InteractableExit,
 };
