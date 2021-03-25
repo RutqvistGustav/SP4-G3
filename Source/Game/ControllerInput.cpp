@@ -52,6 +52,8 @@ void ControllerInput::UpdateNormalizedStickValues()
 {
 	//Whyy puu....
 	myPreviousLeftStickX = myLeftStickX;
+	myPreviousLeftTrigger = myLeftTrigger;
+	myPreviousRightTrigger = myRightTrigger;
 
 	float normalLeftStickX = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLX) / 32767.0f));
 	float normalLeftStickY = fmaxf(-1.0f, (static_cast<float>(myState.Gamepad.sThumbLY) / 32767.0f));
@@ -79,6 +81,24 @@ void ControllerInput::UpdateNormalizedStickValues()
 	//Normalizes the triggers return values
 	myLeftTrigger = static_cast<float>(myState.Gamepad.bLeftTrigger / 255.0f);
 	myRightTrigger = static_cast<float>(myState.Gamepad.bRightTrigger / 255.0f);
+}
+
+bool ControllerInput::IsPressed(WORD button)
+{
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) == 0)
+	{
+		return (myState.Gamepad.wButtons & button) != 0;
+	}
+	return false;
+}
+
+bool ControllerInput::isReleased(WORD button)
+{
+	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) != 0)
+	{
+		return (myState.Gamepad.wButtons & button) == 0;
+	}
+	return false;
 }
 
 float ControllerInput::GetLeftStickX()
@@ -111,27 +131,19 @@ float ControllerInput::GetRightTrigger()
 	return myRightTrigger;
 }
 
-bool ControllerInput::IsPressed(WORD button)
-{
-	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) == 0)
-	{
-		return (myState.Gamepad.wButtons & button) != 0;
-	}
-	return false;
-}
-
-bool ControllerInput::isReleased(WORD button)
-{
-	if (myControllerId != -1 && (myPreviousState.Gamepad.wButtons & button) != 0)
-	{
-		return (myState.Gamepad.wButtons & button) == 0;
-	}
-	return false;
-}
-
 bool ControllerInput::LeftStickReleased()
 {
 	return(myPreviousLeftStickX != 0 && myLeftStickX == 0);
+}
+
+bool ControllerInput::LeftTriggerPressed()
+{
+	return (myPreviousLeftTrigger <= 0.0f && myLeftTrigger > 0.0f);
+}
+
+bool ControllerInput::RightTriggerPressed()
+{
+	return (myPreviousRightTrigger <= 0.0f && myRightTrigger > 0.0f);
 }
 
 bool ControllerInput::ControllerConnected()
