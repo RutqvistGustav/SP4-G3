@@ -26,6 +26,14 @@ void TiledEntities::SpawnEntities()
 				
 				myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 			}
+			if (entity.GetSubType() == "EliteZombie")
+			{
+				EnemyMessageData enemyMessageData{};
+				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::EliteZombie;
+				enemyMessageData.mySpawnPosition = entity.GetPosition();
+				
+				myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
+			}
 		}
 		
 	}

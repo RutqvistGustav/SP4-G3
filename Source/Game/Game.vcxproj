@@ -149,6 +149,7 @@
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
     <ClInclude Include="DynamicTexture.h" />
+    <ClInclude Include="EliteZombie.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
     <ClCompile Include="DynamicTexture.cpp" />
+    <ClCompile Include="EliteZombie.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
