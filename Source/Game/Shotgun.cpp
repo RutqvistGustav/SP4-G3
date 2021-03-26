@@ -82,7 +82,7 @@ void Shotgun::Boost()
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
-	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength, true);
+	GetWeaponHolder()->ApplyRecoilKnockback(this, myBoostKnockBackStrength, true);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 

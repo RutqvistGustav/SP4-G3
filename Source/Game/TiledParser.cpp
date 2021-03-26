@@ -11,6 +11,9 @@
 
 static const fs::path locBasePath = "Maps";
 
+static const fs::path locTilesetPath = "Tilesets";
+static const fs::path locObjectTypesPath = "Data/ObjectTypes.json";
+
 TiledParser::TiledParser(const std::string& aMapPath)
 {
 	Load(aMapPath);
@@ -51,6 +54,8 @@ bool TiledParser::Load(const std::string& aMapPath)
 	}
 
 	myResult = std::make_unique<TiledMap>(map->getSize().x, map->getSize().y, map->getTileSize().x, map->getTileSize().y);
+
+	ParseGlobalData();
 
 	if (!ParseTileset(map.get()))
 	{
@@ -99,13 +104,47 @@ bool TiledParser::Load(const std::string& aMapPath)
 	return true;
 }
 
+bool TiledParser::ParseGlobalData()
+{
+	std::ifstream inputStream{ locBasePath / locObjectTypesPath };
+
+	if (!inputStream.is_open())
+	{
+		ERROR_PRINT("No object types file found at %s!", (locBasePath / locObjectTypesPath).u8string().c_str());
+
+		return false;
+	}
+
+	nlohmann::json objectTypes = nlohmann::json::parse(inputStream);
+	
+	for (const auto& objectType : objectTypes)
+	{
+		std::unordered_map<std::string, std::string> properties;
+
+		for (const auto& property : objectType["properties"])
+		{
+			const std::string name = property["name"];
+			const std::string type = property["type"];
+			const std::string value = property["value"];
+
+			assert(type == "string" && "property type must be string!");
+
+			properties[name] = value;
+		}
+
+		myGlobalTypeProperties.insert({ objectType["name"].get<std::string>(), properties });
+	}
+
+	return true;
+}
+
 bool TiledParser::ParseTileset(tson::Map* aMap)
 {
 	const std::vector<tson::Tileset>& tilesets = aMap->getTilesets();
 
 	for (const tson::Tileset& tileset : tilesets)
 	{
-		fs::path imagePath = locBasePath / tileset.getImagePath();
+		fs::path imagePath = locBasePath / locTilesetPath / tileset.getImagePath();
 		imagePath.replace_extension(".dds");
 
 		const std::string finalImagePath = imagePath.u8string();
@@ -114,9 +153,23 @@ bool TiledParser::ParseTileset(tson::Map* aMap)
 
 		if (tilesetTexture == nullptr || tilesetTexture->myIsFailedTexture)
 		{
-			ERROR_PRINT("Failed loading texture from tileset! %s", finalImagePath.c_str());
+			// NOTE: TODO: Code to support old placement of texture files, when not used anymore this can be changed to fail immediately!
 
-			return false;
+			ERROR_PRINT("Could not load tileset from intended folder, trying old folder! %s", finalImagePath.c_str());
+
+			fs::path oldImagePath = locBasePath / tileset.getImagePath();
+			oldImagePath.replace_extension(".dds");
+
+			tilesetTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture(oldImagePath.u8string().c_str());
+
+			if (tilesetTexture == nullptr || tilesetTexture->myIsFailedTexture)
+			{
+				ERROR_PRINT("Could not load tileset from old folder either! %s", oldImagePath.u8string().c_str());
+
+				return false;
+			}
+
+			ERROR_PRINT("Tileset loaded from old folder, should be moved to new folder!");
 		}
 
 		myResult->AddTileset(tileset.getImagePath().u8string(), tilesetTexture);
@@ -159,7 +212,7 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 			for (const auto& object : tile->getObjectgroup().getObjects())
 			{
 				const float objectX = static_cast<float>(object.getPosition().x);
-				const float objectY = static_cast<float>(object.getPosition().x);
+				const float objectY = static_cast<float>(object.getPosition().y);
 				const float objectW = static_cast<float>(object.getSize().x);
 				const float objectH = static_cast<float>(object.getSize().y);
 
@@ -183,40 +236,49 @@ bool TiledParser::ParseEntityLayer(tson::Layer* aLayer)
 
 	for (auto& object : aLayer->getObjects())
 	{
-		std::string type;
-		std::string subType;
-
-		const tson::Property* typeProp = object.getProp("Type");
-		const tson::Property* subTypeProp = object.getProp("SubType");
+		std::unordered_map<std::string, std::string> properties;
 		
+		auto globalTypeIt = myGlobalTypeProperties.find(object.getType());
+		if (globalTypeIt != myGlobalTypeProperties.end())
+		{
+			for (const std::pair<std::string, std::string>& property : globalTypeIt->second)
+			{
+				properties[property.first] = property.second;
+			}
+		}
+
 		const std::uint32_t objectGid = object.getGid();
 		if (objectGid > 0)
 		{
 			tson::Tileset* objectTileset = aLayer->getMap()->getTilesetByGid(objectGid);
 			assert(objectTileset != nullptr);
 
-			auto tile = objectTileset->getTile(objectGid);
+			tson::Tile* tile = objectTileset->getTile(objectGid);
 
-			const tson::Property* tileTypeProp = tile->getProp("Type");
-			const tson::Property* tileSubTypeProp = tile->getProp("SubType");
+			const std::map<std::string, tson::Property>& tileProperties = tile->getProperties().getProperties();
 
-			if (typeProp == nullptr) typeProp = tileTypeProp;
-			if (subTypeProp == nullptr) subTypeProp = tileSubTypeProp;
+			for (const std::pair<std::string, tson::Property>& property : tileProperties)
+			{
+				properties[property.first] = property.second.getValue<std::string>();
+			}
 		}
 
-		assert(typeProp != nullptr && "Entity type must be provided!");
-		assert(typeProp->getType() == tson::Type::String && "Entity type must be string!");
-
-		type = typeProp->getValue<std::string>();
-
-		if (subTypeProp != nullptr)
+		const std::map<std::string, tson::Property>& objectProperties = object.getProperties().getProperties();
+		for (const std::pair<std::string, tson::Property>& property : objectProperties)
 		{
-			assert(subTypeProp->getType() == tson::Type::String && "Entity subtype must be string!");
-
-			subType = subTypeProp->getValue<std::string>();
+			properties[property.first] = property.second.getValue<std::string>();
 		}
 
-		myResult->AddEntity(TiledEntity(CU::Vector2<float>(static_cast<float>(object.getPosition().x), static_cast<float>(object.getPosition().y)), type, subType));
+		assert(properties.find("Type") != properties.end() && "Entity must have 'Type' property!");
+
+		CU::Vector2<float> position = CU::Vector2<float>(object.getPosition().x, object.getPosition().y);
+		if (object.getObjectType() == tson::ObjectType::Rectangle)
+		{
+			// NOTE: Rectangles should have their position set to their center
+			position += CU::Vector2<float>(object.getSize().x, object.getSize().y) * 0.5f;
+		}
+
+		myResult->AddEntity(TiledEntity(position, properties));
 	}
 
 	return true;

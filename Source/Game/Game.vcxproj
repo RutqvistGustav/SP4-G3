@@ -169,6 +169,8 @@
     <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
+    <ClInclude Include="Interactable.h" />
+    <ClInclude Include="InteractableMessage.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MainMenu.h" />
@@ -178,6 +180,7 @@
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
+    <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
     <ClInclude Include="TiledCache.h" />
     <ClInclude Include="TiledCollision.h" />
@@ -255,6 +258,7 @@
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
+    <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="MainMenu.cpp" />

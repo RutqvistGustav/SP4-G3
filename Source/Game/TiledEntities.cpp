@@ -7,33 +7,51 @@
 #include "GlobalServiceProvider.h"
 #include "Scene.h"
 
+#include <cassert>
+
 TiledEntities::TiledEntities(const TiledParser* aParser, Scene* aScene) :
 	myParser(aParser),
 	myScene(aScene)
 {}
 
+const TiledEntity* TiledEntities::FindEntityWithType(const std::string& aType)
+{
+	for (const auto& entity : myParser->myResult->GetEntities())
+	{
+		if (entity.GetType() == aType)
+		{
+			return &entity;
+		}
+	}
+
+	return nullptr;
+}
+
 void TiledEntities::SpawnEntities()
 {
 	for (const auto& entity : myParser->myResult->GetEntities())
 	{
-		if (entity.GetType() == "Enemy")
+		const std::string& type = entity.GetType();
+
+		if (type == "Enemy")
 		{
+			EnemyMessageData enemyMessageData{};
+			enemyMessageData.mySpawnPosition = entity.GetPosition();
+
 			if (entity.GetSubType() == "Zombie")
 			{
-				EnemyMessageData enemyMessageData{};
 				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
-				enemyMessageData.mySpawnPosition = entity.GetPosition();
-				
-				myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 			}
-			if (entity.GetSubType() == "EliteZombie")
+			else if (entity.GetSubType() == "EliteZombie")
 			{
-				EnemyMessageData enemyMessageData{};
 				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::EliteZombie;
-				enemyMessageData.mySpawnPosition = entity.GetPosition();
-				
-				myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 			}
+			else
+			{
+				assert(false && "Invalid enemy subtype!");
+			}
+
+			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 		}
 		
 	}
