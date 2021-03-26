@@ -20,6 +20,8 @@ public:
 
 	void AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget);
 
+	void AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget);
+
 	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData) override;
 private:
 

@@ -19,9 +19,12 @@ public:
 	float GetLeftTrigger();
 	float GetRightTrigger();
 
+
 	bool IsPressed(WORD button);
 	bool isReleased(WORD button);
 	bool LeftStickReleased();
+	bool LeftTriggerPressed();
+	bool RightTriggerPressed();
 
 	bool ControllerConnected();
 
@@ -39,6 +42,8 @@ private:
 	float myRightStickY = 0.0f;
 #pragma endregion
 
+	float myPreviousLeftTrigger = 0.0f;
+	float myPreviousRightTrigger = 0.0f;
 	float myLeftTrigger = 0.0f;
 	float myRightTrigger = 0.0f;
 

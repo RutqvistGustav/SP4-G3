@@ -13,15 +13,14 @@
 
 #include "SpriteWrapper.h"
 
+//Managers
 #include "CollisionManager.h"
-// Enemy
 #include "EnemyManager.h"
-#include "EnemyFactory.h"
-#include "Enemy.h"
 
 #include "TiledParser.h"
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
+#include "TiledEntities.h"
 
 #include "Minimap.h"
 
@@ -43,6 +42,7 @@ void GameScene::Init()
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
 	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
 
@@ -63,24 +63,26 @@ void GameScene::Init()
 
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
+
+	myTiledEntities->SpawnEntities();
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 
 	myMinimap->SetGameView(GetCamera()->GetViewBounds());
 
-	if (anUpdateContext.myInputInterface->IsPressingUse())
-	{
-		SpawnEnemy();
-	}
-
 	myCollisionManager->Update();
 
+	//Removal of marked GameObjects
 	myEnemyManager->Update(aDeltaTime, anUpdateContext);
 	Scene::RemoveMarkedObjects();
+
+	//temp
+	myEnemyManager->AddTargetToAllEnemies(myPlayer);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -89,7 +91,6 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
-	myEnemyManager->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
 	myMinimap->Render(aRenderQueue);
@@ -117,15 +118,4 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
-}
-
-void GameScene::SpawnEnemy()
-{
-	//Example of how to spawn an enemy through the Postmaster
-	EnemyMessageData enemyMessageData{};
-	enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
-	enemyMessageData.mySpawnPosition = { 840.0f, 540.0f };
-	enemyMessageData.myTarget = myPlayer;
-
-	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 }

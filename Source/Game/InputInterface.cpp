@@ -26,14 +26,14 @@ bool InputInterface::IsJumping() const
 	return (myInput->IsKeyPressed(VK_SPACE) || myControllerInput->IsPressed(XINPUT_GAMEPAD_A));
 }
 
-bool InputInterface::IsGrappling() const
+bool InputInterface::IsBoosting() const
 {
-	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::RIGHT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed) || myControllerInput->GetLeftTrigger() > 0.0f;
+	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::RIGHT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::RIGHT).myKeyPressed) || myControllerInput->LeftTriggerPressed();
 }
 
 bool InputInterface::IsShooting() const
 {
-	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::LEFT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed) || myControllerInput->GetRightTrigger() > 0.0f;
+	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::LEFT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed) || myControllerInput->RightTriggerPressed();
 }
 
 bool InputInterface::IsMovingLeft_Pressed()const
@@ -99,6 +99,11 @@ bool InputInterface::Is_C_Pressed() const
 bool InputInterface::IsPressingUse() const
 {
 	return (myInput->IsKeyPressed('E') || myControllerInput->IsPressed(XINPUT_GAMEPAD_X));
+}
+
+bool InputInterface::IsPressingPause() const
+{
+	return (myInput->IsKeyPressed(VK_ESCAPE) || myControllerInput->IsPressed(XINPUT_GAMEPAD_START));
 }
 
 bool InputInterface::IsUsingController() const

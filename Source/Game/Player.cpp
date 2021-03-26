@@ -261,7 +261,7 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 		myIsOnGround = true;
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		myGravityActive = false;
+		//myGravityActive = false;
 		myCollider->SetPos(myPosition);
 
 		break;

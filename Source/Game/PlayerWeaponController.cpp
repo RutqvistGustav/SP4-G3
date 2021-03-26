@@ -43,6 +43,10 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 	{
 		myShotgun->Shoot();
 	}
+	if (anUpdateContext.myInputInterface->IsBoosting())
+	{
+		myShotgun->Boost();
+	}
 }
 
 void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -78,7 +82,17 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 	return CU::Vector2<float>(std::cosf(lockedRadians), std::sinf(lockedRadians));
 }
 
-void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength)
+void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown)
 {
-	myPlayer->ApplyForce(aWeapon->GetDirection() * someStrength * -1.0f);
+	if (aShootDown)
+	{
+		CommonUtilities::Vector2<float> directionDown = {0.0f, 1.0f};
+		myPlayer->StopMovement();
+		myPlayer->ApplyForce(directionDown *someStrength * -1.0f);
+	}
+	else
+	{
+		CommonUtilities::Vector2<float> direction = { aWeapon->GetDirection().x, 0.0f };
+		myPlayer->ApplyForce(direction *someStrength * -1.0f);
+	}
 }

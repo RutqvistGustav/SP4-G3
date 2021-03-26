@@ -13,7 +13,7 @@ public:
 	~InputInterface() {};
 
 	bool IsJumping()const;
-	bool IsGrappling()const;
+	bool IsBoosting()const;
 	bool IsShooting()const;
 
 	bool IsMovingLeft_Pressed()const;
@@ -28,11 +28,12 @@ public:
 	bool Is_C_Pressed()const;
 
 	bool IsPressingUse()const;
+	bool IsPressingPause()const;
 	
 	bool IsUsingController()const;
 
-	float GetRightStickX() const;
-	float GetRightStickY() const;
+	float GetRightStickX()const;
+	float GetRightStickY()const;
 
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 private:

@@ -18,7 +18,7 @@ public:
     virtual void ApplyForce(const CU::Vector2<float>& aForce) = 0;
     virtual const int DealDamage();
     virtual void TakeDamage(const int aDamage);
-    //virtual void Behavior();
+    virtual void InitEnemyJsonValues(std::string& aJsonPath);
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
@@ -27,6 +27,7 @@ protected:
     float mySpeed;
     float myMaxSpeed;
     float myDetectionRange;
+    float myKnockback;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
 };
