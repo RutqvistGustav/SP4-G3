@@ -134,7 +134,10 @@ void Player::BrakeMovement(const float aDeltaTime)
 
 void Player::ApplyForce(const CU::Vector2<float>&aForce)
 {
-	myVel += aForce;
+	if (myVel.x + aForce.x <= myMaxSpeed && myVel.x - aForce.x >= -myMaxSpeed)
+	{
+		myVel += aForce;
+	}
 }
 
 void Player::PlayerInput(InputInterface * anInput)

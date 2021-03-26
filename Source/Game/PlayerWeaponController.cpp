@@ -56,30 +56,46 @@ void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderConte
 
 CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
 {
+	myPreviousDirection = myShotgun->GetDirection();
 	CU::Vector2<float> direction;
-
-	if (anUpdateContext.myInputInterface->IsUsingController())
+	if (anUpdateContext.myInputInterface->IsMovingLeft_Down())
 	{
-		direction = { anUpdateContext.myInputInterface->GetRightStickX(), -anUpdateContext.myInputInterface->GetRightStickY() };
+		direction.x--;
 	}
-	else
+	if (anUpdateContext.myInputInterface->IsMovingRight_Down())
 	{
-		const CU::Vector2<float> mousePosition = {
-			anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
-			anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
-		};
-
-		const CU::Vector2<float> windowRelativePlayerPosition = myPlayer->GetPosition() - myScene->GetCamera()->GetPosition() + Metrics::GetReferenceSize() * 0.5f;
-
-		direction = mousePosition - windowRelativePlayerPosition;
+		direction.x++;
 	}
+	if (direction.x == 0)
+	{
+		direction = myPreviousDirection;
+	}
+	return direction;
 
-	const float radians = std::atan2f(direction.y, direction.x);
-	const float step = 2.0f * MathHelper::locPif / 8.0f;
+	//Nedan är om vi vill ha tillbaka att man kan sikta!
 
-	const float lockedRadians = std::roundf(radians / step) * step;
+	//if (anUpdateContext.myInputInterface->IsUsingController())
+	//{
+	//	direction = { anUpdateContext.myInputInterface->GetRightStickX(), -anUpdateContext.myInputInterface->GetRightStickY() };
+	//}
+	//else
+	//{
+	//	const CU::Vector2<float> mousePosition = {
+	//		anUpdateContext.myInput->GetMousePosition().myMouseX * Metrics::GetReferenceSize().x / Metrics::GetRenderSize().x,
+	//		anUpdateContext.myInput->GetMousePosition().myMouseY * Metrics::GetReferenceSize().y / Metrics::GetRenderSize().y
+	//	};
 
-	return CU::Vector2<float>(std::cosf(lockedRadians), std::sinf(lockedRadians));
+	//	const CU::Vector2<float> windowRelativePlayerPosition = myPlayer->GetPosition() - myScene->GetCamera()->GetPosition() + Metrics::GetReferenceSize() * 0.5f;
+
+	//	direction = mousePosition - windowRelativePlayerPosition;
+	//}
+
+	//const float radians = std::atan2f(direction.y, direction.x);
+	//const float step = 2.0f * MathHelper::locPif / 8.0f;
+
+	//const float lockedRadians = std::roundf(radians / step) * step;
+
+	//return CU::Vector2<float>(std::cosf(lockedRadians), std::sinf(lockedRadians));
 }
 
 void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown)
