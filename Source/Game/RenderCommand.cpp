@@ -89,6 +89,18 @@ void RenderCommand::Init(const std::shared_ptr<TextWrapper> aText)
 	myType = RenderObjectType::Text;
 	myLayer = aText->GetLayer();
 	myPanStrengthFactor = aText->GetPanStrengthFactor();
+
+	new (&myText) TextRenderData();
+
+	myText.myText = aText->GetText();
+	myText.myRotation = aText->GetRotation();
+	myText.myScale = aText->GetScale();
+	myText.myColor = aText->GetColor();
+	myText.myPosition = aText->GetPosition() + CU::Vector2<float>(aText->GetWidth() * -aText->GetPivot().x, aText->GetHeight() * (1.0f - aText->GetPivot().y));
+
+	myText.myPathAndName = aText->GetPathAndName();
+	myText.myFontSize = aText->GetFontSize();
+	myText.myBorderSize = aText->GetBoderSize();
 }
 
 void RenderCommand::CopyFrom(const RenderCommand& anOther)
@@ -106,6 +118,11 @@ void RenderCommand::CopyFrom(const RenderCommand& anOther)
 
 	case RenderObjectType::SpriteBatch:
 		new (&mySpriteBatchRenderData) SpriteBatchRenderData(anOther.mySpriteBatchRenderData);
+
+		break;
+
+	case RenderObjectType::Text:
+		new (&myText) TextRenderData(anOther.myText);
 
 		break;
 
@@ -134,6 +151,11 @@ void RenderCommand::MoveFrom(RenderCommand&& anOther)
 
 		break;
 
+	case RenderObjectType::Text:
+		new (&myText) TextRenderData(std::move(anOther.myText));
+
+		break;
+
 	default:
 		assert(false);
 
@@ -156,7 +178,7 @@ void RenderCommand::Reset()
 		break;
 
 	case RenderObjectType::Text:
-		myText.~CText();
+		myText.~TextRenderData();
 		break;
 	}
 

@@ -6,8 +6,7 @@
 
 #include "SpriteRenderData.h"
 #include "SpriteBatchRenderData.h"
-
-#include <tga2d/text/text.h>
+#include "TextRenderData.h"
 
 #include <memory>
 
@@ -56,7 +55,7 @@ private:
 	{
 		SpriteRenderData mySpriteRenderData;
 		SpriteBatchRenderData mySpriteBatchRenderData;
-		Tga2D::CText myText;
+		TextRenderData myText;
 	};
 
 };
