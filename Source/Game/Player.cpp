@@ -82,13 +82,13 @@ void Player::Init()
 
 	myHUD->Init();
 	myWeaponController->Init();
-	
+
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
-void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
+void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
 	Movement(aDeltaTime, anUpdateContext.myInputInterface);
@@ -105,7 +105,7 @@ void Player::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 
 }
 
-void Player::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
+void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 
@@ -121,23 +121,23 @@ void Player::BrakeMovement(const float aDeltaTime)
 	//myPositionLastFrame = myPosition;
 	/*if (myIsMovingLeft == false && myIsMovingRight == false)
 	{*/
-		if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
-		{
-			myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
-		}
-		else
-		{
-			myVel.x = 0;
-		}
+	if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
+	{
+		myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
+	}
+	else
+	{
+		myVel.x = 0;
+	}
 	//}
 }
 
-void Player::ApplyForce(const CU::Vector2<float>&aForce)
+void Player::ApplyForce(const CU::Vector2<float>& aForce)
 {
 	myVel += aForce;
 }
 
-void Player::PlayerInput(InputInterface * anInput)
+void Player::PlayerInput(InputInterface* anInput)
 {
 	myIsMovingLeft = anInput->IsMovingLeft_Down();
 	myIsMovingRight = anInput->IsMovingRight_Down();
@@ -206,22 +206,22 @@ void Player::OnCollision(GameObject* aGameObject)
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
 
-		
+
 		/*if (myCollider->GetIsCube())
 		{*/
-			//myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
-			//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
-		/*}
-		else
-		{
-			overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
-			myPosition -= overlap * fromOtherToMe.GetNormalized();
-		}*/
+		//myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
+		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
+	/*}
+	else
+	{
+		overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
+		myPosition -= overlap * fromOtherToMe.GetNormalized();
+	}*/
 
 
-		/*myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		myGravityActive = false;
-		myCollider->SetPos(myPosition);*/
+	/*myVel = CU::Vector2<float>(myVel.x, 0.0f);
+	myGravityActive = false;
+	myCollider->SetPos(myPosition);*/
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
@@ -359,7 +359,7 @@ void Player::ImGui()
 	ImGui::End();
 }
 
-void Player::Movement(const float aDeltaTime, InputInterface * anInput)
+void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 {
 	PlayerInput(anInput);
 	CU::Vector2<float> direction = GetDirection(anInput);
@@ -434,7 +434,7 @@ void Player::Jump(const float aDeltaTime)
 	}
 }
 
-CU::Vector2<float> Player::GetDirection(InputInterface * anInput)
+CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
 {
 	CU::Vector2<float> direction(0.0f, 0.0f);
 	if (anInput->IsMovingLeft_Down()) --direction.x;

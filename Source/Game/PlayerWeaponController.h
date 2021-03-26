@@ -41,6 +41,7 @@ private:
 	Scene* myScene;
 	Player* myPlayer;
 
+	CU::Vector2<float> myPreviousDirection;
 	std::shared_ptr<Weapon> myShotgun;
 
 };
