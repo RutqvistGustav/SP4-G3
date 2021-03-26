@@ -3,6 +3,8 @@
     "JSON/MainJson.json",
     "JSON/Player.json",
     "JSON/Weapons.json",
-    "JSON/EnemyTypes.json"
+    "JSON/EnemyTypes.json",
+
+    "Dialog/Main.json"
   ]
 }

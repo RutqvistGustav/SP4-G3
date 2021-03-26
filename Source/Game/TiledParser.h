@@ -41,6 +41,8 @@ private:
 	
 	bool Load(const std::string& aMapPath);
 
+	bool ParseGlobalData();
+
 	bool ParseTileset(tson::Map* aMap);
 	bool ParseTileLayer(tson::Layer* aLayer, int someOrder);
 	bool ParseEntityLayer(tson::Layer* aLayer);
@@ -48,6 +50,8 @@ private:
 private:
 
 	std::unique_ptr<TiledMap> myResult;
+
+	std::unordered_map<std::string, std::unordered_map<std::string, std::string>> myGlobalTypeProperties;
 	TiledCache myTiledCache;
 
 };
