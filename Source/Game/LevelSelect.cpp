@@ -63,11 +63,11 @@ void LevelSelect::InitButtons()
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
-	myLevel1 = std::make_unique<MenuButton>(this, "Sprites/Level1Button.png", GameObjectTag::Level1Button);
+	myLevel1 = std::make_unique<MenuButton>(this, "Sprites/Level1Button.png", "Sprites/Level1Button.png", GameObjectTag::Level1Button);
 	myLevel1->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.10f));
 	myButtons.push_back(std::move(myLevel1));
 
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", GameObjectTag::BackButton);
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", "Sprites/Level1Button.png", GameObjectTag::BackButton);
 	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.90f));
 	myButtons.push_back(std::move(myBackButton));
 }

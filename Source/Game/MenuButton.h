@@ -7,7 +7,7 @@ class MenuButton :
     public GameObject
 {
 public:
-    MenuButton(Scene* aScene, const char* aSpritePath, GameObjectTag aTag);
+    MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag);
     virtual ~MenuButton() override;
 
 
@@ -17,5 +17,9 @@ public:
     void SetPosition(const CU::Vector2<float> aPosition);
 
 private:
+    virtual void OnCollision(GameObject* aGameObject);
+
+    std::shared_ptr<SpriteWrapper> myHoverSprite;
+    bool myHover;
 };
 

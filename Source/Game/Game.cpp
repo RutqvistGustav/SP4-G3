@@ -26,6 +26,7 @@
 #include <Timer.h>
 
 #include <tga2d/error/error_manager.h>
+#include "GameScene.h"
 
 using namespace std::placeholders;
 

@@ -6,6 +6,7 @@ class MenuButton;
 class TiledParser;
 class TiledRenderer;
 class TiledCollision;
+class SpriteWrapper;
 
 class MainMenu :
     public Scene
@@ -28,7 +29,9 @@ private:
 	std::unique_ptr<MenuButton> myCreditsButton;
 	std::unique_ptr<MenuButton> myQuitButton;
 
-	std::vector<std::unique_ptr<GameObject>> myButtons;
+	std::shared_ptr<SpriteWrapper> myBackground;
+
+	std::vector<std::unique_ptr<MenuButton>> myButtons;
 
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;

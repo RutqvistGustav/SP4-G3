@@ -69,11 +69,11 @@ void Options::InitButtons()
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
-	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png", GameObjectTag::MuteButton);
+	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png", "Sprites/BackButton.png", GameObjectTag::MuteButton);
 	myMuteSound->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.3f));
 	myButtons.push_back(std::move(myMuteSound));
 
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", GameObjectTag::BackButton);
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", "Sprites/MuteButton.png", GameObjectTag::BackButton);
 	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
 	myButtons.push_back(std::move(myBackButton));
 }

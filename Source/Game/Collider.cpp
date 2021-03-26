@@ -69,10 +69,10 @@ void Collider::SetPos(const CU::Vector2<float> aPos)
 bool Collider::GetCollision(const Collider* aCollider)
 {
 
-	if (myPos.x < aCollider->myPos.x + aCollider->myDimentions.x &&
-		myPos.x + myDimentions.x > aCollider->myPos.x &&
-		myPos.y < aCollider->myPos.y + aCollider->myDimentions.y &&
-		myPos.y + myDimentions.y > aCollider->myPos.y)
+	if (myPos.x - myDimentions.x * 0.5f < aCollider->myPos.x + aCollider->myDimentions.x * 0.5f &&
+		myPos.x + myDimentions.x * 0.5f > aCollider->myPos.x - aCollider->myDimentions.x * 0.5f &&
+		myPos.y - myDimentions.y * 0.5f < aCollider->myPos.y + aCollider->myDimentions.y * 0.5f &&
+		myPos.y + myDimentions.y * 0.5f > aCollider->myPos.y - aCollider->myDimentions.y * 0.5f)
 	{
 		//AdvanceCollisionStage();
 		return true;
@@ -139,6 +139,17 @@ const float Collider::GetRadius() const
 	return myDimentions.x * 0.5f;
 }
 
+void Collider::SetBoxSize(const CU::Vector2<float> aSize)
+{
+	myDimentions.x = aSize.x;
+	myDimentions.y = aSize.y;
+}
+
+CU::Vector2<float> Collider::GetBoxSize()
+{
+	return myDimentions;
+}
+
 const CU::Vector2<float> Collider::GetPosition() const
 {
 	return myPos;
@@ -165,17 +176,15 @@ void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRend
 	if (!myDoRender)
 		return;
 
-	CU::Vector2<float> cameraPos(myGameObject->GetScene()->GetCamera()->GetPosition());
-
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	myDebugSprite->SetPosition({  myPos.x / Metrics::GetReferenceSize().x
-								, myPos.y / Metrics::GetReferenceSize().y });
+	//myDebugSprite->SetPosition({  myPos.x / Metrics::GetReferenceSize().x
+	//							, myPos.y / Metrics::GetReferenceSize().y });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
 	//myDebugSprite->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 	myDebugSprite->SetSize(myDimentions);
 	/*myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 1000, myDimentions.y / 1000 });
 	myDebugSprite->Render();*/
-
+	myDebugSprite->SetPanStrengthFactor(0);
 	aRenderQueue->Queue(RenderCommand(myDebugSprite));
 
 }

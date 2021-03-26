@@ -17,7 +17,6 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 	myTag(aTag)
 {
 	myCollider = std::make_shared<Collider>();
-
 	mySprite = std::make_shared<SpriteWrapper>(aSpritePath);
 }
 

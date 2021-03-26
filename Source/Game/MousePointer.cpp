@@ -16,7 +16,7 @@ MousePointer::MousePointer(Scene* aScene)
 	SetTag(GameObjectTag::MousePointer);
 	myScene = aScene;
 	myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myMousePointerPos);
+	myCollider->Init(this, myMousePointerPos, 5.f);
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Menue UI/ProgArt/Pointer.png"));
@@ -48,6 +48,8 @@ void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 
 	RenderCommand renderCommand = RenderCommand(mySprite);
 	aRenderQueue->Queue(renderCommand);
+
+	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MousePointer::OnCollision(GameObject* aGameObject)
