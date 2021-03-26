@@ -1,0 +1,24 @@
+[
+    {
+        "color": "#ffaaff00",
+        "name": "Collider",
+        "properties": [
+        ]
+    },
+    {
+        "color": "#ffffff00",
+        "name": "Dialog",
+        "properties": [
+            {
+                "name": "DialogId",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "InteractableDialog"
+            }
+        ]
+    }
+]
