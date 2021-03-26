@@ -12,7 +12,7 @@ public:
 
 protected:
 
-	virtual void OnInteract(Player* aPlayer) {}
+	virtual void OnInteract(Player* aPlayer) = 0;
 
 	virtual void OnStay(GameObject* aGameObject);
 	virtual void OnExit(GameObject* aGameObject);
