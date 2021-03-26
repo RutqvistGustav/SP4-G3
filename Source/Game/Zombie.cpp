@@ -5,26 +5,13 @@
 #include "Player.h"
 #include "Collider.h"
 #include "Scene.h"
-#include "GlobalServiceProvider.h"
-#include "JsonManager.h"
 #include "Health.h"
-#include "DamageVolume.h"
-// JSON
-#include <nlohmann/json.hpp>
-#include <fstream>
 
 Zombie::Zombie(Scene* aScene)
 	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
 {
-	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
-	nlohmann::json zombieData = data.at("Zombie");
-	myHealth = std::make_unique<Health>(zombieData.at("Health"));
-	myHealth->SetInvincibilityTimer(zombieData.at("Invincibility"));
-	myDamage = zombieData.at("Damage");
-	mySpeed = zombieData.at("MovementSpeed");
-	myMaxSpeed = zombieData.at("MaxSpeedCap");
-	myDetectionRange = zombieData.at("DetectionRange");
-	myKnockback = zombieData.at("KnockBack");
+	std::string type = "Zombie";
+	InitEnemyJsonValues(type);
 	myGravity = 3000.0f;
 }
 
@@ -36,15 +23,18 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	// TODO: Jump when near walls
 	//		 Climb on eachother?
-	if (CheckIdle())
+	if (myTarget != nullptr)
 	{
-		IdleMovement(aDeltaTime);
+		if (CheckIdle())
+		{
+			IdleMovement(aDeltaTime);
+		}
+		else
+		{
+			Movement(aDeltaTime);
+		}
+		GameObject::Update(aDeltaTime, anUpdateContext);
 	}
-	else
-	{
-		Movement(aDeltaTime);
-	}
-	GameObject::Update(aDeltaTime, anUpdateContext);
 }
 
 void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -113,9 +103,7 @@ void Zombie::UpdateGravity(const float aDeltaTime)
 
 void Zombie::OnCollision(GameObject* aGameObject)
 {
-	//Is below needed?
-	//CU::Vector2<float> fromOtherToMe(aGameObject->GetPosition() - myPosition);
-	//float overlap = 0.0f;
+
 
 	switch (myCollider->GetCollisionStage())
 	{
@@ -128,13 +116,9 @@ void Zombie::OnCollision(GameObject* aGameObject)
 
 			Player* player = static_cast<Player*>(myTarget.get());
 			player->TakeDamage(myDamage);
-			player->ApplyForce((player->GetPosition() - GetPosition()).GetNormalized() * myKnockback);
+			//player->ApplyForce((player->GetPosition() - GetPosition()).GetNormalized() * myKnockback);
 			//TODO - Add DamagePlayer
 		}
-		//if (aGameObject->GetTag() != GameObjectTag::Enemy)
-		//{
-		//	myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
-		//}
 		break;
 	case Collider::eCollisionStage::NotColliding:
 		break;

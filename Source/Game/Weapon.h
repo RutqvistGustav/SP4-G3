@@ -26,6 +26,7 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;
 
 	virtual void Shoot() = 0;
+	virtual void Boost() = 0;
 
 	inline void SetDirection(const CU::Vector2<float>& aDirection) { myDirection = aDirection; }
 	inline const CU::Vector2<float>& GetDirection() const { return myDirection; }

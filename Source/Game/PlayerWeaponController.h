@@ -34,13 +34,14 @@ protected:
 
 	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
-	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength) override;
+	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown = false) override;
 
 private:
 
 	Scene* myScene;
 	Player* myPlayer;
 
+	CU::Vector2<float> myPreviousDirection;
 	std::shared_ptr<Weapon> myShotgun;
 
 };

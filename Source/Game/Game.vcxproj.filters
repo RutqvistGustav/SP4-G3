@@ -4,20 +4,8 @@
     <Filter Include="Precompiled">
       <UniqueIdentifier>{b07bafa4-d21c-4674-8f50-96a0b05e15ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering">
-      <UniqueIdentifier>{70067eb0-9a00-44ba-bbcb-c3135d598456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Commands">
-      <UniqueIdentifier>{8da0ed89-ce72-4ca6-9b76-9241a40510c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Data">
-      <UniqueIdentifier>{9b197fcd-ba5f-49e1-adfc-c1b3fb80d57c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{9bc56eb3-3ccd-4246-8e8b-32490140b42a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Wrappers">
-      <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObjects">
       <UniqueIdentifier>{0c4417bd-5d7b-4667-99c6-e57ec010154d}</UniqueIdentifier>
@@ -46,9 +34,6 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{a4207f23-d58f-4f2b-9a82-2d1772fc702c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering\Renderer">
-      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{1b3f3b21-40ae-422e-b301-8ecd27a02c3e}</UniqueIdentifier>
     </Filter>
@@ -57,9 +42,6 @@
     </Filter>
     <Filter Include="GameObjects\Enemies\EnemyTypes">
       <UniqueIdentifier>{a89d41f5-394c-409c-8855-818a9bc27966}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Rendering\Renderer">
-      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Map">
       <UniqueIdentifier>{55b56b6c-9cd4-4078-82b0-948ecd6bd6bf}</UniqueIdentifier>
@@ -91,8 +73,26 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Wrappers">
+      <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Rendering">
+      <UniqueIdentifier>{70067eb0-9a00-44ba-bbcb-c3135d598456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Rendering\Commands">
+      <UniqueIdentifier>{8da0ed89-ce72-4ca6-9b76-9241a40510c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Rendering\Data">
+      <UniqueIdentifier>{9b197fcd-ba5f-49e1-adfc-c1b3fb80d57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Rendering\Renderer">
+      <UniqueIdentifier>{bc4e381d-6c44-4347-921f-8b9207fec6a5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Minimap">
       <UniqueIdentifier>{deacdf85-35e4-4eab-90a5-b85509ea1a8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Interactables">
+      <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,31 +106,28 @@
       <Filter>Precompiled</Filter>
     </ClInclude>
     <ClInclude Include="RenderManager.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RenderQueue.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RenderCommand.h">
-      <Filter>Rendering\Commands</Filter>
+      <Filter>Core\Rendering\Commands</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRenderData.h">
-      <Filter>Rendering\Data</Filter>
+      <Filter>Core\Rendering\Data</Filter>
     </ClInclude>
     <ClInclude Include="TextureRect.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="SpriteWrapper.h">
-      <Filter>Wrappers</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderObjectType.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="ObjectWrapper.h">
-      <Filter>Wrappers</Filter>
+      <Filter>Core\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="Metrics.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Core</Filter>
@@ -226,19 +223,19 @@
       <Filter>GameObjects\HUD</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBatchWrapper.h">
-      <Filter>Wrappers</Filter>
+      <Filter>Core\Wrappers</Filter>
     </ClInclude>
     <ClInclude Include="IRenderer.h">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="TgaRenderer.h">
-      <Filter>Rendering\Renderer</Filter>
+      <Filter>Core\Rendering\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ShaderNormalInstanced.h">
-      <Filter>Rendering\Renderer</Filter>
+      <Filter>Core\Rendering\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="SpriteBatchRenderData.h">
-      <Filter>Rendering\Data</Filter>
+      <Filter>Core\Rendering\Data</Filter>
     </ClInclude>
     <ClInclude Include="TileType.h">
       <Filter>Map</Filter>
@@ -357,6 +354,12 @@
     <ClInclude Include="Health.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="TextWrapper.h">
+      <Filter>Core\Wrappers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObjectType.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="Minimap.h">
       <Filter>Core\Minimap</Filter>
     </ClInclude>
@@ -366,8 +369,23 @@
     <ClInclude Include="DynamicTexture.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="EliteZombie.h">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>GameObjects\Interactables</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderData.h">
+      <Filter>Core\Rendering\Data</Filter>
+    </ClInclude>
     <ClInclude Include="BaseRenderData.h">
-      <Filter>Rendering\Data</Filter>
+      <Filter>Core\Rendering\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledEntities.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -375,19 +393,19 @@
       <Filter>Precompiled</Filter>
     </ClCompile>
     <ClCompile Include="RenderManager.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="RenderQueue.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="RenderCommand.cpp">
-      <Filter>Rendering\Commands</Filter>
+      <Filter>Core\Rendering\Commands</Filter>
     </ClCompile>
     <ClCompile Include="SpriteWrapper.cpp">
-      <Filter>Wrappers</Filter>
+      <Filter>Core\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="Metrics.cpp">
-      <Filter>Rendering</Filter>
+      <Filter>Core\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Core</Filter>
@@ -450,13 +468,13 @@
       <Filter>GameObjects\HUD</Filter>
     </ClCompile>
     <ClCompile Include="SpriteBatchWrapper.cpp">
-      <Filter>Wrappers</Filter>
+      <Filter>Core\Wrappers</Filter>
     </ClCompile>
     <ClCompile Include="TgaRenderer.cpp">
-      <Filter>Rendering\Renderer</Filter>
+      <Filter>Core\Rendering\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="ShaderNormalInstanced.cpp">
-      <Filter>Rendering\Renderer</Filter>
+      <Filter>Core\Rendering\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="TiledParser.cpp">
       <Filter>Map</Filter>
@@ -536,11 +554,23 @@
     <ClCompile Include="Health.cpp">
       <Filter>Core\Components</Filter>
     </ClCompile>
+    <ClCompile Include="TextWrapper.cpp">
+      <Filter>Core\Wrappers</Filter>
+    </ClCompile>
     <ClCompile Include="Minimap.cpp">
       <Filter>Core\Minimap</Filter>
     </ClCompile>
     <ClCompile Include="DynamicTexture.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="EliteZombie.cpp">
+      <Filter>GameObjects\Enemies\EnemyTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>GameObjects\Interactables</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledEntities.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

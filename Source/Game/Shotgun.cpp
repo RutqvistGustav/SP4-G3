@@ -72,6 +72,26 @@ void Shotgun::Shoot()
 	}
 }
 
+void Shotgun::Boost()
+{
+	if (!IsLoaded())
+	{
+		return;
+	}
+
+	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
+	myIsShotVolumeActive = true;
+
+	GetWeaponHolder()->ApplyRecoilKnockback(this, myBoostKnockBackStrength, true);
+
+	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	if (!IsLoaded())
+	{
+		Reload();
+	}
+}
+
 void Shotgun::Reload()
 {
 	if (!IsReloading())
@@ -118,6 +138,7 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 	myAoeLength = someJsonData["aoeLength"];
 
 	myRecoilKnockbackStrength = someJsonData["recoilKnockbackStrength"];
+	myBoostKnockBackStrength = someJsonData["boostKnockbackStrength"];
 }
 
 void Shotgun::Setup()

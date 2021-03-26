@@ -6,6 +6,6 @@ enum class RenderObjectType
 
 	Sprite,
 	SpriteBatch,
-	/*Text,*/
+	Text,
 
 };

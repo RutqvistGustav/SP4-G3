@@ -7,9 +7,9 @@ This class handles all texts that will be rendered, don't use this to show text,
 
 
 #include <tga2d/engine_defines.h>
-#include "text/fontfile.h"
-#include "math/color.h"
-#include "arrays/simple_pointer_array.h"
+#include "tga2d/text/fontfile.h"
+#include "tga2d/math/color.h"
+#include "tga2d/arrays/simple_pointer_array.h"
 #include <unordered_map>
 #include <tga2d/text/text_structures.h>
 
