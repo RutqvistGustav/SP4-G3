@@ -12,6 +12,8 @@
 #include "Camera.h"
 
 #include "SpriteWrapper.h"
+#include "DialogueBox.h"
+#include <iostream> // temp
 
 //Managers
 #include "CollisionManager.h"
@@ -65,11 +67,17 @@ void GameScene::Init()
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
 	myTiledEntities->SpawnEntities();
+
+	myDialogueBox = std::make_shared<DialogueBox>(this); // temp
+	myDialogueBox->Init("tempID");
+	myDialogueBox->SetPosition({405.0f,270.0f});
+	AddGameObject(myDialogueBox);
+	
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-
+	//std::cout << "Player Position " << myPlayer->GetPosition().x << " " << myPlayer->GetPosition().y << std::endl;
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 

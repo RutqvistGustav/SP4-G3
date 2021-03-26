@@ -17,6 +17,8 @@ class TiledEntities;
 
 class Minimap;
 
+class DialogueBox;
+
 class GameScene : public Scene
 {
 public:
@@ -48,4 +50,5 @@ private:
 
 	std::unique_ptr<Minimap> myMinimap;
 
+	std::shared_ptr<DialogueBox> myDialogueBox;
 };

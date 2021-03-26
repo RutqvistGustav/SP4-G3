@@ -18,10 +18,14 @@ public:
 
     void Init(std::string anID);
     virtual void OnInteract(Player* aPlayer) override;
-    void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+    void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+
+private:
+    void FillSlides(std::string& anAllSlides);
 
 private:
     bool myIsInteracting = false;
+    bool myIsFirstVisit = true;
     unsigned int myCurrentSlide{};
 
     std::shared_ptr<SpriteWrapper> mySprite;
