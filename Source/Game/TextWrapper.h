@@ -10,7 +10,7 @@ class Tga2D::CText;
 class TextWrapper : public ObjectWrapper
 {
 public:
-	TextWrapper(const char* aPathAndName, Tga2D::EFontSize aFontSize, unsigned char aBorderSize);
+	TextWrapper(const char* aPathAndName, Tga2D::EFontSize aFontSize = Tga2D::EFontSize::EFontSize_14, unsigned char aBorderSize = 0);
 
 	float GetWidth();
 	float GetHeight();
@@ -24,17 +24,27 @@ public:
 	void SetPosition(const CommonUtilities::Vector2<float>& aPosition);
 	CommonUtilities::Vector2<float> GetPosition() const;
 
+	void SetPivot(const CU::Vector2<float>& aPivot);
+	const CU::Vector2<float>& GetPivot() const;
+
 	void SetScale(float aScale);
 	float GetScale() const;
 
-	std::string GetPathAndName() const;
-
 	void SetRotation(float aRotation);
 	float GetRotation() const;
+
+	std::string GetPathAndName() const;
+	Tga2D::EFontSize GetFontSize() const;
+	unsigned char GetBoderSize() const;
 
 private:
 	friend class RenderCommand;
 
 	std::shared_ptr<Tga2D::CText> myText;
+	
+	CU::Vector2<float> myPivot{ 0.5f, 0.5f };
+
+	Tga2D::EFontSize myFontSize;
+	unsigned char myBorderSize;
 };
 
