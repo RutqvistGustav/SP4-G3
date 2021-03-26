@@ -25,7 +25,7 @@ RenderManager::~RenderManager() = default;
 void RenderManager::Render()
 {
 	std::vector<RenderCommand>& commands = myRenderQueue->myCommands;
-	std::sort(commands.begin(), commands.end(), RenderManager::CommandSort);
+	std::stable_sort(commands.begin(), commands.end(), RenderManager::CommandSort);
 
 	for (const RenderCommand& command : commands)
 	{

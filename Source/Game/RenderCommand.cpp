@@ -3,6 +3,7 @@
 
 #include "SpriteBatchWrapper.h"
 #include "SpriteWrapper.h"
+#include "TextWrapper.h"	
 
 RenderCommand::RenderCommand(const std::shared_ptr<SpriteWrapper> aSprite)
 {
@@ -14,12 +15,17 @@ RenderCommand::RenderCommand(const std::shared_ptr<SpriteBatchWrapper> aSpriteBa
 	Init(aSpriteBatch);
 }
 
+RenderCommand::RenderCommand(const std::shared_ptr<TextWrapper> aText)
+{
+	Init(aText);
+}
+
 RenderCommand::RenderCommand(const RenderCommand& anOther)
 {
 	CopyFrom(anOther);
 }
 
-RenderCommand::RenderCommand(RenderCommand&& anOther)
+RenderCommand::RenderCommand(RenderCommand&& anOther) noexcept
 {
 	MoveFrom(std::forward<RenderCommand>(anOther));
 }
@@ -74,6 +80,15 @@ void RenderCommand::Init(const std::shared_ptr<SpriteBatchWrapper> aSpriteBatch)
 	{
 		mySpriteBatchRenderData.mySprites.push_back(sprite->myRenderData);
 	}
+}
+
+void RenderCommand::Init(const std::shared_ptr<TextWrapper> aText)
+{
+	Reset();
+
+	myType = RenderObjectType::Text;
+	myLayer = aText->GetLayer();
+	myPanStrengthFactor = aText->GetPanStrengthFactor();
 }
 
 void RenderCommand::CopyFrom(const RenderCommand& anOther)
@@ -138,6 +153,10 @@ void RenderCommand::Reset()
 
 	case RenderObjectType::SpriteBatch:
 		mySpriteBatchRenderData.~SpriteBatchRenderData();
+		break;
+
+	case RenderObjectType::Text:
+		myText.~CText();
 		break;
 	}
 

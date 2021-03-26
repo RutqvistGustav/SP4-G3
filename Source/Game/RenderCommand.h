@@ -7,10 +7,13 @@
 #include "SpriteRenderData.h"
 #include "SpriteBatchRenderData.h"
 
+#include <tga2d/text/text.h>
+
 #include <memory>
 
 class SpriteBatchWrapper;
 class SpriteWrapper;
+class TextWrapper;
 
 class RenderCommand
 {
@@ -18,9 +21,10 @@ public:
 
 	RenderCommand(const std::shared_ptr<SpriteWrapper> aSprite);
 	RenderCommand(const std::shared_ptr<SpriteBatchWrapper> aSpriteBatch);
+	RenderCommand(const std::shared_ptr<TextWrapper> aText);
 
 	RenderCommand(const RenderCommand& anOther);
-	RenderCommand(RenderCommand&& anOther);
+	RenderCommand(RenderCommand&& anOther) noexcept;
 
 	~RenderCommand();
 
@@ -33,6 +37,7 @@ private:
 
 	void Init(const std::shared_ptr<SpriteWrapper> aSprite);
 	void Init(const std::shared_ptr<SpriteBatchWrapper> aSpriteBatch);
+	void Init(const std::shared_ptr<TextWrapper> aText);
 
 	void CopyFrom(const RenderCommand& anOther);
 	void MoveFrom(RenderCommand&& anOther);
@@ -51,6 +56,7 @@ private:
 	{
 		SpriteRenderData mySpriteRenderData;
 		SpriteBatchRenderData mySpriteBatchRenderData;
+		Tga2D::CText myText;
 	};
 
 };
