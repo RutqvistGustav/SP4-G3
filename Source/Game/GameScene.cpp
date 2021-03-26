@@ -56,7 +56,7 @@ void GameScene::Init()
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
 
-	myEnemyManager = std::make_unique<EnemyManager>(this);
+	myEnemyManager = std::make_unique<EnemyManager>(this, myMinimap.get());
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 

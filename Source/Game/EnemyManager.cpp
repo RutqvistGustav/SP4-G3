@@ -11,8 +11,11 @@
 #include "GameMessenger.h"
 #include "Vector2.hpp"
 
-EnemyManager::EnemyManager(Scene* aScene) :
-	myScene(aScene)
+#include "Minimap.h"
+
+EnemyManager::EnemyManager(Scene* aScene, Minimap* aMinimap) :
+	myScene(aScene),
+	myMinimap(aMinimap)
 {
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::SpawnEnemy, this);
 }
@@ -43,6 +46,8 @@ void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<flo
 
 	myEnemies.push_back(enemy);
 	myScene->AddGameObject(enemy);
+
+	myMinimap->AddObject(enemy.get(), Minimap::MapObjectType::Enemy);
 }
 
 void EnemyManager::AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget)
@@ -65,7 +70,11 @@ void EnemyManager::DeleteMarkedEnemies()
 	{
 		if (myEnemies[enemyIndex]->GetDeleteThisFrame())
 		{
-			myEnemies.erase(myEnemies.begin() + enemyIndex);
+			auto eraseIt = myEnemies.begin() + enemyIndex;
+
+			myMinimap->RemoveObject(eraseIt->get());
+
+			myEnemies.erase(eraseIt);
 		}
 	}
 }

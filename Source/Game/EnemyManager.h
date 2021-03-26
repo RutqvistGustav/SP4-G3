@@ -8,11 +8,14 @@ struct RenderContext;
 class RenderQueue;
 class Enemy;
 class EnemyFactory;
-	
+
+class Minimap;
+
 class EnemyManager : public EnemyMessage
 {
 public:
-	EnemyManager(Scene* aScene);
+
+	EnemyManager(Scene* aScene, Minimap* aMinimap);
 	~EnemyManager();
 
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
@@ -23,11 +26,17 @@ public:
 	void AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget);
 
 	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData) override;
+
 private:
 
 	void DeleteMarkedEnemies();
 
+private:
+
 	std::vector<std::shared_ptr<Enemy>> myEnemies;
 	Scene* myScene;
+
+	Minimap* myMinimap;
+
 };
 
