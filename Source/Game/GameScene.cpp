@@ -54,7 +54,6 @@ void GameScene::Init()
 	}
 
 	myPlayer = std::make_shared<Player>(this);
-	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
 
 	myEnemyManager = std::make_unique<EnemyManager>(this);
@@ -65,6 +64,13 @@ void GameScene::Init()
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
 	myTiledEntities->SpawnEntities();
+
+	const TiledEntity* playerSpawn = myTiledEntities->FindEntityWithType("PlayerSpawn");
+	if (playerSpawn != nullptr)
+	{
+		myPlayer->SetPosition(playerSpawn->GetPosition());
+		GetCamera()->SetPosition(playerSpawn->GetPosition());
+	}
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
