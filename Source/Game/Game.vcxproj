@@ -148,6 +148,7 @@
     <ClInclude Include="ControllerInput.h" />
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
+    <ClInclude Include="DialogueBox.h" />
     <ClInclude Include="DynamicTexture.h" />
     <ClInclude Include="EliteZombie.h" />
     <ClInclude Include="Enemy.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="ControllerInput.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
+    <ClCompile Include="DialogueBox.cpp" />
     <ClCompile Include="DynamicTexture.cpp" />
     <ClCompile Include="EliteZombie.cpp" />
     <ClCompile Include="Enemy.cpp" />

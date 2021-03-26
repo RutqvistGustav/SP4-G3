@@ -1,0 +1,31 @@
+#pragma once
+
+#include <string>
+#include <memory>
+#include <vector>
+#include "Interactable.h"
+
+class Scene;
+class Player;
+class SpriteWrapper;
+class TextWrapper;
+
+class DialogueBox :
+    public Interactable
+{
+public:
+    DialogueBox(Scene* aScene);
+
+    void Init(std::string anID);
+    virtual void OnInteract(Player* aPlayer) override;
+    void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+
+private:
+    bool myIsInteracting = false;
+    unsigned int myCurrentSlide{};
+
+    std::shared_ptr<SpriteWrapper> mySprite;
+    std::shared_ptr<TextWrapper> myText;
+    std::vector<std::string> mySlides;
+};
+
