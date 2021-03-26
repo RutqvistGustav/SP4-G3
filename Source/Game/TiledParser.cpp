@@ -212,7 +212,7 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 			for (const auto& object : tile->getObjectgroup().getObjects())
 			{
 				const float objectX = static_cast<float>(object.getPosition().x);
-				const float objectY = static_cast<float>(object.getPosition().x);
+				const float objectY = static_cast<float>(object.getPosition().y);
 				const float objectW = static_cast<float>(object.getSize().x);
 				const float objectH = static_cast<float>(object.getSize().y);
 
