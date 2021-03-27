@@ -176,10 +176,11 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
-    <ClInclude Include="Options.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
     <ClInclude Include="TiledCache.h" />
@@ -264,10 +265,11 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
-    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />

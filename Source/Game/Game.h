@@ -41,7 +41,6 @@ private:
 	LRESULT WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
-
 	// NOTE: Order is important
 
 	std::unique_ptr<GlobalServiceProvider> myGlobalServiceProvider;

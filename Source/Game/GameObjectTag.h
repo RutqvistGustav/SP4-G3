@@ -22,5 +22,12 @@ enum class GameObjectTag
 	LevelSelectButton,
 	MuteButton,
 	Level1Button,
-	QuitButton
+	ArrowLeftButton,
+	ArrowRightButton,
+	QuitButton,
+
+	//Sliders
+	MasterSlider,
+	SfxSlider,
+	MusicSlider
 };

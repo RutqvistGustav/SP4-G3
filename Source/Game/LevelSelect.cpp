@@ -30,7 +30,7 @@ void LevelSelect::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myMousePointer->Update(aDeltaTime, anUpdateContext);
 
-	if (myMousePointer->ButtonClicked())
+	if (myMousePointer->GetButtonClicked())
 	{
 		switch (myMousePointer->ClickedButton())
 		{

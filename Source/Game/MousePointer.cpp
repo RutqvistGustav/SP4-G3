@@ -36,20 +36,18 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
-	const float offSet = 1.5f;
+	//float x = Metrics::GetReferenceSize().x;
+	//float y = Metrics::GetReferenceSize().y;
+	//const float offSet = 1.5f;
 
-	if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
-		myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
-	{
-		return;
-	}
+	//if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
+	//	myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
+	//{
+	//	return;
+	//}
 
-	RenderCommand renderCommand = RenderCommand(mySprite);
-	aRenderQueue->Queue(renderCommand);
-
-	myCollider->RenderDebug(aRenderQueue, aRenderContext);
+	//RenderCommand renderCommand = RenderCommand(mySprite);
+	//aRenderQueue->Queue(renderCommand);
 }
 
 void MousePointer::OnCollision(GameObject* aGameObject)
@@ -66,9 +64,14 @@ bool MousePointer::GetLMBDown()
 	return myClicked;
 }
 
-bool MousePointer::ButtonClicked()
+bool MousePointer::GetButtonClicked()
 {
 	return myButtonClicked;
+}
+
+void MousePointer::SetButtonClicked(bool aBool)
+{
+	myButtonClicked = aBool;
 }
 
 GameObjectTag MousePointer::ClickedButton() const

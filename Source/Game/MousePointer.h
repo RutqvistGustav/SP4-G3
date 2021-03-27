@@ -21,7 +21,8 @@ public:
 	void OnCollision(GameObject* aGameObject) override;
 
 	bool GetLMBDown();
-	bool ButtonClicked();
+	bool GetButtonClicked();
+	void SetButtonClicked(bool aBool);
 	GameObjectTag ClickedButton() const;
 
 private:
