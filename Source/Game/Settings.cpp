@@ -50,7 +50,7 @@ void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	for (auto& s : mySliders)
 	{
-		s->Update(aDeltaTime, anUpdateContext);
+		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetPointerPos().x);
 	}
 
 	UpdateMouse(aDeltaTime, anUpdateContext);

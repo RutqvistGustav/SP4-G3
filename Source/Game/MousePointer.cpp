@@ -74,6 +74,11 @@ void MousePointer::SetButtonClicked(bool aBool)
 	myButtonClicked = aBool;
 }
 
+CU::Vector2<float> MousePointer::GetPointerPos()
+{
+	return myMousePointerPos;
+}
+
 GameObjectTag MousePointer::ClickedButton() const
 {
 	return myClickedButton;

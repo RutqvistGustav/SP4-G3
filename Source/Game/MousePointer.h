@@ -23,6 +23,7 @@ public:
 	bool GetLMBDown();
 	bool GetButtonClicked();
 	void SetButtonClicked(bool aBool);
+	CU::Vector2<float> GetPointerPos();
 	GameObjectTag ClickedButton() const;
 
 private:

@@ -11,13 +11,16 @@ public:
     virtual ~Slider() override;
 
     virtual void Init() override;
-    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext, float aMousePosX);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     void SetPosition(const CU::Vector2<float> aPosition);
     void SetColliderSize(const CU::Vector2<float> aSize);
 
 private:
     virtual void OnCollision(GameObject* aGameObject);
+    void Move(float aPosX);
+
+    bool myMove;
 
     std::shared_ptr<SpriteWrapper> myBody;
 };
