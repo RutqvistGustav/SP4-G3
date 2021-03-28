@@ -32,7 +32,7 @@ void MenuButton::Init()
 
 void MenuButton::Update()
 {
-	myCollider->SetPos(myPosition);
+	//myCollider->SetPos(myPosition);
 	myPositionLastFrame = myPosition;
 
 	if (myCollider->GetCollisionStage() == Collider::eCollisionStage::NotColliding)
@@ -51,6 +51,8 @@ void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 	}
 
 	aRenderQueue->Queue(renderCommand);
+
+	//myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MenuButton::SetPosition(const CU::Vector2<float> aPosition)

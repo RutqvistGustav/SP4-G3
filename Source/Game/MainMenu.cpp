@@ -13,6 +13,7 @@
 #include "TiledParser.h"
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
+#include "LevelSelect.h"
 
 MainMenu::MainMenu() = default;
 MainMenu::~MainMenu() = default;
@@ -59,6 +60,11 @@ void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		case GameObjectTag::SettingsButton:
 		{
 			GetSceneManagerProxy()->Transition(std::make_unique<Settings>());
+			break;
+		}
+		case GameObjectTag::LevelSelectButton:
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>());
 			break;
 		}
 		case GameObjectTag::QuitButton:

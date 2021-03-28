@@ -48,6 +48,7 @@ void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 
 	//RenderCommand renderCommand = RenderCommand(mySprite);
 	//aRenderQueue->Queue(renderCommand);
+	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MousePointer::OnCollision(GameObject* aGameObject)
@@ -106,9 +107,8 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-
-	myMousePointerPos = CU::Vector2(static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY));
-	myMousePointerPos = CU::Vector2(myMousePointerPos.x * 1.5f, myMousePointerPos.y * 1.5f);
+	//TODO: Fix magic number 1.5f
+	myMousePointerPos = CU::Vector2(static_cast<float>(mousePos.myMouseX) * 1.5f, static_cast<float>(mousePos.myMouseY) * 1.5f);
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)
