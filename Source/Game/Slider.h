@@ -11,9 +11,9 @@ public:
     virtual ~Slider() override;
 
     virtual void Init() override;
-    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext, float aMousePosX);
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext, bool aLMBDown, CU::Vector2<float> aMousePos);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
-    void SetPosition(const CU::Vector2<float> aPosition);
+    void SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos);
     void SetColliderSize(const CU::Vector2<float> aSize);
 
 private:
@@ -27,6 +27,7 @@ private:
     void SetVolumePos();
     void CalculateVolume();
     virtual void OnCollision(GameObject* aGameObject);
-    void Move(float aPosX);
+    void PressedMove(float aPosX);
+    void ClickedMove(CU::Vector2<float> aMousePos);
 };
 

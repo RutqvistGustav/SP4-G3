@@ -50,7 +50,7 @@ void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	for (auto& s : mySliders)
 	{
-		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetPointerPos().x);
+		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetLMBDown(), myMousePointer->GetPointerPos());
 	}
 
 	UpdateMouse(aDeltaTime, anUpdateContext);
@@ -119,15 +119,15 @@ void Settings::InitSprites()
 void Settings::InitSliders()
 {
 	myMasterVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/master bar.dds", GameObjectTag::MasterSlider);
-	myMasterVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.35f));
+	myMasterVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.35f), true);
 	mySliders.push_back(std::move(myMasterVolume));
 
 	mySfxVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/sfx bar.dds", GameObjectTag::SfxSlider);
-	mySfxVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.45f));
+	mySfxVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.45f), true);
 	mySliders.push_back(std::move(mySfxVolume));
 
 	myMusicVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/music bar.dds", GameObjectTag::MusicSlider);
-	myMusicVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.55f));
+	myMusicVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.55f), true);
 	mySliders.push_back(std::move(myMusicVolume));
 
 	for (auto& s : mySliders)

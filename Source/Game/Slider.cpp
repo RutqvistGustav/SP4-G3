@@ -34,12 +34,17 @@ void Slider::Init()
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
-void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext, float aMousePosX)
+void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext, bool aLMBDown, CU::Vector2<float> aMousePos)
 {
-	if (myMove)
+	//if (myMove)
+	//{
+	//	Move(aMousePosX);
+	//}
+	if (aLMBDown)
 	{
-		Move(aMousePosX);
+		ClickedMove(aMousePos);
 	}
+
 	myPositionLastFrame = myPosition;
 	CalculateVolume();
 }
@@ -52,13 +57,17 @@ void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 	aRenderQueue->Queue(renderCommand2);
 }
 
-void Slider::SetPosition(const CU::Vector2<float> aPosition)
+void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
 {
 	myPosition = aPosition;
 	mySprite->SetPosition(myPosition);
 
 	const float offSetY = 6.f;
-	myBody->SetPosition(CU::Vector2(myPosition.x, myPosition.y - offSetY));
+
+	if (aSetBodyPos)
+	{
+		myBody->SetPosition(CU::Vector2(myPosition.x, myPosition.y - offSetY));
+	}
 
 	if (myCollider.get() != nullptr)
 	{
@@ -95,11 +104,36 @@ void Slider::OnCollision(GameObject* aGameObject)
 	}
 }
 
-void Slider::Move(float aPosX)
+void Slider::PressedMove(float aPosX)
 {
 	if (aPosX >= myLeftBoundry && aPosX <= myRightBoundry)
 	{
 		mySprite->SetPosition(CU::Vector2(aPosX, myPosition.y));
 		myCollider->SetPos(CU::Vector2(aPosX, myPosition.y));
+	}
+}
+
+void Slider::ClickedMove(CU::Vector2<float> aMousePos)
+{
+	const float y = myCollider->GetBoxSize().y;
+	const float offSetX = 35.f;
+
+	if (aMousePos.x >= myLeftBoundry - offSetX && aMousePos.x <= myRightBoundry + offSetX &&
+		aMousePos.y <= myPosition.y + (y * 0.5f) && aMousePos.y >= myPosition.y - (y * 0.5f))
+	{
+		if (aMousePos.x <= myLeftBoundry)
+		{
+			myPosition.x = myLeftBoundry;
+		}
+		else if (aMousePos.x >= myRightBoundry)
+		{
+			myPosition.x = myRightBoundry;
+		}
+		else
+		{
+			myPosition.x = aMousePos.x;
+		}
+
+		SetPosition(myPosition, false);
 	}
 }
