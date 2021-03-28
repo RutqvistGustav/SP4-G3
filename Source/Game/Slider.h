@@ -17,11 +17,16 @@ public:
     void SetColliderSize(const CU::Vector2<float> aSize);
 
 private:
-    virtual void OnCollision(GameObject* aGameObject);
-    void Move(float aPosX);
+    float myLeftBoundry;
+    float myRightBoundry;
 
     bool myMove;
 
     std::shared_ptr<SpriteWrapper> myBody;
+
+    void SetVolumePos();
+    void CalculateVolume();
+    virtual void OnCollision(GameObject* aGameObject);
+    void Move(float aPosX);
 };
 

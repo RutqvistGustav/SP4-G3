@@ -20,9 +20,13 @@ Slider::~Slider() = default;
 
 void Slider::Init()
 {
+	myLeftBoundry = myPosition.x * 0.9f;
+	myRightBoundry = myPosition.x * 1.36f;
+
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/slider zombie head.dds");
 	mySprite->SetPanStrengthFactor(0);
 	myBody->SetPanStrengthFactor(0);
+	SetVolumePos();
 	mySprite->SetPosition(myPosition);
 
 	myCollider->Init(this, myPosition, 40.f);
@@ -37,6 +41,7 @@ void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext, floa
 		Move(aMousePosX);
 	}
 	myPositionLastFrame = myPosition;
+	CalculateVolume();
 }
 
 void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -65,6 +70,18 @@ void Slider::SetColliderSize(const CU::Vector2<float> aSize)
 {
 }
 
+void Slider::SetVolumePos()
+{
+	float volume = .5f;
+
+	myPosition.x = (myRightBoundry - myLeftBoundry) * volume + myLeftBoundry;
+}
+
+void Slider::CalculateVolume()
+{
+	float volume =  myPosition.x / (myRightBoundry + myLeftBoundry);
+}
+
 void Slider::OnCollision(GameObject* aGameObject)
 {
 	if (aGameObject->GetTag() == GameObjectTag::MousePointer)
@@ -80,6 +97,9 @@ void Slider::OnCollision(GameObject* aGameObject)
 
 void Slider::Move(float aPosX)
 {
-	mySprite->SetPosition(CU::Vector2(aPosX, myPosition.y));
-	myCollider->SetPos(CU::Vector2(aPosX, myPosition.y));
+	if (aPosX >= myLeftBoundry && aPosX <= myRightBoundry)
+	{
+		mySprite->SetPosition(CU::Vector2(aPosX, myPosition.y));
+		myCollider->SetPos(CU::Vector2(aPosX, myPosition.y));
+	}
 }
