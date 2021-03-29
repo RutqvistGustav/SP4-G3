@@ -88,8 +88,9 @@ GameObjectTag MousePointer::ClickedButton() const
 void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
-	float mousX = static_cast<float>(mousePos.myMouseX);
-	float mousY = static_cast<float>(mousePos.myMouseY);
+	auto refSize = Metrics::GetReferenceSize();
+	float mousX = static_cast<float>(mousePos.myMouseX) * (refSize.x / 1280);
+	float mousY = static_cast<float>(mousePos.myMouseY) * (refSize.y / 720);
 
 	if (myLastPosCalculate == false)
 	{
@@ -107,8 +108,7 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-	//TODO: Fix magic number 1.5f
-	myMousePointerPos = CU::Vector2(static_cast<float>(mousePos.myMouseX) * 1.5f, static_cast<float>(mousePos.myMouseY) * 1.5f);
+	myMousePointerPos = CU::Vector2(mousX, mousY);
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)
