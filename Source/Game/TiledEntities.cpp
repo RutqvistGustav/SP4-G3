@@ -54,5 +54,9 @@ void TiledEntities::SpawnEntities()
 			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 		}
 		
+		if (type == "DialogBox")
+		{
+			
+		}
 	}
 }
