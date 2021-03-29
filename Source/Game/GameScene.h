@@ -49,6 +49,4 @@ private:
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
 	std::unique_ptr<Minimap> myMinimap;
-
-	std::shared_ptr<DialogueBox> myDialogueBox;
 };

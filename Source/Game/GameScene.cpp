@@ -37,8 +37,6 @@ void GameScene::Init()
 {
 	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
 
-	myTag = GameObjectTag::Level_1;
-
 	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>("Maps/TestMap.json");
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
@@ -67,13 +65,6 @@ void GameScene::Init()
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
 	myTiledEntities->SpawnEntities();
-
-
-	myDialogueBox = std::make_shared<DialogueBox>(this); // temp
-	myDialogueBox->Init(myTag, "PlayerTest1");
-	myDialogueBox->SetPosition({405.0f,270.0f});
-	AddGameObject(myDialogueBox);
-	
 
 	const TiledEntity* playerSpawn = myTiledEntities->FindEntityWithType("PlayerSpawn");
 	if (playerSpawn != nullptr)
