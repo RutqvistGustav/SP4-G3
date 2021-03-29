@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "DialogueBox.h"
 
+#include "GlobalServiceProvider.h"
+#include "JsonManager.h"
 #include "SpriteWrapper.h"
 #include "TextWrapper.h"
 #include "RenderQueue.h"
@@ -15,17 +17,12 @@ DialogueBox::DialogueBox(Scene* aScene)
 	: Interactable(aScene)
 {}
 
-void DialogueBox::Init(std::string anID)
+void DialogueBox::Init(GameObjectTag aLevelTag, std::string anID)
 {
 	GameObject::Init();
 
-	nlohmann::json data;
-	std::ifstream file(anID); // TODO switch to anID.
-
-	data = nlohmann::json::parse(file);
-	file.close();
-
-	std::string allSlides = data.at("PlayerTest1");
+	nlohmann::json data = GetJsonData(aLevelTag);
+	std::string allSlides = data.at(anID);
 	FillSlides(allSlides);
 
 	myText = std::make_shared<TextWrapper>("Text/arial.ttf", Tga2D::EFontSize_60, 0);
@@ -33,7 +30,6 @@ void DialogueBox::Init(std::string anID)
 	myText->SetPanStrengthFactor(0.0f);
 	myText->SetPosition({ 800.0f, 500.0f });
 	myText->SetLayer(999);
-	myText->SetColor({ 1.0f,1.0f,0.0f,1.0f });
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 	mySprite->SetPanStrengthFactor(0.0f);
@@ -70,6 +66,34 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 	{
 		aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
+	}
+}
+
+nlohmann::json DialogueBox::GetJsonData(GameObjectTag aLevelTag)
+{
+	switch (aLevelTag)
+	{
+	case GameObjectTag::Level_1:
+	{
+		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
+		break;
+	}
+	case GameObjectTag::Level_2:
+	{
+		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
+		break;
+	}
+	case GameObjectTag::Level_3:
+	{
+		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
+		break;
+	}
+	case GameObjectTag::Level_4:
+	{
+		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
+		break;
+	}
+
 	}
 }
 

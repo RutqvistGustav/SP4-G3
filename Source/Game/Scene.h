@@ -45,6 +45,8 @@ public:
 
 protected:
 
+	GameObjectTag myTag;
+
 	std::unique_ptr<CollisionManager> myCollisionManager;
 	std::unique_ptr<MousePointer> myMousePointer;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
