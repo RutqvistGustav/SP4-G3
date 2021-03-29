@@ -68,7 +68,7 @@ void GameScene::Init()
 	myTiledEntities->SpawnEntities();
 
 	myDialogueBox = std::make_shared<DialogueBox>(this); // temp
-	myDialogueBox->Init("tempID");
+	myDialogueBox->Init("Dialog/Main.json");
 	myDialogueBox->SetPosition({405.0f,270.0f});
 	AddGameObject(myDialogueBox);
 	

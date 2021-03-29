@@ -5,6 +5,7 @@
 #include "TextWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
+#include "Player.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -19,7 +20,7 @@ void DialogueBox::Init(std::string anID)
 	GameObject::Init();
 
 	nlohmann::json data;
-	std::ifstream file("Dialog/Main.json"); // TODO switch to anID.
+	std::ifstream file(anID); // TODO switch to anID.
 
 	data = nlohmann::json::parse(file);
 	file.close();
@@ -48,6 +49,7 @@ void DialogueBox::OnInteract(Player* aPlayer)
 		++myCurrentSlide;
 		if (myCurrentSlide == mySlides.size())
 		{
+			aPlayer->SetControllerActive(true);
 			myIsInteracting = false;
 			myIsFirstVisit = true;
 			myCurrentSlide = 0;
@@ -55,6 +57,7 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	}
 	else
 	{
+		aPlayer->SetControllerActive(false);
 		myIsInteracting = true; 
 		myIsFirstVisit = false;
 	}
