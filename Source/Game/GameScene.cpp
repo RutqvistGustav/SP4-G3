@@ -55,10 +55,9 @@ void GameScene::Init()
 	}
 
 	myPlayer = std::make_shared<Player>(this);
-	myPlayer->SetPosition({ 950.0f, 540.0f });
 	myPlayer->Init();
 
-	myEnemyManager = std::make_unique<EnemyManager>(this);
+	myEnemyManager = std::make_unique<EnemyManager>(this, myMinimap.get());
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 
@@ -67,11 +66,20 @@ void GameScene::Init()
 
 	myTiledEntities->SpawnEntities();
 
+
 	myDialogueBox = std::make_shared<DialogueBox>(this); // temp
 	myDialogueBox->Init("Dialog/Main.json");
 	myDialogueBox->SetPosition({405.0f,270.0f});
 	AddGameObject(myDialogueBox);
 	
+
+	const TiledEntity* playerSpawn = myTiledEntities->FindEntityWithType("PlayerSpawn");
+	if (playerSpawn != nullptr)
+	{
+		myPlayer->SetPosition(playerSpawn->GetPosition());
+		GetCamera()->SetPosition(playerSpawn->GetPosition());
+	}
+
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)

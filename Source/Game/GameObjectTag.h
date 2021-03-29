@@ -11,4 +11,16 @@ enum class GameObjectTag
 
 	Trigger,
 	PowerUp,
+
+	MousePointer,
+
+	//Menu buttons
+	StartButton,
+	SettingsButton,
+	BackButton,
+	CreditsButton,
+	LevelSelectButton,
+	MuteButton,
+	Level1Button,
+	QuitButton
 };

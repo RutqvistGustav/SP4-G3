@@ -2,6 +2,7 @@
 
 #include "GameObjectTag.h"
 #include "Vector2.hpp"
+#include "Scene.h"
 
 #include <memory>
 #include "TileType.h"

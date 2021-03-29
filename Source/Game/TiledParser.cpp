@@ -271,7 +271,14 @@ bool TiledParser::ParseEntityLayer(tson::Layer* aLayer)
 
 		assert(properties.find("Type") != properties.end() && "Entity must have 'Type' property!");
 
-		myResult->AddEntity(TiledEntity(CU::Vector2<float>(static_cast<float>(object.getPosition().x), static_cast<float>(object.getPosition().y)), properties));
+		CU::Vector2<float> position = CU::Vector2<float>(object.getPosition().x, object.getPosition().y);
+		if (object.getObjectType() == tson::ObjectType::Rectangle)
+		{
+			// NOTE: Rectangles should have their position set to their center
+			position += CU::Vector2<float>(object.getSize().x, object.getSize().y) * 0.5f;
+		}
+
+		myResult->AddEntity(TiledEntity(position, properties));
 	}
 
 	return true;
