@@ -11,6 +11,7 @@
 
 MousePointer::MousePointer(Scene* aScene)
 	: GameObject(aScene)
+	, CollisionListener(aScene)
 {
 	myButtonClicked = false;
 	SetTag(GameObjectTag::MousePointer);
@@ -52,12 +53,17 @@ void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
-void MousePointer::OnCollision(GameObject* aGameObject)
+void MousePointer::OnCollision(std::any aGameObject)
 {
 	if (GetLMBDown())
 	{
 		myButtonClicked = true;
-		myClickedButton = aGameObject->GetTag();
+
+		GameObject* ptr = dynamic_cast<GameObject*>(std::any_cast<CollisionListener*>(aGameObject));
+		if (ptr)
+		{
+			myClickedButton = ptr->GetTag();
+		}
 	}
 }
 

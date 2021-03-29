@@ -1,7 +1,10 @@
 #pragma once
 #include "GameObject.h"
+#include "CollisionListener.h"
+
 class HealthBar :
-    public GameObject
+    public GameObject,
+    public CollisionListener
 {
 public:
     HealthBar(Scene* aScene);
@@ -11,7 +14,7 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void OnCollision(GameObject*) override;
+    void OnCollision(std::any) override;
 
     void RemoveHP();
     void AddHP();

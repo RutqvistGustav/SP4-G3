@@ -15,6 +15,7 @@
 #include "Camera.h"
 #include "Metrics.h"
 #include "Scene.h"
+#include "CollisionListener.h"
 #endif // _DEBUG
 
 
@@ -22,9 +23,9 @@ Collider::Collider()
 	: Collider(nullptr, 0.0f, 0.0f, 100.0f)
 {}
 
-Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
+Collider::Collider(CollisionListener* aGameObject, CU::Vector2<float> aPos, float aRadius)
 	: myPos(aPos)
-	, myGameObject(aGameObject)
+	, myExtraInfo(aGameObject)
 {
 
 #ifdef _DEBUG
@@ -35,7 +36,7 @@ Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadi
 	myDimentions.y = aRadius * 2;
 }
 
-Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
+Collider::Collider(CollisionListener* aGameObject, float aX, float aY, float aRadius)
 	: Collider(aGameObject, CU::Vector2<float>(aX, aY), aRadius)
 {}
 
@@ -45,16 +46,16 @@ Collider::~Collider()
 	/*delete myDebugSprite;
 	myDebugSprite = nullptr;*/
 #endif // _DEBUG
-	myGameObject = nullptr;
+	myExtraInfo = nullptr;
 }
 
-void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
+void Collider::Init(CollisionListener* aGameObject, CU::Vector2<float> aPos, float aRadius)
 {
 #ifdef _DEBUG
 	InitDebug();
 #endif // _DEBUG
 
-	myGameObject = aGameObject;
+	myExtraInfo = aGameObject;
 	//myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
 	myDimentions.x = aRadius * 2;
@@ -97,7 +98,7 @@ bool Collider::GetCollision(const Collider* aCollider)
 const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection)
 {
 
-	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * GetRadius() * 0.5f);
+	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * myDimentions.x * 0.25f);
 
 
 	if (tileToCheck != nullptr)
@@ -118,9 +119,9 @@ const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, C
 		return nullptr;
 }
 
-GameObject* Collider::GetGameObject() const
+std::any Collider::GetGameObject() const
 {
-	return myGameObject;
+	return myExtraInfo;
 }
 
 //const bool Collider::isColliding() const
@@ -128,16 +129,16 @@ GameObject* Collider::GetGameObject() const
 //	return myIsColliding;
 //}
 
-void Collider::SetRadius(const float aRadius)
-{
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
-}
-
-const float Collider::GetRadius() const
-{
-	return myDimentions.x * 0.5f;
-}
+//void Collider::SetRadius(const float aRadius)
+//{
+//	myDimentions.x = aRadius * 2;
+//	myDimentions.y = aRadius * 2;
+//}
+//
+//const float Collider::GetRadius() const
+//{
+//	return myDimentions.x * 0.5f;
+//}
 
 void Collider::SetBoxSize(const CU::Vector2<float> aSize)
 {

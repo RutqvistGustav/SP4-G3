@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Vector2.hpp"
+#include <any>
 
 #ifdef _DEBUG
 namespace Tga2D
@@ -10,31 +11,30 @@ namespace Tga2D
 #endif // _DEBUG
 
 class SpriteWrapper;
-class GameObject;
+//class GameObject;
 class TiledCollision;
 class TiledTile;
 class RenderQueue;
 class RenderContext;
+class CollisionListener;
 
 class Collider
 {
 	friend class CollisionManager;
 public:
 	Collider();
-	Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
-	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 100.f);
+	Collider(CollisionListener* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
+	Collider(CollisionListener* aGameObject, float aX, float aY, float aRadius = 100.f);
 	virtual ~Collider();
-	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
+	void Init(CollisionListener* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
 	
 	void SetPos(const CU::Vector2<float> aPos);
 	bool GetCollision(const Collider* aCollider);
 	const TiledTile* GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection);
 	//const std::shared_ptr<GameObject> GetGameObject()const;
-	GameObject* GetGameObject()const;
+	std::any GetGameObject()const;
 
 
-	void SetRadius(const float aRadius);//will be moved to a CircleCollider
-	const float GetRadius()const;//will be moved to a CircleCollider
 	void SetBoxSize(const CU::Vector2<float> aSize);
 	CU::Vector2<float> GetBoxSize();
 	const CU::Vector2<float> GetPosition()const;
@@ -64,16 +64,11 @@ public:
 private:
 	void AdvanceCollisionStage();
 	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
-	//TileType myCollisionType = TileType::Solid;
-
 	CU::Vector2<float> myCheckOffset = CU::Vector2<float>(0.0f, 0.0f);
 
-	//bool myIsCube = true;//temp var
 	CommonUtilities::Vector2<float> myPos;
-	//float myRadius;
 	CU::Vector2<float> myDimentions;
-	//std::shared_ptr<GameObject> myGameObject;
-	GameObject* myGameObject = nullptr;
+	CollisionListener* myExtraInfo = nullptr;
 
 
 };

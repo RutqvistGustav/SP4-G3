@@ -36,8 +36,8 @@ public:
 
 	const CU::Vector2<float>& GetPosition() const;
 	void SetPosition(const CU::Vector2<float> aPosition);
-	virtual void OnCollision(GameObject* aGameObject);//TODO:create another OnCollision that uses Tiles
-	virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
+	//virtual void OnCollision(GameObject* aGameObject);
+	//virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
 
 	const Collider* GetCollider()const;
 	void RemoveCollider();

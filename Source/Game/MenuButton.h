@@ -1,10 +1,12 @@
 #pragma once
 #include "GameObject.h"
+#include "CollisionListener.h"
 
 class Collider;
 
 class MenuButton :
-    public GameObject
+    public GameObject,
+    public CollisionListener
 {
 public:
     MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag);
@@ -17,7 +19,7 @@ public:
     void SetPosition(const CU::Vector2<float> aPosition);
 
 private:
-    virtual void OnCollision(GameObject* aGameObject);
+    virtual void OnCollision(std::any aGameObject);
 
     std::shared_ptr<SpriteWrapper> myHoverSprite;
     bool myHover;

@@ -8,6 +8,7 @@
 
 MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag)
 	: GameObject(aScene, aSpritePath)
+	, CollisionListener(aScene)
 {
 	SetTag(aTag);
 	myHover = false;
@@ -65,7 +66,7 @@ void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
 	}
 }
 
-void MenuButton::OnCollision(GameObject* aGameObject)
+void MenuButton::OnCollision(std::any aGameObject)
 {
 	myHover = true;
 }

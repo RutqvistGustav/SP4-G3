@@ -140,6 +140,7 @@
     <ClInclude Include="CheckpointObjectData.h" />
     <ClInclude Include="Collectable.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AmmoCounter.h" />
@@ -243,6 +244,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ControllerInput.cpp" />

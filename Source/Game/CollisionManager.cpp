@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
-#include "GameObject.h"
+//#include "GameObject.h"
 #include "Player.h"
 #include "TiledCollision.h"
 #include "TiledTile.h"
@@ -78,8 +78,8 @@ void CollisionManager::Update()
 					myColliders[j]->myCollisionStage = Collider::eCollisionStage::NotColliding;
 					/*myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject().get());
 					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject().get());*/
-					myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject());
-					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject());
+					std::any_cast<CollisionListener*>(myColliders[i]->GetGameObject())->OnCollision(myColliders[j]->GetGameObject());
+					std::any_cast<CollisionListener*>(myColliders[j]->GetGameObject())->OnCollision(myColliders[i]->GetGameObject());
 
 				}
 			}
@@ -93,8 +93,8 @@ void CollisionManager::Update()
 		{
 			myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
 			myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
-			myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
+			std::any_cast<CollisionListener*>(myColliders[pairs.first]->GetGameObject())->OnCollision(myColliders[pairs.second]->GetGameObject());
+			std::any_cast<CollisionListener*>(myColliders[pairs.second]->GetGameObject())->OnCollision(myColliders[pairs.first]->GetGameObject());
 		}
 	}
 
@@ -146,20 +146,20 @@ void CollisionManager::CheckTileCollision(const int& anIndex, CU::Vector2<float>
 		if (colliderPtr->GetCollisionBoxes().empty())
 		{
 			myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset);
+			std::any_cast<CollisionListener*>(myColliders[anIndex]->myExtraInfo)->OnCollision(colliderPtr->GetType(), anOffset);
 			myColliders[anIndex]->myCheckOffset = CU::Vector2<float>();
 		}
 		else if (anOffset.y > 0.f) //check bottom
 		{
 			myColliders[anIndex]->myCheckOffset.y = -colliderPtr->GetCollisionBoxes()[0].myY;
-			myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset + myColliders[anIndex]->myCheckOffset);
+			std::any_cast<CollisionListener*>(myColliders[anIndex]->myExtraInfo)->OnCollision(colliderPtr->GetType(), anOffset + myColliders[anIndex]->myCheckOffset);
 		}
 		
 	}
 	else if (myColliders[anIndex]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
 	{
 		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-		myColliders[anIndex]->myGameObject->OnCollision(TileType::None, CU::Vector2<float>());
+		//std::any_cast<CollisionListener*>(myColliders[anIndex]->myExtraInfo)->OnCollisionL(TileType::None, CU::Vector2<float>());
 	}
 
 

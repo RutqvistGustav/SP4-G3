@@ -1,13 +1,16 @@
 #pragma once
 #include "GameObject.h"
 #include <memory>
+#include "CollisionListener.h"
+#include <any>
 
 class HealthBar;
 class AmmoCounter;
 class UIHook;
 
 class HUD :
-    public GameObject
+    public GameObject,
+    public CollisionListener
 {
 public:
     HUD(Scene* aScene);
@@ -17,7 +20,7 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void OnCollision(GameObject*) override;
+    void OnCollision(std::any) override;
 
     HealthBar* GetHealthBar();
     AmmoCounter* GetAmmoCounter();

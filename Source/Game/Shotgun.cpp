@@ -14,6 +14,7 @@
 
 Shotgun::Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder)
 	: Weapon(WeaponType::Shotgun, aScene, aWeaponHolder)
+	, CollisionListener(aScene)
 {
 	myShotVolume = std::make_shared<Collider>(this, myPosition);
 #ifdef _DEBUG
@@ -37,7 +38,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	}
 	else
 	{
-		myShotVolume->SetPos(GetPosition() + GetDirection() * myShotVolume->GetRadius() * 0.5f);
+		myShotVolume->SetPos(GetPosition() + GetDirection() * myShotVolume->GetWidth() * 0.25f);
 	}
 
 	if (IsReloadingComplete())
@@ -100,14 +101,14 @@ void Shotgun::Reload()
 	}
 }
 
-void Shotgun::OnCollision(GameObject* aGameObject)
+void Shotgun::OnCollision(std::any aGameObject)
 {
 	if (!myIsShotVolumeActive)
 		return;
 
-	if (aGameObject->GetTag() == GameObjectTag::Enemy)
+	if (std::any_cast<GameObject*>(aGameObject)->GetTag() == GameObjectTag::Enemy)
 	{
-		const CU::Vector2<float> toEnemy = aGameObject->GetPosition() - GetPosition();
+		const CU::Vector2<float> toEnemy = std::any_cast<GameObject*>(aGameObject)->GetPosition() - GetPosition();
 		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
 		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
@@ -118,7 +119,7 @@ void Shotgun::OnCollision(GameObject* aGameObject)
 
 		if (degDiff <= myAoeAngle)
 		{
-			Enemy* enemy = static_cast<Enemy*>(aGameObject);
+			Enemy* enemy = static_cast<Enemy*>(std::any_cast<GameObject*>(aGameObject));
 
 			enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
 			enemy->TakeDamage(myDamage);
@@ -145,7 +146,8 @@ void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
 
-	myShotVolume->SetRadius(myAoeLength);
+	myShotVolume->SetBoxSize({ myAoeLength, myAoeLength });
+	//myShotVolume->SetRadius(myAoeLength);
 
 	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }

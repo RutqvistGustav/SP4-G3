@@ -30,8 +30,7 @@ GameObject::~GameObject()
 
 void GameObject::Init()
 {
-	myCollider->Init(this, myPosition);
-	myScene->GetCollisionManager()->AddCollider(myCollider);
+	
 
 	//mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
 }
@@ -67,32 +66,32 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 	}
 }
 
-void GameObject::OnCollision(GameObject* /*aGameObject*/)
-{
-	switch (myCollider->GetCollisionStage())
-	{
-	case Collider::eCollisionStage::FirstFrame:
-	case Collider::eCollisionStage::MiddleFrames:
+//void GameObject::OnCollision(GameObject* /*aGameObject*/)
+//{
+//	switch (myCollider->GetCollisionStage())
+//	{
+//	case Collider::eCollisionStage::FirstFrame:
+//	case Collider::eCollisionStage::MiddleFrames:
+//
+//#ifdef _DEBUG
+//		myCollider->setRenderColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
+//#endif // _DEBUG
+//		break;
+//
+//	case Collider::eCollisionStage::NotColliding:
+//#ifdef _DEBUG
+//		myCollider->setRenderColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
+//#endif // _DEBUG
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
-#ifdef _DEBUG
-		myCollider->setRenderColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
-#endif // _DEBUG
-		break;
-
-	case Collider::eCollisionStage::NotColliding:
-#ifdef _DEBUG
-		myCollider->setRenderColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
-#endif // _DEBUG
-		break;
-	default:
-		break;
-	}
-}
-
-void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
-{
-
-}
+//void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+//{
+//
+//}
 
 const Collider* GameObject::GetCollider() const
 {

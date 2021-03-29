@@ -3,6 +3,8 @@
 
 #include "CheckpointMessage.h"
 
+#include "CollisionListener.h"
+
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
@@ -23,7 +25,8 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage
+    public CheckpointMessage,
+    public CollisionListener
 {
 public:
     
@@ -36,7 +39,7 @@ public:
 
     void ApplyForce(const CU::Vector2<float>& aForce);
 
-    void OnCollision(GameObject*) override;
+    void OnCollision(std::any) override;
     void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
 
     void StopMovement();

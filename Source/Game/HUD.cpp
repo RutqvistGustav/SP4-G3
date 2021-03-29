@@ -9,6 +9,7 @@
 
 HUD::HUD(Scene* aScene)
 	: GameObject(aScene)
+	, CollisionListener(aScene)
 {
 	myHealthBar = std::make_unique<HealthBar>(aScene);
 	myAmmoCounter = std::make_unique<AmmoCounter>(aScene);
@@ -40,7 +41,7 @@ void HUD::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 	myHookIcon->Render(aRenderQueue, aRenderContext);
 }
 
-void HUD::OnCollision(GameObject*)
+void HUD::OnCollision(std::any aGameObject)
 {
 
 }

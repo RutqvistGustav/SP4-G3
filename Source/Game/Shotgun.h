@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Weapon.h"
-
+#include "CollisionListener.h"
 #include <memory>
 
 class Collider;
 
-class Shotgun : public Weapon
+class Shotgun : public Weapon, public CollisionListener
 {
 public:
 
@@ -21,7 +21,7 @@ public:
 
 	virtual void Reload();
 
-	virtual void OnCollision(GameObject* aGameObject) override;
+	virtual void OnCollision(std::any aGameObject) override;
 
 protected:
 

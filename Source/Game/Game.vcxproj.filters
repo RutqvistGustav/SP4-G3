@@ -414,6 +414,7 @@
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionListener.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -617,5 +618,6 @@
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionListener.cpp" />
   </ItemGroup>
 </Project>

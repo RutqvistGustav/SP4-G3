@@ -12,6 +12,7 @@
 
 HealthBar::HealthBar(Scene* aScene)
 	: GameObject(aScene)
+	, CollisionListener(aScene)
 {
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -44,7 +45,7 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
-void HealthBar::OnCollision(GameObject*)
+void HealthBar::OnCollision(std::any aGameObject)
 {
 }
 

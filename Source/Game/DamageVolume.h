@@ -19,7 +19,7 @@ public:
 
 protected:
 
-	using TriggerVolume::Init;
+	using TriggerVolume::GameObject::Init;
 
 	virtual void OnStay(GameObject* aGameObject) override;
 

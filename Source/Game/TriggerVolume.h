@@ -1,16 +1,17 @@
 #pragma once
 
 #include "GameObject.h"
-
+#include "CollisionListener.h"
+#include <any>
 #include <optional>
 
-class TriggerVolume : public GameObject
+class TriggerVolume : public CollisionListener, public GameObject
 {
 public:
 
 	TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter = std::nullopt);
 
-	virtual void OnCollision(GameObject* aGameObject) override;
+	virtual void OnCollision(std::any aGameObject) override;
 
 	void SetTriggerRadius(const float aRadius);
 	const float GetTriggerRadius() const;

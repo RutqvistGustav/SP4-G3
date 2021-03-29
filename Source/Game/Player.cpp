@@ -45,6 +45,7 @@
 Player::Player(Scene* aScene)
 	: GameObject(aScene, GameObjectTag::Player),
 	myCamera(aScene->GetCamera())
+	, CollisionListener(aScene)
 {
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
@@ -196,12 +197,12 @@ void Player::InitVariables(nlohmann::json someData)
 	myHealth->SetInvincibilityTimer(someData.at("Invincibility"));
 }
 
-void Player::OnCollision(GameObject* aGameObject)
+void Player::OnCollision(std::any aGameObject)
 {
-	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
+	CU::Vector2<float> fromOtherToMe(myPosition - std::any_cast<GameObject*>(aGameObject)->GetPosition());
 	float overlap = 0.0f;
 
-	switch (myCollider->GetCollisionStage())
+	switch (myColliderL->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
@@ -238,7 +239,7 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 {
 	float overlap = 0.0f;
 
-	switch (myCollider->GetCollisionStage())
+	switch (myColliderL->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
@@ -262,7 +263,7 @@ void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
 
 		myVel = CU::Vector2<float>(myVel.x, 0.0f);
 		//myGravityActive = false;
-		myCollider->SetPos(myPosition);
+		myColliderL->SetPos(myPosition);
 
 		break;
 	case Collider::eCollisionStage::NotColliding:
