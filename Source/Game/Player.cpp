@@ -63,12 +63,8 @@ void Player::Init()
 {
 	GameObject::Init();
 
-	// json
-	nlohmann::json data;
-	std::ifstream file("JSON/Player.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-
+	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Player.json");
+	
 	InitVariables(data);
 
 	myIsOnGround = false;
