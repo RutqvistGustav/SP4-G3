@@ -396,9 +396,6 @@
     <ClInclude Include="DynamicTexture.h">
       <Filter>Util</Filter>
     </ClInclude>
-
-    <ClInclude Include="TiledEntities.h" />
-
     <ClInclude Include="EliteZombie.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
@@ -408,10 +405,6 @@
     <ClInclude Include="InteractableMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
-    <ClInclude Include="BaseRenderData.h" />
-    <ClInclude Include="DialogueBox.h">
-      <Filter>Event</Filter>
-	</ClInclude>
     <ClInclude Include="TextRenderData.h">
       <Filter>Core\Rendering\Data</Filter>
     </ClInclude>
@@ -428,6 +421,9 @@
       <Filter>GameObjects\MenuHUD</Filter>
     </ClInclude>
     <ClInclude Include="Foreground.h">
+      <Filter>Core\Foreground</Filter>
+    </ClInclude>
+    <ClInclude Include="ForegroundImage.h">
       <Filter>Core\Foreground</Filter>
     </ClInclude>
   </ItemGroup>
@@ -627,9 +623,6 @@
     <ClCompile Include="Interactable.cpp">
       <Filter>GameObjects\Interactables</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueBox.cpp">
-      <Filter>Event</Filter>
-	</ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
     </ClCompile>
@@ -640,6 +633,9 @@
       <Filter>GameObjects\MenuHUD</Filter>
     </ClCompile>
     <ClCompile Include="Foreground.cpp">
+      <Filter>Core\Foreground</Filter>
+    </ClCompile>
+    <ClCompile Include="ForegroundImage.cpp">
       <Filter>Core\Foreground</Filter>
     </ClCompile>
   </ItemGroup>

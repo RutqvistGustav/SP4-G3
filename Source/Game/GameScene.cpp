@@ -74,10 +74,10 @@ void GameScene::Init()
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/background01.dds");
 	myBackground->SetPosition(CU::Vector2(Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y * 0.5f));
 
-	myDialogueBox = std::make_shared<DialogueBox>(this); // temp
-	myDialogueBox->Init(myTag, "PlayerTest1");
-	myDialogueBox->SetPosition({405.0f,270.0f});
-	AddGameObject(myDialogueBox);
+	//myDialogueBox = std::make_shared<DialogueBox>(this); // temp
+	//myDialogueBox->Init(myTag, "PlayerTest1");
+	//myDialogueBox->SetPosition({405.0f,270.0f});
+	//AddGameObject(myDialogueBox);
 	
 	const TiledEntity* playerSpawn = myTiledEntities->FindEntityWithType("PlayerSpawn");
 	if (playerSpawn != nullptr)

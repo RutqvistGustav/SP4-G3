@@ -3,14 +3,12 @@
 #include "SpriteWrapper.h"
 #include "Metrics.h"
 #include "RenderCommand.h";
+#include "ForegroundImage.h";
 
 void Foreground::Init()
 {
 	myX = Metrics::GetReferenceSize().x;
 	myY = Metrics::GetReferenceSize().y;
-
-	myMoveLeft = true;
-	myMoveUp = true;
 
 	CreateForeground();
 }
@@ -24,27 +22,24 @@ void Foreground::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 {
 	for (auto& f : myForegrounds)
 	{
-		RenderCommand renderCommand = RenderCommand(f);
-		aRenderQueue->Queue(renderCommand);
+		f->Render(aRenderQueue, aRenderContext);
 	}
 }
 
 void Foreground::CreateForeground()
 {
-	myForeground1 = std::make_shared<SpriteWrapper>("Sprites/parallax/dust_bot.dds");
-	myForeground1->SetPosition(CU::Vector2(myX * 0.5f, myY * .5f));
+	myForeground1 = std::make_shared<ForegroundImage>(20, CU::Vector2(myX * 0.5f, myY * .5f), 
+		"Sprites/parallax/dust_bot.dds", true, true);
 	myForegrounds.push_back(myForeground1);
 
-	myForeground2 = std::make_shared<SpriteWrapper>("sprites/parallax/dust_bot.dds");
-	myForeground2->SetPosition(CU::Vector2(myX * 0.5f, myY * .5f));
-	myForegrounds.push_back(myForeground2);
+	//myForeground2 = std::make_shared<ForegroundImage>(30, CU::Vector2(myX * 0.5f, myY * .5f), "sprites/parallax/dust_mid.dds");
+	//myForegrounds.push_back(myForeground2);
 
-	//myForeground3 = std::make_shared<SpriteWrapper>("Sprites/parallax/dust_mid02.dds");
-	//myForeground3->SetPosition(CU::Vector2(myX * 0.5f, myY * .6f));
+	//myForeground3 = std::make_shared<ForegroundImage>(10, CU::Vector2(myX * 0.5f, myY * .5f), "Sprites/parallax/dust_mid02.dds");
 	//myForegrounds.push_back(myForeground3);
 
-	myForeground4 = std::make_shared<SpriteWrapper>("Sprites/parallax/dust_top.dds");
-	myForeground4->SetPosition(CU::Vector2(myX * 0.5f, myY * .5f));
+	myForeground4 = std::make_shared<ForegroundImage>(40, CU::Vector2(myX * 0.5f, myY * .5f),
+		"Sprites/parallax/dust_top.dds", false, false);
 	myForegrounds.push_back(myForeground4);
 }
 
@@ -52,63 +47,63 @@ void Foreground::MoveForeground(const float aDeltaTime)
 {
 	for (auto& f : myForegrounds)
 	{
-		CU::Vector2<float> newPos = f->GetPosition();
-
-		MoveX(newPos.x, aDeltaTime);
-		MoveY(newPos.y, aDeltaTime);	
-
-		f->SetPosition(newPos);
+		MoveX(f, aDeltaTime);
+		MoveY(f, aDeltaTime);	
 	}
 }
 
-void Foreground::MoveX(float& aPosX, const float aDeltaTime)
+void Foreground::MoveX(std::shared_ptr<ForegroundImage> aImage, float aDeltaTime)
 {
 	const float leftBoundry = myX * 0.4f;
 	const float rightBoundry = myX * 0.6f;
-	const float speed = 20.f;
+	float newX = aImage->GetPosition().x;
+	float speed = aImage->GetSpeed() * aDeltaTime;
 
-	if (myMoveLeft)
+	if (aImage->GetMoveLeft())
 	{
-		aPosX -= speed * aDeltaTime;
+		newX -= speed;
 
-		if (aPosX <= leftBoundry)
+		if (newX <= leftBoundry)
 		{
-			myMoveLeft = false;
+			aImage->SetMoveLeft(false);
 		}
 	}
 	else
 	{
-		aPosX += speed * aDeltaTime;
+		newX += speed;
 
-		if (aPosX >= rightBoundry)
+		if (newX >= rightBoundry)
 		{
-			myMoveLeft = true;
+			aImage->SetMoveLeft(true);
 		}
 	}
+
+	aImage->SetPosition(CU::Vector2(newX, aImage->GetPosition().y));
 }
 
-void Foreground::MoveY(float& aPosY, const float aDeltaTime)
+void Foreground::MoveY(std::shared_ptr<ForegroundImage> aImage, float aDeltaTime)
 {
 	const float topBoundry = myY * 0.44;
 	const float botBoundry = myY * 0.56;
-	const float speed = 20.f;
+	float newY = aImage->GetPosition().y;
+	float speed = aImage->GetSpeed() * aDeltaTime;
 
-	if (myMoveUp)
+	if (aImage->GetMoveUp())
 	{
-		aPosY -= speed * aDeltaTime;
+		newY -= speed;
 
-		if (aPosY <= topBoundry)
+		if (newY <= topBoundry)
 		{
-			myMoveUp = false;
+			aImage->SetMoveUp(false);
 		}
 	}
 	else
 	{
-		aPosY += speed * aDeltaTime;
+		newY += speed;
 
-		if (aPosY >= botBoundry)
+		if (newY >= botBoundry)
 		{
-			myMoveUp = true;
+			aImage->SetMoveUp(true);
 		}
 	}
 }

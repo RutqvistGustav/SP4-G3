@@ -3,7 +3,7 @@
 #include "RenderContext.h"
 #include "UpdateContext.h"
 
-class SpriteWrapper;
+class ForegroundImage;
 
 class Foreground
 {
@@ -19,18 +19,16 @@ public:
 private:
 	float myX;
 	float myY;
-	bool myMoveLeft;
-	bool myMoveUp;
 
-	std::shared_ptr<SpriteWrapper> myForeground1;
-	std::shared_ptr<SpriteWrapper> myForeground2;
-	std::shared_ptr<SpriteWrapper> myForeground3;
-	std::shared_ptr<SpriteWrapper> myForeground4;
+	std::shared_ptr<ForegroundImage> myForeground1;
+	std::shared_ptr<ForegroundImage> myForeground2;
+	std::shared_ptr<ForegroundImage> myForeground3;
+	std::shared_ptr<ForegroundImage> myForeground4;
 
-	std::vector<std::shared_ptr<SpriteWrapper>> myForegrounds;
+	std::vector<std::shared_ptr<ForegroundImage>> myForegrounds;
 
 	void CreateForeground();
 	void MoveForeground(const float aDeltaTime);
-	void MoveX(float& aPosX, const float aDeltaTime);
-	void MoveY(float& aPosY, const float aDeltaTime);
+	void MoveX(std::shared_ptr<ForegroundImage> aImage, float aDeltaTime);
+	void MoveY(std::shared_ptr<ForegroundImage> aImage, float aDeltaTime);
 };

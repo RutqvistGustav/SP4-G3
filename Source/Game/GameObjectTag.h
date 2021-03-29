@@ -29,8 +29,7 @@ enum class GameObjectTag
 	//Sliders
 	MasterSlider,
 	SfxSlider,
-	MusicSlider
-	QuitButton,
+	MusicSlider,
 
 	// Level tags
 	Level_1,
