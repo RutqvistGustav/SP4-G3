@@ -70,7 +70,7 @@ void LevelSelect::InitButtons()
 	myLevel1->SetColliderSize(CU::Vector2(1.f, .8f));
 	myButtons.push_back(std::move(myLevel1));
 
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back.dds", GameObjectTag::BackButton);
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
 	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.85f));
 	myButtons.push_back(std::move(myBackButton));
 }

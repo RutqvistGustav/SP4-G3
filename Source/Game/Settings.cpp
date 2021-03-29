@@ -113,7 +113,7 @@ void Settings::InitSliders()
 
 void Settings::InitButtons()
 {
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back.dds",
+	myBackButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
 	myBackButton->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.85f));
 	myButtons.push_back(std::move(myBackButton));
@@ -207,17 +207,17 @@ void Settings::SetResolution(int aResolutionY)
 	{
 	case 720:
 	{
-		CGame::GetInstance()->QueueSetResolution(1280, 720);
+		//CGame::GetInstance()->QueueSetResolution(1280, 720);
 		break;
 	}
 	case 900:
 	{
-		CGame::GetInstance()->QueueSetResolution(1600, 900);
+		//CGame::GetInstance()->QueueSetResolution(1600, 900);
 		break;
 	}
 	case 1080:
 	{
-		CGame::GetInstance()->QueueSetResolution(1920, 1280);
+		//CGame::GetInstance()->QueueSetResolution(1920, 1280);
 		break;
 	}
 	}

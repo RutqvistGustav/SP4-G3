@@ -5,20 +5,22 @@
 
 class SpriteWrapper;
 
-class Background
+class Foreground
 {
 public:
-	Background() = default;
-	~Background() = default;
+	Foreground() = default;
+	~Foreground() = default;
 
 	void Init();
 
-	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
+	void Update(const float aDeltaTime);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
 private:
 	float myX;
 	float myY;
+	bool myMoveLeft;
+	bool myMoveUp;
 
 	std::shared_ptr<SpriteWrapper> myForeground1;
 	std::shared_ptr<SpriteWrapper> myForeground2;
@@ -29,5 +31,6 @@ private:
 
 	void CreateForeground();
 	void MoveForeground(const float aDeltaTime);
+	void MoveX(float& aPosX, const float aDeltaTime);
+	void MoveY(float& aPosY, const float aDeltaTime);
 };
-

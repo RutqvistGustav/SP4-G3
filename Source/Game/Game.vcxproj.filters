@@ -103,6 +103,9 @@
     <Filter Include="GameObjects\MenuHUD">
       <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Foreground">
+      <UniqueIdentifier>{d108a769-d67b-4098-b70c-deaa93967e28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -417,6 +420,9 @@
     <ClInclude Include="Slider.h">
       <Filter>GameObjects\MenuHUD</Filter>
     </ClInclude>
+    <ClInclude Include="Foreground.h">
+      <Filter>Core\Foreground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -622,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="Slider.cpp">
       <Filter>GameObjects\MenuHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Foreground.cpp">
+      <Filter>Core\Foreground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
