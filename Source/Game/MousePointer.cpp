@@ -89,8 +89,8 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 {
 	auto mousePos = aInput->GetMousePosition();
 	auto refSize = Metrics::GetReferenceSize();
-	float mousX = static_cast<float>(mousePos.myMouseX) * (refSize.x / 1280);
-	float mousY = static_cast<float>(mousePos.myMouseY) * (refSize.y / 720);
+	float mousX = static_cast<float>(mousePos.myMouseX);
+	float mousY = static_cast<float>(mousePos.myMouseY);
 
 	if (myLastPosCalculate == false)
 	{
@@ -108,7 +108,7 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-	myMousePointerPos = CU::Vector2(mousX, mousY);
+	myMousePointerPos = CoordinateHelper::GetClientPositionAsVirtual(CU::Vector2(mousX, mousY));
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)
