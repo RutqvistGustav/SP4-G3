@@ -46,12 +46,8 @@ void GameScene::Init()
 
 	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
 
-	for (size_t i = 0; i < 1; ++i)
-	{
-		AddGameObject(std::make_shared<GameObject>(this));
-		myGameObjects[i]->Init();
-		myGameObjects[i]->SetPosition({ 800.0f * (i + 1) , 1080.0f / 2.0f + 100.f});
-	}
+	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
+	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
 
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();

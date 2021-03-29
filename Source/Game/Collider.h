@@ -1,4 +1,9 @@
 ﻿#pragma once
+
+#include "ContactKey.h"
+#include "CollisionLayer.h"
+
+#include "AABB.h"
 #include "Vector2.hpp"
 
 #ifdef _DEBUG
@@ -18,28 +23,33 @@ class RenderContext;
 
 class Collider
 {
-	friend class CollisionManager;
 public:
+	
 	Collider();
 	Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
 	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 100.f);
 	virtual ~Collider();
-	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
 	
+	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
+
 	void SetPos(const CU::Vector2<float> aPos);
+
 	bool GetCollision(const Collider* aCollider);
-	const TiledTile* GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection);
-	//const std::shared_ptr<GameObject> GetGameObject()const;
+
 	GameObject* GetGameObject()const;
 
-
-	void SetRadius(const float aRadius);//will be moved to a CircleCollider
-	const float GetRadius()const;//will be moved to a CircleCollider
 	void SetBoxSize(const CU::Vector2<float> aSize);
 	CU::Vector2<float> GetBoxSize();
+
 	const CU::Vector2<float> GetPosition()const;
+	
+	AABB GetAABB() const;
+
 	const float GetWidth()const;
 	const float GetHight()const;
+
+	inline void SetLayer(CollisionLayer::Layer aCollisionLayer) { myCollisionLayer = aCollisionLayer; }
+	inline CollisionLayer::Layer GetLayer() const { return myCollisionLayer; }
 
 #ifdef _DEBUG
 	void InitDebug();
@@ -50,31 +60,26 @@ public:
 	bool myDoRender = true;
 #endif // _DEBUG
 
-	enum class eCollisionStage
-	{
-		NotColliding = 0,
-		FirstFrame,//anv�nds ej
-		MiddleFrames,
-		LastFrame,//anv�nds ej
-		Count
-	};
-	const eCollisionStage GetCollisionStage()const;
-	//const bool GetIsCube()const;
+private:
+
+	friend class CollisionManager;
+	friend class ContactManager;
+
+	void AddContact(const ContactKey& aContactKey);
+	void RemoveContact(const ContactKey& aContactKey);
+	void ClearContacts();
 
 private:
-	void AdvanceCollisionStage();
-	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
-	//TileType myCollisionType = TileType::Solid;
 
 	CU::Vector2<float> myCheckOffset = CU::Vector2<float>(0.0f, 0.0f);
 
-	//bool myIsCube = true;//temp var
 	CommonUtilities::Vector2<float> myPos;
-	//float myRadius;
 	CU::Vector2<float> myDimentions;
-	//std::shared_ptr<GameObject> myGameObject;
+
 	GameObject* myGameObject = nullptr;
 
+	CollisionLayer::Layer myCollisionLayer{ CollisionLayer::Default };
+	std::vector<ContactKey> myContacts;
 
 };
 

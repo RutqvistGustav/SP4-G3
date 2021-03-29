@@ -4,104 +4,152 @@
 #include "Player.h"
 #include "TiledCollision.h"
 #include "TiledTile.h"
-#include <queue>
 
 #ifdef _DEBUG
-//#include <tga2d/sprite/sprite.h>
+
 #include "RenderQueue.h"
 #include "RenderContext.h"
 #include "InputInterface.h"
 #include "InputManager.h"
+
 #endif // _DEBUG
 
+#include <cassert>
+#include <queue>
 
 CollisionManager::CollisionManager(TiledCollision* aTiledCollision)
 	: myTiledCollision(aTiledCollision)
 {
-
 	assert(aTiledCollision != nullptr && "CollisionManager is being created without a TiledCollision.");
 }
 
-CollisionManager::~CollisionManager()
-{
-}
+CollisionManager::~CollisionManager() = default;
 
 void CollisionManager::Update()
 {
-	for (int i = 0; i < myColliders.size(); ++i)
+	assert(!myUpdateLock.IsLocked());
+
+	myUpdateLock.Lock();
+
+	for (int i = 0; i < myColliders.size() - 1; ++i)
 	{
-
-
-
-
-		CU::Vector2<float> vecDown = CU::Vector2<float>(0.0f, 1.0f);
-		//CU::Vector2<float> vecUp = CU::Vector2<float>(0.f, -1.0f);
-		CheckTileCollision(i, vecDown);
-		//CheckTileCollision(i, vecUp);
-		//CheckTileCollision(i, vecRight);
-		//CheckTileCollision(i, vecLeft);
-
-
-		for (int j = 0; j < myColliders.size(); ++j)
+		for (int j = i + 1; j < myColliders.size(); ++j)
 		{
+			Collider* colliderA = myColliders[i].get();
+			Collider* colliderB = myColliders[j].get();
 
-
-			if (myColliders[i]->GetCollision(myColliders[j].get()) && i != j)
+			if (myCollisionFilter.IsIgnored(CollisionFilterKey(colliderA->GetLayer(), colliderB->GetLayer())))
 			{
+				continue;
+			}
 
-				bool IsDuplicate = false;
-				for (std::pair<int, int> nrs : myCollisionIndexes)
+			const ContactKey contactKey{ colliderA, colliderB };
+			const bool wasColliding = myContactManager.HasContact(contactKey);
+			const bool isColliding = colliderA->GetCollision(colliderB);
+
+			if (!wasColliding && isColliding)
+			{
+				myContactManager.AddContact(contactKey);
+
+				ContactManager::SendOnEnter(colliderA, colliderB);
+			}
+			else if (wasColliding && !isColliding)
+			{
+				myContactManager.RemoveContact(contactKey);
+
+				ContactManager::SendOnExit(colliderA, colliderB);
+			}
+			else if (isColliding)
+			{
+				ContactManager::SendOnStay(colliderA, colliderB);
+			}
+		}
+	}
+
+	myUpdateLock.Unlock();
+}
+
+void CollisionManager::IgnoreCollision(CollisionLayer::Layer aLayerA, CollisionLayer::Layer aLayerB)
+{
+	myCollisionFilter.AddFilter(CollisionFilterKey(aLayerA, aLayerB));
+}
+
+void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, CollisionLayer::Layer aLayerFilter, std::vector<CollisionItem>& aResult)
+{
+	assert(aResult.size() < aResult.capacity());
+
+	const TiledTile* aTile = myTiledCollision->GetTileAt(aPosition);
+	if (aTile != nullptr && aLayerFilter == CollisionLayer::MapSolid)
+	{
+		const CU::Vector2<float> alignedPosition = { std::floorf(aPosition.x / 64.0f) * 64.0f, std::floorf(aPosition.y / 64.0f) * 64.0f };
+		const CU::Vector2<float> alignedSize = { 64.0f, 64.0f };
+
+		const auto& collisionBoxes = aTile->GetCollisionBoxes();
+
+		if (collisionBoxes.empty())
+		{
+			aResult.push_back({ CollisionItem::Type::Tile, AABB(alignedPosition, alignedPosition + alignedSize) });
+		}
+		else
+		{
+			// NOTE: Very untested, should be tested
+			for (const auto& collisionBox : collisionBoxes)
+			{
+				const CU::Vector2<float> position = alignedPosition + CU::Vector2<float>(collisionBox.myX, collisionBox.myY);
+				const CU::Vector2<float> size = { collisionBox.myWidth, collisionBox.myHeight };
+
+				AABB boxAABB = AABB(position, position + size);
+
+				if (boxAABB.Contains(aPosition))
 				{
-					if ((nrs.first == i && nrs.second == j) ||
-						(nrs.first == j && nrs.second == i))
+					aResult.push_back({ CollisionItem::Type::Tile, boxAABB });
+
+					if (aResult.size() >= aResult.capacity())
 					{
-						IsDuplicate = true;
+						break;
 					}
 				}
-				if (!IsDuplicate)
-				{
-					myCollisionIndexes[i] = j;
-					myColliders[i]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-					myColliders[j]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-				}
-
-
-			}
-			else if (i != j)
-			{
-
-				if (myCollisionIndexes.find(i) != myCollisionIndexes.end() && myCollisionIndexes[i] == j)
-				{
-					myCollisionIndexes.erase(i);
-					myCollisionIndexes.erase(j);
-					myColliders[i]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-					myColliders[j]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-					/*myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject().get());
-					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject().get());*/
-					myColliders[i]->GetGameObject()->OnCollision(myColliders[j]->GetGameObject());
-					myColliders[j]->GetGameObject()->OnCollision(myColliders[i]->GetGameObject());
-
-				}
 			}
 		}
 	}
 
-
-	for (std::pair<int, int> pairs : myCollisionIndexes)
+	if (aResult.size() >= aResult.capacity())
 	{
-		if (pairs.second < myColliders.size())
-		{
-			myColliders[pairs.first]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[pairs.second]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[pairs.first]->GetGameObject()->OnCollision(myColliders[pairs.second]->GetGameObject());
-			myColliders[pairs.second]->GetGameObject()->OnCollision(myColliders[pairs.first]->GetGameObject());
-		}
+		return;
 	}
 
+	if (aLayerFilter != CollisionLayer::MapSolid)
+	{
+		assert(!myUpdateLock.IsLocked());
+		myUpdateLock.Lock();
+
+		for (int i = 0; i < myColliders.size() && aResult.size() < aResult.capacity(); ++i)
+		{
+			Collider* collider = myColliders[i].get();
+
+			if (
+				!myCollisionFilter.IsIgnored(CollisionFilterKey(collider->GetLayer(), aLayerFilter)) &&
+				collider->GetAABB().Contains(aPosition))
+			{
+				aResult.push_back({ CollisionItem::Type::Collider, collider->GetAABB(), collider->GetGameObject() });
+			}
+		}
+
+		myUpdateLock.Unlock();
+	}
 }
 
 void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 {
+	if (myUpdateLock.IsLocked())
+	{
+		// TODO: Add to insert queue if this is called, for now it will not be implemented
+
+		ERROR_PRINT("CollisionManager::AddCollider called inside collision update loop => Ignoring");
+
+		return;
+	}
+
 	myColliders.push_back(aCollider);
 
 #ifdef _DEBUG
@@ -113,66 +161,24 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
 {
-	std::queue<int> queue;
-	for (int i = 0; i < myColliders.size(); ++i)
+	if (myUpdateLock.IsLocked())
 	{
-		if (aCollider == myColliders[i])
-		{
-			myColliders.erase(myColliders.begin() + i);
+		// TODO: Add to removal queue if this is called, for now it will not be implemented
 
-			for (std::pair<int, int> pairs : myCollisionIndexes)
-			{
-				if (pairs.first == i || pairs.second == i)
-				{
-					queue.push(pairs.first);
-				}
-			}
+		ERROR_PRINT("CollisionManager::RemoveCollider called inside collision update loop => Ignoring");
 
-			while (!queue.empty())
-			{
-				myCollisionIndexes.erase(queue.front());
-				queue.pop();
-			}
-		}
+		return;
+	}
+
+	auto it = std::find(myColliders.begin(), myColliders.end(), aCollider);
+	if (it != myColliders.end())
+	{
+		std::swap(myColliders.back(), *it);
+		myColliders.pop_back();
+
+		myContactManager.DestroyContacts(aCollider.get());
 	}
 }
-
-void CollisionManager::CheckTileCollision(const int& anIndex, CU::Vector2<float> anOffset)
-{
-	auto colliderPtr = myColliders[anIndex]->GetCollision(myTiledCollision, anOffset);
-
-	if (colliderPtr != nullptr)
-	{
-		if (colliderPtr->GetCollisionBoxes().empty())
-		{
-			myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::MiddleFrames;
-			myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset);
-			myColliders[anIndex]->myCheckOffset = CU::Vector2<float>();
-		}
-		else if (anOffset.y > 0.f) //check bottom
-		{
-			myColliders[anIndex]->myCheckOffset.y = -colliderPtr->GetCollisionBoxes()[0].myY;
-			myColliders[anIndex]->myGameObject->OnCollision(colliderPtr->GetType(), anOffset + myColliders[anIndex]->myCheckOffset);
-		}
-		
-	}
-	else if (myColliders[anIndex]->myCollisionStage == Collider::eCollisionStage::MiddleFrames)
-	{
-		myColliders[anIndex]->myCollisionStage = Collider::eCollisionStage::NotColliding;
-		myColliders[anIndex]->myGameObject->OnCollision(TileType::None, CU::Vector2<float>());
-	}
-
-
-	/*const TiledTile* tileToCheck = myTiledCollision->GetTileAt(myColliders[anIndex]->GetPosition() + CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f));
-	if (tileToCheck != nullptr)
-	{
-		if (tileToCheck->GetType() == TileType::None)
-		{
-			myTileCollisionIndexes[anIndex] = myColliders[anIndex]->GetPosition() - CU::Vector2<float>(0.f, myColliders[anIndex]->GetWidth() * 0.5f);
-		}
-	}*/
-}
-
 
 #ifdef _DEBUG
 void CollisionManager::InitDebug()

@@ -13,6 +13,6 @@
 
       "recoilKnockbackStrength": 1000.0,
       
-      "boostKnockbackStrength" :  1000.0
+      "boostKnockbackStrength" : 600.0
     }
 }
