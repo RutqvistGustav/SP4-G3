@@ -41,14 +41,16 @@ public:
 #endif // _DEBUG
 private:
 
-	void CheckTileCollision(const int& anIndex, const CU::Vector2<float> anOffset);
+	void CheckTileCollision(const int& anIndex, CU::Vector2<float> anOffset);
 
 private:
 	std::vector<std::shared_ptr<Collider>> myColliders;
 	std::map<int, int> myCollisionIndexes;//TODO:change to support collision with multiple GameObjects
-	std::map<int, CU::Vector2<float>> myTileCollisionIndexes;//TODO:change to support collision with multiple GameObjects
 	TiledCollision* myTiledCollision;
 };
 
-
 //TODO:make colliders with fall-through
+//TODO:man kan fråga collision manager om collisions
+//TODO:make colliders be able to collide with multiple things
+//TODO:auto remove Colliders
+//TODO:caotiy time

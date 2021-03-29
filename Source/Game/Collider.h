@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Vector2.hpp"
 
 #ifdef _DEBUG
@@ -53,9 +53,9 @@ public:
 	enum class eCollisionStage
 	{
 		NotColliding = 0,
-		FirstFrame,//används ej
+		FirstFrame,//anvï¿½nds ej
 		MiddleFrames,
-		LastFrame,//används ej
+		LastFrame,//anvï¿½nds ej
 		Count
 	};
 	const eCollisionStage GetCollisionStage()const;
@@ -66,6 +66,7 @@ private:
 	eCollisionStage myCollisionStage = eCollisionStage::NotColliding;
 	//TileType myCollisionType = TileType::Solid;
 
+	CU::Vector2<float> myCheckOffset = CU::Vector2<float>(0.0f, 0.0f);
 
 	//bool myIsCube = true;//temp var
 	CommonUtilities::Vector2<float> myPos;
@@ -78,4 +79,5 @@ private:
 };
 
 //TODO:Sync colliders with correct positon
-//TODO:man kan fråga collision manager om collisions
+//TODO:man kan frï¿½ga collision manager om collisions
+

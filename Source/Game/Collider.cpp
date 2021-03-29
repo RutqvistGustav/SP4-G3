@@ -177,14 +177,12 @@ void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRend
 		return;
 
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	//myDebugSprite->SetPosition({  myPos.x / Metrics::GetReferenceSize().x
-	//							, myPos.y / Metrics::GetReferenceSize().y });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	//myDebugSprite->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 	myDebugSprite->SetSize(myDimentions);
-	/*myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 1000, myDimentions.y / 1000 });
-	myDebugSprite->Render();*/
-	myDebugSprite->SetPanStrengthFactor(0);
+
+	//ska användas i menyer
+	//myDebugSprite->SetPanStrengthFactor(0);
+
 	aRenderQueue->Queue(RenderCommand(myDebugSprite));
 
 }
