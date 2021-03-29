@@ -6,6 +6,9 @@
 #include <fstream>
 #include <memory>
 
+#define WM_MESSAGE_TOGGLE_FULLSCREEN WM_USER + 1
+#define WM_MESSAGE_SET_RESOLUTION WM_USER + 2
+
 class CGameWorld;
 
 namespace CommonUtilities
@@ -32,6 +35,10 @@ public:
 	~CGame();
 
 	bool Init(const std::wstring& aVersion = L"", HWND aHWND = nullptr);
+	void QueueSetFullscreen(bool aFullscreen);
+	void QueueSetResolution(unsigned int aWidth, unsigned int aHeight);
+
+	static CGame* GetInstance() { return ourInstance; }
 
 private:
 
@@ -42,6 +49,7 @@ private:
 
 private:
 	// NOTE: Order is important
+	static CGame* ourInstance;
 
 	std::unique_ptr<GlobalServiceProvider> myGlobalServiceProvider;
 

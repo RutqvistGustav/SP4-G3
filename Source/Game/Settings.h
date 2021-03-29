@@ -40,8 +40,11 @@ private:
 	void SetPanFactors();
 
 	void UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContext);
-	void SetResolution();
-	void RenderResolution(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+	void UpdateObjects(const float aDeltaTime, UpdateContext& anUpdateContext);
+	void SetResolution(int aResolutionY);
+	void SetResolutionBool(int aResolutionY);
+	void RenderObjects(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+	void RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	void ChangeResolution(GameObjectTag aTag);
 
 	std::unique_ptr<TiledParser> myTiledParser;
@@ -58,7 +61,6 @@ private:
 	std::shared_ptr<SpriteWrapper> my720Sprite;
 	std::shared_ptr<SpriteWrapper> my900Sprite;
 	std::shared_ptr<SpriteWrapper> my1080Sprite;
-	std::shared_ptr<SpriteWrapper> myCurrentResolution;
 
 	std::unique_ptr<Slider> myMasterVolume;
 	std::unique_ptr<Slider> mySfxVolume;

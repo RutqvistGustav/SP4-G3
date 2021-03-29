@@ -62,6 +62,7 @@ namespace Tga2D
 		VECTOR2UI myTargetSize;
 
 		void SetResolution(VECTOR2UI aResolution);
+		void GetFullScreen(BOOL* aFullScreen);
 		void SetFullScreen(bool aFullScreen);
 		void SetViewPort(float aTopLeftX, float aTopLeftY, float aWidth, float aHeight, float aMinDepth = 0.0f, float aMaxDepth = 1.0f);
 		

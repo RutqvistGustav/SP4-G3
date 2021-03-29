@@ -14,6 +14,7 @@
 #include "TiledParser.h"
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
+#include "Game.h"
 
 Settings::Settings() = default;
 Settings::~Settings() = default;
@@ -22,8 +23,6 @@ void Settings::Init()
 {
 	myX = Metrics::GetReferenceSize().x;
 	myY = Metrics::GetReferenceSize().y;
-
-	myScreenResolution = Metrics::GetReferenceSize();
 
 	InitCollisions();
 
@@ -34,48 +33,27 @@ void Settings::Init()
 	InitButtons();
 
 	SetPanFactors();
-	SetResolution();
+
+	Tga2D::SEngineCreateParameters engineParameters;
+	SetResolutionBool(engineParameters.myWindowHeight);
 }
 
 void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myCollisionManager->Update();
-
 	myX = Metrics::GetReferenceSize().x;
 	myY = Metrics::GetReferenceSize().y;
-	
-	for (auto& b : myButtons)
-	{
-		b->Update();
-	}
-	for (auto& s : mySliders)
-	{
-		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetLMBDown(), myMousePointer->GetPointerPos());
-	}
 
+	myCollisionManager->Update();
+
+	UpdateObjects(aDeltaTime, anUpdateContext);
 	UpdateMouse(aDeltaTime, anUpdateContext);
 }
 
 void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-
+	RenderObjects(aRenderQueue, aRenderContext);
+	RenderResolutionText(aRenderQueue, aRenderContext);
 	myMousePointer->Render(aRenderQueue, aRenderContext);
-
-	for (auto& s : mySprites)
-	{
-		RenderCommand renderCommand = RenderCommand(s);
-		aRenderQueue->Queue(renderCommand);
-	}
-
-	for (auto& b : myButtons)
-	{
-		b->Render(aRenderQueue, aRenderContext);
-	}
-	for (auto& s : mySliders)
-	{
-		s->Render(aRenderQueue, aRenderContext);
-	}
-	RenderResolution(aRenderQueue, aRenderContext);
 }
 
 void Settings::InitCollisions()
@@ -111,9 +89,6 @@ void Settings::InitSprites()
 	my1080Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/1080.dds");
 	my1080Sprite->SetPosition(CommonUtilities::Vector2(myX * 0.59f, myY * 0.72f));
 	myResolutionSprites.push_back(my1080Sprite);
-
-	myCurrentResolution = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
-	myCurrentResolution->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.5f));
 }
 
 void Settings::InitSliders()
@@ -168,6 +143,24 @@ void Settings::SetPanFactors()
 	}
 }
 
+void Settings::RenderObjects(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{
+	for (auto& s : mySprites)
+	{
+		RenderCommand renderCommand = RenderCommand(s);
+		aRenderQueue->Queue(renderCommand);
+	}
+
+	for (auto& b : myButtons)
+	{
+		b->Render(aRenderQueue, aRenderContext);
+	}
+	for (auto& s : mySliders)
+	{
+		s->Render(aRenderQueue, aRenderContext);
+	}
+}
+
 void Settings::UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	myMousePointer->Update(aDeltaTime, anUpdateContext);
@@ -196,39 +189,79 @@ void Settings::UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContex
 	}
 }
 
-void Settings::SetResolution()
+void Settings::UpdateObjects(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	switch (static_cast<int>(myScreenResolution.y))
+	for (auto& b : myButtons)
 	{
-	case 720:
-		my720 = true;
-		break;
-	case 900:
-		my900 = true;
-		break;
-	case 1080:
-		my1080 = true;
-		break;
+		b->Update();
+	}
+	for (auto& s : mySliders)
+	{
+		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetLMBDown(), myMousePointer->GetPointerPos());
 	}
 }
 
-void Settings::RenderResolution(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Settings::SetResolution(int aResolutionY)
+{
+	switch (aResolutionY)
+	{
+	case 720:
+	{
+		CGame::GetInstance()->QueueSetResolution(1280, 720);
+		break;
+	}
+	case 900:
+	{
+		CGame::GetInstance()->QueueSetResolution(1600, 900);
+		break;
+	}
+	case 1080:
+	{
+		CGame::GetInstance()->QueueSetResolution(1920, 1280);
+		break;
+	}
+	}
+}
+
+void Settings::SetResolutionBool(int aResolutionY)
+{
+	switch (aResolutionY)
+	{
+	case 720:
+	{
+		my720 = true;
+		break;
+	}
+	case 900:
+	{
+		my900 = true;
+		break;
+	}
+	case 1080:
+	{
+		my1080 = true;
+		break;
+	}
+	}
+}
+
+void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	if (my720)
 	{
-		myCurrentResolution = my720Sprite;
+		RenderCommand renderCommand = RenderCommand(my720Sprite);
+		aRenderQueue->Queue(renderCommand);
 	}
 	if (my900)
 	{
-		myCurrentResolution = my900Sprite;
+		RenderCommand renderCommand = RenderCommand(my900Sprite);
+		aRenderQueue->Queue(renderCommand);
 	}
 	if (my1080)
 	{
-		myCurrentResolution = my1080Sprite;
+		RenderCommand renderCommand = RenderCommand(my1080Sprite);
+		aRenderQueue->Queue(renderCommand);
 	}
-
-	RenderCommand renderCommand = RenderCommand(myCurrentResolution);
-	aRenderQueue->Queue(renderCommand);
 }
 
 void Settings::ChangeResolution(GameObjectTag aTag)
@@ -237,18 +270,21 @@ void Settings::ChangeResolution(GameObjectTag aTag)
 	{
 		if (my720)
 		{
+			SetResolution(1080);
 			my1080 = true;
 			my720 = false;
 			return;
 		}
 		if (my900)
 		{
+			SetResolution(720);
 			my720 = true;
 			my900 = false;
 			return;
 		}
 		if (my1080)
 		{
+			SetResolution(900);
 			my900 = true;
 			my1080 = false;
 			return;
@@ -258,18 +294,21 @@ void Settings::ChangeResolution(GameObjectTag aTag)
 	{
 		if (my720)
 		{
+			SetResolution(900);
 			my900 = true;
 			my720 = false;
 			return;
 		}
 		if (my900)
 		{
+			SetResolution(1080);
 			my1080 = true;
 			my900 = false;
 			return;
 		}
 		if (my1080)
 		{
+			SetResolution(720);
 			my720 = true;
 			my1080 = false;
 			return;

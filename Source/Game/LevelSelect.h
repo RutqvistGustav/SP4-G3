@@ -41,5 +41,10 @@ private:
 	void InitButtons();
 
 	void SetPanFactors();
+
+	void UpdateObjects();
+	void UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContext);
+
+	void RenderObjects(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 };
 

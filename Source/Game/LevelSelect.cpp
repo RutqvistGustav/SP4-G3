@@ -35,43 +35,13 @@ void LevelSelect::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	myCollisionManager->Update();
 
-	for (auto& o : myButtons)
-	{
-		o->Update();
-	}
-
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
-	if (myMousePointer->GetButtonClicked())
-	{
-		switch (myMousePointer->ClickedButton())
-		{
-		case GameObjectTag::Level1Button:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
-			break;
-		}
-		case GameObjectTag::BackButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
-			break;
-		}
-		}
-	}
+	UpdateObjects();
+	UpdateMouse(aDeltaTime, anUpdateContext);
 }
 
 void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	for (auto& s : mySprites)
-	{
-		RenderCommand renderCommand = RenderCommand(s);
-		aRenderQueue->Queue(renderCommand);
-	}
-	for (auto& o : myButtons)
-	{
-		o->Render(aRenderQueue, aRenderContext);
-	}
-
+	RenderObjects(aRenderQueue, aRenderContext);
 	myMousePointer->Render(aRenderQueue, aRenderContext);
 }
 
@@ -110,5 +80,48 @@ void LevelSelect::SetPanFactors()
 	for (auto& s : mySprites)
 	{
 		s->SetPanStrengthFactor(0);
+	}
+}
+
+void LevelSelect::UpdateObjects()
+{
+	for (auto& o : myButtons)
+	{
+		o->Update();
+	}
+}
+
+void LevelSelect::UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	myMousePointer->Update(aDeltaTime, anUpdateContext);
+
+	if (myMousePointer->GetButtonClicked())
+	{
+		switch (myMousePointer->ClickedButton())
+		{
+		case GameObjectTag::Level1Button:
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+			break;
+		}
+		case GameObjectTag::BackButton:
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+			break;
+		}
+		}
+	}
+}
+
+void LevelSelect::RenderObjects(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{
+	for (auto& s : mySprites)
+	{
+		RenderCommand renderCommand = RenderCommand(s);
+		aRenderQueue->Queue(renderCommand);
+	}
+	for (auto& o : myButtons)
+	{
+		o->Render(aRenderQueue, aRenderContext);
 	}
 }
