@@ -19,7 +19,7 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 	
 	myCollider = std::make_shared<Collider>();
 	myCollider->Init(this, myPosition, 40.f);
-	myCollider->SetBoxSize(CU::Vector2(mySprite->GetSize().x * 0.9f, mySprite->GetSize().y * 0.17f));
+	myCollider->SetBoxSize(CU::Vector2(mySprite->GetSize().x, mySprite->GetSize().y * 0.18f));
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
@@ -32,7 +32,6 @@ void MenuButton::Init()
 
 void MenuButton::Update()
 {
-	myCollider->SetPos(myPosition);
 	myPositionLastFrame = myPosition;
 
 	if (myCollider->GetCollisionStage() == Collider::eCollisionStage::NotColliding)
@@ -63,6 +62,13 @@ void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
 	{
 		myCollider->SetPos(myPosition);
 	}
+}
+
+void MenuButton::SetColliderSize(const CU::Vector2<float> aSize)
+{
+	float x = mySprite->GetSize().x;
+	float y = mySprite->GetSize().y;
+	myCollider->SetBoxSize(CU::Vector2(x * aSize.x, y * aSize.y));
 }
 
 void MenuButton::OnCollision(GameObject* aGameObject)

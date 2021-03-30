@@ -5,12 +5,12 @@
 class MenuButton;
 class AudioManager;
 
-class Options :
+class Settings :
     public Scene
 {
 public:
-	Options();
-	virtual ~Options() override;
+	Settings();
+	virtual ~Settings() override;
 
 	virtual void Init() override;
 

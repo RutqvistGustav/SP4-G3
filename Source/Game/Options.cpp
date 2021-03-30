@@ -9,14 +9,14 @@
 #include "MainMenu.h"
 #include "AudioManager.h"
 
-Options::Options()
+Settings::Settings()
 {
 	myIsMuted = false;
 }
 
-Options::~Options() = default;
+Settings::~Settings() = default;
 
-void Options::Init()
+void Settings::Init()
 {
 	myAudioManager = std::make_unique<AudioManager>();
 	myCollisionManager = std::make_unique<CollisionManager>();
@@ -25,7 +25,7 @@ void Options::Init()
 	InitButtons();
 }
 
-void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	myCollisionManager->Update();
 
@@ -54,7 +54,7 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 }
 
-void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	for (auto& o : myButtons)
 	{
@@ -64,7 +64,7 @@ void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 	myMousePointer->Render(aRenderQueue, aRenderContext);
 }
 
-void Options::InitButtons()
+void Settings::InitButtons()
 {
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
@@ -78,7 +78,7 @@ void Options::InitButtons()
 	myButtons.push_back(std::move(myBackButton));
 }
 
-void Options::MuteSound()
+void Settings::MuteSound()
 {
 	if (!myIsMuted)
 	{
