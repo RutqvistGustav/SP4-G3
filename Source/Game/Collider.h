@@ -77,8 +77,6 @@ private:
 
 private:
 
-	CU::Vector2<float> myCheckOffset = CU::Vector2<float>(0.0f, 0.0f);
-
 	CommonUtilities::Vector2<float> myPos;
 	CU::Vector2<float> mySize;
 

@@ -25,6 +25,11 @@ public:
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
 protected:
+
+    virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+
+protected:
+
     int myDamage;
     float mySpeed;
     float myMaxSpeed;
@@ -32,6 +37,8 @@ protected:
     float myKnockback;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
+
+    float myKnockbackTimer{};
 
     EntityPhysicsController myPhysicsController;
 };

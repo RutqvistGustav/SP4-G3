@@ -5,6 +5,10 @@
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
 
+#include "Player.h"
+
+#include "CollisionInfo.h"
+
 #include "SpriteWrapper.h"
 
 #include <nlohmann/json.hpp>
@@ -19,6 +23,11 @@ Enemy::~Enemy() = default;
 
 void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	if (myKnockbackTimer > 0.0f)
+	{
+		myKnockbackTimer -= aDeltaTime;
+	}
+
 	myPhysicsController.Update(aDeltaTime);
 	SetPosition(myPhysicsController.GetPosition());
 }
@@ -65,5 +74,25 @@ void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
 	if (aTarget != nullptr)
 	{
 		myTarget = aTarget;
+	}
+}
+
+void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		Player* player = static_cast<Player*>(gameObject);
+
+		player->TakeDamage(myDamage);
+
+		if (myKnockbackTimer <= 0.0f)
+		{
+			CU::Vector2<float> direction = player->GetPosition() - GetPosition();
+			player->ApplyForce(direction.GetNormalized() * myKnockback);
+
+			myKnockbackTimer = 0.1f;
+		}
 	}
 }
