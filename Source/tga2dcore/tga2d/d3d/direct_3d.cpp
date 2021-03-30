@@ -1193,11 +1193,6 @@ void CDirectEngine::Set3DRenderState()
 	myDeviceContext->OMSetRenderTargets(1, &myBackbuffer, myDepthStencilView);
 }
 
-void Tga2D::CDirectEngine::GetFullScreen(BOOL* aFullScreen)
-{
-	mySwapchain->GetFullscreenState(aFullScreen, nullptr);
-}
-
 void Tga2D::CDirectEngine::SetFullScreen(bool aFullScreen)
 {
 	mySwapchain->SetFullscreenState(aFullScreen, nullptr);

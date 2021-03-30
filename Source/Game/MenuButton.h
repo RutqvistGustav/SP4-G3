@@ -15,7 +15,6 @@ public:
     virtual void Update();
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext) override;
     void SetPosition(const CU::Vector2<float> aPosition);
-    void SetColliderSize(const CU::Vector2<float> aSize);
 
 private:
     virtual void OnCollision(GameObject* aGameObject);

@@ -36,18 +36,19 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//float x = Metrics::GetReferenceSize().x;
-	//float y = Metrics::GetReferenceSize().y;
-	//const float offSet = 1.5f;
+	float x = Metrics::GetReferenceSize().x;
+	float y = Metrics::GetReferenceSize().y;
+	const float offSet = 1.5f;
 
-	//if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
-	//	myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
-	//{
-	//	return;
-	//}
+	if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
+		myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
+	{
+		return;
+	}
 
-	//RenderCommand renderCommand = RenderCommand(mySprite);
-	//aRenderQueue->Queue(renderCommand);
+	RenderCommand renderCommand = RenderCommand(mySprite);
+	aRenderQueue->Queue(renderCommand);
+
 	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
@@ -65,19 +66,9 @@ bool MousePointer::GetLMBDown()
 	return myClicked;
 }
 
-bool MousePointer::GetButtonClicked()
+bool MousePointer::ButtonClicked()
 {
 	return myButtonClicked;
-}
-
-void MousePointer::SetButtonClicked(bool aBool)
-{
-	myButtonClicked = aBool;
-}
-
-CU::Vector2<float> MousePointer::GetPointerPos()
-{
-	return myMousePointerPos;
 }
 
 GameObjectTag MousePointer::ClickedButton() const
@@ -88,7 +79,6 @@ GameObjectTag MousePointer::ClickedButton() const
 void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
-	auto refSize = Metrics::GetReferenceSize();
 	float mousX = static_cast<float>(mousePos.myMouseX);
 	float mousY = static_cast<float>(mousePos.myMouseY);
 
@@ -108,7 +98,9 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-	myMousePointerPos = CoordinateHelper::GetClientPositionAsVirtual(CU::Vector2(mousX, mousY));
+
+	myMousePointerPos = CU::Vector2(static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY));
+	myMousePointerPos = CU::Vector2(myMousePointerPos.x * 1.5f, myMousePointerPos.y * 1.5f);
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)

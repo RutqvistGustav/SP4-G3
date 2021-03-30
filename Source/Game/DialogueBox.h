@@ -17,12 +17,11 @@ class DialogueBox :
 public:
     DialogueBox(Scene* aScene);
 
-    void Init(GameObjectTag aLevelTag, std::string anID);
+    void Init(std::string anID);
     virtual void OnInteract(Player* aPlayer) override;
     void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
-    nlohmann::json GetJsonData(GameObjectTag aLevelTag);
     void FillSlides(std::string& anAllSlides);
 
 private:

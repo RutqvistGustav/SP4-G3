@@ -3,10 +3,10 @@
 #include <memory>
 
 class MenuButton;
-class SpriteWrapper;
 class TiledParser;
 class TiledRenderer;
 class TiledCollision;
+class SpriteWrapper;
 
 class MainMenu :
     public Scene
