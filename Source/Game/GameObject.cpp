@@ -18,7 +18,6 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 {
 	myCollider = std::make_shared<Collider>();
 	mySprite = std::make_shared<SpriteWrapper>(aSpritePath);
-	myCollider->SetBoxSize(mySprite->GetSize());
 }
 
 GameObject::~GameObject()
@@ -31,10 +30,11 @@ GameObject::~GameObject()
 
 void GameObject::Init()
 {
-	myCollider->Init(this, myPosition);
-	myScene->GetCollisionManager()->AddCollider(myCollider);
+	myCollider->Init(myPosition, mySprite->GetSize());
+	myCollider->SetCollisionListener(this);
+	myCollider->SetGameObject(this);
 
-	//mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper(aSpritePath));
+	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
@@ -59,40 +59,13 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 
 	if (myCollider.get() != nullptr)
 	{
-		myCollider->SetPos(myPosition);
+		myCollider->SetPosition(myPosition);
 	}
 
 	if (myPositionLastFrame.x + myPositionLastFrame.y == 0.0f)
 	{
 		myPositionLastFrame = myPosition;
 	}
-}
-
-void GameObject::OnCollision(GameObject* /*aGameObject*/)
-{
-	/*switch (myCollider->GetCollisionStage())
-	{
-	case Collider::eCollisionStage::FirstFrame:
-	case Collider::eCollisionStage::MiddleFrames:
-
-#ifdef _DEBUG
-		myCollider->setRenderColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
-#endif // _DEBUG
-		break;
-
-	case Collider::eCollisionStage::NotColliding:
-#ifdef _DEBUG
-		myCollider->setRenderColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
-#endif // _DEBUG
-		break;
-	default:
-		break;
-	}*/
-}
-
-void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
-{
-
 }
 
 const Collider* GameObject::GetCollider() const

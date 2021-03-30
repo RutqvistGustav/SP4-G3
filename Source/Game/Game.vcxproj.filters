@@ -441,6 +441,12 @@
     <ClInclude Include="CollisionFilter.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionListener.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -654,6 +660,9 @@
       <Filter>Core\Collisions\Controllers</Filter>
     </ClCompile>
     <ClCompile Include="CollisionFilter.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionListener.cpp">
       <Filter>Core\Collisions</Filter>
     </ClCompile>
   </ItemGroup>

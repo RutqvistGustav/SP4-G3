@@ -7,46 +7,47 @@
 #include "Vector2.hpp"
 
 #ifdef _DEBUG
-namespace Tga2D
-{
-	class CSprite;
-}
+
 #include "SpriteWrapper.h"
+
 #endif // _DEBUG
 
-class SpriteWrapper;
+#include <any>
+
 class GameObject;
+class SpriteWrapper;
 class TiledCollision;
 class TiledTile;
 class RenderQueue;
 class RenderContext;
+class CollisionListener;
 
 class Collider
 {
 public:
 	
 	Collider();
-	Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
-	Collider(GameObject* aGameObject, float aX, float aY, float aRadius = 100.f);
+	Collider(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize);
 	virtual ~Collider();
-	
-	void Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius = 100.f);
 
-	void SetPos(const CU::Vector2<float> aPos);
-
-	bool GetCollision(const Collider* aCollider);
-
-	GameObject* GetGameObject()const;
+	void Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize);
 
 	void SetBoxSize(const CU::Vector2<float> aSize);
 	CU::Vector2<float> GetBoxSize();
 
+	void SetPosition(const CU::Vector2<float> aPos);
 	const CU::Vector2<float> GetPosition()const;
 	
 	AABB GetAABB() const;
 
 	const float GetWidth()const;
 	const float GetHight()const;
+
+	inline void SetGameObject(GameObject* aGameObject) { myGameObject = aGameObject; }
+	inline GameObject* GetGameObject() const { return myGameObject; }
+
+	inline void SetCollisionListener(CollisionListener* aListener) { myCollisionListener = aListener; }
+	inline CollisionListener* GetCollisionListener() const { return myCollisionListener; }
 
 	inline void SetIsTrigger(bool anIsTrigger) { myIsTrigger = anIsTrigger; }
 	inline bool IsTrigger() const { return myIsTrigger; }
@@ -68,6 +69,8 @@ private:
 	friend class CollisionManager;
 	friend class ContactManager;
 
+	bool GetCollision(const Collider* aCollider);
+
 	void AddContact(const ContactKey& aContactKey);
 	void RemoveContact(const ContactKey& aContactKey);
 	void ClearContacts();
@@ -77,9 +80,10 @@ private:
 	CU::Vector2<float> myCheckOffset = CU::Vector2<float>(0.0f, 0.0f);
 
 	CommonUtilities::Vector2<float> myPos;
-	CU::Vector2<float> myDimentions;
+	CU::Vector2<float> mySize;
 
-	GameObject* myGameObject = nullptr;
+	CollisionListener* myCollisionListener{};
+	GameObject* myGameObject{};
 
 	bool myIsTrigger{};
 
@@ -87,7 +91,3 @@ private:
 	std::vector<ContactKey> myContacts;
 
 };
-
-//TODO:Sync colliders with correct positon
-//TODO:man kan fr�ga collision manager om collisions
-

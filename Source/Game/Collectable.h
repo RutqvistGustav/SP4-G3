@@ -22,9 +22,9 @@ public:
 
 protected:
 
-	using TriggerVolume::Init;
+	using TriggerVolume::GameObject::Init;
 
-	virtual void OnStay(GameObject* aGameObject) override;
+	virtual void TriggerStay(GameObject* aGameObject) override;
 
 	virtual bool CanCollect(Player* aPlayer);
 	virtual void OnCollect(Player* aPlayer) = 0;

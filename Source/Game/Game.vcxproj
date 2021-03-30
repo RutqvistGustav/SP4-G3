@@ -141,9 +141,11 @@
     <ClInclude Include="Collectable.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionFilter.h" />
+    <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionItem.h" />
     <ClInclude Include="CollisionLayer.h" />
     <ClInclude Include="ContactKey.h" />
+    <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="AABB.h" />
     <ClInclude Include="AmmoCounter.h" />
@@ -251,6 +253,7 @@
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionFilter.cpp" />
+    <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Contact.cpp" />

@@ -3,9 +3,8 @@
 
 #include "Contact.h"
 #include "Collider.h"
-
-// TODO: Use CollisionListener
-#include "GameObject.h"
+#include "CollisionInfo.h"
+#include "CollisionListener.h"
 
 ContactManager::ContactManager()
 {
@@ -53,26 +52,38 @@ void ContactManager::DestroyContacts(Collider* aCollider)
 
 void ContactManager::SendOnEnter(const Collider* aColliderA, const Collider* aColliderB)
 {
-	// TODO: Use CollisionListener
-	// TODO: Use OnEnter/OnStay/OnExit
-	aColliderA->GetGameObject()->OnCollision(aColliderB->GetGameObject());
-	aColliderB->GetGameObject()->OnCollision(aColliderA->GetGameObject());
+	CollisionListener* listenerA = aColliderA->GetCollisionListener();
+	CollisionListener* listenerB = aColliderB->GetCollisionListener();
+
+	const CollisionInfo infoA{ aColliderB };
+	const CollisionInfo infoB{ aColliderA };
+
+	if (listenerA != nullptr) listenerA->OnEnter(infoA);
+	if (listenerB != nullptr) listenerB->OnEnter(infoB);
 }
 
 void ContactManager::SendOnStay(const Collider* aColliderA, const Collider* aColliderB)
 {
-	// TODO: Use CollisionListener
-	// TODO: Use OnEnter/OnStay/OnExit
-	aColliderA->GetGameObject()->OnCollision(aColliderB->GetGameObject());
-	aColliderB->GetGameObject()->OnCollision(aColliderA->GetGameObject());
+	CollisionListener* listenerA = aColliderA->GetCollisionListener();
+	CollisionListener* listenerB = aColliderB->GetCollisionListener();
+
+	const CollisionInfo infoA{ aColliderB };
+	const CollisionInfo infoB{ aColliderA };
+
+	if (listenerA != nullptr) listenerA->OnStay(infoA);
+	if (listenerB != nullptr) listenerB->OnStay(infoB);
 }
 
 void ContactManager::SendOnExit(const Collider* aColliderA, const Collider* aColliderB)
 {
-	// TODO: Use CollisionListener
-	// TODO: Use OnEnter/OnStay/OnExit
-	aColliderA->GetGameObject()->OnCollision(aColliderB->GetGameObject());
-	aColliderB->GetGameObject()->OnCollision(aColliderA->GetGameObject());
+	CollisionListener* listenerA = aColliderA->GetCollisionListener();
+	CollisionListener* listenerB = aColliderB->GetCollisionListener();
+
+	const CollisionInfo infoA{ aColliderB };
+	const CollisionInfo infoB{ aColliderA };
+
+	if (listenerA != nullptr) listenerA->OnExit(infoA);
+	if (listenerB != nullptr) listenerB->OnExit(infoB);
 }
 
 std::shared_ptr<Contact> ContactManager::GetFreeContact()

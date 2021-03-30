@@ -3,6 +3,8 @@
 
 #include "CheckpointMessage.h"
 
+#include "CollisionListener.h"
+
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
@@ -25,7 +27,8 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage
+    public CheckpointMessage,
+    public CollisionListener
 {
 public:
     

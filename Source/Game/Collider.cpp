@@ -5,6 +5,7 @@
 #include "TiledTile.h"
 #include "TiledLayer.h"
 #include "TiledMap.h"
+#include "CollisionListener.h"
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
@@ -18,26 +19,19 @@
 #endif // _DEBUG
 
 
-Collider::Collider()
-	: Collider(nullptr, 0.0f, 0.0f, 100.0f)
+Collider::Collider() :
+	Collider({}, { 256.0f, 256.0f })
 {}
 
-Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
-	: myPos(aPos)
-	, myGameObject(aGameObject)
+Collider::Collider(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize) :
+	myPos(aPos),
+	mySize(aSize)
 {
 
 #ifdef _DEBUG
 	myDebugSprite = nullptr;
 #endif // _DEBUG
-
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
 }
-
-Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
-	: Collider(aGameObject, CU::Vector2<float>(aX, aY), aRadius)
-{}
 
 Collider::~Collider()
 {
@@ -45,69 +39,32 @@ Collider::~Collider()
 	/*delete myDebugSprite;
 	myDebugSprite = nullptr;*/
 #endif // _DEBUG
-	myGameObject = nullptr;
+	myCollisionListener = nullptr;
 }
 
-void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
+void Collider::Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize)
 {
 #ifdef _DEBUG
 	InitDebug();
 #endif // _DEBUG
 
-	myGameObject = aGameObject;
-	//myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
+	mySize = aSize;
 }
 
-void Collider::SetPos(const CU::Vector2<float> aPos)
+void Collider::SetPosition(const CU::Vector2<float> aPos)
 {
 	myPos = aPos;
-}
-
-bool Collider::GetCollision(const Collider* aCollider)
-{
-
-	if (myPos.x - myDimentions.x * 0.5f < aCollider->myPos.x + aCollider->myDimentions.x * 0.5f &&
-		myPos.x + myDimentions.x * 0.5f > aCollider->myPos.x - aCollider->myDimentions.x * 0.5f &&
-		myPos.y - myDimentions.y * 0.5f < aCollider->myPos.y + aCollider->myDimentions.y * 0.5f &&
-		myPos.y + myDimentions.y * 0.5f > aCollider->myPos.y - aCollider->myDimentions.y * 0.5f)
-	{
-		//AdvanceCollisionStage();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-
-	//if ((myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius)
-	//{
-	//	//AdvanceCollisionStage();
-	//	return true;
-	//}
-	//else
-	//{
-	//	return false;
-	//}
-}
-
-GameObject* Collider::GetGameObject() const
-{
-	return myGameObject;
 }
 
 void Collider::SetBoxSize(const CU::Vector2<float> aSize)
 {
-	myDimentions.x = aSize.x;
-	myDimentions.y = aSize.y;
+	mySize = aSize;
 }
 
 CU::Vector2<float> Collider::GetBoxSize()
 {
-	return myDimentions;
+	return mySize;
 }
 
 const CU::Vector2<float> Collider::GetPosition() const
@@ -117,17 +74,17 @@ const CU::Vector2<float> Collider::GetPosition() const
 
 AABB Collider::GetAABB() const
 {
-	return AABB::FromCenterAndSize(myPos, myDimentions);
+	return AABB::FromCenterAndSize(myPos, mySize);
 }
 
 const float Collider::GetWidth() const
 {
-	return myDimentions.x;
+	return mySize.x;
 }
 
 const float Collider::GetHight() const
 {
-	return myDimentions.y;
+	return mySize.y;
 }
 
 #ifdef _DEBUG
@@ -143,7 +100,7 @@ void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRend
 
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	myDebugSprite->SetSize(myDimentions);
+	myDebugSprite->SetSize(mySize);
 	myDebugSprite->SetLayer(999);
 
 	//ska användas i menyer
@@ -160,15 +117,20 @@ void Collider::setRenderColor(Tga2D::CColor aColor)
 }
 #endif // _DEBUG
 
-//const Collider::eCollisionType Collider::GetCollisionType() const
-//{
-//	return myCollitionType;
-//}
-//
-//void Collider::SetCollitionType(const eCollisionType aCollitionType)
-//{
-//	myCollitionType = aCollitionType;
-//}
+bool Collider::GetCollision(const Collider* aCollider)
+{
+	if (myPos.x - mySize.x * 0.5f < aCollider->myPos.x + aCollider->mySize.x * 0.5f &&
+		myPos.x + mySize.x * 0.5f > aCollider->myPos.x - aCollider->mySize.x * 0.5f &&
+		myPos.y - mySize.y * 0.5f < aCollider->myPos.y + aCollider->mySize.y * 0.5f &&
+		myPos.y + mySize.y * 0.5f > aCollider->myPos.y - aCollider->mySize.y * 0.5f)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 
 void Collider::AddContact(const ContactKey& aContactKey)
 {
@@ -189,10 +151,3 @@ void Collider::ClearContacts()
 {
 	myContacts.clear();
 }
-
-//const bool Collider::GetIsCube() const
-//{
-//	return myIsCube;
-//}
-
-
