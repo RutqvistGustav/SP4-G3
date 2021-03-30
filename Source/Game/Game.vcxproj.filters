@@ -396,9 +396,7 @@
     <ClInclude Include="DynamicTexture.h">
       <Filter>Util</Filter>
     </ClInclude>
-
     <ClInclude Include="TiledEntities.h" />
-
     <ClInclude Include="EliteZombie.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
@@ -411,7 +409,7 @@
     <ClInclude Include="BaseRenderData.h" />
     <ClInclude Include="DialogueBox.h">
       <Filter>Event</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="TextRenderData.h">
       <Filter>Core\Rendering\Data</Filter>
     </ClInclude>
@@ -420,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>GameObjects\Collectables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -623,9 +624,12 @@
     </ClCompile>
     <ClCompile Include="DialogueBox.cpp">
       <Filter>Event</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>GameObjects\Collectables</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
