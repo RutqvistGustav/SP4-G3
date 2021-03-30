@@ -48,23 +48,20 @@ std::wstring BUILD_NAME = L"Retail";
 #pragma comment(lib, "XInput.lib")
 #pragma comment(lib, "XInput9_1_0.lib")
 
-CGame* CGame::ourInstance = nullptr;
-
 CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
 {
 	//myGameWorld = new CGameWorld();
-	assert(ourInstance == nullptr);
-	ourInstance = this;
+
 }
 
 
 CGame::~CGame()
 {
-	assert(ourInstance == this);
-	ourInstance = nullptr;
+	/*delete myGameWorld;
+	myGameWorld = nullptr;*/
 }
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -79,32 +76,10 @@ LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 		// this message is read when the window is closed
-	case WM_USER:
 	case WM_DESTROY:
 	{
 		// close the application entirely
 		PostQuitMessage(0);
-		return 0;
-	}
-	case WM_MESSAGE_TOGGLE_FULLSCREEN:
-	{
-		bool fullscreen = static_cast<bool>(wParam);
-		Tga2D::CEngine::GetInstance()->SetFullScreen(fullscreen);
-		return 0;
-	}
-	case WM_MESSAGE_SET_RESOLUTION:
-	{
-		// NOTE: Ensure we are not running in fullscreen when changing resolution,
-		// results in weird behaviour.
-		BOOL isFullScreen;
-		if (Tga2D::CEngine::GetInstance()->GetFullScreen(&isFullScreen), isFullScreen == TRUE)
-		{
-			Tga2D::CEngine::GetInstance()->SetFullScreen(false);
-		}
-
-		const VECTOR2UI resolution = VECTOR2UI(static_cast<unsigned int>(wParam), static_cast<unsigned int>(lParam));
-
-		Tga2D::CEngine::GetInstance()->SetResolution(resolution);
 		return 0;
 	}
 	}
@@ -198,17 +173,4 @@ void CGame::UpdateCallBack()
 	myRenderManager->SetPan(mySceneManager->GetCamera()->GetPositionWithModifiers() * -1.0f);
 
 	myInput->ResetFrame();
-}
-
-void CGame::QueueSetFullscreen(bool aFullscreen)
-{
-	PostMessage(*Tga2D::CEngine::GetInstance()->GetHWND(), WM_MESSAGE_TOGGLE_FULLSCREEN, aFullscreen ? 1 : 0, 0);
-}
-
-void CGame::QueueSetResolution(unsigned int aWidth, unsigned int aHeight)
-{
-	WPARAM width = static_cast<WPARAM>(aWidth);
-	LPARAM height = static_cast<LPARAM>(aHeight);
-
-	PostMessage(*Tga2D::CEngine::GetInstance()->GetHWND(), WM_MESSAGE_SET_RESOLUTION, width, height);
 }

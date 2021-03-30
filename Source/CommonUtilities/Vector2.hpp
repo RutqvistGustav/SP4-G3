@@ -161,6 +161,16 @@ namespace CommonUtilities
 		aVector.x /= aScalar;
 		aVector.y /= aScalar;
 	}
+
+	template<class T> bool operator == (const Vector2<T>& aVector, const Vector2<T>& anOtherVector)
+	{
+		if (aVector.x != anOtherVector.x)
+			return false;
+		if (aVector.y != anOtherVector.y)
+			return false;
+
+		return true;
+	}
 }
 
 namespace CU = CommonUtilities;

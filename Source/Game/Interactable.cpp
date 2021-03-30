@@ -16,7 +16,7 @@ Interactable::Interactable(Scene* aScene) :
 	TriggerVolume(aScene, GameObjectTag::Player)
 {}
 
-void Interactable::OnStay(GameObject* aGameObject)
+void Interactable::TriggerStay(GameObject* aGameObject)
 {
 	assert(aGameObject != nullptr);
 
@@ -33,7 +33,7 @@ void Interactable::OnStay(GameObject* aGameObject)
 	}
 }
 
-void Interactable::OnExit(GameObject* aGameObject)
+void Interactable::TriggerExit(GameObject* aGameObject)
 {
 	assert(aGameObject != nullptr);
 
