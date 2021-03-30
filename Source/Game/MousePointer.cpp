@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "CoordinateHelper.h"
 #include "CollisionManager.h"
+#include "CollisionInfo.h"
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
@@ -16,7 +17,9 @@ MousePointer::MousePointer(Scene* aScene)
 	SetTag(GameObjectTag::MousePointer);
 	myScene = aScene;
 	myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myMousePointerPos, 5.f);
+	myCollider->Init(myMousePointerPos, { 5.0f, 5.0f });
+	myCollider->SetCollisionListener(this);
+	myCollider->SetGameObject(this);
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Menue UI/ProgArt/Pointer.png"));
@@ -30,34 +33,26 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 	ReadingMouseCoordinates(aDeltaTime, anUpdateContext.myInput);
 	ReadingLMBInput(anUpdateContext.myInputInterface);
 
-	myCollider->SetPos(myMousePointerPos);
+	myCollider->SetPosition(myMousePointerPos);
 	mySprite->SetPosition(myMousePointerPos);
 }
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//float x = Metrics::GetReferenceSize().x;
-	//float y = Metrics::GetReferenceSize().y;
-	//const float offSet = 1.5f;
+	float x = Metrics::GetReferenceSize().x;
+	float y = Metrics::GetReferenceSize().y;
+	const float offSet = 1.5f;
 
-	//if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
-	//	myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
-	//{
-	//	return;
-	//}
-
-	//RenderCommand renderCommand = RenderCommand(mySprite);
-	//aRenderQueue->Queue(renderCommand);
-	myCollider->RenderDebug(aRenderQueue, aRenderContext);
-}
-
-void MousePointer::OnCollision(GameObject* aGameObject)
-{
-	if (GetLMBDown())
+	if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
+		myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
 	{
-		myButtonClicked = true;
-		myClickedButton = aGameObject->GetTag();
+		return;
 	}
+
+	RenderCommand renderCommand = RenderCommand(mySprite);
+	aRenderQueue->Queue(renderCommand);
+
+	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 bool MousePointer::GetLMBDown()
@@ -65,19 +60,9 @@ bool MousePointer::GetLMBDown()
 	return myClicked;
 }
 
-bool MousePointer::GetButtonClicked()
+bool MousePointer::ButtonClicked()
 {
 	return myButtonClicked;
-}
-
-void MousePointer::SetButtonClicked(bool aBool)
-{
-	myButtonClicked = aBool;
-}
-
-CU::Vector2<float> MousePointer::GetPointerPos()
-{
-	return myMousePointerPos;
 }
 
 GameObjectTag MousePointer::ClickedButton() const
@@ -85,10 +70,23 @@ GameObjectTag MousePointer::ClickedButton() const
 	return myClickedButton;
 }
 
+void MousePointer::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	if (GetLMBDown())
+	{
+		myButtonClicked = true;
+
+		GameObject* buttonObject = someCollisionInfo.myOtherCollider->GetGameObject();
+		if (buttonObject != nullptr)
+		{
+			myClickedButton = buttonObject->GetTag();
+		}
+	}
+}
+
 void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
-	auto refSize = Metrics::GetReferenceSize();
 	float mousX = static_cast<float>(mousePos.myMouseX);
 	float mousY = static_cast<float>(mousePos.myMouseY);
 
@@ -108,7 +106,9 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-	myMousePointerPos = CoordinateHelper::GetClientPositionAsVirtual(CU::Vector2(mousX, mousY));
+
+	myMousePointerPos = CU::Vector2(static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY));
+	myMousePointerPos = CU::Vector2(myMousePointerPos.x * 1.5f, myMousePointerPos.y * 1.5f);
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)

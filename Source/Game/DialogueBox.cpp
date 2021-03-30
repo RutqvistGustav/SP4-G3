@@ -17,11 +17,10 @@ DialogueBox::DialogueBox(Scene* aScene)
 	: Interactable(aScene)
 {}
 
-void DialogueBox::Init(GameObjectTag aLevelTag, std::string anID)
+void DialogueBox::Init(std::string anID)
 {
 	GameObject::Init();
-
-	nlohmann::json data = GetJsonData(aLevelTag);
+	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData(anID);
 	std::string allSlides = data.at(anID);
 	FillSlides(allSlides);
 
@@ -35,7 +34,7 @@ void DialogueBox::Init(GameObjectTag aLevelTag, std::string anID)
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ 500.0f,500.0f });
 
-	SetTriggerRadius(50.0f);
+	//SetTriggerRadius(50.0f);
 }
 
 void DialogueBox::OnInteract(Player* aPlayer)
@@ -66,34 +65,6 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 	{
 		aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
-	}
-}
-
-nlohmann::json DialogueBox::GetJsonData(GameObjectTag aLevelTag)
-{
-	switch (aLevelTag)
-	{
-	case GameObjectTag::Level_1:
-	{
-		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
-		break;
-	}
-	case GameObjectTag::Level_2:
-	{
-		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
-		break;
-	}
-	case GameObjectTag::Level_3:
-	{
-		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
-		break;
-	}
-	case GameObjectTag::Level_4:
-	{
-		return GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
-		break;
-	}
-
 	}
 }
 

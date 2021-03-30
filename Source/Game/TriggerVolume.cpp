@@ -2,7 +2,7 @@
 #include "TriggerVolume.h"
 
 #include "Collider.h"
-
+#include "CollisionInfo.h"
 #include <cassert>
 
 TriggerVolume::TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter) :
@@ -10,52 +10,60 @@ TriggerVolume::TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter
 	myFilter(aFilter)
 {}
 
-void TriggerVolume::OnCollision(GameObject* aGameObject)
+void TriggerVolume::SetTriggerSize(const CU::Vector2<float>& aSize)
 {
-	assert(aGameObject != nullptr && "OnCollision called with null GameObject!");
+	myCollider->SetBoxSize(aSize);
+}
 
-	if (myFilter.has_value() && aGameObject->GetTag() != myFilter.value())
+const CU::Vector2<float>& TriggerVolume::GetTriggerSize() const
+{
+	return myCollider->GetBoxSize();
+}
+
+void TriggerVolume::TriggerEnter(GameObject* aGameObject)
+{}
+
+void TriggerVolume::TriggerStay(GameObject* aGameObject)
+{}
+
+void TriggerVolume::TriggerExit(GameObject* aGameObject)
+{}
+
+void TriggerVolume::OnEnter(const CollisionInfo& someCollisionInfo)
+{
+	if (IsCollisionAccepted(someCollisionInfo))
 	{
-		return;
-	}
-
-	GameObject::OnCollision(aGameObject);
-
-	switch (myCollider->GetCollisionStage())
-	{
-	case Collider::eCollisionStage::FirstFrame:
-		OnEnter(aGameObject);
-
-		break;
-
-	case Collider::eCollisionStage::MiddleFrames:
-		OnStay(aGameObject);
-
-		break;
-
-	case Collider::eCollisionStage::LastFrame:
-	case Collider::eCollisionStage::NotColliding:
-		OnExit(aGameObject);
-
-		break;
+		TriggerEnter(someCollisionInfo.myOtherCollider->GetGameObject());
 	}
 }
 
-void TriggerVolume::SetTriggerRadius(const float aRadius)
+void TriggerVolume::OnStay(const CollisionInfo& someCollisionInfo)
 {
-	myCollider->SetRadius(aRadius);
+	if (IsCollisionAccepted(someCollisionInfo))
+	{
+		TriggerStay(someCollisionInfo.myOtherCollider->GetGameObject());
+	}
 }
 
-const float TriggerVolume::GetTriggerRadius() const
+void TriggerVolume::OnExit(const CollisionInfo& someCollisionInfo)
 {
-	return myCollider->GetRadius();
+	if (IsCollisionAccepted(someCollisionInfo))
+	{
+		TriggerExit(someCollisionInfo.myOtherCollider->GetGameObject());
+	}
 }
 
-void TriggerVolume::OnEnter(GameObject* /*aGameObject*/)
-{}
+bool TriggerVolume::IsCollisionAccepted(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
 
-void TriggerVolume::OnStay(GameObject* /*aGameObject*/)
-{}
+	if (gameObject == nullptr)
+		return false;
 
-void TriggerVolume::OnExit(GameObject* /*aGameObject*/)
-{}
+	if (myFilter.has_value() && myFilter.value() != gameObject->GetTag())
+	{
+		return false;
+	}
+
+	return true;
+}
