@@ -35,9 +35,10 @@ void MenuButton::Update()
 	myCollider->SetPos(myPosition);
 	myPositionLastFrame = myPosition;
 
-	if (myCollider->GetCollisionStage() == Collider::eCollisionStage::NotColliding)
+	// TODO: Needs updating
+	// if (myCollider->GetCollisionStage() == Collider::eCollisionStage::NotColliding)
 	{
-		myHover = false;
+		//myHover = false;
 	}
 }
 

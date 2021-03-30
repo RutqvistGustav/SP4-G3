@@ -37,7 +37,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	}
 	else
 	{
-		myShotVolume->SetPos(GetPosition() + GetDirection() * myShotVolume->GetRadius() * 0.5f);
+		myShotVolume->SetPos(GetPosition() + GetDirection() * myShotVolume->GetBoxSize().x * 0.5f);
 	}
 
 	if (IsReloadingComplete())
@@ -145,7 +145,7 @@ void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
 
-	myShotVolume->SetRadius(myAoeLength);
+	myShotVolume->SetBoxSize({ myAoeLength, myAoeLength });
 
 	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }

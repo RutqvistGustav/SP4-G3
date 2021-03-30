@@ -21,7 +21,8 @@ void TriggerVolume::OnCollision(GameObject* aGameObject)
 
 	GameObject::OnCollision(aGameObject);
 
-	switch (myCollider->GetCollisionStage())
+	// TODO: Needs updating
+	/*switch (myCollider->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
 		OnEnter(aGameObject);
@@ -38,17 +39,17 @@ void TriggerVolume::OnCollision(GameObject* aGameObject)
 		OnExit(aGameObject);
 
 		break;
-	}
+	}*/
 }
 
 void TriggerVolume::SetTriggerRadius(const float aRadius)
 {
-	myCollider->SetRadius(aRadius);
+	myCollider->SetBoxSize({ aRadius, aRadius });
 }
 
 const float TriggerVolume::GetTriggerRadius() const
 {
-	return myCollider->GetRadius();
+	return myCollider->GetBoxSize().x;
 }
 
 void TriggerVolume::OnEnter(GameObject* /*aGameObject*/)

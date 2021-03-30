@@ -18,6 +18,7 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 {
 	myCollider = std::make_shared<Collider>();
 	mySprite = std::make_shared<SpriteWrapper>(aSpritePath);
+	myCollider->SetBoxSize(mySprite->GetSize());
 }
 
 GameObject::~GameObject()
@@ -69,7 +70,7 @@ void GameObject::SetPosition(const CU::Vector2<float> aPosition)
 
 void GameObject::OnCollision(GameObject* /*aGameObject*/)
 {
-	switch (myCollider->GetCollisionStage())
+	/*switch (myCollider->GetCollisionStage())
 	{
 	case Collider::eCollisionStage::FirstFrame:
 	case Collider::eCollisionStage::MiddleFrames:
@@ -86,7 +87,7 @@ void GameObject::OnCollision(GameObject* /*aGameObject*/)
 		break;
 	default:
 		break;
-	}
+	}*/
 }
 
 void GameObject::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
