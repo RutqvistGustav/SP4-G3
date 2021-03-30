@@ -81,8 +81,13 @@ void EntityPhysicsController::BuildCollisionEdges()
 
 	const AABB entityAABB = GetAABB();
 
-	const int verticalPoints = static_cast<int>(entityAABB.GetSize().y / 64.0f) + 1;
-	const int horizontalPoints = static_cast<int>(entityAABB.GetSize().x / 64.0f) + 1;
+	// NOTE: Currently using points, but if player starts to fall through / go through small / narrow custom colliders
+	// we might need to change to a box or more points.
+	// A box would probably be more efficient for our cases so if performance is bad this can be changed,
+	// and a new BoxTest needs to be added to the CollisionManager.
+
+	const int verticalPoints = static_cast<int>(entityAABB.GetSize().y / 32.0f) + 1;
+	const int horizontalPoints = static_cast<int>(entityAABB.GetSize().x / 32.0f) + 1;
 
 	myCollisionEdges[Edge::Bottom] = CreateCollisionEdge(entityAABB.GetCenter() + Vec2f(0.0f, entityAABB.GetSize().y * 0.5f), Vec2f(1.0f, 0.0f), horizontalPoints);
 	myCollisionEdges[Edge::Top] = CreateCollisionEdge(entityAABB.GetCenter() - Vec2f(0.0f, entityAABB.GetSize().y * 0.5f), Vec2f(1.0f, 0.0f), horizontalPoints);
@@ -181,7 +186,16 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 	AccumulateEdgeCollisions(testEdge);
 	ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
 
-	if (anAxis == Axis::Y)
+	if (anAxis == Axis::X)
+	{
+		const bool isAgainstWall = !myCollisionBuffer.empty();
+
+		if (isAgainstWall)
+			AddState(eState::eState_AgainstWall);
+		else
+			RemoveState(eState::eState_AgainstWall);
+	}
+	else if (anAxis == Axis::Y)
 	{
 		const bool isGrounded = (testEdge == Edge::Bottom) && !myCollisionBuffer.empty();
 		// const bool hitCeiling = (testEdge == Edge::Top) && !myCollisionBuffer.empty();

@@ -78,7 +78,6 @@ void Player::Init()
 	myWeaponController->Init();
 
 	myCollider->SetBoxSize(mySprite->GetSize());
-	myPhysicsController = EntityPhysicsController();
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
 

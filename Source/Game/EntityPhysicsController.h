@@ -14,8 +14,10 @@ public:
 
 	enum eState
 	{
-		eState_None     = (0 << 0),
-		eState_Grounded = (1 << 0),
+		eState_None         = (0 << 0),
+		eState_Grounded     = (1 << 0),
+
+		eState_AgainstWall  = (1 << 1),
 	};
 
 	EntityPhysicsController();
@@ -38,7 +40,8 @@ public:
 
 	AABB GetAABB() const;
 
-	inline bool IsGrounded() const { return (GetState() & eState::eState_Grounded) != 0; }
+	inline bool IsAgainstWall() const { return HasState(eState::eState_AgainstWall); }
+	inline bool IsGrounded() const { return HasState(eState::eState_Grounded); }
 
 private:
 
@@ -67,6 +70,7 @@ private:
 	inline void AddState(eState aState) { myState = myState | aState; }
 	inline void RemoveState(eState aState) { myState &= ~aState; }
 
+	inline bool HasState(eState aState) const { return (GetState() & aState) != 0; }
 	inline eState GetState() const { return static_cast<eState>(myState); }
 
 private:

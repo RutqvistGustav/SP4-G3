@@ -4,6 +4,9 @@
 #include "Health.h"
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
+
+#include "SpriteWrapper.h"
+
 #include <nlohmann/json.hpp>
 
 
@@ -12,16 +15,22 @@ Enemy::Enemy(Scene* aScene, const char* aSpritePath)
 {
 }
 
-Enemy::~Enemy()
-{
-}
+Enemy::~Enemy() = default;
 
 void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	myPhysicsController.Update(aDeltaTime);
+	SetPosition(myPhysicsController.GetPosition());
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	GameObject::Render(aRenderQueue, aRenderContext);
+}
+
+void Enemy::ApplyForce(const CU::Vector2<float>& aForce)
+{
+	myPhysicsController.ApplyForce(aForce);
 }
 
 const int Enemy::DealDamage()
@@ -35,7 +44,7 @@ void Enemy::TakeDamage(const int aDamage)
 	myDeleteThisFrame = myHealth->IsDead();
 }
 
-void Enemy::InitEnemyJsonValues(std::string& aJsonPath)
+void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 {
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
 	nlohmann::json zombieData = data.at("EliteZombie");
@@ -46,6 +55,9 @@ void Enemy::InitEnemyJsonValues(std::string& aJsonPath)
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
+
+	myPhysicsController.Init(GetScene(), mySprite->GetSize());
+	myPhysicsController.SetGravity({ 0.0f, 1000.0f }); // TODO: Read from JSON
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)

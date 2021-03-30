@@ -76,13 +76,16 @@ void CollisionManager::IgnoreCollision(CollisionLayer::Layer aLayerA, CollisionL
 
 void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, CollisionLayer::Layer aLayerFilter, std::vector<CollisionItem>& aResult)
 {
-	assert(aResult.size() < aResult.capacity());
+	if (aResult.size() == aResult.capacity())
+	{
+		return;
+	}
 
 	const TiledTile* aTile = myTiledCollision->GetTileAt(aPosition);
 	if (aTile != nullptr && aLayerFilter == CollisionLayer::MapSolid)
 	{
-		const CU::Vector2<float> alignedPosition = { std::floorf(aPosition.x / 64.0f) * 64.0f, std::floorf(aPosition.y / 64.0f) * 64.0f };
 		const CU::Vector2<float> alignedSize = { 64.0f, 64.0f };
+		const CU::Vector2<float> alignedPosition = { std::floorf(aPosition.x / alignedSize.x) * alignedSize.x, std::floorf(aPosition.y / alignedSize.y) * alignedSize.y };
 
 		const auto& collisionBoxes = aTile->GetCollisionBoxes();
 
@@ -92,7 +95,6 @@ void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, Col
 		}
 		else
 		{
-			// NOTE: Very untested, should be tested
 			for (const auto& collisionBox : collisionBoxes)
 			{
 				const CU::Vector2<float> position = alignedPosition + CU::Vector2<float>(collisionBox.myX, collisionBox.myY);
@@ -153,10 +155,10 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 	myColliders.push_back(aCollider);
 
 #ifdef _DEBUG
-	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
-	//myColliders.back().get()->myDebugSprite = new Tga2D::CSprite("debugCookieSquare.png");
-#endif // _DEBUG
 
+	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
+
+#endif // _DEBUG
 }
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
@@ -196,4 +198,3 @@ void CollisionManager::RenderDebug(RenderQueue* const aRenderQueue, RenderContex
 	}
 }
 #endif // _DEBUG
-

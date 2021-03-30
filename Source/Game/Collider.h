@@ -48,6 +48,9 @@ public:
 	const float GetWidth()const;
 	const float GetHight()const;
 
+	inline void SetIsTrigger(bool anIsTrigger) { myIsTrigger = anIsTrigger; }
+	inline bool IsTrigger() const { return myIsTrigger; }
+
 	inline void SetLayer(CollisionLayer::Layer aCollisionLayer) { myCollisionLayer = aCollisionLayer; }
 	inline CollisionLayer::Layer GetLayer() const { return myCollisionLayer; }
 
@@ -77,6 +80,8 @@ private:
 	CU::Vector2<float> myDimentions;
 
 	GameObject* myGameObject = nullptr;
+
+	bool myIsTrigger{};
 
 	CollisionLayer::Layer myCollisionLayer{ CollisionLayer::Default };
 	std::vector<ContactKey> myContacts;
