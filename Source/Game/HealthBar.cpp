@@ -6,9 +6,10 @@
 #include "SpriteWrapper.h"
 #include "CollisionManager.h"
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
+#include "JsonManager.h"
 
 #include <nlohmann/json.hpp>
-#include <fstream>
 
 HealthBar::HealthBar(Scene* aScene)
 	: GameObject(aScene)
@@ -19,11 +20,7 @@ HealthBar::HealthBar(Scene* aScene)
 
 void HealthBar::Init()
 {
-	nlohmann::json data;
-	std::ifstream file("JSON/HUD.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-	nlohmann::json healthData = data.at("HealthBar");
+	nlohmann::json healthData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/HUD.json").at("HealthBar");
 
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
@@ -56,6 +53,11 @@ void HealthBar::RemoveHP()
 void HealthBar::AddHP()
 {
 	// restore size of hp bar.
+}
+
+void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myPowerUpType = aPowerUpType;
 }
 
 void HealthBar::UpdatePosition(CU::Vector2<float> aPlayerPosition)

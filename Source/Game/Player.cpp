@@ -177,6 +177,7 @@ void Player::InitVariables(nlohmann::json someData)
 	// Movement
 	mySpeed = someData.at("MovementSpeed");
 	myMaxSpeed = someData.at("MaxSpeedCap");
+	myBerserkSpeed = someData.at("BerserkSpeed");
 	myReduceMovementSpeed = someData.at("BrakeStrength");
 	myStopAtVelocity = someData.at("StopAtVelocity");
 	myGravity = someData.at("GravityStrength");
@@ -286,6 +287,20 @@ void Player::SetControllerActive(const bool aState)
 {
 	myIsControllerActive = aState;
 	myVel = CU::Vector2<float>();
+}
+
+void Player::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myWeaponController->ActivatePowerUp(aPowerUpType);
+	if (aPowerUpType == PowerUpType::Berserk)
+	{
+		mySpeed += myBerserkSpeed;
+	}
+}
+
+void Player::DisablePowerUp()
+{
+	mySpeed -= myBerserkSpeed;
 }
 
 void Player::TakeDamage(const int aDamage)

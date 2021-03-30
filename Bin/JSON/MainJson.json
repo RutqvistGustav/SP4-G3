@@ -1,6 +1,7 @@
 {
   "FilePaths": [
     "JSON/MainJson.json",
+    "JSON/HUD.json",
     "JSON/Player.json",
     "JSON/Weapons.json",
     "JSON/EnemyTypes.json",

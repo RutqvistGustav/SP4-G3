@@ -5,6 +5,7 @@
 class HealthBar;
 class AmmoCounter;
 
+
 class HUD :
     public GameObject
 {

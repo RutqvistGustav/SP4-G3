@@ -16,3 +16,7 @@ void Weapon::Init(const JsonData& someJsonData)
 	LoadJson(someJsonData);
 	Setup();
 }
+
+void Weapon::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+}

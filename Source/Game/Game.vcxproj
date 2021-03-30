@@ -180,6 +180,7 @@
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PowerUpType.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="TextRenderData.h" />

@@ -4,6 +4,7 @@
 
 #include "WeaponHolder.h"
 #include "JsonData.h"
+#include "PowerUpType.h"
 
 class JsonManager;
 struct UpdateContext;
@@ -29,13 +30,14 @@ public:
 
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
+	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
+	virtual void DisablePowerUp() override;
 
 protected:
 
 	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
 	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown = false) override;
-	virtual void ActivatePowerUp(PowerUpType* aPowerUpType) override;
 
 private:
 

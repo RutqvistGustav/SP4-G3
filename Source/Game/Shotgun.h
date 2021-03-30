@@ -16,6 +16,9 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
+	void UpdatePowerUps(const float aDeltaTime);
+
 	virtual void Shoot() override;
 	virtual void Boost() override;
 
@@ -60,4 +63,20 @@ private:
 	float myRecoilKnockbackStrength{};
 	float myBoostKnockBackStrength{};
 
+	// PowerUp Variables
+	PowerUpType myActivePowerUp;
+	bool myIsPowerUpActive = false;
+
+	float myPowerUpDuration{};
+	float myPowerUpDamage{};
+	float myPowerUpReloadDuration{};
+
+	float myBerserkDuration{};
+	float myBerserkDamage{};
+	float myBerserkReloadDuration{};
+
+	float mySniperShotDuration{};
+	float mySniperShotDamage{};
+	float mySniperShotReloadDuration{};
+	float myExtendRangeX{};
 };

@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 
 #include <memory>
+#include "PowerUpType.h"
 
 class PlayerWeaponController;
 class SpriteWrapper;
@@ -42,6 +43,8 @@ public:
     void StopMovement();
 
     void SetControllerActive(const bool aState);
+    void ActivatePowerUp(PowerUpType aPowerUpType);
+    void DisablePowerUp();
 
     //Health Management
     void TakeDamage(const int aDamage);
@@ -77,25 +80,26 @@ private:
     bool myIsMovingRight = false;
     bool myIsOnGround = false;
 
-    float mySpeed;
-    float myMaxSpeed;
-    float myStopAtVelocity;
-    double myReduceMovementSpeed;
+    float mySpeed{};
+    float myMaxSpeed{};
+    float myStopAtVelocity{};
+    double myReduceMovementSpeed{};
     CU::Vector2<float> myVel;
 
-    float myGravity;
+    float myBerserkSpeed{};
+    float myGravity{};
 
     // Jump
     bool myIsJumping = false;
     bool myHasRemovedNegativeVel = false;
     bool myGravityActive = true;
 
-    int myJumpCharges;
-    int myJumpChargeReset;
+    int myJumpCharges{};
+    int myJumpChargeReset{};
 
-    float myJumpStrength;
-    float myJumpDuration;
-    float myJumpDurationReset;
+    float myJumpStrength{};
+    float myJumpDuration{};
+    float myJumpDurationReset{};
 
     std::unique_ptr<Health> myHealth;
 };
