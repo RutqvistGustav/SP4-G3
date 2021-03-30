@@ -401,6 +401,11 @@ void Tga2D::CEngine::SetClearColor(const CColor& aClearColor)
 	myDirect3D->SetClearColor(myClearColor);
 }
 
+void Tga2D::CEngine::GetFullScreen(BOOL* aBoolean)
+{
+	myDirect3D->GetFullScreen(aBoolean);
+}
+
 void Tga2D::CEngine::SetFullScreen(bool aFullScreen)
 {
 	if (myDirect3D)

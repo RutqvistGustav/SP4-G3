@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Foreground.h" />
     <ClInclude Include="BaseRenderData.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
@@ -149,7 +150,6 @@
     <ClInclude Include="CoordinateHelper.h" />
     <ClInclude Include="CutscenePlayer.h" />
     <ClInclude Include="DamageVolume.h" />
-    <ClInclude Include="DialogueBox.h" />
     <ClInclude Include="DynamicTexture.h" />
     <ClInclude Include="EliteZombie.h" />
     <ClInclude Include="Enemy.h" />
@@ -159,6 +159,7 @@
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ForegroundImage.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameMessage.h" />
@@ -177,10 +178,11 @@
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="MousePointer.h" />
-    <ClInclude Include="Options.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
     <ClInclude Include="TiledCache.h" />
@@ -242,6 +244,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Foreground.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
@@ -250,12 +253,12 @@
     <ClCompile Include="CoordinateHelper.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
-    <ClCompile Include="DialogueBox.cpp" />
     <ClCompile Include="DynamicTexture.cpp" />
     <ClCompile Include="EliteZombie.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="ForegroundImage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="Health.cpp" />
@@ -266,10 +269,11 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="MousePointer.cpp" />
-    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Minimap.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />
