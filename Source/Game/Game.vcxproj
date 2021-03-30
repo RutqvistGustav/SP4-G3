@@ -175,6 +175,7 @@
     <ClInclude Include="GameMessenger.h" />
     <ClInclude Include="GameObjectTag.h" />
     <ClInclude Include="GenericGameMessageSubscriber.h" />
+    <ClInclude Include="GoalZone.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthPickup.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Minimap.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
+    <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
     <ClInclude Include="TiledCache.h" />
@@ -272,6 +274,7 @@
     <ClCompile Include="EntityPhysicsController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="GoalZone.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Interactable.cpp" />

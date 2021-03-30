@@ -452,6 +452,12 @@
     <ClInclude Include="CollisionInfo.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="GoalZone.h">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClearMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -672,6 +678,9 @@
     </ClCompile>
     <ClCompile Include="CollisionListener.cpp">
       <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalZone.cpp">
+      <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

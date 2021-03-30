@@ -1,0 +1,7 @@
+{
+    "Hazard": {
+        "Default": {
+            "Animation": "Animations/TestAnimation.json"
+        }
+    }
+}
