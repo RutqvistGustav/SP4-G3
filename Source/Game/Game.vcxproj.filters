@@ -76,6 +76,9 @@
     <Filter Include="Scenes\Menus">
       <UniqueIdentifier>{1cdad5b7-0816-4362-a268-45f335235d41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Buttons">
+      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameObjects\Mouse">
       <UniqueIdentifier>{fcfce76a-d045-4e25-bc19-0fa7a843978a}</UniqueIdentifier>
     </Filter>
@@ -100,11 +103,6 @@
     <Filter Include="GameObjects\Interactables">
       <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\MenuHUD">
-      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core\Foreground">
-      <UniqueIdentifier>{d108a769-d67b-4098-b70c-deaa93967e28}</UniqueIdentifier>
     <Filter Include="Core\Collisions">
       <UniqueIdentifier>{4d5d0048-85a4-478f-8f29-156a05173993}</UniqueIdentifier>
     </Filter>
@@ -371,8 +369,11 @@
     <ClInclude Include="MainMenu.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
     <ClInclude Include="MenuButton.h">
-      <Filter>GameObjects\MenuHUD</Filter>
+      <Filter>GameObjects\Buttons</Filter>
     </ClInclude>
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
@@ -413,17 +414,6 @@
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
-      <Filter>Scenes\Menus</Filter>
-    </ClInclude>
-    <ClInclude Include="Slider.h">
-      <Filter>GameObjects\MenuHUD</Filter>
-    </ClInclude>
-    <ClInclude Include="Foreground.h">
-      <Filter>Core\Foreground</Filter>
-    </ClInclude>
-    <ClInclude Include="ForegroundImage.h">
-      <Filter>Core\Foreground</Filter>
     <ClInclude Include="CollisionManager.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
@@ -624,8 +614,11 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Scenes\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="MenuButton.cpp">
-      <Filter>GameObjects\MenuHUD</Filter>
+      <Filter>GameObjects\Buttons</Filter>
     </ClCompile>
     <ClCompile Include="MousePointer.cpp">
       <Filter>GameObjects\Mouse</Filter>
@@ -651,17 +644,6 @@
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="Settings.cpp">
-      <Filter>Scenes\Menus</Filter>
-    </ClCompile>
-    <ClCompile Include="Slider.cpp">
-      <Filter>GameObjects\MenuHUD</Filter>
-    </ClCompile>
-    <ClCompile Include="Foreground.cpp">
-      <Filter>Core\Foreground</Filter>
-    </ClCompile>
-    <ClCompile Include="ForegroundImage.cpp">
-      <Filter>Core\Foreground</Filter>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Core\Collisions</Filter>
     </ClCompile>

@@ -22,7 +22,7 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 	mySprite->SetPanStrengthFactor(0);
 	
 	myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myPosition, 40.f);
+	//myCollider->Init(this, myPosition, 40.f);
 	myCollider->SetBoxSize(CU::Vector2(mySprite->GetSize().x, mySprite->GetSize().y * 0.18f));
 	myCollider->Init(myPosition, CU::Vector2(mySprite->GetSize().x * 0.9f, mySprite->GetSize().y * 0.17f));
 	myCollider->SetCollisionListener(this);

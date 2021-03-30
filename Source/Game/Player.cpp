@@ -103,7 +103,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 #ifdef _DEBUG
 
-	Movement(aDeltaTime, anUpdateContext.myInputInterface);
+	//Movement(aDeltaTime, anUpdateContext.myInputInterface);
 	
 	ImGui();
 
@@ -166,7 +166,7 @@ void Player::SetPosition(const CU::Vector2<float> aPosition)
 void Player::SetControllerActive(const bool aState)
 {
 	myIsControllerActive = aState;
-	myVel = CU::Vector2<float>();
+	//myVel = CU::Vector2<float>();
 }
 
 void Player::TakeDamage(const int aDamage)
