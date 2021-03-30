@@ -24,6 +24,8 @@ public:
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
+    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+
 protected:
 
     virtual void OnStay(const CollisionInfo& someCollisionInfo) override;

@@ -43,6 +43,8 @@ public:
 
     void StopMovement();
 
+    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+
     //Health Management
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);

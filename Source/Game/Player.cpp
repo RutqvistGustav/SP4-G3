@@ -102,7 +102,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 #endif // _DEBUG
 
 	myPhysicsController.Update(aDeltaTime);
-	SetPosition(myPhysicsController.GetPosition());
+	GameObject::SetPosition(myPhysicsController.GetPosition());
 
 #ifdef _DEBUG
 
@@ -156,6 +156,12 @@ void Player::InitVariables(nlohmann::json someData)
 void Player::StopMovement()
 {
 	myPhysicsController.SetVelocity({});
+}
+
+void Player::SetPosition(const CU::Vector2<float> aPosition)
+{
+	GameObject::SetPosition(aPosition);
+	myPhysicsController.SetPosition(aPosition);
 }
 
 void Player::TakeDamage(const int aDamage)

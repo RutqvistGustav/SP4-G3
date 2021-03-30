@@ -29,7 +29,7 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	myPhysicsController.Update(aDeltaTime);
-	SetPosition(myPhysicsController.GetPosition());
+	GameObject::SetPosition(myPhysicsController.GetPosition());
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -75,6 +75,12 @@ void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
 	{
 		myTarget = aTarget;
 	}
+}
+
+void Enemy::SetPosition(const CU::Vector2<float> aPosition)
+{
+	GameObject::SetPosition(aPosition);
+	myPhysicsController.SetPosition(aPosition);
 }
 
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
