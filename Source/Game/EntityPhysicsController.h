@@ -62,7 +62,7 @@ private:
 	void BuildCollisionEdges();
 	std::vector<CU::Vector2<float>> CreateCollisionEdge(const CU::Vector2<float>& aMiddle, const CU::Vector2<float>& aDirection, int aPointCount);
 
-	void AccumulateEdgeCollisions(Edge anEdge);
+	void AccumulateEdgeCollisions(Edge anEdge, const CU::Vector2<float>& aFinalPosition);
 	void ResolveEdgeCollisions(Edge anEdge, const CU::Vector2<float>& aFinalPosition, bool& aWasObstructed, float& aDisplacement);
 
 	bool Move(Axis anAxis, float aDistance);

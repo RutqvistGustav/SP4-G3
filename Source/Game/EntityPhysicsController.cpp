@@ -103,7 +103,7 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMi
 	const AABB entityAABB = GetAABB();
 	std::vector<Vec2f> result;
 
-	constexpr float undershoot = 6.0f;
+	constexpr float undershoot = 3.0f;
 
 	const Vec2f size = Vec2f((entityAABB.GetSize().x - undershoot) * aDirection.x, (entityAABB.GetSize().y - undershoot) * aDirection.y);
 	const Vec2f step = Vec2f(size.x / (aPointCount - 1), size.y / (aPointCount - 1));
@@ -117,14 +117,14 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMi
 	return result;
 }
 
-void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge)
+void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f& aFinalPosition)
 {
 	const auto& points = myCollisionEdges.at(anEdge);
 
 	myCollisionBuffer.clear();
 	for (const auto& point : points)
 	{
-		myScene->GetCollisionManager()->PointTestNoAlloc(myPosition + point, CollisionLayer::MapSolid, myCollisionBuffer);
+		myScene->GetCollisionManager()->PointTestNoAlloc(aFinalPosition + point, CollisionLayer::MapSolid, myCollisionBuffer);
 	}
 }
 
@@ -142,14 +142,14 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aF
 	switch (anEdge)
 	{
 	case Edge::Top:
-		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y - 1.0f;
+		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y;
 		break;
 	case Edge::Bottom:
 		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
 		break;
 
 	case Edge::Left:
-		displacementAdjust = collisionAABB.GetMax().x - entityAABB.GetMin().x - 1.0f;
+		displacementAdjust = collisionAABB.GetMax().x - entityAABB.GetMin().x;
 		break;
 
 	case Edge::Right:
@@ -163,11 +163,6 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aF
 
 bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 {
-	if (std::fabsf(aDistance) <= std::numeric_limits<float>::epsilon())
-	{
-		return true;
-	}
-
 	const Vec2f direction = anAxis == Axis::X ? locVecRight : locVecDown;
 	float actualDistance = aDistance;
 	bool wasObstructed = false;
@@ -183,8 +178,10 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		testEdge = aDistance > 0.0f ? Edge::Right : Edge::Left;
 	}
 
-	AccumulateEdgeCollisions(testEdge);
-	ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
+	const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
+
+	AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
+	ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
 
 	if (anAxis == Axis::X)
 	{
