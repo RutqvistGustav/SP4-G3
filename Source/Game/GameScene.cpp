@@ -29,7 +29,6 @@
 #include "GameMessenger.h"
 #include "CheckpointMessage.h"
 #include "CheckpointContext.h"
-#include "Foreground.h"
 
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
@@ -67,16 +66,6 @@ void GameScene::Init()
 
 	myTiledEntities->SpawnEntities();
 
-	myForeground = std::make_unique<Foreground>();
-	myForeground->Init();
-	myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/background01.dds");
-	myBackground->SetPosition(CU::Vector2(Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y * 0.5f));
-
-	//myDialogueBox = std::make_shared<DialogueBox>(this); // temp
-	//myDialogueBox->Init(myTag, "PlayerTest1");
-	//myDialogueBox->SetPosition({405.0f,270.0f});
-	//AddGameObject(myDialogueBox);
-	
 	const TiledEntity* playerSpawn = myTiledEntities->FindEntityWithType("PlayerSpawn");
 	if (playerSpawn != nullptr)
 	{
@@ -88,8 +77,6 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myForeground->Update(aDeltaTime);
-
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
 
@@ -109,15 +96,11 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 {
 	Scene::Render(aRenderQueue, aRenderContext);
 
-	/*RenderCommand renderCommand = RenderCommand(myBackground);
-	aRenderQueue->Queue(renderCommand);*/
-
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
 	myMinimap->Render(aRenderQueue);
-	myForeground->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);

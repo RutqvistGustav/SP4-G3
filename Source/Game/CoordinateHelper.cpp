@@ -1,5 +1,4 @@
 #include "stdafx.h"
 #include "CoordinateHelper.h"
-#include "Metrics.h"
 
-const CU::Vector2<float> CoordinateHelper::ourReferenceSize = CU::Vector2<float>(Metrics::GetReferenceSize());
+const CU::Vector2<float> CoordinateHelper::ourReferenceSize = CU::Vector2<float>(640.0f, 360.0f);
