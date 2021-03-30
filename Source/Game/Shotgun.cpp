@@ -19,10 +19,12 @@ Shotgun::Shotgun(Scene* aScene, IWeaponHolder* aWeaponHolder)
 	myShotVolume = std::make_shared<Collider>(myPosition, CU::Vector2<float>(0.0f, 0.0f));
 	myShotVolume->SetCollisionListener(this);
 	myShotVolume->SetGameObject(this);
-#ifdef _DEBUG
-	myShotVolume->myDoRender = false;
-#endif // _DEBUG
 
+#ifdef _DEBUG
+
+	myShotVolume->myDoRender = false;
+
+#endif // _DEBUG
 }
 
 Shotgun::~Shotgun()
@@ -122,7 +124,7 @@ void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
 
-	myShotVolume->SetBoxSize({ 128, myAoeLength });
+	myShotVolume->SetBoxSize({ myAoeLength, myAoeLength });
 
 	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }
