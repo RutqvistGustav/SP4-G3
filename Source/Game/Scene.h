@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include "GameObjectTag.h"
 
 class Camera;
 class GameObject;
@@ -13,6 +14,7 @@ class JsonManager;
 class WeaponFactory;
 class CollisionManager;
 class GlobalServiceProvider;
+class MousePointer;
 
 class Scene
 {
@@ -43,12 +45,14 @@ public:
 
 protected:
 
+	GameObjectTag myTag;
+
 	std::unique_ptr<CollisionManager> myCollisionManager;
+	std::unique_ptr<MousePointer> myMousePointer;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 
 private:
 
 	SceneManagerProxy* mySceneManagerProxy{};
 	GlobalServiceProvider* myGlobalServiceProvider{};
-
 };

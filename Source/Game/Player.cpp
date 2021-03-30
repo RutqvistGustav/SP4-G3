@@ -63,12 +63,8 @@ void Player::Init()
 {
 	GameObject::Init();
 
-	// json
-	nlohmann::json data;
-	std::ifstream file("JSON/Player.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-
+	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Player.json");
+	
 	InitVariables(data);
 
 	myIsOnGround = false;
@@ -91,8 +87,9 @@ void Player::Init()
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
-	Movement(aDeltaTime, anUpdateContext.myInputInterface);
 
+	Movement(aDeltaTime, anUpdateContext.myInputInterface);
+	
 	ImGui();
 
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
@@ -285,6 +282,12 @@ void Player::StopMovement()
 	myVel = CU::Vector2<float>();
 }
 
+void Player::SetControllerActive(const bool aState)
+{
+	myIsControllerActive = aState;
+	myVel = CU::Vector2<float>();
+}
+
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
@@ -361,29 +364,32 @@ void Player::ImGui()
 
 void Player::Movement(const float aDeltaTime, InputInterface* anInput)
 {
-	PlayerInput(anInput);
-	CU::Vector2<float> direction = GetDirection(anInput);
+	if (myIsControllerActive == true)
+	{
+		PlayerInput(anInput);
+		CU::Vector2<float> direction = GetDirection(anInput);
 
-	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
-	{
-		if (myVel.x > 0)
+		if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
 		{
-			BrakeMovement(aDeltaTime);
+			if (myVel.x > 0)
+			{
+				BrakeMovement(aDeltaTime);
+			}
+			else
+			{
+				myVel.x += direction.x * mySpeed * aDeltaTime;
+			}
 		}
-		else
+		if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
 		{
-			myVel.x += direction.x * mySpeed * aDeltaTime;
-		}
-	}
-	if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
-	{
-		if (myVel.x < 0)
-		{
-			BrakeMovement(aDeltaTime);
-		}
-		else
-		{
-			myVel.x += direction.x * mySpeed * aDeltaTime;
+			if (myVel.x < 0)
+			{
+				BrakeMovement(aDeltaTime);
+			}
+			else
+			{
+				myVel.x += direction.x * mySpeed * aDeltaTime;
+			}
 		}
 	}
 

@@ -31,7 +31,6 @@ public:
 	RenderCommand& operator=(RenderCommand&& anOther);
 
 private:
-
 	RenderCommand();
 
 	void Init(const std::shared_ptr<SpriteWrapper> aSprite);

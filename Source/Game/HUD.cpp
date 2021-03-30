@@ -12,7 +12,6 @@ HUD::HUD(Scene* aScene)
 {
 	myHealthBar = std::make_unique<HealthBar>(aScene);
 	myAmmoCounter = std::make_unique<AmmoCounter>(aScene);
-	myHookIcon = std::make_unique<UIHook>(aScene);
 
 	//CollisionManager::GetInstance()->RemoveCollider(myCollider);
 	aScene->GetCollisionManager()->RemoveCollider(myCollider);
@@ -23,21 +22,18 @@ void HUD::Init()
 {
 	myHealthBar->Init();
 	myAmmoCounter->Init();
-	myHookIcon->Init();
 }
 
 void HUD::Update(CU::Vector2<float> aPlayerPosition)
 {
 	myHealthBar->Update(aPlayerPosition);
 	myAmmoCounter->Update(aPlayerPosition);
-	myHookIcon->Update(aPlayerPosition);
 }
 
 void HUD::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	myHealthBar->Render(aRenderQueue, aRenderContext);
 	myAmmoCounter->Render(aRenderQueue, aRenderContext);
-	myHookIcon->Render(aRenderQueue, aRenderContext);
 }
 
 void HUD::OnCollision(GameObject*)
@@ -53,9 +49,4 @@ HealthBar* HUD::GetHealthBar()
 AmmoCounter* HUD::GetAmmoCounter()
 {
 	return myAmmoCounter.get();
-}
-
-UIHook* HUD::GetHookIcon()
-{
-	return myHookIcon.get();
 }

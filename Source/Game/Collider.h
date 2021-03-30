@@ -35,6 +35,8 @@ public:
 
 	void SetRadius(const float aRadius);//will be moved to a CircleCollider
 	const float GetRadius()const;//will be moved to a CircleCollider
+	void SetBoxSize(const CU::Vector2<float> aSize);
+	CU::Vector2<float> GetBoxSize();
 	const CU::Vector2<float> GetPosition()const;
 	const float GetWidth()const;
 	const float GetHight()const;

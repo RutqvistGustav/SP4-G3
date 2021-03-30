@@ -73,6 +73,12 @@
     <Filter Include="Core\Cutscenes">
       <UniqueIdentifier>{d35acc25-a181-4087-9d9b-543de1110fcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Menus">
+      <UniqueIdentifier>{1cdad5b7-0816-4362-a268-45f335235d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Mouse">
+      <UniqueIdentifier>{fcfce76a-d045-4e25-bc19-0fa7a843978a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Wrappers">
       <UniqueIdentifier>{dd873bad-18e7-4735-b554-2549b0e08d0e}</UniqueIdentifier>
     </Filter>
@@ -93,6 +99,12 @@
     </Filter>
     <Filter Include="GameObjects\Interactables">
       <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\MenuHUD">
+      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Foreground">
+      <UniqueIdentifier>{d108a769-d67b-4098-b70c-deaa93967e28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -354,6 +366,21 @@
     <ClInclude Include="Health.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
+    <ClInclude Include="LevelSelect.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>GameObjects\MenuHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePointer.h">
+      <Filter>GameObjects\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="CoordinateHelper.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
     <ClInclude Include="TextWrapper.h">
       <Filter>Core\Wrappers</Filter>
     </ClInclude>
@@ -386,6 +413,18 @@
     </ClInclude>
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>GameObjects\MenuHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Foreground.h">
+      <Filter>Core\Foreground</Filter>
+    </ClInclude>
+    <ClInclude Include="ForegroundImage.h">
+      <Filter>Core\Foreground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -554,6 +593,21 @@
     <ClCompile Include="Health.cpp">
       <Filter>Core\Components</Filter>
     </ClCompile>
+    <ClCompile Include="LevelSelect.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>GameObjects\MenuHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePointer.cpp">
+      <Filter>GameObjects\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="CoordinateHelper.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
     <ClCompile Include="TextWrapper.cpp">
       <Filter>Core\Wrappers</Filter>
     </ClCompile>
@@ -571,6 +625,18 @@
     </ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GameObjects\MenuHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Foreground.cpp">
+      <Filter>Core\Foreground</Filter>
+    </ClCompile>
+    <ClCompile Include="ForegroundImage.cpp">
+      <Filter>Core\Foreground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

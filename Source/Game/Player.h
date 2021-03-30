@@ -41,6 +41,8 @@ public:
 
     void StopMovement();
 
+    void SetControllerActive(const bool aState);
+
     //Health Management
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);
@@ -70,6 +72,7 @@ private:
     std::unique_ptr<HUD> myHUD;
 
     // Movement
+    bool myIsControllerActive = true;
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
     bool myIsOnGround = false;

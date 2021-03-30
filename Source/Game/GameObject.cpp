@@ -3,9 +3,6 @@
 
 #include "Collider.h"
 #include "CollisionManager.h"
-#include "Scene.h"
-
-#include "Scene.h"
 
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
@@ -20,7 +17,6 @@ GameObject::GameObject(Scene* aScene, GameObjectTag aTag, const char* aSpritePat
 	myTag(aTag)
 {
 	myCollider = std::make_shared<Collider>();
-
 	mySprite = std::make_shared<SpriteWrapper>(aSpritePath);
 }
 
