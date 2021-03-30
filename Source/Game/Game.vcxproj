@@ -269,7 +269,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
-    <ClCompile Include="ForegroundImage.cpp" />
     <ClCompile Include="EntityPhysicsController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />

@@ -15,7 +15,6 @@ public:
     virtual void Init() override;
     virtual void Update();
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext) override;
-    //void SetPosition(const CU::Vector2<float> aPosition);
     void SetColliderSize(const CU::Vector2<float> aSize);
     
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
@@ -24,7 +23,6 @@ private:
 
     virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
     virtual void OnExit(const CollisionInfo& someCollisionInfo) override;
-    void SetPosition(const CU::Vector2<float> aPosition);
 
 private:
 
