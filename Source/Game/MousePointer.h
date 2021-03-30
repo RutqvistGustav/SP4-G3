@@ -24,9 +24,7 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	bool GetLMBDown();
-	bool GetButtonClicked();
-	void SetButtonClicked(bool aBool);
-	CU::Vector2<float> GetPointerPos();
+	bool ButtonClicked();
 	GameObjectTag ClickedButton() const;
 
 private:

@@ -24,6 +24,7 @@ private:
 
     virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
     virtual void OnExit(const CollisionInfo& someCollisionInfo) override;
+    void SetPosition(const CU::Vector2<float> aPosition);
 
 private:
 
