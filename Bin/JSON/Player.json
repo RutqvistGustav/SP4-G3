@@ -8,7 +8,7 @@
   "GravityStrength": 3200.0,
 
   "JumpCharges": 2,
-  "JumpStrength": 975.0,
+  "JumpStrength": 1000.0,
 
   "Health" : 10,
   "Invincibility" : 1.0
