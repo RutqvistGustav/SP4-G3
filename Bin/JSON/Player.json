@@ -1,20 +1,6 @@
 {
-  "SpritePath" :  "Sprites/Player/Player.dds",
-  
-  "MovementSpeed": 1250.0,
-  "MaxSpeedCap": 1000.0,
-  "BrakeStrength": 0.000001,
+  "SpritePath" :  "Animations/Player.json",
 
-<<<<<<< HEAD
-  "StopAtVelocity": 100.0,
-  "GravityStrength": 2000.0,
-  "PullSpeed": 5000.0,
-  "StopAtOffSet" : 950.0,
-
-  "JumpCharges": 2,
-  "JumpStrength": 6000.0,
-  "JumpDuration": 0.1,
-=======
   "MovementSpeed": 5000.0,
   "MaxSpeedCap": 300.0,
   "BrakeStrength": 0.001,
@@ -23,7 +9,6 @@
 
   "JumpCharges": 2,
   "JumpStrength": 600.0,
->>>>>>> master
 
   "Health" : 10,
   "Invincibility" : 1.0

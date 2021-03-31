@@ -1,0 +1,20 @@
+{
+    "states": {
+        "default": {
+            "fps": 16,
+            "texture": "Sprites/Player/animations/otIdle_anim.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 128,
+            "frameHeight": 180,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 23
+        }
+    }
+}
