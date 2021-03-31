@@ -98,7 +98,11 @@ void EntityPhysicsController::BuildCollisionEdges()
 
 std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMiddle, const Vec2f& aDirection, int aPointCount)
 {
-	assert((aPointCount % 2) != 0 && "aPointCount must not be even!");
+	int usedPointCount = aPointCount;
+	if ((usedPointCount % 2) == 0)
+	{
+		++usedPointCount;
+	}
 
 	const AABB entityAABB = GetAABB();
 	std::vector<Vec2f> result;
@@ -106,10 +110,10 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMi
 	constexpr float undershoot = 3.0f;
 
 	const Vec2f size = Vec2f((entityAABB.GetSize().x - undershoot) * aDirection.x, (entityAABB.GetSize().y - undershoot) * aDirection.y);
-	const Vec2f step = Vec2f(size.x / (aPointCount - 1), size.y / (aPointCount - 1));
+	const Vec2f step = Vec2f(size.x / (usedPointCount - 1), size.y / (usedPointCount - 1));
 
-	Vec2f startPosition = aMiddle - step * static_cast<float>(aPointCount / 2);
-	for (int i = 0; i < aPointCount; ++i)
+	Vec2f startPosition = aMiddle - step * static_cast<float>(usedPointCount / 2);
+	for (int i = 0; i < usedPointCount; ++i)
 	{
 		result.push_back(startPosition + step * static_cast<float>(i));
 	}

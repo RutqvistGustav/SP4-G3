@@ -14,6 +14,7 @@
 
 class PlayerWeaponController;
 class SpriteWrapper;
+class SpriteSheetAnimation;
 class HUD;
 class Health;
 
@@ -43,6 +44,9 @@ public:
 
     void StopMovement();
 
+   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+
+
     void SetControllerActive(const bool aState);
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
@@ -67,6 +71,8 @@ private:
 private:
 
     EntityPhysicsController myPhysicsController;
+
+    std::unique_ptr<SpriteSheetAnimation> myAnimator;
 
     Camera* myCamera;
     float myCameraFollowSpeed;
