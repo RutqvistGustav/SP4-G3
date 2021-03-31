@@ -21,8 +21,7 @@ Zombie::~Zombie()
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	// TODO: Jump when near walls
-	//		 Climb on eachother?
+	// TODO: Change Direction Near Walls
 	if (myTarget != nullptr)
 	{
 		if (CheckIdle())
