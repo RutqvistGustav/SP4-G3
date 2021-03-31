@@ -4,7 +4,7 @@
 // TODO: REMOVE
 #include <iostream>
 
-void Key::OnCollect(Player* aPlayer)
+void Key::OnCollect(Player* /*aPlayer*/)
 {
 	std::cout << "Key collected by player!" << std::endl;
 }
