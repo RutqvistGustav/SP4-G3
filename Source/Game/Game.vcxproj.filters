@@ -427,6 +427,7 @@
     </ClInclude>
     <ClInclude Include="CollectibleManager.h">
       <Filter>Core\Managers</Filter>
+      </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
