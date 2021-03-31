@@ -10,6 +10,11 @@ TriggerVolume::TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter
 	myFilter(aFilter)
 {}
 
+void TriggerVolume::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+{
+	// NOTE: Do not render anything for a TriggerVolume
+}
+
 void TriggerVolume::SetTriggerSize(const CU::Vector2<float>& aSize)
 {
 	myCollider->SetBoxSize(aSize);
@@ -20,13 +25,13 @@ const CU::Vector2<float>& TriggerVolume::GetTriggerSize() const
 	return myCollider->GetBoxSize();
 }
 
-void TriggerVolume::TriggerEnter(GameObject* aGameObject)
+void TriggerVolume::TriggerEnter(GameObject* /*aGameObject*/)
 {}
 
-void TriggerVolume::TriggerStay(GameObject* aGameObject)
+void TriggerVolume::TriggerStay(GameObject* /*aGameObject*/)
 {}
 
-void TriggerVolume::TriggerExit(GameObject* aGameObject)
+void TriggerVolume::TriggerExit(GameObject* /*aGameObject*/)
 {}
 
 void TriggerVolume::OnEnter(const CollisionInfo& someCollisionInfo)
