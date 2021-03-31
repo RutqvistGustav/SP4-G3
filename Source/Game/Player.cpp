@@ -74,16 +74,20 @@ void Player::Init()
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
-	CU::Vector2<float> startPosition(950.0f, 540.0f);
-	mySprite->SetPosition(startPosition);
 	myAnimator->ApplyToSprite(mySprite);
 
 	myHUD->Init();
 	myWeaponController->Init();
 
-	myCollider->SetBoxSize(mySprite->GetSize());
-	myPhysicsController.Init(GetScene(), mySprite->GetSize());
+	CU::Vector2<float> colliderSize = mySprite->GetSize();
+	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
+	if (myColliderHeight > 0.0f) colliderSize.y = myColliderHeight;
+
+	myCollider->SetBoxSize(colliderSize);
+	myPhysicsController.Init(GetScene(), colliderSize);
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
+
+	SetPosition(GetPosition());
 
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -106,7 +110,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 #endif // _DEBUG
 
 	myPhysicsController.Update(aDeltaTime);
-	GameObject::SetPosition(myPhysicsController.GetPosition());
+	SetPosition(myPhysicsController.GetPosition() - myColliderShift);
 
 #ifdef _DEBUG
 
@@ -160,6 +164,11 @@ void Player::InitVariables(nlohmann::json someData)
 	//Health
 	myHealth = std::make_unique<Health>(someData.at("Health"));
 	myHealth->SetInvincibilityTimer(someData.at("Invincibility"));
+
+	myColliderWidth = someData.value("ColliderWidth", -1.0f);
+	myColliderHeight = someData.value("ColliderHeight", -1.0f);
+
+	myColliderShift = { 40.0f, 50.0f };
 }
 
 void Player::StopMovement()
@@ -178,7 +187,9 @@ void Player::OnStay(const CollisionInfo& someCollisionInfo)
 void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
-	myPhysicsController.SetPosition(aPosition);
+
+	myCollider->SetPosition(aPosition + myColliderShift);
+	myPhysicsController.SetPosition(aPosition + myColliderShift);
 }
 
 void Player::SetControllerActive(const bool aState)

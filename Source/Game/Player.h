@@ -80,6 +80,11 @@ private:
     std::unique_ptr<PlayerWeaponController> myWeaponController;
     std::unique_ptr<HUD> myHUD;
 
+    // JSON
+    CU::Vector2<float> myColliderShift;
+    float myColliderWidth{};
+    float myColliderHeight{};
+
     // Movement
     bool myIsControllerActive = true;
     bool myIsMovingLeft = false;
