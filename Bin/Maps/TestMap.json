@@ -101,17 +101,6 @@
                 }, 
                 {
                  "height":128,
-                 "id":7,
-                 "name":"",
-                 "rotation":0,
-                 "type":"Dialog",
-                 "visible":true,
-                 "width":64,
-                 "x":512,
-                 "y":11200
-                }, 
-                {
-                 "height":128,
                  "id":8,
                  "name":"",
                  "rotation":0,
