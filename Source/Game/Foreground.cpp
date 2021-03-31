@@ -13,9 +13,13 @@ void Foreground::Init()
 	CreateForeground();
 }
 
-void Foreground::Update(const float aDeltaTime)
+void Foreground::Update(const float aDeltaTime, CU::Vector2<float> aPlayerPos, const float aSpeed)
 {
-	MoveForeground(aDeltaTime);
+	myPlayerPos = CU::Vector2<int>(static_cast<int>(aPlayerPos.x), static_cast<int>(aPlayerPos.y));
+	
+	MoveForeground(aDeltaTime, aSpeed);
+
+	myLastPlayerPos = CU::Vector2<int>(static_cast<int>(aPlayerPos.x), static_cast<int>(aPlayerPos.y));
 }
 
 void Foreground::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -43,12 +47,13 @@ void Foreground::CreateForeground()
 	myForegrounds.push_back(myForeground4);
 }
 
-void Foreground::MoveForeground(const float aDeltaTime)
+void Foreground::MoveForeground(const float aDeltaTime, const float aSpeed)
 {
 	for (auto& f : myForegrounds)
 	{
-		MoveX(f, aDeltaTime);
-		MoveY(f, aDeltaTime);	
+		FollowPlayer(f, aDeltaTime, aSpeed);
+		//MoveX(f, aDeltaTime);
+		//MoveY(f, aDeltaTime);	
 	}
 }
 
@@ -106,4 +111,33 @@ void Foreground::MoveY(std::shared_ptr<ForegroundImage> aImage, float aDeltaTime
 			aImage->SetMoveUp(true);
 		}
 	}
+
+	aImage->SetPosition(CU::Vector2(aImage->GetPosition().x, newY));
+}
+
+void Foreground::FollowPlayer(std::shared_ptr<ForegroundImage> aImage, const float aDeltaTime, const float aSpeed)
+{
+	CU::Vector2<float> newPos = aImage->GetPosition();
+	float foregroundSpeed = aSpeed * 0.2;
+
+	if (myPlayerPos.y < myLastPlayerPos.y)
+	{
+	    newPos.y += foregroundSpeed * aDeltaTime;
+	}
+	if (myPlayerPos.y > myLastPlayerPos.y)
+	{
+		newPos.y -= aImage->GetPosition().y - foregroundSpeed * aDeltaTime;
+	}
+
+	if (myPlayerPos.x < myLastPlayerPos.x)
+	{
+		newPos.x += aImage->GetPosition().x + foregroundSpeed * aDeltaTime;
+	}
+	if (myPlayerPos.x > myLastPlayerPos.x)
+	{
+		newPos.x -= aImage->GetPosition().x - foregroundSpeed * aDeltaTime;
+	}
+
+	CU::Vector2<float> pos = CU::Vector2<float>(static_cast<float>(newPos.x), static_cast<float>(newPos.y));
+	aImage->SetPosition(pos);
 }

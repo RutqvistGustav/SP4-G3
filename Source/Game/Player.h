@@ -43,6 +43,8 @@ public:
 
     void SetControllerActive(const bool aState);
 
+    float GetSpeed();
+
     //Health Management
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);

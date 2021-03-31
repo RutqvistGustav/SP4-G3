@@ -31,6 +31,13 @@
 #include "CheckpointContext.h"
 #include "Foreground.h"
 
+
+GameScene::GameScene(const char* aMapPath)
+{
+	// TODO: Load different file based on which level we are on
+	myTiledParser = std::make_unique<TiledParser>(aMapPath);
+}
+
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
 
@@ -40,8 +47,7 @@ void GameScene::Init()
 
 	myTag = GameObjectTag::Level_1;
 
-	// TODO: Load different file based on which level we are on
-	myTiledParser = std::make_unique<TiledParser>("Maps/TestMap.json");
+
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
@@ -69,10 +75,10 @@ void GameScene::Init()
 
 	myTiledEntities->SpawnEntities();
 
-	myForeground = std::make_unique<Foreground>();
-	myForeground->Init();
-	myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/background01.dds");
-	myBackground->SetPosition(CU::Vector2(Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y * 0.5f));
+	//myForeground = std::make_unique<Foreground>();
+	//myForeground->Init();
+	//myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/background01.dds");
+	//myBackground->SetPosition(CU::Vector2(Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y * 0.5f));
 
 	//myDialogueBox = std::make_shared<DialogueBox>(this); // temp
 	//myDialogueBox->Init(myTag, "PlayerTest1");
@@ -90,7 +96,7 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myForeground->Update(aDeltaTime);
+	//myForeground->Update(aDeltaTime, myPlayer->GetPosition(), myPlayer->GetSpeed());
 
 	Scene::Update(aDeltaTime, anUpdateContext);
 	myPlayer->Update(aDeltaTime, anUpdateContext);
@@ -119,7 +125,7 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
 	myMinimap->Render(aRenderQueue);
-	myForeground->Render(aRenderQueue, aRenderContext);
+	//myForeground->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);

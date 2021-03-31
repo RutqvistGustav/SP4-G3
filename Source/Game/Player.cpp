@@ -288,6 +288,11 @@ void Player::SetControllerActive(const bool aState)
 	myVel = CU::Vector2<float>();
 }
 
+float Player::GetSpeed()
+{
+	return mySpeed;
+}
+
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);

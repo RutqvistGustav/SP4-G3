@@ -25,6 +25,14 @@ private:
 	float myY{};
 
 	std::unique_ptr<MenuButton> myLevel1;
+	std::unique_ptr<MenuButton> myLevel2;
+	std::unique_ptr<MenuButton> myLevel3;
+	std::unique_ptr<MenuButton> myLevel4;
+	std::unique_ptr<MenuButton> myLevel5;
+	std::unique_ptr<MenuButton> myLevel6;
+	std::unique_ptr<MenuButton> myLevel7;
+	std::unique_ptr<MenuButton> myLevel8;
+	std::unique_ptr<MenuButton> myLevel9;
 	std::unique_ptr<MenuButton> myBackButton;
 	
 	std::unique_ptr<TiledParser> myTiledParser;

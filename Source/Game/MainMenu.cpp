@@ -54,7 +54,7 @@ void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		{
 		case GameObjectTag::StartButton:
 		{
-			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/TestMap.json"));
 			break;
 		}
 		case GameObjectTag::SettingsButton:

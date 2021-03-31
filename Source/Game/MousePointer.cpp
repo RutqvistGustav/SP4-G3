@@ -36,19 +36,7 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//float x = Metrics::GetReferenceSize().x;
-	//float y = Metrics::GetReferenceSize().y;
-	//const float offSet = 1.5f;
-
-	//if (myMousePointerPos.x <= offSet || myMousePointerPos.x >= x - offSet ||
-	//	myMousePointerPos.y <= offSet || myMousePointerPos.y >= y - offSet)
-	//{
-	//	return;
-	//}
-
-	//RenderCommand renderCommand = RenderCommand(mySprite);
-	//aRenderQueue->Queue(renderCommand);
-	myCollider->RenderDebug(aRenderQueue, aRenderContext);
+	//myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MousePointer::OnCollision(GameObject* aGameObject)

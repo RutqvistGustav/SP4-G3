@@ -25,6 +25,7 @@ class GameScene : public Scene
 public:
 
 	GameScene();
+	GameScene(const char* aMapPath);
 	virtual ~GameScene() override;
 
 	virtual void Init() override;
