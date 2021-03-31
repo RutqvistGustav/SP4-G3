@@ -44,10 +44,6 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
-void HealthBar::OnCollision(GameObject*)
-{
-}
-
 void HealthBar::RemoveHP()
 {
 	// decrease size of hp bar.

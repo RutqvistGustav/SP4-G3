@@ -29,7 +29,7 @@ void Slider::Init()
 	SetVolumePos();
 	mySprite->SetPosition(myPosition);
 
-	myCollider->Init(this, myPosition, 40.f);
+	//myCollider->Init(this, myPosition, 40.f);
 	myCollider->SetBoxSize(CU::Vector2(mySprite->GetSize().x, mySprite->GetSize().y));
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
@@ -71,7 +71,7 @@ void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
 
 	if (myCollider.get() != nullptr)
 	{
-		myCollider->SetPos(myPosition);
+		myCollider->SetPosition(myPosition);
 	}
 }
 
@@ -109,7 +109,7 @@ void Slider::PressedMove(float aPosX)
 	if (aPosX >= myLeftBoundry && aPosX <= myRightBoundry)
 	{
 		mySprite->SetPosition(CU::Vector2(aPosX, myPosition.y));
-		myCollider->SetPos(CU::Vector2(aPosX, myPosition.y));
+		myCollider->SetPosition(CU::Vector2(aPosX, myPosition.y));
 	}
 }
 

@@ -9,7 +9,6 @@ class Player;
 class SpriteWrapper;
 class Enemy;
 class EnemyManager;
-class Foreground;
 
 class TiledParser;
 class TiledRenderer;
@@ -45,15 +44,10 @@ private:
 
 	std::unique_ptr<EnemyManager> myEnemyManager;
 
-	std::unique_ptr<Foreground> myForeground;
-	std::shared_ptr<SpriteWrapper> myBackground;
-
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;
 	std::unique_ptr<TiledCollision> myTiledCollision;
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
 	std::unique_ptr<Minimap> myMinimap;
-
-	std::shared_ptr<DialogueBox> myDialogueBox;
 };

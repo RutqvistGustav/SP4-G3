@@ -32,16 +32,5 @@ enum class GameObjectTag
 	Level9Button,
 	ArrowLeftButton,
 	ArrowRightButton,
-	QuitButton,
-
-	//Sliders
-	MasterSlider,
-	SfxSlider,
-	MusicSlider,
-
-	// Level tags
-	Level_1,
-	Level_2,
-	Level_3,
-	Level_4
+	QuitButton
 };
