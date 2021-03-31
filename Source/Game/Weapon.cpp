@@ -13,6 +13,10 @@ void Weapon::Init(const JsonData& someJsonData)
 {
 	Init();
 
+	// NOTE: TODO: Ugly hack for now
+	myScene->GetCollisionManager()->RemoveCollider(myCollider);
+	myCollider.reset();
+
 	LoadJson(someJsonData);
 	Setup();
 }

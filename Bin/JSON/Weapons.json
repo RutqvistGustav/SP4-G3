@@ -4,7 +4,7 @@
 
     "ammoPerClip": 2,
 
-    "reloadDuration": 0.3,
+    "reloadDuration": 1,
 
     "damage": 10,
 
@@ -13,7 +13,7 @@
 
     "recoilKnockbackStrength": 1000.0,
 
-    "boostKnockbackStrength": 1000.0,
+    "boostKnockbackStrength": 900.0,
 
     "Berserk": {
       "Duration": 10.0,

@@ -3,14 +3,19 @@
 
 #include "CheckpointMessage.h"
 
+#include "CollisionListener.h"
+
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
 #include <memory>
 #include "PowerUpType.h"
 
+#include "EntityPhysicsController.h"
+
 class PlayerWeaponController;
 class SpriteWrapper;
+class SpriteSheetAnimation;
 class HUD;
 class Health;
 
@@ -24,7 +29,8 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage
+    public CheckpointMessage,
+    public CollisionListener
 {
 public:
     
@@ -37,14 +43,15 @@ public:
 
     void ApplyForce(const CU::Vector2<float>& aForce);
 
-    void OnCollision(GameObject*) override;
-    void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
-
     void StopMovement();
+
+   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+
 
     void SetControllerActive(const bool aState);
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();
+    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
     //Health Management
     void TakeDamage(const int aDamage);
@@ -54,25 +61,45 @@ protected:
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
 private:
+
+    enum class PlayerState
+    {
+        None,
+
+        Idle,
+        Running,
+    };
+
     // Movement
-    void Movement(const float aDeltaTime, InputInterface* anInput);
-    void BrakeMovement(const float aDeltaTime);
-    void Jump(const float aDeltaTime);
+    void Move(const float aDeltaTime, InputInterface* anInput);
 
     // Tools
     CU::Vector2<float> GetDirection(InputInterface* anInput);
+
     void InitVariables(nlohmann::json someData);
-    void PlayerInput(InputInterface* anInput);
     void ImGui();
 
-
+    void SetState(PlayerState aState);
 
 private:
+
+    EntityPhysicsController myPhysicsController;
+    CU::Vector2<float> myMovementVelocity;
+    float myDirection;
+    std::unique_ptr<SpriteSheetAnimation> myAnimator;
+
+    PlayerState myState{ PlayerState::None };
+
     Camera* myCamera;
     float myCameraFollowSpeed;
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
     std::unique_ptr<HUD> myHUD;
+
+    // JSON
+    CU::Vector2<float> mySpriteShift;
+    float myColliderWidth{};
+    float myColliderHeight{};
 
     // Movement
     bool myIsControllerActive = true;
@@ -80,26 +107,19 @@ private:
     bool myIsMovingRight = false;
     bool myIsOnGround = false;
 
-    float mySpeed{};
-    float myMaxSpeed{};
-    float myStopAtVelocity{};
-    double myReduceMovementSpeed{};
-    CU::Vector2<float> myVel;
+    float mySpeed;
+    float myMaxSpeed;
+    float myStopAtVelocity;
+    float myReduceMovementSpeed;
 
     float myBerserkSpeed{};
     float myGravity{};
 
     // Jump
-    bool myIsJumping = false;
-    bool myHasRemovedNegativeVel = false;
-    bool myGravityActive = true;
+    int myJumpCharges;
+    int myJumpChargeReset;
 
-    int myJumpCharges{};
-    int myJumpChargeReset{};
-
-    float myJumpStrength{};
-    float myJumpDuration{};
-    float myJumpDurationReset{};
+    float myJumpStrength;
 
     std::unique_ptr<Health> myHealth;
 };

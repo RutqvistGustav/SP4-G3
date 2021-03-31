@@ -2,12 +2,19 @@
 #include "TiledEntities.h"
 
 #include "TiledParser.h"
-#include "GameMessenger.h"
-#include "EnemyMessage.h"
-#include "GlobalServiceProvider.h"
+
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "JsonManager.h"
+
+#include "EnemyMessage.h"
 
 #include "DialogueBox.h"
+
+#include "GoalZone.h"
+
+#include "DamageVolume.h"
 
 #include <cassert>
 
@@ -71,13 +78,39 @@ void TiledEntities::SpawnEntities()
 
 			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 		}
-		
-		if (type == "DialogBox")
+		else if (type == "DialogBox")
 		{
 			std::shared_ptr<DialogueBox> textbox = std::make_shared<DialogueBox>(myScene);
 			textbox->Init(entity.GetProperty("DialogID"));
 			textbox->SetPosition(entity.GetPosition());
 			myScene->AddGameObject(textbox);
 		}
+		else if (type == "Goal")
+		{
+			std::shared_ptr<GoalZone> goalZone = std::make_shared<GoalZone>(myScene);
+			goalZone->Init();
+			goalZone->SetPosition(entity.GetPosition());
+			goalZone->SetTriggerSize(entity.GetSize());
+
+			myScene->AddGameObject(goalZone);
+		}
+		else if (type == "Hazard")
+		{
+			const std::string subType = entity.HasProperty("SubType") ? entity.GetProperty("SubType") : "Default";
+			const JsonData& data = GetEntityData(type)[subType];
+
+			std::shared_ptr<DamageVolume> damageVolume = std::make_shared<DamageVolume>(myScene);
+			damageVolume->InitWithJson(data);
+
+			damageVolume->SetPosition(entity.GetPosition());
+			damageVolume->SetTriggerSize(entity.GetSize());
+
+			myScene->AddGameObject(damageVolume);
+		}
 	}
+}
+
+const JsonData& TiledEntities::GetEntityData(const std::string& aType)
+{
+	return myScene->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json")[aType];
 }

@@ -34,7 +34,7 @@ void DialogueBox::Init(std::string anID)
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ 500.0f,500.0f });
 
-	SetTriggerRadius(50.0f);
+	//SetTriggerRadius(50.0f);
 }
 
 void DialogueBox::OnInteract(Player* aPlayer)

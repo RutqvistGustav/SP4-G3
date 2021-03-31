@@ -4,6 +4,13 @@
 #include "Health.h"
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
+
+#include "Player.h"
+
+#include "CollisionInfo.h"
+
+#include "SpriteWrapper.h"
+
 #include <nlohmann/json.hpp>
 
 
@@ -12,16 +19,27 @@ Enemy::Enemy(Scene* aScene, const char* aSpritePath)
 {
 }
 
-Enemy::~Enemy()
-{
-}
+Enemy::~Enemy() = default;
 
 void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	if (myKnockbackTimer > 0.0f)
+	{
+		myKnockbackTimer -= aDeltaTime;
+	}
+
+	myPhysicsController.Update(aDeltaTime);
+	GameObject::SetPosition(myPhysicsController.GetPosition());
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	GameObject::Render(aRenderQueue, aRenderContext);
+}
+
+void Enemy::ApplyForce(const CU::Vector2<float>& aForce)
+{
+	myPhysicsController.ApplyForce(aForce);
 }
 
 const int Enemy::DealDamage()
@@ -35,7 +53,7 @@ void Enemy::TakeDamage(const int aDamage)
 	myDeleteThisFrame = myHealth->IsDead();
 }
 
-void Enemy::InitEnemyJsonValues(std::string& aJsonPath)
+void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 {
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
 	nlohmann::json zombieData = data.at(aJsonPath);
@@ -46,6 +64,9 @@ void Enemy::InitEnemyJsonValues(std::string& aJsonPath)
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
+
+	myPhysicsController.Init(GetScene(), mySprite->GetSize());
+	myPhysicsController.SetGravity({ 0.0f, 1000.0f }); // TODO: Read from JSON
 }
 
 PowerUpType Enemy::GetLootType()
@@ -63,5 +84,31 @@ void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
 	if (aTarget != nullptr)
 	{
 		myTarget = aTarget;
+	}
+}
+
+void Enemy::SetPosition(const CU::Vector2<float> aPosition)
+{
+	GameObject::SetPosition(aPosition);
+	myPhysicsController.SetPosition(aPosition);
+}
+
+void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		Player* player = static_cast<Player*>(gameObject);
+
+		player->TakeDamage(myDamage);
+
+		if (myKnockbackTimer <= 0.0f)
+		{
+			CU::Vector2<float> direction = player->GetPosition() - GetPosition();
+			player->ApplyForce(direction.GetNormalized() * myKnockback);
+
+			myKnockbackTimer = 0.1f;
+		}
 	}
 }
