@@ -11,7 +11,7 @@
         "aoeAngle": 50.0,
         "aoeLength": 300.0,
 
-      "recoilKnockbackStrength": 1500,
+      "recoilKnockbackStrength": 2500,
       
       "boostKnockbackStrength" : 900.0
     }
