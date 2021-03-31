@@ -59,6 +59,14 @@ protected:
 
 private:
 
+    enum class PlayerState
+    {
+        None,
+
+        Idle,
+        Running,
+    };
+
     // Movement
     void Move(const float aDeltaTime, InputInterface* anInput);
 
@@ -68,12 +76,16 @@ private:
     void InitVariables(nlohmann::json someData);
     void ImGui();
 
+    void SetState(PlayerState aState);
+
 private:
 
     EntityPhysicsController myPhysicsController;
     CU::Vector2<float> myMovementVelocity;
     float myDirection;
     std::unique_ptr<SpriteSheetAnimation> myAnimator;
+
+    PlayerState myState{ PlayerState::None };
 
     Camera* myCamera;
     float myCameraFollowSpeed;

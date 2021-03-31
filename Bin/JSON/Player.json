@@ -14,5 +14,5 @@
   "Invincibility" : 1.0,
 
   "ColliderWidth": 55,
-  "ColliderShiftX": -35
+  "ColliderShiftX": 35
 }

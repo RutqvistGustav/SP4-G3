@@ -71,15 +71,16 @@ void Player::Init()
 	myDirection = 1.0f;
 
 	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
-	myAnimator->SetState("default");
 	myAnimator->SetIsLooping(true);
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
-	myAnimator->ApplyToSprite(mySprite);
 
 	myHUD->Init();
 	myWeaponController->Init();
+
+	SetPosition(GetPosition());
+	SetState(PlayerState::Idle);
 
 	CU::Vector2<float> colliderSize = mySprite->GetSize();
 	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
@@ -88,8 +89,6 @@ void Player::Init()
 	myCollider->SetBoxSize(colliderSize);
 	myPhysicsController.Init(GetScene(), colliderSize);
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
-
-	SetPosition(GetPosition());
 
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -268,6 +267,33 @@ void Player::ImGui()
 	ImGui::Text("You are gonna have to do that yourself :D.");
 
 	ImGui::End();
+}
+
+void Player::SetState(PlayerState aState)
+{
+	if (myState == aState)
+	{
+		return;
+	}
+
+	switch (aState)
+	{
+	case PlayerState::Idle:
+		myAnimator->SetState("idle");
+		break;
+
+	case PlayerState::Running:
+		myAnimator->SetState("running");
+		break;
+
+	default:
+		assert(false && "Invalid player state!");
+		break;
+	}
+
+	myAnimator->ApplyToSprite(mySprite);
+
+	myState = aState;
 }
 
 void Player::Move(const float aDeltaTime, InputInterface* anInput)
