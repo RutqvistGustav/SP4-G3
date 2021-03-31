@@ -86,6 +86,12 @@
                  "height":124.242424242424,
                  "id":5,
                  "name":"",
+                 "properties":[
+                        {
+                         "name":"SubType",
+                         "type":"string",
+                         "value":"Zombie"
+                        }],
                  "rotation":0,
                  "type":"Enemy",
                  "visible":true,

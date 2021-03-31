@@ -273,46 +273,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 		myJumpCharges = myJumpChargeReset;
 	}
 
-<<<<<<< HEAD
-	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
-	//{
-	//	myVel = myVel.GetNormalized() * 64.f;
-	//}
-
-	myPosition += myVel * aDeltaTime;
-	mySprite->SetPosition(myPosition);
-	SetPosition(GetPosition() + myVel * aDeltaTime);
-
-	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
-	std::cout << "Velocity " << myVel.x << std::endl;
-}
-
-void Player::Jump(const float aDeltaTime)
-{
-	if (myIsJumping == true && myJumpCharges >= 0)
-	{
-		myJumpDuration -= aDeltaTime;
-		if (myJumpDuration > 0)
-		{
-			if (myHasRemovedNegativeVel == false)
-			{
-				myVel.y = 0;
-				myHasRemovedNegativeVel = true;
-			}
-
-			myVel.y -= myJumpStrength * aDeltaTime;
-		}
-		else
-		{
-			myGravityActive = true;
-			myIsJumping = false;
-			myJumpDuration = myJumpDurationReset;
-		}
-	}
-	else if (myGravityActive == true)
-=======
 	if (anInput->IsJumping() && myJumpCharges > 0)
->>>>>>> master
 	{
 		velocity.y = -myJumpStrength;
 		--myJumpCharges;
