@@ -76,9 +76,6 @@
     <Filter Include="Scenes\Menus">
       <UniqueIdentifier>{1cdad5b7-0816-4362-a268-45f335235d41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObjects\Buttons">
-      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObjects\Mouse">
       <UniqueIdentifier>{fcfce76a-d045-4e25-bc19-0fa7a843978a}</UniqueIdentifier>
     </Filter>
@@ -103,11 +100,11 @@
     <Filter Include="GameObjects\Interactables">
       <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Collisions">
-      <UniqueIdentifier>{4d5d0048-85a4-478f-8f29-156a05173993}</UniqueIdentifier>
+    <Filter Include="GameObjects\MenuHUD">
+      <UniqueIdentifier>{24841a05-138f-4459-bce7-cc5a2ff3f70a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Collisions\Controllers">
-      <UniqueIdentifier>{0c5893e4-469c-4a49-a92c-9cf71bb8ddb6}</UniqueIdentifier>
+    <Filter Include="Core\Foreground">
+      <UniqueIdentifier>{d108a769-d67b-4098-b70c-deaa93967e28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +318,9 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
     <ClInclude Include="SceneManagerProxy.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
@@ -328,6 +328,9 @@
       <Filter>Core\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>Core\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
     <ClInclude Include="ShakeBehaviour.h">
@@ -369,11 +372,8 @@
     <ClInclude Include="MainMenu.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
-    <ClInclude Include="Options.h">
-      <Filter>Scenes\Menus</Filter>
-    </ClInclude>
     <ClInclude Include="MenuButton.h">
-      <Filter>GameObjects\Buttons</Filter>
+      <Filter>GameObjects\MenuHUD</Filter>
     </ClInclude>
     <ClInclude Include="MousePointer.h">
       <Filter>GameObjects\Mouse</Filter>
@@ -396,7 +396,6 @@
     <ClInclude Include="DynamicTexture.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="TiledEntities.h" />
     <ClInclude Include="EliteZombie.h">
       <Filter>GameObjects\Enemies\EnemyTypes</Filter>
     </ClInclude>
@@ -405,10 +404,6 @@
     </ClInclude>
     <ClInclude Include="InteractableMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseRenderData.h" />
-    <ClInclude Include="DialogueBox.h">
-      <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="TextRenderData.h">
       <Filter>Core\Rendering\Data</Filter>
@@ -419,38 +414,17 @@
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Core\Collisions</Filter>
+    <ClInclude Include="Settings.h">
+      <Filter>Scenes\Menus</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Core\Collisions</Filter>
+    <ClInclude Include="Slider.h">
+      <Filter>GameObjects\MenuHUD</Filter>
     </ClInclude>
-    <ClInclude Include="ContactManager.h">
-      <Filter>Core\Collisions</Filter>
+    <ClInclude Include="Foreground.h">
+      <Filter>Core\Foreground</Filter>
     </ClInclude>
-    <ClInclude Include="Contact.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="ContactKey.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionItem.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityPhysicsController.h">
-      <Filter>Core\Collisions\Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionLayer.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionFilter.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionListener.h">
-      <Filter>Core\Collisions</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionInfo.h">
-      <Filter>Core\Collisions</Filter>
+    <ClInclude Include="ForegroundImage.h">
+      <Filter>Core\Foreground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +545,9 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core\Managers</Filter>
+    </ClCompile>
     <ClCompile Include="SceneManagerProxy.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
@@ -578,6 +555,9 @@
       <Filter>Core\Managers</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
+      <Filter>Core\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
       <Filter>Core\Components</Filter>
     </ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
@@ -619,11 +599,8 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Scenes\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Options.cpp">
-      <Filter>Scenes\Menus</Filter>
-    </ClCompile>
     <ClCompile Include="MenuButton.cpp">
-      <Filter>GameObjects\Buttons</Filter>
+      <Filter>GameObjects\MenuHUD</Filter>
     </ClCompile>
     <ClCompile Include="MousePointer.cpp">
       <Filter>GameObjects\Mouse</Filter>
@@ -646,32 +623,20 @@
     <ClCompile Include="Interactable.cpp">
       <Filter>GameObjects\Interactables</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueBox.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Core\Collisions</Filter>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Core\Collisions</Filter>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GameObjects\MenuHUD</Filter>
     </ClCompile>
-    <ClCompile Include="ContactManager.cpp">
-      <Filter>Core\Collisions</Filter>
+    <ClCompile Include="Foreground.cpp">
+      <Filter>Core\Foreground</Filter>
     </ClCompile>
-    <ClCompile Include="Contact.cpp">
-      <Filter>Core\Collisions</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityPhysicsController.cpp">
-      <Filter>Core\Collisions\Controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionFilter.cpp">
-      <Filter>Core\Collisions</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionListener.cpp">
-      <Filter>Core\Collisions</Filter>
+    <ClCompile Include="ForegroundImage.cpp">
+      <Filter>Core\Foreground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

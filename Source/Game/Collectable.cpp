@@ -29,7 +29,7 @@ void Collectable::InitWithJson(const JsonData& /*someProperties*/)
 	myAnimation->SetIsLooping(true);
 
 	myAnimation->ApplyToSprite(mySprite);
-	SetTriggerSize(mySprite->GetSize());
+	SetTriggerRadius(mySprite->GetSize().x * 0.5f);
 }
 
 void Collectable::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -40,7 +40,7 @@ void Collectable::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myAnimation->ApplyToSprite(mySprite);
 }
 
-void Collectable::TriggerStay(GameObject* aGameObject)
+void Collectable::OnStay(GameObject * aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
 

@@ -3,14 +3,10 @@
 
 #include "CheckpointMessage.h"
 
-#include "CollisionListener.h"
-
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
 #include <memory>
-
-#include "EntityPhysicsController.h"
 
 class PlayerWeaponController;
 class SpriteWrapper;
@@ -27,8 +23,7 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage,
-    public CollisionListener
+    public CheckpointMessage
 {
 public:
     
@@ -41,10 +36,12 @@ public:
 
     void ApplyForce(const CU::Vector2<float>& aForce);
 
+    void OnCollision(GameObject*) override;
+    void OnCollision(TileType aTileType, CU::Vector2<float> anOffset) override;
+
     void StopMovement();
 
     void SetControllerActive(const bool aState);
-    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
     float GetSpeed();
 
@@ -56,20 +53,20 @@ protected:
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
 private:
-
     // Movement
-    void Move(const float aDeltaTime, InputInterface* anInput);
+    void Movement(const float aDeltaTime, InputInterface* anInput);
+    void BrakeMovement(const float aDeltaTime);
+    void Jump(const float aDeltaTime);
 
     // Tools
     CU::Vector2<float> GetDirection(InputInterface* anInput);
-
     void InitVariables(nlohmann::json someData);
+    void PlayerInput(InputInterface* anInput);
     void ImGui();
 
+
+
 private:
-
-    EntityPhysicsController myPhysicsController;
-
     Camera* myCamera;
     float myCameraFollowSpeed;
 
@@ -85,15 +82,22 @@ private:
     float mySpeed;
     float myMaxSpeed;
     float myStopAtVelocity;
-    float myReduceMovementSpeed;
+    double myReduceMovementSpeed;
+    CU::Vector2<float> myVel;
 
     float myGravity;
 
     // Jump
+    bool myIsJumping = false;
+    bool myHasRemovedNegativeVel = false;
+    bool myGravityActive = true;
+
     int myJumpCharges;
     int myJumpChargeReset;
 
     float myJumpStrength;
+    float myJumpDuration;
+    float myJumpDurationReset;
 
     std::unique_ptr<Health> myHealth;
 };

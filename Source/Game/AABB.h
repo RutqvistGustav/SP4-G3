@@ -22,13 +22,6 @@ public:
 		myMax(aMax)
 	{}
 
-	bool Contains(const CU::Vector2<float>& aPoint)
-	{
-		return
-			myMax.x >= aPoint.x && myMin.x <= aPoint.x &&
-			myMax.y >= aPoint.y && myMin.y <= aPoint.y;
-	}
-
 	bool Intersects(const AABB& anOther)
 	{
 		return

@@ -4,8 +4,6 @@
 #include "Vector2.hpp"
 #include "Scene.h"
 
-#include "CollisionListener.h"
-
 #include <memory>
 #include "TileType.h"
 
@@ -23,7 +21,7 @@ class Scene;
 class SpriteWrapper;
 class GlobalServiceProvider;
 
-class GameObject : public CollisionListener
+class GameObject
 {
 public:
 
@@ -36,8 +34,10 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	virtual void SetPosition(const CU::Vector2<float> aPosition);
 	const CU::Vector2<float>& GetPosition() const;
+	void SetPosition(const CU::Vector2<float> aPosition);
+	virtual void OnCollision(GameObject* aGameObject);//TODO:create another OnCollision that uses Tiles
+	virtual void OnCollision(TileType aTileType, CU::Vector2<float> anOffset);
 
 	const Collider* GetCollider()const;
 	void RemoveCollider();
@@ -57,7 +57,7 @@ protected:
 
 protected:
 
-	Scene* myScene{};
+	Scene* myScene;
 	bool myDeleteThisFrame = false;
 
 	GameObjectTag myTag{ GameObjectTag::Default };

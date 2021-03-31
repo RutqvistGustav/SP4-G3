@@ -26,10 +26,10 @@ void DamageVolume::InitWithJson(const JsonData & someProperties)
 	myAnimation->SetIsLooping(true);
 
 	myAnimation->ApplyToSprite(mySprite);
-	SetTriggerSize(mySprite->GetSize());
+	SetTriggerRadius(mySprite->GetSize().x * 0.5f);
 }
 
-void DamageVolume::TriggerStay(GameObject* aGameObject)
+void DamageVolume::OnStay(GameObject* aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
 

@@ -19,9 +19,9 @@ public:
 
 protected:
 
-	using TriggerVolume::GameObject::Init;
+	using TriggerVolume::Init;
 
-	virtual void TriggerStay(GameObject* aGameObject) override;
+	virtual void OnStay(GameObject* aGameObject) override;
 
 	virtual void Damage(Player* aPlayer);
 

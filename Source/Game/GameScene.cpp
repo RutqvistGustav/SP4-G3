@@ -29,6 +29,7 @@
 #include "GameMessenger.h"
 #include "CheckpointMessage.h"
 #include "CheckpointContext.h"
+#include "Foreground.h"
 
 
 GameScene::GameScene(const char* aMapPath)
@@ -46,8 +47,7 @@ void GameScene::Init()
 
 	myTag = GameObjectTag::Level_1;
 
-	// TODO: Load different file based on which level we are on
-	myTiledParser = std::make_unique<TiledParser>("Maps/TestMap.json");
+
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
@@ -56,8 +56,12 @@ void GameScene::Init()
 
 	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
 
-	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
-	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
+	for (size_t i = 0; i < 1; ++i)
+	{
+		AddGameObject(std::make_shared<GameObject>(this));
+		myGameObjects[i]->Init();
+		myGameObjects[i]->SetPosition({ 800.0f * (i + 1) , 1080.0f / 2.0f + 100.f});
+	}
 
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
@@ -112,6 +116,9 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	Scene::Render(aRenderQueue, aRenderContext);
+
+	/*RenderCommand renderCommand = RenderCommand(myBackground);
+	aRenderQueue->Queue(renderCommand);*/
 
 	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);

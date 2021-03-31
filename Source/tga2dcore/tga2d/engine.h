@@ -172,7 +172,8 @@ namespace Tga2D
 		void SetTargetSize(const VECTOR2UI& aResolution);
 		void SetResolution(const VECTOR2UI &aResolution, bool aAlsoSetWindowSize = true);
         void SetFullScreen(bool aFullScreen);
-		
+        void GetFullScreen(BOOL* aBoolean);
+
 		/* Set to null to render to screen */
 		void SetRenderTarget(class CSprite* aSpriteTarget);
 

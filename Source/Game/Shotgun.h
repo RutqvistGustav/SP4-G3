@@ -1,14 +1,12 @@
 #pragma once
 
 #include "Weapon.h"
-#include "CollisionListener.h"
+
 #include <memory>
 
 class Collider;
 
-class Shotgun :
-	public Weapon,
-	public CollisionListener
+class Shotgun : public Weapon
 {
 public:
 
@@ -23,6 +21,8 @@ public:
 
 	virtual void Reload();
 
+	virtual void OnCollision(GameObject* aGameObject) override;
+
 protected:
 
 	virtual void LoadJson(const JsonData& someJsonData) override;
@@ -33,8 +33,6 @@ protected:
 	bool IsReloadingComplete() const;
 	bool IsReloading() const;
 	bool IsLoaded() const;
-
-	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 private:
 

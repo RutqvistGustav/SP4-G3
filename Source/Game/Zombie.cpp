@@ -7,13 +7,17 @@
 #include "Scene.h"
 #include "Health.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
+Zombie::Zombie(Scene* aScene)
 	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
 {
-	InitEnemyJsonValues(aType);
+	std::string type = "Zombie";
+	InitEnemyJsonValues(type);
+	myGravity = 3000.0f;
 }
 
-Zombie::~Zombie() = default;
+Zombie::~Zombie()
+{
+}
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
@@ -29,27 +33,22 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		{
 			Movement(aDeltaTime);
 		}
+		GameObject::Update(aDeltaTime, anUpdateContext);
 	}
-
-	Enemy::Update(aDeltaTime, anUpdateContext);
 }
 
 void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	Enemy::Render(aRenderQueue, aRenderContext);
+	GameObject::Render(aRenderQueue, aRenderContext);
 }
 
 void Zombie::Movement(const float aDeltaTime)
 {
-	const CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
+	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
+	//distance = pow(distance, 0.5f);
+	UpdateGravity(aDeltaTime);
 
-	velocity.x *= std::powf(0.001f, aDeltaTime);
-	velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-
-	myPhysicsController.SetVelocity(velocity);
-
-	/*if (myTarget->GetPosition().x < myPosition.x)
+	if (myTarget->GetPosition().x < myPosition.x && -myMaxSpeed <= myVelocity.x)
 	{
 		if (myVelocity.x > 20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
 		else
@@ -64,19 +63,18 @@ void Zombie::Movement(const float aDeltaTime)
 		{
 			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
 		}
-	}*/
+	}
+
+
+	direction = myPosition;
+	direction += myVelocity * aDeltaTime;
+	SetPosition(direction);
 }
 
 void Zombie::IdleMovement(const float aDeltaTime)
 {
 	//TODO - Change Direction when hitting a wall
-
-	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
-	float direction = velocity.x >= 0.0f ? 1.0f : 0.0f;
-
-	velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
-
-	/*UpdateGravity(aDeltaTime);
+	UpdateGravity(aDeltaTime);
 	if (myVelocity.x > 0.0f)
 	{
 		myVelocity.x = myMaxSpeed * 0.5f;
@@ -87,13 +85,79 @@ void Zombie::IdleMovement(const float aDeltaTime)
 	}
 	CU::Vector2<float> frameMovement = myPosition;
 	frameMovement += myVelocity * aDeltaTime;
-	SetPosition(frameMovement);*/
+	SetPosition(frameMovement);
+}
+
+
+void Zombie::UpdateGravity(const float aDeltaTime)
+{
+	if (myApplyGravity)
+	{
+		myVelocity.y += myGravity * aDeltaTime;
+	}
+	else
+	{
+		myVelocity.y = 0.0f;
+	}
+}
+
+void Zombie::OnCollision(GameObject* aGameObject)
+{
+
+
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+		if (aGameObject->GetTag() == GameObjectTag::Player)
+		{
+			myVelocity = CU::Vector2<float>(0.0f, 0.0f);
+
+			Player* player = static_cast<Player*>(myTarget.get());
+			player->TakeDamage(myDamage);
+			//player->ApplyForce((player->GetPosition() - GetPosition()).GetNormalized() * myKnockback);
+			//TODO - Add DamagePlayer
+		}
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		break;
+	default:
+		break;
+	}
+}
+
+void Zombie::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
+{
+	switch (myCollider->GetCollisionStage())
+	{
+	case Collider::eCollisionStage::FirstFrame:
+	case Collider::eCollisionStage::MiddleFrames:
+
+		myPosition = myPositionLastFrame - anOffset * 0.05f;
+
+		myVelocity = CU::Vector2<float>(myVelocity.x, 0.0f);
+		myApplyGravity = false;
+		break;
+	case Collider::eCollisionStage::NotColliding:
+		myApplyGravity = true;
+
+
+		break;
+	default:
+		break;
+	}
 }
 
 bool Zombie::CheckIdle()
 {
 	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	const float distance = direction.LengthSqr();
+	float distance = direction.x * direction.x + direction.y * direction.y;
 
-	return distance > (myDetectionRange * myDetectionRange);
+	return (distance <= myDetectionRange * myDetectionRange) ? false : true;
+}
+
+void Zombie::ApplyForce(const CU::Vector2<float>& aForce)
+{
+	myVelocity += aForce;
 }

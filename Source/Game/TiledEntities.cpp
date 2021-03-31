@@ -7,8 +7,6 @@
 #include "GlobalServiceProvider.h"
 #include "Scene.h"
 
-#include "DialogueBox.h"
-
 #include <cassert>
 
 TiledEntities::TiledEntities(const TiledParser* aParser, Scene* aScene) :
@@ -58,10 +56,7 @@ void TiledEntities::SpawnEntities()
 		
 		if (type == "DialogBox")
 		{
-			std::shared_ptr<DialogueBox> textbox = std::make_shared<DialogueBox>(myScene);
-			textbox->Init(entity.GetProperty("DialogID"));
-			textbox->SetPosition(entity.GetPosition());
-			myScene->AddGameObject(textbox);
+			
 		}
 	}
 }

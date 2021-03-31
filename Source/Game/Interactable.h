@@ -14,8 +14,8 @@ protected:
 
 	virtual void OnInteract(Player* aPlayer) = 0;
 
-	virtual void TriggerStay(GameObject* aGameObject) override;
-	virtual void TriggerExit(GameObject* aGameObject) override;
+	virtual void OnStay(GameObject* aGameObject);
+	virtual void OnExit(GameObject* aGameObject);
 
 	virtual bool IsInteracting(Player* aPlayer);
 
