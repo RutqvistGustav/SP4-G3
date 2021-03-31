@@ -217,8 +217,10 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
 		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
-		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
-		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
+		// enemyAngle += enemyAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// myAngle += myAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// if (enemyAngle < 0.0f) enemyAngle = std::fmodf(enemyAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
+		// if (myAngle < 0.0f) myAngle = std::fmodf(myAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
 
 		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
 
