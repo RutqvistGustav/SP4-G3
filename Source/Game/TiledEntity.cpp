@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "TiledEntity.h"
 
-TiledEntity::TiledEntity(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aSize, const std::unordered_map<std::string, std::string>& someProperties) :
+TiledEntity::TiledEntity(const CU::Vector2<float>& aPosition, const std::unordered_map<std::string, std::string>& someProperties) :
 	myPosition(aPosition),
-	mySize(aSize),
 	myProperties(someProperties)
 {}
 

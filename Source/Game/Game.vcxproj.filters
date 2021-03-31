@@ -426,12 +426,6 @@
     <ClInclude Include="ForegroundImage.h">
       <Filter>Core\Foreground</Filter>
     </ClInclude>
-    <ClInclude Include="GoalZone.h">
-      <Filter>GameObjects\Volumes</Filter>
-    </ClInclude>
-    <ClInclude Include="StageClearMessage.h">
-      <Filter>Core\MessageSystem\Messages</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -643,9 +637,6 @@
     </ClCompile>
     <ClCompile Include="ForegroundImage.cpp">
       <Filter>Core\Foreground</Filter>
-    </ClCompile>
-    <ClCompile Include="GoalZone.cpp">
-      <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,9 +17,6 @@ public:
 
 	virtual void InitWithJson(const JsonData& someJsonData) override;
 
-	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
-	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
-
 protected:
 
 	using TriggerVolume::Init;

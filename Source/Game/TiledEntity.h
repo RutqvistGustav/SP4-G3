@@ -8,13 +8,12 @@ class TiledEntity
 {
 public:
 
-	TiledEntity(const CU::Vector2<float>& aPosition, const CU::Vector2<float>& aSize, const std::unordered_map<std::string, std::string>& someProperties);
+	TiledEntity(const CU::Vector2<float>& aPosition, const std::unordered_map<std::string, std::string>& someProperties);
 
 	bool HasProperty(const std::string& aKey) const;
 	const std::string& GetProperty(const std::string& aKey) const;
 
 	inline const CU::Vector2<float>& GetPosition() const { return myPosition; }
-	inline const CU::Vector2<float>& GetSize() const { return mySize; }
 
 	inline const std::string& GetType() const { return GetProperty("Type"); }
 	[[deprecated("use GetProperty instead!")]] inline const std::string& GetSubType() const { return GetProperty("SubType"); }
@@ -22,7 +21,6 @@ public:
 private:
 
 	CU::Vector2<float> myPosition;
-	CU::Vector2<float> mySize;
 
 	std::unordered_map<std::string, std::string> myProperties;
 

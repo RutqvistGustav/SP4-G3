@@ -8,6 +8,4 @@ enum class GameMessage
 
 	InteractableEnter,
 	InteractableExit,
-
-	StageClear,
 };
