@@ -21,6 +21,7 @@ void DamageVolume::InitWithJson(const JsonData & someProperties)
 
 	myDamage = someProperties.value("Damage", 1);
 	myKnockbackStrength = someProperties.value("Knockback", 1000.0f);
+	myKnockbackInterval = someProperties.value("KnockbackInterval", 0.1f);
 
 	const std::string animationPath = someProperties.value("Animation", "");
 	if (animationPath.empty())
@@ -41,6 +42,11 @@ void DamageVolume::InitWithJson(const JsonData & someProperties)
 
 void DamageVolume::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	if (myKnockbackTimer > 0.0f)
+	{
+		myKnockbackTimer -= aDeltaTime;
+	}
+
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);
 
@@ -62,5 +68,11 @@ void DamageVolume::TriggerStay(GameObject* aGameObject)
 void DamageVolume::Damage(Player* aPlayer)
 {
 	aPlayer->TakeDamage(myDamage);
-	aPlayer->ApplyForce((aPlayer->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
+
+	if (myKnockbackTimer <= 0.0f)
+	{
+		aPlayer->ApplyForce((aPlayer->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
+
+		myKnockbackTimer = myKnockbackInterval;
+	}
 }
