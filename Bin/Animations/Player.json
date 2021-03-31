@@ -1,6 +1,6 @@
 {
     "states": {
-        "default": {
+        "idle": {
             "fps": 16,
             "texture": "Sprites/Player/animations/otIdle_anim.dds",
 

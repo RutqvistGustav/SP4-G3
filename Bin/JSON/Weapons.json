@@ -1,18 +1,30 @@
 {
-    "shotgun": {
-        "type": "shotgun",
+  "shotgun": {
+    "type": "shotgun",
 
-        "ammoPerClip": 2,
+    "ammoPerClip": 2,
 
-        "reloadDuration": 1,
+    "reloadDuration": 1,
 
-        "damage": 10,
+    "damage": 10,
 
-        "aoeAngle": 50.0,
-        "aoeLength": 300.0,
+    "aoeAngle": 50.0,
+    "aoeLength": 300.0,
 
-      "recoilKnockbackStrength": 1000,
-      
-      "boostKnockbackStrength" : 800.0
+    "recoilKnockbackStrength": 1000.0,
+
+    "boostKnockbackStrength": 900.0,
+
+    "Berserk": {
+      "Duration": 10.0,
+      "Damage": 2.0,
+      "ReloadDuration": 0.2
+    },
+    "SniperShot": {
+      "Duration": 12.0,
+      "Damage": 5.0,
+      "ReloadDuration": 1.0,
+      "ExtendRangeX": 500
     }
+  }
 }

@@ -419,6 +419,15 @@
     <ClInclude Include="TiledEntities.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUp.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerUpType.h">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClInclude>
+    <ClInclude Include="CollectibleManager.h">
+      <Filter>Core\Managers</Filter>
+      </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
@@ -657,6 +666,12 @@
     </ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerUp.cpp">
+      <Filter>GameObjects\Collectables</Filter>
+    </ClCompile>
+    <ClCompile Include="CollectibleManager.cpp">
+      <Filter>Core\Managers</Filter>
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Core\Collisions</Filter>

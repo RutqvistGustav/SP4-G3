@@ -62,6 +62,11 @@ void SceneManager::Transition(std::unique_ptr<Scene> aTargetScene)
 	}
 }
 
+bool SceneManager::IsTransitionQueued() const
+{
+	return HasQueuedTransition();
+}
+
 void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)

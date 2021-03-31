@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "PowerUpType.h"
 #include "CollisionListener.h"
 
 class HealthBar :
@@ -16,16 +17,21 @@ public:
 
     void RemoveHP();
     void AddHP();
+    void ActivatePowerUp(PowerUpType aPowerUpType);
 
 private:
-    CU::Vector2<float> myDistanceFromPlayer;
-    /*
-    Two sprites
-    One for the frame
-    the other for the red filling in the bar
-    filling will decrease in size when taking damage
-    */
-
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
+    CU::Vector2<float> myDistanceFromPlayer;
+
+    PowerUpType myPowerUpType;
+    float myBerserkDuration{};
+    float myBerserkDurationReset{};
+    float mySniperShotDuration{};
+    float mySniperShotDurationReset{};
+
+    std::shared_ptr<SpriteWrapper> myHealthBar;
+    std::shared_ptr<SpriteWrapper> myPowerUpBar;
+    CU::Vector2<float> myReducedHealth;
+    CU::Vector2<float> myReducedPowerUp;
 };
 
