@@ -81,7 +81,7 @@ void EnemyManager::DeleteMarkedEnemies()
 		if (myEnemies[enemyIndex]->GetDeleteThisFrame())
 		{
 			SendDeathMessage(myEnemies[enemyIndex]->GetLootType(), myEnemies[enemyIndex]->GetPosition());
-
+			
 			auto eraseIt = myEnemies.begin() + enemyIndex;
 
 			myMinimap->RemoveObject(eraseIt->get());

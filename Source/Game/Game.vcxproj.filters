@@ -429,6 +429,9 @@
     <ClInclude Include="PowerUpType.h">
       <Filter>GameObjects\Collectables</Filter>
     </ClInclude>
+    <ClInclude Include="CollectibleManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -643,6 +646,9 @@
     </ClCompile>
     <ClCompile Include="TiledEntities.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CollectibleManager.cpp">
+      <Filter>Core\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
