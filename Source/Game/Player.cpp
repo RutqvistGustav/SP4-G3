@@ -268,16 +268,16 @@ void Player::ImGui()
 
 void Player::Move(const float aDeltaTime, InputInterface* anInput)
 {
-	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
+	CU::Vector2<float> physicsVelocity = myPhysicsController.GetVelocity();
 
 	const CU::Vector2<float> direction = GetDirection(anInput);
-	velocity.x *= std::powf(myReduceMovementSpeed, aDeltaTime);
-	velocity.x += direction.x * mySpeed * aDeltaTime;
-	velocity.x = MathHelper::Clamp(velocity.x, -myMaxSpeed, myMaxSpeed);
+	myMovementVelocity.x *= std::powf(myReduceMovementSpeed, aDeltaTime);
+	myMovementVelocity.x += direction.x * mySpeed * aDeltaTime;
+	myMovementVelocity.x = MathHelper::Clamp(myMovementVelocity.x, -myMaxSpeed, myMaxSpeed);
 
-	if (std::fabsf(velocity.x) <= myStopAtVelocity)
+	if (std::fabsf(myMovementVelocity.x) <= myStopAtVelocity)
 	{
-		velocity.x = 0.0f;
+		myMovementVelocity.x = 0.0f;
 	}
 
 	if (myPhysicsController.IsGrounded())
@@ -287,11 +287,15 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 
 	if (anInput->IsJumping() && myJumpCharges > 0)
 	{
-		velocity.y = -myJumpStrength;
+		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
 	}
 
-	myPhysicsController.SetVelocity(velocity);
+	myPhysicsController.ApplyFrameImpulse(myMovementVelocity * aDeltaTime);
+
+	// NOTE: Damp horizontal velocity
+	physicsVelocity.x *= std::powf(myReduceMovementSpeed, aDeltaTime);
+	myPhysicsController.SetVelocity(physicsVelocity);
 }
 
 CU::Vector2<float> Player::GetDirection(InputInterface* anInput)

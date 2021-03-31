@@ -26,13 +26,15 @@ void EntityPhysicsController::Update(float aDeltaTime)
 	// Gravity
 	myVelocity += myGravity * aDeltaTime;
 
-	const Vec2f frameDisplacement = myVelocity * aDeltaTime;
+	const Vec2f frameDisplacement = myFrameImpulses + myVelocity * aDeltaTime;
 
 	if (!Move(EntityPhysicsController::Axis::Y, frameDisplacement.y))
 		myVelocity.y = 0.0f;
 
 	if (!Move(EntityPhysicsController::Axis::X, frameDisplacement.x))
 		myVelocity.x = 0.0f;
+
+	myFrameImpulses = Vec2f();
 }
 
 void EntityPhysicsController::SetGravity(const Vec2f& someGravity)
@@ -53,6 +55,11 @@ void EntityPhysicsController::SetPosition(const Vec2f& aPosition)
 const Vec2f& EntityPhysicsController::GetPosition() const
 {
 	return myPosition;
+}
+
+void EntityPhysicsController::ApplyFrameImpulse(const CU::Vector2<float>& anImpulse)
+{
+	myFrameImpulses += anImpulse;
 }
 
 void EntityPhysicsController::ApplyForce(const CU::Vector2<float>& aForce)

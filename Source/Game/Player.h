@@ -71,7 +71,7 @@ private:
 private:
 
     EntityPhysicsController myPhysicsController;
-
+    CU::Vector2<float> myMovementVelocity;
     std::unique_ptr<SpriteSheetAnimation> myAnimator;
 
     Camera* myCamera;

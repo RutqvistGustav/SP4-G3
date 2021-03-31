@@ -33,6 +33,8 @@ public:
 	void SetPosition(const CU::Vector2<float>& aPosition);
 	const CU::Vector2<float>& GetPosition() const;
 
+	void ApplyFrameImpulse(const CU::Vector2<float>& anImpulse);
+
 	void ApplyForce(const CU::Vector2<float>& aForce);
 
 	void SetVelocity(const CU::Vector2<float>& aVelocity);
@@ -80,6 +82,8 @@ private:
 	CU::Vector2<float> myPosition;
 	CU::Vector2<float> myVelocity;
 	CU::Vector2<float> mySize;
+
+	CU::Vector2<float> myFrameImpulses;
 
 	Scene* myScene{};
 
