@@ -168,7 +168,8 @@ void Player::InitVariables(nlohmann::json someData)
 	myColliderWidth = someData.value("ColliderWidth", -1.0f);
 	myColliderHeight = someData.value("ColliderHeight", -1.0f);
 
-	myColliderShift = { 40.0f, 50.0f };
+	myColliderShift.x = someData.value("ColliderShiftX", 0.0f);
+	myColliderShift.y = someData.value("ColliderShiftY", 0.0f);
 }
 
 void Player::StopMovement()

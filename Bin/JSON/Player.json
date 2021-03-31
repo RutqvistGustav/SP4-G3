@@ -11,5 +11,8 @@
   "JumpStrength": 600.0,
 
   "Health" : 10,
-  "Invincibility" : 1.0
+  "Invincibility" : 1.0,
+
+  "ColliderWidth": 55,
+  "ColliderShiftX": -35
 }
