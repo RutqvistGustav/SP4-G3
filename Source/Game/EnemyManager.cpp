@@ -26,14 +26,6 @@ EnemyManager::~EnemyManager()
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::SpawnEnemy, this);
 }
 
-void EnemyManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	DeleteMarkedEnemies();
-}
-
-void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
-{}
-
 void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType)
 {
 	std::shared_ptr<Enemy> enemy = EnemyFactory::CreateEnemy(anEnemyType, myScene);

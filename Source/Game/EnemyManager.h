@@ -18,9 +18,6 @@ public:
 	EnemyManager(Scene* aScene, Minimap* aMinimap);
 	~EnemyManager();
 
-	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
-	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
-
 	void AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType);
 
 	void AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget);
@@ -29,9 +26,9 @@ public:
 
 	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData) override;
 
+	void DeleteMarkedEnemies();
 private:
 
-	void DeleteMarkedEnemies();
 
 private:
 
