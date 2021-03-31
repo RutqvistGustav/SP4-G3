@@ -17,6 +17,7 @@
 
 #include "GameMessenger.h"
 #include "Scene.h"
+#include "GameScene.h" // temp
 
 #include "Camera.h"
 #include "MathHelper.h"
@@ -29,6 +30,8 @@
 #include <iostream>
 #include <imgui.h>
 #include "JsonManager.h"
+#include "HealthBar.h"
+#include "SceneManagerProxy.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -158,6 +161,7 @@ void Player::PlayerInput(InputInterface* anInput)
 			myVel.y = 0;
 			myGravityActive = false;
 		}
+		TakeDamage(10);
 	}
 
 #ifdef _DEBUG
@@ -306,6 +310,11 @@ void Player::DisablePowerUp()
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
+	myHUD->GetHealthBar()->RemoveHP();
+	if (myHealth->IsDead() == true)
+	{
+		GetScene()->GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+	}
 }
 
 void Player::AddHealth(const int aHealthAmount)

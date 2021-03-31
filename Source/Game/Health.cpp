@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Health.h"
+#include <iostream>
 
 Health::Health(const int aHealthValue) :
 	myMaxHealth(aHealthValue),
@@ -9,15 +10,13 @@ Health::Health(const int aHealthValue) :
 	myTimerCountdown(0.0f)
 {}
 
-void Health::Update(const int aDeltaTime)
+void Health::Update(const float aDeltaTime)
 {
 	if (myTimerCountdown > 0.0f)
 	{
 		myTimerCountdown -= aDeltaTime;
 	}
 }
-
-
 
 void Health::TakeDamage(const int aDamage)
 {
@@ -29,6 +28,7 @@ void Health::TakeDamage(const int aDamage)
 			myIsDead = true;
 		}
 		myTimerCountdown = myInvincibilityTime;
+		std::cout << "Health " << myHealth << std::endl;
 	}
 
 }

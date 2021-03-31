@@ -29,8 +29,9 @@ private:
     float mySniperShotDuration{};
     float mySniperShotDurationReset{};
 
-    std::shared_ptr<SpriteWrapper> myHealthBarFill;
-    std::shared_ptr<SpriteWrapper> myPowerUpFrame;
-    std::shared_ptr<SpriteWrapper> myPowerUpFill;
+    std::shared_ptr<SpriteWrapper> myHealthBar;
+    std::shared_ptr<SpriteWrapper> myPowerUpBar;
+    CU::Vector2<float> myReducedHealth;
+    CU::Vector2<float> myReducedPowerUp;
 };
 
