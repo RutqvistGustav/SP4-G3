@@ -2,5 +2,6 @@
 enum class PowerUpType
 {
     Berserk,
-    SniperShot
+    SniperShot,
+    HealthPickup
 };

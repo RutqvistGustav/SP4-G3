@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
+#include "EnemyDeathMessage.h"
 #include "Vector2.hpp"
 
 #include "Minimap.h"
@@ -33,11 +34,12 @@ void EnemyManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 void EnemyManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {}
 
-void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget)
+void EnemyManager::AddEnemy(EnemyFactory::EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType)
 {
 	std::shared_ptr<Enemy> enemy = EnemyFactory::CreateEnemy(anEnemyType, myScene);
 	enemy->SetPosition(aPosition);
 	enemy->Init();
+	enemy->SetLootType(aLootType);
 
 	if (aTarget != nullptr)
 	{
@@ -58,9 +60,17 @@ void EnemyManager::AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget)
 	}
 }
 
+void EnemyManager::SendDeathMessage(const PowerUpType aLootType, const CU::Vector2<float> aSpawnPosition)
+{
+	EnemyDeathMessageData deathMessage;
+	deathMessage.myDeathPosition = aSpawnPosition;
+	deathMessage.myLootType = aLootType;
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::EnemyDied, &deathMessage);
+}
+
 GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData)
 {
-	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget);
+	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget, someMessageData->myLootType);
 	return GameMessageAction::Keep;
 }
 
@@ -70,6 +80,8 @@ void EnemyManager::DeleteMarkedEnemies()
 	{
 		if (myEnemies[enemyIndex]->GetDeleteThisFrame())
 		{
+			SendDeathMessage(myEnemies[enemyIndex]->GetLootType(), myEnemies[enemyIndex]->GetPosition());
+
 			auto eraseIt = myEnemies.begin() + enemyIndex;
 
 			myMinimap->RemoveObject(eraseIt->get());

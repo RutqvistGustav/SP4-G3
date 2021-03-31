@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "PowerUpType.h"
 #include <memory>
 class Health;
 
@@ -19,6 +20,8 @@ public:
     virtual const int DealDamage();
     virtual void TakeDamage(const int aDamage);
     virtual void InitEnemyJsonValues(std::string& aJsonPath);
+    virtual PowerUpType GetLootType();
+    virtual void SetLootType(const PowerUpType aLootType);
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
@@ -28,6 +31,7 @@ protected:
     float myMaxSpeed;
     float myDetectionRange;
     float myKnockback;
+    PowerUpType myLoot;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
 };

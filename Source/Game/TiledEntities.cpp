@@ -53,6 +53,22 @@ void TiledEntities::SpawnEntities()
 				assert(false && "Invalid enemy subtype!");
 			}
 
+			if (entity.HasProperty("Loot"))
+			{
+				if (entity.GetProperty("Loot") == "Berserk")
+				{
+					enemyMessageData.myLootType = PowerUpType::Berserk;
+				}
+				if (entity.GetProperty("Loot") == "SniperShot")
+				{
+					enemyMessageData.myLootType = PowerUpType::SniperShot;
+				}
+				if (entity.GetProperty("Loot") == "HealthPickup")
+				{
+					enemyMessageData.myLootType = PowerUpType::HealthPickup;
+				}
+			}
+
 			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 		}
 		
