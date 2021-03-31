@@ -46,7 +46,7 @@ void GameScene::Init()
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
-	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
+	myMinimap = std::make_unique<Minimap>(this, myTiledParser.get(), myTiledCollision.get());
 
 	for (size_t i = 0; i < 1; ++i)
 	{
