@@ -22,6 +22,8 @@
 #include "MathHelper.h"
 #include "Health.h"
 
+#include "CollisionInfo.h"
+
 // Tools
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
@@ -157,6 +159,14 @@ void Player::StopMovement()
 	myPhysicsController.SetVelocity({});
 }
 
+void Player::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	/*if (someCollisionInfo.myOtherCollider->IsTrigger() == false)
+	{
+		SetPosition(myPosition);
+	}*/
+}
+
 void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
@@ -238,34 +248,6 @@ void Player::ImGui()
 
 void Player::Move(const float aDeltaTime, InputInterface* anInput)
 {
-	// if (myIsControllerActive == true)
-	// {
-	// 	PlayerInput(anInput);
-	// 	CU::Vector2<float> direction = GetDirection(anInput);
-
-	// 	if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
-	// 	{
-	// 		if (myVel.x > 0)
-	// 		{
-	// 			BrakeMovement(aDeltaTime);
-	// 		}
-	// 		else
-	// 		{
-	// 			myVel.x += direction.x * mySpeed * aDeltaTime;
-	// 		}
-	// 	}
-	// 	if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
-	// 	{
-	// 		if (myVel.x < 0)
-	// 		{
-	// 			BrakeMovement(aDeltaTime);
-	// 		}
-	// 		else
-	// 		{
-	// 			myVel.x += direction.x * mySpeed * aDeltaTime;
-	// 		}
-	// 	}
-	// }
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
 	const CU::Vector2<float> direction = GetDirection(anInput);
