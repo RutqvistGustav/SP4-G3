@@ -44,7 +44,7 @@ public:
 	
 	void InitDebug();
 	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
-	bool myDoRender = true;
+	bool myDoRender = false;
 
 #endif // _DEBUG
 
