@@ -43,6 +43,9 @@ public:
 
     void StopMovement();
 
+   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+
+
     void SetControllerActive(const bool aState);
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
