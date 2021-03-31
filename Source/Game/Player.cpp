@@ -68,6 +68,8 @@ void Player::Init()
 	
 	InitVariables(data);
 
+	myDirection = 1.0f;
+
 	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
 	myAnimator->SetState("default");
 	myAnimator->SetIsLooping(true);
@@ -110,13 +112,11 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 #endif // _DEBUG
 
 	myPhysicsController.Update(aDeltaTime);
-	SetPosition(myPhysicsController.GetPosition() - myColliderShift);
+	SetPosition(myPhysicsController.GetPosition());
 
 #ifdef _DEBUG
-
-	//Movement(aDeltaTime, anUpdateContext.myInputInterface);
 	
-	ImGui();
+	// ImGui();
 
 #endif
 
@@ -130,6 +130,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myAnimator->Update(aDeltaTime);
 	myAnimator->ApplyToSprite(mySprite);
+	mySprite->SetSize({ mySprite->GetSize().x * myDirection, mySprite->GetSize().y });
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -168,8 +169,12 @@ void Player::InitVariables(nlohmann::json someData)
 	myColliderWidth = someData.value("ColliderWidth", -1.0f);
 	myColliderHeight = someData.value("ColliderHeight", -1.0f);
 
-	myColliderShift.x = someData.value("ColliderShiftX", 0.0f);
-	myColliderShift.y = someData.value("ColliderShiftY", 0.0f);
+	// TODO: NOTE: Old name for different purpose, remove when not in use
+	mySpriteShift.x = someData.value("ColliderShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("ColliderShiftY", mySpriteShift.y);
+
+	mySpriteShift.x = someData.value("SpriteShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("SpriteShiftY", mySpriteShift.y);
 }
 
 void Player::StopMovement()
@@ -189,14 +194,13 @@ void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 
-	myCollider->SetPosition(aPosition + myColliderShift);
-	myPhysicsController.SetPosition(aPosition + myColliderShift);
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myDirection, mySpriteShift.y));
+	myPhysicsController.SetPosition(aPosition);
 }
 
 void Player::SetControllerActive(const bool aState)
 {
 	myIsControllerActive = aState;
-	//myVel = CU::Vector2<float>();
 }
 
 void Player::TakeDamage(const int aDamage)
@@ -289,6 +293,15 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 	{
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
+	}
+
+	if (myMovementVelocity.x > 0.0f)
+	{
+		myDirection = 1.0f;
+	}
+	else if (myMovementVelocity.x < 0.0f)
+	{
+		myDirection = -1.0f;
 	}
 
 	myPhysicsController.ApplyFrameImpulse(myMovementVelocity * aDeltaTime);

@@ -72,6 +72,7 @@ private:
 
     EntityPhysicsController myPhysicsController;
     CU::Vector2<float> myMovementVelocity;
+    float myDirection;
     std::unique_ptr<SpriteSheetAnimation> myAnimator;
 
     Camera* myCamera;
@@ -81,7 +82,7 @@ private:
     std::unique_ptr<HUD> myHUD;
 
     // JSON
-    CU::Vector2<float> myColliderShift;
+    CU::Vector2<float> mySpriteShift;
     float myColliderWidth{};
     float myColliderHeight{};
 
