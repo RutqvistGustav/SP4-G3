@@ -41,7 +41,7 @@ public:
 
     void StopMovement();
 
-   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+   	//virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 
     void SetControllerActive(const bool aState);
