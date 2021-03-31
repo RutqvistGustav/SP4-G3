@@ -5,6 +5,7 @@
 #include "TiledTile.h"
 #include "TiledLayer.h"
 #include "TiledMap.h"
+#include "CollisionListener.h"
 
 #ifdef _DEBUG
 #include <tga2d/sprite/sprite.h>
@@ -18,26 +19,19 @@
 #endif // _DEBUG
 
 
-Collider::Collider()
-	: Collider(nullptr, 0.0f, 0.0f, 100.0f)
+Collider::Collider() :
+	Collider({}, { 256.0f, 256.0f })
 {}
 
-Collider::Collider(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
-	: myPos(aPos)
-	, myGameObject(aGameObject)
+Collider::Collider(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize) :
+	myPos(aPos),
+	mySize(aSize)
 {
 
 #ifdef _DEBUG
 	myDebugSprite = nullptr;
 #endif // _DEBUG
-
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
 }
-
-Collider::Collider(GameObject* aGameObject, float aX, float aY, float aRadius)
-	: Collider(aGameObject, CU::Vector2<float>(aX, aY), aRadius)
-{}
 
 Collider::~Collider()
 {
@@ -45,109 +39,32 @@ Collider::~Collider()
 	/*delete myDebugSprite;
 	myDebugSprite = nullptr;*/
 #endif // _DEBUG
-	myGameObject = nullptr;
+	myCollisionListener = nullptr;
 }
 
-void Collider::Init(GameObject* aGameObject, CU::Vector2<float> aPos, float aRadius)
+void Collider::Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize)
 {
 #ifdef _DEBUG
 	InitDebug();
 #endif // _DEBUG
 
-	myGameObject = aGameObject;
-	//myGameObject = std::shared_ptr<GameObject>(aGameObject);
 	myPos = aPos;
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
+	mySize = aSize;
 }
 
-void Collider::SetPos(const CU::Vector2<float> aPos)
+void Collider::SetPosition(const CU::Vector2<float> aPos)
 {
 	myPos = aPos;
-}
-
-bool Collider::GetCollision(const Collider* aCollider)
-{
-
-	if (myPos.x - myDimentions.x * 0.5f < aCollider->myPos.x + aCollider->myDimentions.x * 0.5f &&
-		myPos.x + myDimentions.x * 0.5f > aCollider->myPos.x - aCollider->myDimentions.x * 0.5f &&
-		myPos.y - myDimentions.y * 0.5f < aCollider->myPos.y + aCollider->myDimentions.y * 0.5f &&
-		myPos.y + myDimentions.y * 0.5f > aCollider->myPos.y - aCollider->myDimentions.y * 0.5f)
-	{
-		//AdvanceCollisionStage();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-
-	//if ((myPos - aCollider->myPos).Length() < myRadius + aCollider->myRadius)
-	//{
-	//	//AdvanceCollisionStage();
-	//	return true;
-	//}
-	//else
-	//{
-	//	return false;
-	//}
-}
-
-const TiledTile* Collider::GetCollision(const TiledCollision* aTiledCollision, CU::Vector2<float> anOffsetDirection)
-{
-
-	auto tileToCheck = aTiledCollision->GetTileAt(CU::Vector2<float>(myPos.x, myPos.y) + anOffsetDirection.GetNormalized() * GetRadius() * 0.5f);
-
-
-	if (tileToCheck != nullptr)
-	{
-
-		//if (box collider med tile(world pos & tile.dimensions) )
-
-
-		/*if (myPos.x < aCollider->myPos.x + aCollider->myDimentions.x &&
-			myPos.x + myDimentions.x > aCollider->myPos.x &&
-			myPos.y < aCollider->myPos.y + aCollider->myDimentions.y &&
-			myPos.y + myDimentions.y > aCollider->myPos.y)
-		{
-
-		}*/
-		return tileToCheck;
-	}
-		return nullptr;
-}
-
-GameObject* Collider::GetGameObject() const
-{
-	return myGameObject;
-}
-
-//const bool Collider::isColliding() const
-//{
-//	return myIsColliding;
-//}
-
-void Collider::SetRadius(const float aRadius)
-{
-	myDimentions.x = aRadius * 2;
-	myDimentions.y = aRadius * 2;
-}
-
-const float Collider::GetRadius() const
-{
-	return myDimentions.x * 0.5f;
 }
 
 void Collider::SetBoxSize(const CU::Vector2<float> aSize)
 {
-	myDimentions.x = aSize.x;
-	myDimentions.y = aSize.y;
+	mySize = aSize;
 }
 
 CU::Vector2<float> Collider::GetBoxSize()
 {
-	return myDimentions;
+	return mySize;
 }
 
 const CU::Vector2<float> Collider::GetPosition() const
@@ -155,20 +72,25 @@ const CU::Vector2<float> Collider::GetPosition() const
 	return myPos;
 }
 
+AABB Collider::GetAABB() const
+{
+	return AABB::FromCenterAndSize(myPos, mySize);
+}
+
 const float Collider::GetWidth() const
 {
-	return myDimentions.x;
+	return mySize.x;
 }
 
 const float Collider::GetHight() const
 {
-	return myDimentions.y;
+	return mySize.y;
 }
 
 #ifdef _DEBUG
 void Collider::InitDebug()
 {
-	//myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+	// myDebugSprite = new Tga2D::CSprite("debugCookie.png");
 }
 
 void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -177,14 +99,13 @@ void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRend
 		return;
 
 	myDebugSprite->SetPivot({ 0.5f, 0.5f });
-	//myDebugSprite->SetPosition({  myPos.x / Metrics::GetReferenceSize().x
-	//							, myPos.y / Metrics::GetReferenceSize().y });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	//myDebugSprite->SetColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-	myDebugSprite->SetSize(myDimentions);
-	/*myDebugSprite->SetSizeRelativeToScreen({ myDimentions.x / 1000, myDimentions.y / 1000 });
-	myDebugSprite->Render();*/
-	myDebugSprite->SetPanStrengthFactor(0);
+	myDebugSprite->SetSize(mySize);
+	myDebugSprite->SetLayer(999);
+
+	//ska användas i menyer
+	// myDebugSprite->SetPanStrengthFactor(0);
+
 	aRenderQueue->Queue(RenderCommand(myDebugSprite));
 
 }
@@ -196,33 +117,37 @@ void Collider::setRenderColor(Tga2D::CColor aColor)
 }
 #endif // _DEBUG
 
-const Collider::eCollisionStage Collider::GetCollisionStage() const
+bool Collider::GetCollision(const Collider* aCollider)
 {
-	return myCollisionStage;
-}
-
-//const Collider::eCollisionType Collider::GetCollisionType() const
-//{
-//	return myCollitionType;
-//}
-//
-//void Collider::SetCollitionType(const eCollisionType aCollitionType)
-//{
-//	myCollitionType = aCollitionType;
-//}
-
-void Collider::AdvanceCollisionStage()
-{
-	myCollisionStage = static_cast<Collider::eCollisionStage>(static_cast<int>(myCollisionStage) + 1);
-	if (myCollisionStage == Collider::eCollisionStage::Count)
+	if (myPos.x - mySize.x * 0.5f < aCollider->myPos.x + aCollider->mySize.x * 0.5f &&
+		myPos.x + mySize.x * 0.5f > aCollider->myPos.x - aCollider->mySize.x * 0.5f &&
+		myPos.y - mySize.y * 0.5f < aCollider->myPos.y + aCollider->mySize.y * 0.5f &&
+		myPos.y + mySize.y * 0.5f > aCollider->myPos.y - aCollider->mySize.y * 0.5f)
 	{
-		myCollisionStage = Collider::eCollisionStage::NotColliding;
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
-//const bool Collider::GetIsCube() const
-//{
-//	return myIsCube;
-//}
+void Collider::AddContact(const ContactKey& aContactKey)
+{
+	myContacts.push_back(aContactKey);
+}
 
+void Collider::RemoveContact(const ContactKey& aContactKey)
+{
+	auto it = std::find(myContacts.begin(), myContacts.end(), aContactKey);
+	if (it != myContacts.end())
+	{
+		std::swap(myContacts.back(), *it);
+		myContacts.pop_back();
+	}
+}
 
+void Collider::ClearContacts()
+{
+	myContacts.clear();
+}

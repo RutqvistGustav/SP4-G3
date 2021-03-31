@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "CoordinateHelper.h"
 #include "CollisionManager.h"
+#include "CollisionInfo.h"
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
@@ -16,7 +17,9 @@ MousePointer::MousePointer(Scene* aScene)
 	SetTag(GameObjectTag::MousePointer);
 	myScene = aScene;
 	myCollider = std::make_shared<Collider>();
-	myCollider->Init(this, myMousePointerPos, 5.f);
+	myCollider->Init(myMousePointerPos, { 5.0f, 5.0f });
+	myCollider->SetCollisionListener(this);
+	myCollider->SetGameObject(this);
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 
 	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Menue UI/ProgArt/Pointer.png"));
@@ -30,7 +33,7 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 	ReadingMouseCoordinates(aDeltaTime, anUpdateContext.myInput);
 	ReadingLMBInput(anUpdateContext.myInputInterface);
 
-	myCollider->SetPos(myMousePointerPos);
+	myCollider->SetPosition(myMousePointerPos);
 	mySprite->SetPosition(myMousePointerPos);
 }
 
@@ -52,15 +55,6 @@ void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
-void MousePointer::OnCollision(GameObject* aGameObject)
-{
-	if (GetLMBDown())
-	{
-		myButtonClicked = true;
-		myClickedButton = aGameObject->GetTag();
-	}
-}
-
 bool MousePointer::GetLMBDown()
 {
 	return myClicked;
@@ -74,6 +68,20 @@ bool MousePointer::ButtonClicked()
 GameObjectTag MousePointer::ClickedButton() const
 {
 	return myClickedButton;
+}
+
+void MousePointer::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	if (GetLMBDown())
+	{
+		myButtonClicked = true;
+
+		GameObject* buttonObject = someCollisionInfo.myOtherCollider->GetGameObject();
+		if (buttonObject != nullptr)
+		{
+			myClickedButton = buttonObject->GetTag();
+		}
+	}
 }
 
 void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)

@@ -36,11 +36,6 @@ void HUD::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 	myAmmoCounter->Render(aRenderQueue, aRenderContext);
 }
 
-void HUD::OnCollision(GameObject*)
-{
-
-}
-
 HealthBar* HUD::GetHealthBar()
 {
 	return myHealthBar.get();

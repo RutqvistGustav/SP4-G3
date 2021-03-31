@@ -103,6 +103,12 @@
     <Filter Include="GameObjects\Interactables">
       <UniqueIdentifier>{5475159a-7826-4466-8e6d-09bca31b8320}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Collisions">
+      <UniqueIdentifier>{4d5d0048-85a4-478f-8f29-156a05173993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Collisions\Controllers">
+      <UniqueIdentifier>{0c5893e4-469c-4a49-a92c-9cf71bb8ddb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -315,9 +321,6 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="SceneManagerProxy.h">
       <Filter>Core\Managers</Filter>
     </ClInclude>
@@ -325,9 +328,6 @@
       <Filter>Core\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Core\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider.h">
       <Filter>Core\Components</Filter>
     </ClInclude>
     <ClInclude Include="ShakeBehaviour.h">
@@ -410,10 +410,6 @@
     <ClInclude Include="DialogueBox.h">
       <Filter>Event</Filter>
     </ClInclude>
-    <ClInclude Include="BaseRenderData.h" />
-    <ClInclude Include="DialogueBox.h">
-      <Filter>Event</Filter>
-    </ClInclude>
     <ClInclude Include="TextRenderData.h">
       <Filter>Core\Rendering\Data</Filter>
     </ClInclude>
@@ -431,6 +427,45 @@
     </ClInclude>
     <ClInclude Include="CollectibleManager.h">
       <Filter>Core\Managers</Filter>
+      </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactManager.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ContactKey.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionItem.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityPhysicsController.h">
+      <Filter>Core\Collisions\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionLayer.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionFilter.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionListener.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>Core\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalZone.h">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClearMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -551,9 +586,6 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>Core\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManagerProxy.cpp">
       <Filter>Core\Managers</Filter>
     </ClCompile>
@@ -561,9 +593,6 @@
       <Filter>Core\Managers</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Core\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider.cpp">
       <Filter>Core\Components</Filter>
     </ClCompile>
     <ClCompile Include="ShakeBehaviour.cpp">
@@ -641,14 +670,32 @@
     <ClCompile Include="PowerUp.cpp">
       <Filter>GameObjects\Collectables</Filter>
     </ClCompile>
-    <ClCompile Include="DialogueBox.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="TiledEntities.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
     <ClCompile Include="CollectibleManager.cpp">
       <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactManager.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Contact.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityPhysicsController.cpp">
+      <Filter>Core\Collisions\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionFilter.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionListener.cpp">
+      <Filter>Core\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalZone.cpp">
+      <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

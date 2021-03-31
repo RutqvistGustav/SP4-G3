@@ -53,10 +53,6 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
-void HealthBar::OnCollision(GameObject*)
-{
-}
-
 void HealthBar::RemoveHP()
 {
 	CU::Vector2<float> reducedHealth = myHealthBar->GetSize();

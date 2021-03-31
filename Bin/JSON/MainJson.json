@@ -6,6 +6,11 @@
     "JSON/Weapons.json",
     "JSON/EnemyTypes.json",
 
+    "JSON/Entities.json",
+
+    "Animations/Player.json",
+    "Animations/TestAnimation.json",
+
     "Dialog/Main.json"
   ]
 }
