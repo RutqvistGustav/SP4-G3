@@ -427,7 +427,7 @@
     </ClInclude>
     <ClInclude Include="CollectibleManager.h">
       <Filter>Core\Managers</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
@@ -466,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="StageClearMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Scenes\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -696,6 +699,9 @@
     </ClCompile>
     <ClCompile Include="GoalZone.cpp">
       <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

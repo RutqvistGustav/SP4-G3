@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include "CollisionListener.h"
 
 namespace CommonUtilities
 {
@@ -10,11 +9,8 @@ namespace CommonUtilities
 class SpriteWrapper;
 class InputInterface;
 
-struct CollisionInfo;
-
 class MousePointer :
-	public GameObject,
-	public CollisionListener
+	public GameObject
 {
 public:
 	MousePointer(Scene* aScene);
@@ -22,14 +18,13 @@ public:
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+	void OnCollision(GameObject* aGameObject);
 
 	bool GetLMBDown();
-	bool ButtonClicked();
+	bool GetButtonClicked();
+	void SetButtonClicked(bool aBool);
+	CU::Vector2<float> GetPointerPos();
 	GameObjectTag ClickedButton() const;
-
-private:
-
-	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 private:
 
