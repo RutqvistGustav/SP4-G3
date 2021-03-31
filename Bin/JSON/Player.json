@@ -1,5 +1,5 @@
 {
-  "SpritePath" :  "Sprites/Player/Player.dds",
+  "SpritePath" :  "Animations/Player.json",
 
   "MovementSpeed": 5000.0,
   "MaxSpeedCap": 300.0,

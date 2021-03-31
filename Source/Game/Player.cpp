@@ -23,6 +23,7 @@
 #include "Health.h"
 
 // Tools
+#include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
 #include "InputInterface.h"
@@ -65,10 +66,15 @@ void Player::Init()
 	
 	InitVariables(data);
 
+	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
+	myAnimator->SetState("default");
+	myAnimator->SetIsLooping(true);
+
 	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>(data.at("SpritePath"));
+	mySprite = std::make_shared<SpriteWrapper>();
 	CU::Vector2<float> startPosition(950.0f, 540.0f);
 	mySprite->SetPosition(startPosition);
+	myAnimator->ApplyToSprite(mySprite);
 
 	myHUD->Init();
 	myWeaponController->Init();
@@ -85,7 +91,6 @@ void Player::Init()
 void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
-
 
 	Move(aDeltaTime, anUpdateContext.myInputInterface);
 
@@ -116,6 +121,9 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myHUD->Update(myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
+
+	myAnimator->Update(aDeltaTime);
+	myAnimator->ApplyToSprite(mySprite);
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
