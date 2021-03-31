@@ -1,0 +1,9 @@
+{
+    "Hazard": {
+        "Default": {
+            "Damage": 100,
+            "Knockback": 800.0,
+            "KnockbackInterval": 0.2
+        }
+    }
+}

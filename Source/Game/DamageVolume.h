@@ -29,8 +29,11 @@ private:
 
 	std::unique_ptr<SpriteSheetAnimation> myAnimation;
 
+	float myKnockbackTimer{};
+
 	// JSON data
 	float myDamage{};
 	float myKnockbackStrength{};
+	float myKnockbackInterval{};
 
 };

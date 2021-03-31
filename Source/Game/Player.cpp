@@ -22,7 +22,10 @@
 #include "MathHelper.h"
 #include "Health.h"
 
+#include "CollisionInfo.h"
+
 // Tools
+#include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
 #include <Vector2.hpp>
 #include "InputInterface.h"
@@ -39,8 +42,6 @@
 #ifdef _DEBUG
 #include "CollisionManager.h"
 #endif // _DEBUG
-
-
 
 Player::Player(Scene* aScene)
 	: GameObject(aScene, GameObjectTag::Player),
@@ -67,17 +68,28 @@ void Player::Init()
 	
 	InitVariables(data);
 
-	myIsOnGround = false;
-	myPosition.x = 0.5f;
-	myPosition.y = 0.5f;
+	myDirection = 1.0f;
+
+	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
+	myAnimator->SetState("default");
+	myAnimator->SetIsLooping(true);
 
 	// Init Sprite
-	mySprite = std::make_shared<SpriteWrapper>(data.at("SpritePath"));
-	CU::Vector2<float> startPosition(950.0f, 540.0f);
-	mySprite->SetPosition(startPosition);
+	mySprite = std::make_shared<SpriteWrapper>();
+	myAnimator->ApplyToSprite(mySprite);
 
 	myHUD->Init();
 	myWeaponController->Init();
+
+	CU::Vector2<float> colliderSize = mySprite->GetSize();
+	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
+	if (myColliderHeight > 0.0f) colliderSize.y = myColliderHeight;
+
+	myCollider->SetBoxSize(colliderSize);
+	myPhysicsController.Init(GetScene(), colliderSize);
+	myPhysicsController.SetGravity({ 0.0f, myGravity });
+
+	SetPosition(GetPosition());
 
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -88,9 +100,25 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	GameObject::Update(aDeltaTime, anUpdateContext);
 
-	Movement(aDeltaTime, anUpdateContext.myInputInterface);
+	Move(aDeltaTime, anUpdateContext.myInputInterface);
+
+#ifdef _DEBUG
+
+	if (anUpdateContext.myInputInterface->Is_C_Pressed())
+	{
+		myScene->GetCollisionManager()->myDoRender = !myScene->GetCollisionManager()->myDoRender;
+	}
+
+#endif // _DEBUG
+
+	myPhysicsController.Update(aDeltaTime);
+	SetPosition(myPhysicsController.GetPosition());
+
+#ifdef _DEBUG
 	
-	ImGui();
+	// ImGui();
+
+#endif
 
 	const CU::Vector2<float> newCameraPosition = MathHelper::MoveTowards(myCamera->GetPosition(), myPosition, myCameraFollowSpeed * aDeltaTime);
 	myCamera->SetPosition(newCameraPosition);
@@ -100,6 +128,9 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 
+	myAnimator->Update(aDeltaTime);
+	myAnimator->ApplyToSprite(mySprite);
+	mySprite->SetSize({ mySprite->GetSize().x * myDirection, mySprite->GetSize().y });
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -110,64 +141,9 @@ void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 	myWeaponController->Render(aRenderQueue, aRenderContext);
 }
 
-
-
-void Player::BrakeMovement(const float aDeltaTime)
-{
-	//MouseInput(anInput);
-	//myPositionLastFrame = myPosition;
-	/*if (myIsMovingLeft == false && myIsMovingRight == false)
-	{*/
-	if (myVel.x > myStopAtVelocity || myVel.x < -myStopAtVelocity)
-	{
-		myVel.x *= pow(myReduceMovementSpeed, aDeltaTime);
-	}
-	else
-	{
-		myVel.x = 0;
-	}
-	//}
-}
-
 void Player::ApplyForce(const CU::Vector2<float>& aForce)
 {
-	myVel += aForce;
-}
-
-void Player::PlayerInput(InputInterface* anInput)
-{
-	myIsMovingLeft = anInput->IsMovingLeft_Down();
-	myIsMovingRight = anInput->IsMovingRight_Down();
-
-	if (anInput->IsJumping())
-	{
-		myIsJumping = true;
-		myHasRemovedNegativeVel = false;
-		myJumpDuration = myJumpDurationReset;
-		--myJumpCharges;
-	}
-
-	if (anInput->Is_G_Pressed())
-	{
-		if (myGravityActive == false)
-		{
-			myGravityActive = true;
-		}
-		else
-		{
-			myVel.y = 0;
-			myGravityActive = false;
-		}
-	}
-
-#ifdef _DEBUG
-	if (anInput->Is_C_Pressed())
-	{
-		myScene->GetCollisionManager()->myDoRender = !myScene->GetCollisionManager()->myDoRender;
-	}
-#endif // _DEBUG
-
-
+	myPhysicsController.ApplyForce(aForce);
 }
 
 void Player::InitVariables(nlohmann::json someData)
@@ -185,112 +161,46 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpCharges = someData.at("JumpCharges");
 	myJumpChargeReset = myJumpCharges;
 	myJumpStrength = someData.at("JumpStrength");
-	myJumpDuration = someData.at("JumpDuration");
-	myJumpDurationReset = myJumpDuration;
 
 	//Health
 	myHealth = std::make_unique<Health>(someData.at("Health"));
 	myHealth->SetInvincibilityTimer(someData.at("Invincibility"));
-}
 
-void Player::OnCollision(GameObject* aGameObject)
-{
-	CU::Vector2<float> fromOtherToMe(myPosition - aGameObject->GetPosition());
-	float overlap = 0.0f;
+	myColliderWidth = someData.value("ColliderWidth", -1.0f);
+	myColliderHeight = someData.value("ColliderHeight", -1.0f);
 
-	switch (myCollider->GetCollisionStage())
-	{
-	case Collider::eCollisionStage::FirstFrame:
-	case Collider::eCollisionStage::MiddleFrames:
+	// TODO: NOTE: Old name for different purpose, remove when not in use
+	mySpriteShift.x = someData.value("ColliderShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("ColliderShiftY", mySpriteShift.y);
 
-
-		/*if (myCollider->GetIsCube())
-		{*/
-		//myPosition = myPositionLastFrame + fromOtherToMe.GetNormalized()*0.01f;
-		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
-	/*}
-	else
-	{
-		overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
-		myPosition -= overlap * fromOtherToMe.GetNormalized();
-	}*/
-
-
-	/*myVel = CU::Vector2<float>(myVel.x, 0.0f);
-	myGravityActive = false;
-	myCollider->SetPos(myPosition);*/
-
-		break;
-	case Collider::eCollisionStage::NotColliding:
-		//myGravityActive = true;
-
-
-		break;
-	default:
-		break;
-	}
-}
-
-void Player::OnCollision(TileType aTileType, CU::Vector2<float> anOffset)
-{
-	float overlap = 0.0f;
-
-	switch (myCollider->GetCollisionStage())
-	{
-	case Collider::eCollisionStage::FirstFrame:
-	case Collider::eCollisionStage::MiddleFrames:
-
-
-
-		/*if (myCollider->GetIsCube())
-		{*/
-		myPosition = myPositionLastFrame - anOffset * 0.01f;
-		//myPosition.y = aGameObject->GetPosition().y - aGameObject->GetCollider()->GetRadius() - myCollider->GetRadius();
-	/*}
-	else
-	{
-		overlap = fromOtherToMe.Length() - myCollider->GetRadius() - aGameObject->GetCollider()->GetRadius();
-		myPosition -= overlap * fromOtherToMe.GetNormalized();
-	}*/
-
-		myJumpCharges = myJumpChargeReset;
-		myIsJumping = false;
-		myIsOnGround = true;
-
-		myVel = CU::Vector2<float>(myVel.x, 0.0f);
-		//myGravityActive = false;
-		myCollider->SetPos(myPosition);
-
-		break;
-	case Collider::eCollisionStage::NotColliding:
-
-		if (myIsOnGround == true)
-		{
-			myGravityActive = true;
-			myIsOnGround = false;
-		}
-
-
-		break;
-	default:
-		break;
-	}
+	mySpriteShift.x = someData.value("SpriteShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("SpriteShiftY", mySpriteShift.y);
 }
 
 void Player::StopMovement()
 {
-	myVel = CU::Vector2<float>();
+	myPhysicsController.SetVelocity({});
+}
+
+void Player::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	/*if (someCollisionInfo.myOtherCollider->IsTrigger() == false)
+	{
+		SetPosition(myPosition);
+	}*/
+}
+
+void Player::SetPosition(const CU::Vector2<float> aPosition)
+{
+	GameObject::SetPosition(aPosition);
+
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myDirection, mySpriteShift.y));
+	myPhysicsController.SetPosition(aPosition);
 }
 
 void Player::SetControllerActive(const bool aState)
 {
 	myIsControllerActive = aState;
-	myVel = CU::Vector2<float>();
-}
-
-float Player::GetSpeed()
-{
-	return mySpeed;
 }
 
 void Player::TakeDamage(const int aDamage)
@@ -337,7 +247,7 @@ void Player::ImGui()
 
 	ImGui::Text("To make BrakeStrength stronger then use more zeroes after decimal. Ex. 0.0000001.");
 	ImGui::Text("To make BrakeStrength weaker then use less zeroes after decimal. Ex. 0.0001.");
-	ImGui::InputDouble("BrakeStrength", &myReduceMovementSpeed, 0, 1.0);
+	ImGui::InputFloat("BrakeStrength", &myReduceMovementSpeed, 0, 1.0);
 
 	ImGui::Text("");
 
@@ -353,13 +263,6 @@ void Player::ImGui()
 	ImGui::SliderFloat("JumpStrength", &myJumpStrength, 0, 100000);
 
 	ImGui::Text("");
-
-	ImGui::Text("JumpDuration resets only to the value given in Player.json");
-	ImGui::Text("So if you want the JumpDuration to reset at a different value");
-	ImGui::Text("then change the value in Player.json first.");
-	ImGui::SliderFloat("JumpDuration", &myJumpDuration, 0, 5.0f);
-
-	ImGui::Text("");
 	ImGui::Text("Note!");
 	ImGui::Text("ImGui will not change values in Player.json.");
 	ImGui::Text("You are gonna have to do that yourself :D.");
@@ -367,82 +270,45 @@ void Player::ImGui()
 	ImGui::End();
 }
 
-void Player::Movement(const float aDeltaTime, InputInterface* anInput)
+void Player::Move(const float aDeltaTime, InputInterface* anInput)
 {
-	if (myIsControllerActive == true)
-	{
-		PlayerInput(anInput);
-		CU::Vector2<float> direction = GetDirection(anInput);
+	CU::Vector2<float> physicsVelocity = myPhysicsController.GetVelocity();
 
-		if (myIsMovingLeft == true && -myMaxSpeed <= myVel.x && myVel.y <= myMaxSpeed)
-		{
-			if (myVel.x > 0)
-			{
-				BrakeMovement(aDeltaTime);
-			}
-			else
-			{
-				myVel.x += direction.x * mySpeed * aDeltaTime;
-			}
-		}
-		if (myIsMovingRight == true && myVel.x <= myMaxSpeed && myVel.y <= myMaxSpeed)
-		{
-			if (myVel.x < 0)
-			{
-				BrakeMovement(aDeltaTime);
-			}
-			else
-			{
-				myVel.x += direction.x * mySpeed * aDeltaTime;
-			}
-		}
+	const CU::Vector2<float> direction = GetDirection(anInput);
+	myMovementVelocity.x *= std::powf(myReduceMovementSpeed, aDeltaTime);
+	myMovementVelocity.x += direction.x * mySpeed * aDeltaTime;
+	myMovementVelocity.x = MathHelper::Clamp(myMovementVelocity.x, -myMaxSpeed, myMaxSpeed);
+
+	if (std::fabsf(myMovementVelocity.x) <= myStopAtVelocity)
+	{
+		myMovementVelocity.x = 0.0f;
 	}
 
-	Jump(aDeltaTime);
-	if (myIsMovingLeft == false && myIsMovingRight == false)
+	if (myPhysicsController.IsGrounded())
 	{
-		BrakeMovement(aDeltaTime);
+		myJumpCharges = myJumpChargeReset;
 	}
 
-	//if (myVel.LengthSqr() > 4096/*64^2*/)//max speed
-	//{
-	//	myVel = myVel.GetNormalized() * 64.f;
-	//}
-
-	myPosition += myVel * aDeltaTime;
-	mySprite->SetPosition(myPosition);
-	SetPosition(GetPosition() + myVel * aDeltaTime);
-
-	//std::cout << "x " << myPosition.x << " y " << myPosition.y << std::endl;
-	//std::cout << "Velocity " << myVel.x << std::endl;
-}
-
-void Player::Jump(const float aDeltaTime)
-{
-	if (myIsJumping == true && myJumpCharges >= 0)
+	if (anInput->IsJumping() && myJumpCharges > 0)
 	{
-		myJumpDuration -= aDeltaTime;
-		if (myJumpDuration > 0)
-		{
-			if (myHasRemovedNegativeVel == false)
-			{
-				myVel.y = 0;
-				myHasRemovedNegativeVel = true;
-			}
+		physicsVelocity.y = -myJumpStrength;
+		--myJumpCharges;
+	}
 
-			myVel.y -= myJumpStrength * aDeltaTime;
-		}
-		else
-		{
-			myGravityActive = true;
-			myIsJumping = false;
-			myJumpDuration = myJumpDurationReset;
-		}
-	}
-	else if (myGravityActive == true)
+	if (myMovementVelocity.x > 0.0f)
 	{
-		myVel.y += myGravity * aDeltaTime;
+		myDirection = 1.0f;
 	}
+	else if (myMovementVelocity.x < 0.0f)
+	{
+		myDirection = -1.0f;
+	}
+
+	myPhysicsController.ApplyFrameImpulse(myMovementVelocity * aDeltaTime);
+
+	// NOTE: Damp horizontal velocity
+	physicsVelocity.x *= std::powf(myReduceMovementSpeed, aDeltaTime);
+	myPhysicsController.SetVelocity(physicsVelocity);
 }
 
 CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
