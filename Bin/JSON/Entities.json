@@ -1,7 +1,11 @@
 {
     "Hazard": {
         "Default": {
-            "Animation": "Animations/TestAnimation.json"
+            "Animation": "Animations/TestAnimation.json",
+
+            "Damage": 1,
+            "Knockback": 800.0,
+            "KnockbackInterval": 0.2
         }
     }
 }

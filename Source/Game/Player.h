@@ -14,6 +14,7 @@
 
 class PlayerWeaponController;
 class SpriteWrapper;
+class SpriteSheetAnimation;
 class HUD;
 class Health;
 
@@ -70,6 +71,8 @@ private:
 private:
 
     EntityPhysicsController myPhysicsController;
+
+    std::unique_ptr<SpriteSheetAnimation> myAnimator;
 
     Camera* myCamera;
     float myCameraFollowSpeed;
