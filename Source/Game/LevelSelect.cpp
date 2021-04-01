@@ -31,6 +31,8 @@ void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 	MenuScene::Render(aRenderQueue, aRenderContext);
 
 	aRenderQueue->Queue(RenderCommand(myBackground));
+
+	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void LevelSelect::InitButtons()
@@ -38,20 +40,21 @@ void LevelSelect::InitButtons()
 	const float width = Metrics::GetReferenceSize().x;
 	const float height = Metrics::GetReferenceSize().y;
 
-	auto level1 = std::make_shared<MenuButton>(this, "Sprites/Menue UI/ProgArt/1.png", "Sprites/Menue UI/ProgArt/1.png", GameObjectTag::Level1Button);
-	level1->SetPosition(CommonUtilities::Vector2(width * 0.4f, height * 0.50f));
-	level1->SetColliderSize(CU::Vector2(1.f, .8f));
-	AddInterfaceElement(level1);
+	constexpr int levelCount = 3;
+	constexpr float levelBoxWidth = 480.0f;
 
-	auto level2 = std::make_shared<MenuButton>(this, "Sprites/Menue UI/ProgArt/2.png", "Sprites/Menue UI/ProgArt/2.png", GameObjectTag::Level2Button);
-	level2->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.50f));
-	level2->SetColliderSize(CU::Vector2(1.f, .8f));
-	AddInterfaceElement(level2);
+	const float startX = width * 0.5f - levelBoxWidth * (levelCount / 2);
 
-	auto level3 = std::make_shared<MenuButton>(this, "Sprites/Menue UI/ProgArt/3.png", "Sprites/Menue UI/ProgArt/3.png", GameObjectTag::Level3Button);
-	level3->SetPosition(CommonUtilities::Vector2(width * .6f, height * 0.50f));
-	level3->SetColliderSize(CU::Vector2(1.f, .8f));
-	AddInterfaceElement(level3);
+	for (int i = 0; i < levelCount; ++i)
+	{
+		const GameObjectTag buttonTag = static_cast<GameObjectTag>(static_cast<int>(GameObjectTag::Level1Button) + i);
+
+		auto levelButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/lvlsellect.dds", "Sprites/Menue UI/lvlsellect.dds", buttonTag);
+		levelButton->SetPosition(CommonUtilities::Vector2(startX + i * levelBoxWidth, height * 0.50f));
+		levelButton->SetColliderSize({ 0.7f, 0.7f });
+
+		AddInterfaceElement(levelButton);
+	}
 
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.85f));
