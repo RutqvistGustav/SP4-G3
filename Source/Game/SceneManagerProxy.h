@@ -15,6 +15,8 @@ public:
 
 	void Transition(std::unique_ptr<Scene> aTargetScene);
 
+	bool IsTransitionQueued() const;
+
 	Camera* GetCamera();
 
 private:

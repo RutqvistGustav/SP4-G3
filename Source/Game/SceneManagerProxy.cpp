@@ -13,6 +13,11 @@ void SceneManagerProxy::Transition(std::unique_ptr<Scene> aTargetScene)
 	mySceneManager.Transition(std::move(aTargetScene));
 }
 
+bool SceneManagerProxy::IsTransitionQueued() const
+{
+	return mySceneManager.IsTransitionQueued();
+}
+
 Camera* SceneManagerProxy::GetCamera()
 {
 	return mySceneManager.GetCamera();

@@ -8,6 +8,7 @@ class TiledParser;
 class SpriteWrapper;
 class RenderQueue;
 class GameObject;
+class Scene;
 
 class Minimap
 {
@@ -27,7 +28,7 @@ public:
 		MapObjectType myType;
 	};
 
-	Minimap(TiledParser* aTiledParser, TiledCollision* aTiledCollision);
+	Minimap(Scene* aScene, TiledParser* aTiledParser, TiledCollision* aTiledCollision);
 	~Minimap();
 
 	void Update(float aDeltaTime);
@@ -47,6 +48,8 @@ private:
 	void UpdateView();
 
 private:
+
+	Scene* myScene;
 
 	TiledParser* myTiledParser;
 	TiledCollision* myTiledCollision;

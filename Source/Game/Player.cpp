@@ -17,6 +17,7 @@
 
 #include "GameMessenger.h"
 #include "Scene.h"
+#include "GameScene.h" // temp
 
 #include "Camera.h"
 #include "MathHelper.h"
@@ -32,6 +33,8 @@
 #include <iostream>
 #include <imgui.h>
 #include "JsonManager.h"
+#include "HealthBar.h"
+#include "SceneManagerProxy.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -68,16 +71,19 @@ void Player::Init()
 	
 	InitVariables(data);
 
+	myDirection = 1.0f;
+
 	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
-	myAnimator->SetState("default");
 	myAnimator->SetIsLooping(true);
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
-	myAnimator->ApplyToSprite(mySprite);
 
 	myHUD->Init();
 	myWeaponController->Init();
+
+	SetPosition(GetPosition());
+	SetState(PlayerState::Idle);
 
 	CU::Vector2<float> colliderSize = mySprite->GetSize();
 	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
@@ -86,8 +92,6 @@ void Player::Init()
 	myCollider->SetBoxSize(colliderSize);
 	myPhysicsController.Init(GetScene(), colliderSize);
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
-
-	SetPosition(GetPosition());
 
 	// Subscribe to events
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -110,13 +114,11 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 #endif // _DEBUG
 
 	myPhysicsController.Update(aDeltaTime);
-	SetPosition(myPhysicsController.GetPosition() - myColliderShift);
+	SetPosition(myPhysicsController.GetPosition());
 
 #ifdef _DEBUG
-
-	//Movement(aDeltaTime, anUpdateContext.myInputInterface);
 	
-	ImGui();
+	// ImGui();
 
 #endif
 
@@ -130,6 +132,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myAnimator->Update(aDeltaTime);
 	myAnimator->ApplyToSprite(mySprite);
+	mySprite->SetSize({ mySprite->GetSize().x * myDirection, mySprite->GetSize().y });
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -152,6 +155,7 @@ void Player::InitVariables(nlohmann::json someData)
 	// Movement
 	mySpeed = someData.at("MovementSpeed");
 	myMaxSpeed = someData.at("MaxSpeedCap");
+	myBerserkSpeed = someData.at("BerserkSpeed");
 	myReduceMovementSpeed = someData.at("BrakeStrength");
 	myStopAtVelocity = someData.at("StopAtVelocity");
 	myGravity = someData.at("GravityStrength");
@@ -168,8 +172,12 @@ void Player::InitVariables(nlohmann::json someData)
 	myColliderWidth = someData.value("ColliderWidth", -1.0f);
 	myColliderHeight = someData.value("ColliderHeight", -1.0f);
 
-	myColliderShift.x = someData.value("ColliderShiftX", 0.0f);
-	myColliderShift.y = someData.value("ColliderShiftY", 0.0f);
+	// TODO: NOTE: Old name for different purpose, remove when not in use
+	mySpriteShift.x = someData.value("ColliderShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("ColliderShiftY", mySpriteShift.y);
+
+	mySpriteShift.x = someData.value("SpriteShiftX", mySpriteShift.x);
+	mySpriteShift.y = someData.value("SpriteShiftY", mySpriteShift.y);
 }
 
 void Player::StopMovement()
@@ -189,19 +197,37 @@ void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 
-	myCollider->SetPosition(aPosition + myColliderShift);
-	myPhysicsController.SetPosition(aPosition + myColliderShift);
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myDirection, mySpriteShift.y));
+	myPhysicsController.SetPosition(aPosition);
 }
 
 void Player::SetControllerActive(const bool aState)
 {
 	myIsControllerActive = aState;
-	//myVel = CU::Vector2<float>();
+}
+
+void Player::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myWeaponController->ActivatePowerUp(aPowerUpType);
+	if (aPowerUpType == PowerUpType::Berserk)
+	{
+		mySpeed += myBerserkSpeed;
+	}
+}
+
+void Player::DisablePowerUp()
+{
+	mySpeed -= myBerserkSpeed;
 }
 
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
+	myHUD->GetHealthBar()->RemoveHP();
+	if (myHealth->IsDead() == true)
+	{
+		GetScene()->GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+	}
 }
 
 void Player::AddHealth(const int aHealthAmount)
@@ -266,6 +292,33 @@ void Player::ImGui()
 	ImGui::End();
 }
 
+void Player::SetState(PlayerState aState)
+{
+	if (myState == aState)
+	{
+		return;
+	}
+
+	switch (aState)
+	{
+	case PlayerState::Idle:
+		myAnimator->SetState("idle");
+		break;
+
+	case PlayerState::Running:
+		myAnimator->SetState("running");
+		break;
+
+	default:
+		assert(false && "Invalid player state!");
+		break;
+	}
+
+	myAnimator->ApplyToSprite(mySprite);
+
+	myState = aState;
+}
+
 void Player::Move(const float aDeltaTime, InputInterface* anInput)
 {
 	CU::Vector2<float> physicsVelocity = myPhysicsController.GetVelocity();
@@ -289,6 +342,15 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 	{
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
+	}
+
+	if (myMovementVelocity.x > 0.0f)
+	{
+		myDirection = 1.0f;
+	}
+	else if (myMovementVelocity.x < 0.0f)
+	{
+		myDirection = -1.0f;
 	}
 
 	myPhysicsController.ApplyFrameImpulse(myMovementVelocity * aDeltaTime);

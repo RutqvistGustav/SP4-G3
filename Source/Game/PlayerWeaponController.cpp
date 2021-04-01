@@ -112,3 +112,13 @@ void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStr
 		myPlayer->ApplyForce(direction *someStrength * -1.0f);
 	}
 }
+
+void PlayerWeaponController::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myShotgun->ActivatePowerUp(aPowerUpType);
+}
+
+void PlayerWeaponController::DisablePowerUp()
+{
+	myPlayer->DisablePowerUp();
+}

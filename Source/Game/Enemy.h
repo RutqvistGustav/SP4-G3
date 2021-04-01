@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "PowerUpType.h"
 #include "EntityPhysicsController.h"
 
 #include <memory>
@@ -21,6 +22,8 @@ public:
     virtual const int DealDamage();
     virtual void TakeDamage(const int aDamage);
     virtual void InitEnemyJsonValues(const std::string& aJsonPath);
+    virtual PowerUpType GetLootType();
+    virtual void SetLootType(const PowerUpType aLootType);
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
@@ -37,6 +40,7 @@ protected:
     float myMaxSpeed;
     float myDetectionRange;
     float myKnockback;
+    PowerUpType myLoot;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
 
