@@ -19,7 +19,7 @@ namespace Tga2D
 
 class TiledCollision;
 class RenderQueue;
-class RenderContext;
+struct RenderContext;
 
 class CollisionManager
 {
