@@ -164,6 +164,8 @@ void Player::InitVariables(nlohmann::json someData)
 	myJumpCharges = someData.at("JumpCharges");
 	myJumpChargeReset = myJumpCharges;
 	myJumpStrength = someData.at("JumpStrength");
+	myCoyoteTime = someData.at("CoyoteTime");
+	myCoyoteTimeReset = myCoyoteTime;
 
 	//Health
 	myHealth = std::make_unique<Health>(someData.at("Health"));
@@ -337,12 +339,22 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 	if (myPhysicsController.IsGrounded())
 	{
 		myJumpCharges = myJumpChargeReset;
+		myCoyoteTime = myCoyoteTimeReset;
 	}
 
 	if (anInput->IsJumping() && myJumpCharges > 0)
 	{
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
+	}
+
+	if (!myPhysicsController.IsGrounded() && myJumpCharges == myJumpChargeReset)
+	{
+		myCoyoteTime -= aDeltaTime;
+		if (myCoyoteTime <= 0)
+		{
+			--myJumpCharges;
+		}
 	}
 
 	if (myMovementVelocity.x > 0.0f)
