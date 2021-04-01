@@ -223,7 +223,7 @@ void Player::DisablePowerUp()
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
-	myHUD->GetHealthBar()->RemoveHP();
+	if(myHealth->IsPlayerInvinsible() == false) myHUD->GetHealthBar()->RemoveHP(aDamage);
 	if (myHealth->IsDead() == true)
 	{
 		GetScene()->GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
@@ -232,6 +232,7 @@ void Player::TakeDamage(const int aDamage)
 
 void Player::AddHealth(const int aHealthAmount)
 {
+	myHUD->GetHealthBar()->AddHP(aHealthAmount);
 	myHealth->AddHealth(aHealthAmount);
 }
 
