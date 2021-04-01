@@ -18,7 +18,7 @@
     "Berserk": {
       "Duration": 10.0,
       "Damage": 2.0,
-      "ReloadDuration": 0.2
+      "ReloadDuration": 0.0
     },
     "SniperShot": {
       "Duration": 12.0,
