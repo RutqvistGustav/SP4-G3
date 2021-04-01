@@ -11,6 +11,7 @@ public:
 	const bool IsDead();
 
 	void SetInvincibilityTimer(const float aTimerValue);
+	const bool IsPlayerInvinsible();
 
 private:
 	int myMaxHealth;
