@@ -26,7 +26,6 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MousePointer::SetClickCallback(const ClickCallback& aClickCallback)

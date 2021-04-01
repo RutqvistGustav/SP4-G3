@@ -45,8 +45,6 @@ void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 	std::shared_ptr<SpriteWrapper>& spriteToRender = myHover ? myHoverSprite : mySprite;
 
 	aRenderQueue->Queue(RenderCommand(spriteToRender));
-
-	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
