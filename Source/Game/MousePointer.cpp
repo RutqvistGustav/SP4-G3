@@ -11,17 +11,9 @@
 #include "CollisionInfo.h"
 
 MousePointer::MousePointer(Scene* aScene)
-	: GameObject(aScene) 
+	: GameObject(aScene, "Sprites/Menue UI/ProgArt/Pointer.png")
 {
-	myButtonClicked = false;
 	SetTag(GameObjectTag::MousePointer);
-	myScene = aScene;
-	mySprite = std::make_shared<SpriteWrapper>(SpriteWrapper("Sprites/Menue UI/ProgArt/Pointer.png"));
-	mySprite->SetPanStrengthFactor(0);
-
-	myCollider = std::make_shared<Collider>();
-	myCollider->Init(myMousePointerPos, mySprite->GetSize());
-	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
 MousePointer::~MousePointer() = default;
@@ -30,9 +22,6 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 {	
 	ReadingMouseCoordinates(aDeltaTime, anUpdateContext.myInput);
 	ReadingLMBInput(anUpdateContext.myInputInterface);
-
-	myCollider->SetPosition(myMousePointerPos);
-	mySprite->SetPosition(myMousePointerPos);
 }
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -40,75 +29,44 @@ void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
-void MousePointer::OnEnter(const CollisionInfo& someCollisionInfo)
+void MousePointer::SetClickCallback(const ClickCallback& aClickCallback)
 {
-	if (GetLMBDown())
+	myClickCallback = aClickCallback;
+}
+
+void MousePointer::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	if (IsMouseDown())
 	{
-		myButtonClicked = true;
-		myClickedButton = someCollisionInfo.myOtherCollider->GetGameObject()->GetTag();
+		GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+		if (myClickCallback)
+		{
+			myClickCallback(gameObject);
+		}
 	}
 }
 
-bool MousePointer::GetLMBDown()
+bool MousePointer::IsMouseDown()
 {
-	return myClicked;
+	return myMouseDown;
 }
 
-bool MousePointer::GetButtonClicked()
+bool MousePointer::IsMouseHeld()
 {
-	return myButtonClicked;
-}
-
-void MousePointer::SetButtonClicked(bool aBool)
-{
-	myButtonClicked = aBool;
-}
-
-CU::Vector2<float> MousePointer::GetPointerPos()
-{
-	return myMousePointerPos;
-}
-
-GameObjectTag MousePointer::ClickedButton() const
-{
-	return myClickedButton;
+	return myMouseHeld;
 }
 
 void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
-	auto refSize = Metrics::GetReferenceSize();
-	float mousX = static_cast<float>(mousePos.myMouseX);
-	float mousY = static_cast<float>(mousePos.myMouseY);
+	const CU::Vector2<float> mousePosition = { static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY) };
 
-	if (myLastPosCalculate == false)
-	{
-		myLastPosCalculate = true;
-		myLastPos.x = mousX;
-		myLastPos.y = mousY;
-	}
-	else
-	{
-		myTimer += aDeltaTime;
-		if (myTimer >= 0.02f)
-		{
-			myTimer = {};
-			myLastPosCalculate = false;			
-			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
-		}
-	}
-	//CoordinateHelper::GetClientPositionAsVirtual()
-	myMousePointerPos = (CU::Vector2(mousX, mousY));
+	SetPosition(CoordinateHelper::GetClientPositionAsVirtual(mousePosition));
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)
 {
-	if (aInputInterface->IsShooting())
-	{
-		myClicked = true;
-	}
-	else
-	{
-		myClicked = false;
-	}
+	const bool isMouseDown = aInputInterface->IsHoldingMenuAccept();
+	myMouseDown = !myMouseHeld && isMouseDown;
+	myMouseHeld = isMouseDown;
 }

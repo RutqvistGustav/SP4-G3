@@ -11,194 +11,120 @@
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
-#include "TiledParser.h"
-#include "TiledRenderer.h"
-#include "TiledCollision.h"
 #include "Game.h"
+
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
+
+#include <iostream>
 
 Settings::Settings() = default;
 Settings::~Settings() = default;
 
 void Settings::Init()
 {
-	myX = Metrics::GetReferenceSize().x;
-	myY = Metrics::GetReferenceSize().y;
-
-	InitCollisions();
-
-	myMousePointer = std::make_unique<MousePointer>(this);
+	MenuScene::Init();
 
 	InitSprites();
 	InitSliders();
 	InitButtons();
 
-	SetPanFactors();
+	myMousePointer->SetClickCallback(std::bind(&Settings::MouseClicked, this, std::placeholders::_1));
 
 	Tga2D::SEngineCreateParameters engineParameters;
 	SetResolutionBool(engineParameters.myWindowHeight);
 }
 
-void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	myX = Metrics::GetReferenceSize().x;
-	myY = Metrics::GetReferenceSize().y;
-
-	myCollisionManager->Update();
-
-	UpdateObjects(aDeltaTime, anUpdateContext);
-	UpdateMouse(aDeltaTime, anUpdateContext);
-}
-
 void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	RenderObjects(aRenderQueue, aRenderContext);
-	RenderResolutionText(aRenderQueue, aRenderContext);
-	myMousePointer->Render(aRenderQueue, aRenderContext);
-}
+	MenuScene::Render(aRenderQueue, aRenderContext);
 
-void Settings::InitCollisions()
-{
-	myTiledParser = std::make_unique<TiledParser>("Maps/EmptyMap.json");
-	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
-	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
-	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+	for (auto& sprite : mySprites)
+	{
+		aRenderQueue->Queue(RenderCommand(sprite));
+	}
+
+	RenderResolutionText(aRenderQueue, aRenderContext);
 }
 
 void Settings::InitSprites()
 {
-	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
-	myBackground->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.5f));
-	mySprites.push_back(std::move(myBackground));
+	const float width = Metrics::GetReferenceSize().x;
+	const float height = Metrics::GetReferenceSize().y;
 
-	mySettingsSprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");
-	mySettingsSprite->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.23f));
-	mySprites.push_back(std::move(mySettingsSprite));
+	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
+	background->SetLayer(-1);
+	mySprites.push_back(background);
 
-	myResolutionSprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/resolution bar.dds");
-	myResolutionSprite->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.7f));
-	mySprites.push_back(std::move(myResolutionSprite));
+	auto settingsSprites = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");
+	settingsSprites->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.23f));
+	mySprites.push_back(settingsSprites);
+
+	auto resolutionSprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/resolution bar.dds");
+	resolutionSprite->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.7f));
+	mySprites.push_back(resolutionSprite);
 
 	my720Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/720.dds");
-	my720Sprite->SetPosition(CommonUtilities::Vector2(myX * 0.59f, myY * 0.72f));
-	myResolutionSprites.push_back(my720Sprite);
+	my720Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 
 	my900Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/900.dds");
-	my900Sprite->SetPosition(CommonUtilities::Vector2(myX * 0.59f, myY * 0.72f));
-	myResolutionSprites.push_back(my900Sprite);
+	my900Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 
 	my1080Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/1080.dds");
-	my1080Sprite->SetPosition(CommonUtilities::Vector2(myX * 0.59f, myY * 0.72f));
-	myResolutionSprites.push_back(my1080Sprite);
+	my1080Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 }
 
 void Settings::InitSliders()
 {
-	myMasterVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/master bar.dds", GameObjectTag::MasterSlider);
-	myMasterVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.35f), true);
-	mySliders.push_back(std::move(myMasterVolume));
+	AudioManager* audioManager = GetGlobalServiceProvider()->GetAudioManager();
 
-	mySfxVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/sfx bar.dds", GameObjectTag::SfxSlider);
-	mySfxVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.45f), true);
-	mySliders.push_back(std::move(mySfxVolume));
+	const float width = Metrics::GetReferenceSize().x;
+	const float height = Metrics::GetReferenceSize().y;
 
-	myMusicVolume = std::make_unique<Slider>(this, "Sprites/Menue UI/settings/music bar.dds", GameObjectTag::MusicSlider);
-	myMusicVolume->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.55f), true);
-	mySliders.push_back(std::move(myMusicVolume));
+	auto masterVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/master bar.dds", GameObjectTag::MasterSlider);
+	masterVolume->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.35f), true);
+	masterVolume->SetValueChangeCallback(std::bind(&Settings::SetMasterVolume, this, std::placeholders::_1));
+	masterVolume->Init();
+	masterVolume->SetSlidePercentage(audioManager->GetMasterVolume());
+	AddInterfaceElement(masterVolume);
 
-	for (auto& s : mySliders)
-	{
-		s->Init();
-	}
+	auto sfxVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/sfx bar.dds", GameObjectTag::SfxSlider);
+	sfxVolume->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.45f), true);
+	sfxVolume->SetValueChangeCallback(std::bind(&Settings::SetSfxVolume, this, std::placeholders::_1));
+	sfxVolume->Init();
+	sfxVolume->SetSlidePercentage(audioManager->GetSfxVolume());
+	AddInterfaceElement(sfxVolume);
+
+	auto musicVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/music bar.dds", GameObjectTag::MusicSlider);
+	musicVolume->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.55f), true);
+	musicVolume->SetValueChangeCallback(std::bind(&Settings::SetMusicVolume, this, std::placeholders::_1));
+	musicVolume->Init();
+	musicVolume->SetSlidePercentage(audioManager->GetMusicVolume());
+	AddInterfaceElement(musicVolume);
 }
 
 void Settings::InitButtons()
 {
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
+	const float width = Metrics::GetReferenceSize().x;
+	const float height = Metrics::GetReferenceSize().y;
+
+	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
-	myBackButton->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.85f));
-	myButtons.push_back(std::move(myBackButton));
+	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.85f));
+	AddInterfaceElement(backButton);
 
-	myLeftArrow = std::make_unique<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
+	auto leftArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
 		GameObjectTag::ArrowLeftButton);
-	myLeftArrow->SetPosition(CommonUtilities::Vector2(myX * 0.5f, myY * 0.71f));
-	myLeftArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
-	myButtons.push_back(std::move(myLeftArrow));
+	leftArrow->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.71f));
+	leftArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
+	AddInterfaceElement(leftArrow);
 
-	myRightArrow = std::make_unique<MenuButton>(this, "Sprites/Menue UI/settings/arrow right.dds", "Sprites/Menue UI/settings/arrow right.dds",
+	auto rightArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow right.dds", "Sprites/Menue UI/settings/arrow right.dds",
 		GameObjectTag::ArrowRightButton);
-	myRightArrow->SetPosition(CommonUtilities::Vector2(myX * 0.68f, myY * 0.71f));
-	myRightArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
-	myButtons.push_back(std::move(myRightArrow));
-}
-
-void Settings::SetPanFactors()
-{
-	for (auto& s : mySprites)
-	{
-		s->SetPanStrengthFactor(0);
-	}
-	for (auto& s : myResolutionSprites)
-	{
-		s->SetPanStrengthFactor(0);
-	}
-}
-
-void Settings::RenderObjects(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
-{
-	for (auto& s : mySprites)
-	{
-		RenderCommand renderCommand = RenderCommand(s);
-		aRenderQueue->Queue(renderCommand);
-	}
-
-	for (auto& b : myButtons)
-	{
-		b->Render(aRenderQueue, aRenderContext);
-	}
-	for (auto& s : mySliders)
-	{
-		s->Render(aRenderQueue, aRenderContext);
-	}
-}
-
-void Settings::UpdateMouse(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
-	if (myMousePointer->GetButtonClicked())
-	{
-		switch (myMousePointer->ClickedButton())
-		{
-		case GameObjectTag::BackButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
-			break;
-		}
-		case GameObjectTag::ArrowLeftButton:
-		{
-			ChangeResolution(GameObjectTag::ArrowLeftButton);
-			break;
-		}
-		case GameObjectTag::ArrowRightButton:
-		{
-			ChangeResolution(GameObjectTag::ArrowRightButton);
-			break;
-		}
-		}
-		myMousePointer->SetButtonClicked(false);
-	}
-}
-
-void Settings::UpdateObjects(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	for (auto& b : myButtons)
-	{
-		b->Update();
-	}
-	for (auto& s : mySliders)
-	{
-		s->Update(aDeltaTime, anUpdateContext, myMousePointer->GetLMBDown(), myMousePointer->GetPointerPos());
-	}
+	rightArrow->SetPosition(CommonUtilities::Vector2(width * 0.68f, height * 0.71f));
+	rightArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
+	AddInterfaceElement(rightArrow);
 }
 
 void Settings::SetResolution(int aResolutionY)
@@ -249,18 +175,15 @@ void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderConte
 {
 	if (my720)
 	{
-		RenderCommand renderCommand = RenderCommand(my720Sprite);
-		aRenderQueue->Queue(renderCommand);
+		aRenderQueue->Queue(RenderCommand(my720Sprite));
 	}
-	if (my900)
+	else if (my900)
 	{
-		RenderCommand renderCommand = RenderCommand(my900Sprite);
-		aRenderQueue->Queue(renderCommand);
+		aRenderQueue->Queue(RenderCommand(my900Sprite));
 	}
-	if (my1080)
+	else if (my1080)
 	{
-		RenderCommand renderCommand = RenderCommand(my1080Sprite);
-		aRenderQueue->Queue(renderCommand);
+		aRenderQueue->Queue(RenderCommand(my1080Sprite));
 	}
 }
 
@@ -275,14 +198,14 @@ void Settings::ChangeResolution(GameObjectTag aTag)
 			my720 = false;
 			return;
 		}
-		if (my900)
+		else if (my900)
 		{
 			SetResolution(720);
 			my720 = true;
 			my900 = false;
 			return;
 		}
-		if (my1080)
+		else if (my1080)
 		{
 			SetResolution(900);
 			my900 = true;
@@ -299,14 +222,14 @@ void Settings::ChangeResolution(GameObjectTag aTag)
 			my720 = false;
 			return;
 		}
-		if (my900)
+		else if (my900)
 		{
 			SetResolution(1080);
 			my1080 = true;
 			my900 = false;
 			return;
 		}
-		if (my1080)
+		else if (my1080)
 		{
 			SetResolution(720);
 			my720 = true;
@@ -314,4 +237,43 @@ void Settings::ChangeResolution(GameObjectTag aTag)
 			return;
 		}
 	}
+}
+
+void Settings::MouseClicked(GameObject* aTarget)
+{
+	if (aTarget == nullptr)
+	{
+		return;
+	}
+
+	const GameObjectTag targetTag = aTarget->GetTag();
+
+	switch (targetTag)
+	{
+	case GameObjectTag::ArrowLeftButton:
+		ChangeResolution(GameObjectTag::ArrowLeftButton);
+		break;
+	case GameObjectTag::ArrowRightButton:
+		ChangeResolution(GameObjectTag::ArrowRightButton);
+		break;
+
+	case GameObjectTag::BackButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+		break;
+	}
+}
+
+void Settings::SetMasterVolume(float aVolume)
+{
+	GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(aVolume);
+}
+
+void Settings::SetSfxVolume(float aVolume)
+{
+	GetGlobalServiceProvider()->GetAudioManager()->SetSfxVolume(aVolume);
+}
+
+void Settings::SetMusicVolume(float aVolume)
+{
+	GetGlobalServiceProvider()->GetAudioManager()->SetMusicVolume(aVolume);
 }

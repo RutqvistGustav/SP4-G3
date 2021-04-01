@@ -57,7 +57,7 @@ private:
 	ContactManager myContactManager;
 	LockedSection myUpdateLock;
 	
-	TiledCollision* myTiledCollision;
+	TiledCollision* myTiledCollision{};
 
 };
 

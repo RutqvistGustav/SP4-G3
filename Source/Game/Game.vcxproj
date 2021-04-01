@@ -169,6 +169,8 @@
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Foreground.h" />
+    <ClInclude Include="ForegroundImage.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameMessage.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="MenuScene.h" />
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
@@ -268,7 +271,6 @@
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ContactManager.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
-    <ClCompile Include="CoordinateHelper.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
     <ClCompile Include="DialogueBox.cpp" />
@@ -278,6 +280,8 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EntityPhysicsController.cpp" />
+    <ClCompile Include="Foreground.cpp" />
+    <ClCompile Include="ForegroundImage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="GoalZone.cpp" />
@@ -288,6 +292,7 @@
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />

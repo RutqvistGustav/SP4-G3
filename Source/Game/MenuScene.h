@@ -2,30 +2,25 @@
 
 #include "Scene.h"
 
-#include <memory>
-
-class MenuButton;
-
-class Options :
-    public Scene
+class MenuScene :
+	public Scene
 {
 public:
 
-	Options();
-	virtual ~Options() override;
+	MenuScene();
+	virtual ~MenuScene() override;
 
 	virtual void Init() override;
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-private:
+protected:
 
-	void InitButtons();
-	void MuteSound();
+	void AddInterfaceElement(std::shared_ptr<GameObject> anElement);
 
-private:
+protected:
 
-	bool myIsMuted;
+	std::unique_ptr<MousePointer> myMousePointer;
+
 };
-

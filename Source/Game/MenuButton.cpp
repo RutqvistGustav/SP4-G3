@@ -15,11 +15,8 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 {
 	SetTag(aTag);
 	myHover = false;
-	myScene = aScene;
 
 	myHoverSprite = std::make_shared<SpriteWrapper>(aSpritePath2);
-	myHoverSprite->SetPanStrengthFactor(0);
-	mySprite->SetPanStrengthFactor(0);
 	
 	myCollider = std::make_shared<Collider>();
 	//myCollider->Init(this, myPosition, 40.f);
@@ -45,14 +42,10 @@ void MenuButton::Update()
 
 void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	RenderCommand renderCommand = RenderCommand(mySprite);
+	std::shared_ptr<SpriteWrapper>& spriteToRender = myHover ? myHoverSprite : mySprite;
 
-	if (myHover)
-	{
-		renderCommand = RenderCommand(myHoverSprite);
-	}
+	aRenderQueue->Queue(RenderCommand(spriteToRender));
 
-	aRenderQueue->Queue(renderCommand);
 	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 

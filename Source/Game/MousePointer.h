@@ -1,5 +1,8 @@
 #pragma once
+
 #include "GameObject.h"
+
+#include <functional>
 
 namespace CommonUtilities
 {
@@ -10,35 +13,35 @@ class SpriteWrapper;
 class InputInterface;
 
 class MousePointer :
-	public GameObject,
-	public CollisionListener
+	public GameObject
 {
 public:
+
+	using ClickCallback = std::function<void(GameObject* aTarget)>;
+
 	MousePointer(Scene* aScene);
 	virtual ~MousePointer() override;
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
-	virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
 
-	bool GetLMBDown();
-	bool GetButtonClicked();
-	void SetButtonClicked(bool aBool);
-	CU::Vector2<float> GetPointerPos();
-	GameObjectTag ClickedButton() const;
+	void SetClickCallback(const ClickCallback& aClickCallback);
 
-private:
-
-	CU::Vector2<float> myMousePointerPos;
-	CU::Vector2<float> myLastPos;
-	CU::Vector2<float> myDragPos;
-
-	float myTimer;
-	bool myLastPosCalculate;
-	bool myClicked;
-	bool myButtonClicked;
-	GameObjectTag myClickedButton;
+	bool IsMouseDown();
+	bool IsMouseHeld();
 
 	void ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput);
 	void ReadingLMBInput(InputInterface* aInputInterface);
+
+private:
+
+	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+
+private:
+
+	ClickCallback myClickCallback;
+
+	bool myMouseDown{};
+	bool myMouseHeld{};
+
 };

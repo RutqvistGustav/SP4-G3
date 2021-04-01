@@ -1,122 +1,104 @@
 #include "stdafx.h"
 #include "MainMenu.h"
+
 #include "Metrics.h"
-#include "MousePointer.h"
-#include "SceneManagerProxy.h"
-#include "GameScene.h"
-#include "MenuButton.h"
-#include "CollisionManager.h"
-#include "Settings.h"
 #include "SpriteWrapper.h"
+
+#include "MousePointer.h"
+
+#include "SceneManagerProxy.h"
+
+#include "GameScene.h"
+#include "LevelSelect.h"
+
+#include "MenuButton.h"
+#include "Settings.h"
+
 #include "RenderQueue.h"
 #include "RenderCommand.h"
-#include "TiledParser.h"
-#include "TiledRenderer.h"
-#include "TiledCollision.h"
-#include "LevelSelect.h"
 
 MainMenu::MainMenu() = default;
 MainMenu::~MainMenu() = default;
 
 void MainMenu::Init()
 {
-	myTiledParser = std::make_unique<TiledParser>("Maps/EmptyMap.json");
-	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
-	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
-	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+	MenuScene::Init();
 
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
-	myBackground->SetPanStrengthFactor(0);
+	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+	myBackground->SetLayer(-1);
 
-	myMousePointer = std::make_unique<MousePointer>(this);
 	InitButtons();
-}
 
-void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	myCollisionManager->Update();
-
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
-
-	myBackground->SetPosition(CU::Vector2(x * 0.5f, y * 0.5f));
-
-	for (auto& o : myButtons)
-	{
-		o->Update();
-	}
-
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
-	if (myMousePointer->GetButtonClicked())
-	{
-		switch (myMousePointer->ClickedButton())
-		{
-		case GameObjectTag::StartButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level1.json"));
-			break;
-		}
-		case GameObjectTag::SettingsButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<Settings>());
-			break;
-		}
-		case GameObjectTag::LevelSelectButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>());
-			break;
-		}
-		case GameObjectTag::QuitButton:
-		{
-			PostQuitMessage(0);
-			break;
-		}
-		}
-		myMousePointer->SetButtonClicked(false);
-	}
+	myMousePointer->SetClickCallback(std::bind(&MainMenu::MouseClicked, this, std::placeholders::_1));
 }
 
 void MainMenu::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	RenderCommand renderCommand = RenderCommand(myBackground);
-	aRenderQueue->Queue(renderCommand);
+	MenuScene::Render(aRenderQueue, aRenderContext);
 
-	for (auto& o : myButtons)
-	{
-		o->Render(aRenderQueue, aRenderContext);
-	}
-
-	myMousePointer->Render(aRenderQueue, aRenderContext);
+	aRenderQueue->Queue(RenderCommand(myBackground));
 }
 
 void MainMenu::InitButtons()
 {
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
+	const float width = Metrics::GetReferenceSize().x;
+	const float height = Metrics::GetReferenceSize().y;
 
-	myStartButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds", 
+	auto startButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds", 
 		GameObjectTag::StartButton);
-	myStartButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.33f));
-	myButtons.push_back(std::move(myStartButton));
+	startButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.33f));
+	AddInterfaceElement(startButton);
 
-	myLevelSelectButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/levels.dds", "Sprites/Menue UI/levels_hover.dds",
+	auto levelSelectButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/levels.dds", "Sprites/Menue UI/levels_hover.dds",
 		GameObjectTag::LevelSelectButton);
-	myLevelSelectButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.43f));
-	myButtons.push_back(std::move(myLevelSelectButton));
+	levelSelectButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.43f));
+	AddInterfaceElement(levelSelectButton);
 
-	mySettingsButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/settings.dds", "Sprites/Menue UI/settings_hover.dds", 
+	auto settingsButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings.dds", "Sprites/Menue UI/settings_hover.dds",
 		GameObjectTag::SettingsButton);
-	mySettingsButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.53f));
-	myButtons.push_back(std::move(mySettingsButton));
+	settingsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.53f));
+	AddInterfaceElement(settingsButton);
 
-	myCreditsButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/credits.dds", "Sprites/Menue UI/credits_hover.dds", 
+	auto creditsButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/credits.dds", "Sprites/Menue UI/credits_hover.dds",
 		GameObjectTag::CreditsButton);
-	myCreditsButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.63f));
-	myButtons.push_back(std::move(myCreditsButton));
+	creditsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.63f));
+	AddInterfaceElement(creditsButton);
 
-	myQuitButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds", 
+	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds",
 		GameObjectTag::QuitButton);
-	myQuitButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.73f));
-	myButtons.push_back(std::move(myQuitButton));
+	quitButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.73f));
+	AddInterfaceElement(quitButton);
+}
+
+void MainMenu::MouseClicked(GameObject* aTarget)
+{
+	if (aTarget == nullptr)
+	{
+		return;
+	}
+
+	const GameObjectTag targetTag = aTarget->GetTag();
+
+	switch (targetTag)
+	{
+	case GameObjectTag::StartButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level1.json"));
+		break;
+	case GameObjectTag::LevelSelectButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>());
+		break;
+
+	case GameObjectTag::SettingsButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<Settings>());
+		break;
+
+	case GameObjectTag::CreditsButton:
+		// TODO: Implement
+		break;
+
+	case GameObjectTag::QuitButton:
+		PostQuitMessage(0);
+		break;
+	}
 }
