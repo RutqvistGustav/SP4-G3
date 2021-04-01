@@ -10,7 +10,8 @@ class SpriteWrapper;
 class InputInterface;
 
 class MousePointer :
-	public GameObject
+	public GameObject,
+	public CollisionListener
 {
 public:
 	MousePointer(Scene* aScene);
@@ -18,7 +19,7 @@ public:
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
-	void OnCollision(GameObject* aGameObject);
+	virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
 
 	bool GetLMBDown();
 	bool GetButtonClicked();

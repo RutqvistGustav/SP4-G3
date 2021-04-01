@@ -195,6 +195,7 @@
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
@@ -294,6 +295,7 @@
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />

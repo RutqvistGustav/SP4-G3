@@ -470,6 +470,9 @@
     <ClInclude Include="Settings.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>GameObjects\Buttons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -702,6 +705,9 @@
     </ClCompile>
     <ClCompile Include="Settings.cpp">
       <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GameObjects\Buttons</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

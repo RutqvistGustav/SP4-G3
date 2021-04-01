@@ -27,6 +27,7 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 	myCollider->Init(myPosition, CU::Vector2(mySprite->GetSize().x * 0.9f, mySprite->GetSize().y * 0.17f));
 	myCollider->SetCollisionListener(this);
 	myCollider->SetGameObject(this);
+	
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
@@ -52,6 +53,7 @@ void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 	}
 
 	aRenderQueue->Queue(renderCommand);
+	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void MenuButton::SetPosition(const CU::Vector2<float> aPosition)

@@ -8,9 +8,10 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 #include "Metrics.h"
+#include "CollisionInfo.h"
 
 MousePointer::MousePointer(Scene* aScene)
-	: GameObject(aScene)
+	: GameObject(aScene) 
 {
 	myButtonClicked = false;
 	SetTag(GameObjectTag::MousePointer);
@@ -36,15 +37,15 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 
 void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//myCollider->RenderDebug(aRenderQueue, aRenderContext);
+	myCollider->RenderDebug(aRenderQueue, aRenderContext);
 }
 
-void MousePointer::OnCollision(GameObject* aGameObject)
+void MousePointer::OnEnter(const CollisionInfo& someCollisionInfo)
 {
 	if (GetLMBDown())
 	{
 		myButtonClicked = true;
-		myClickedButton = aGameObject->GetTag();
+		myClickedButton = someCollisionInfo.myOtherCollider->GetGameObject()->GetTag();
 	}
 }
 
@@ -96,7 +97,8 @@ void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::In
 			myDragPos = { myLastPos.x - mousX, myLastPos.y - mousY };
 		}
 	}
-	myMousePointerPos = CoordinateHelper::GetClientPositionAsVirtual(CU::Vector2(mousX, mousY));
+	//CoordinateHelper::GetClientPositionAsVirtual()
+	myMousePointerPos = (CU::Vector2(mousX, mousY));
 }
 
 void MousePointer::ReadingLMBInput(InputInterface* aInputInterface)

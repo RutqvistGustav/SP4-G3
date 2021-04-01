@@ -39,7 +39,7 @@ void MainMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
-	myBackground->SetPosition(CU::Vector2(x / 2, y / 2));
+	myBackground->SetPosition(CU::Vector2(x * 0.5f, y * 0.5f));
 
 	for (auto& o : myButtons)
 	{
@@ -97,26 +97,26 @@ void MainMenu::InitButtons()
 
 	myStartButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds", 
 		GameObjectTag::StartButton);
-	myStartButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.33f));
+	myStartButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.33f));
 	myButtons.push_back(std::move(myStartButton));
 
 	myLevelSelectButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/levels.dds", "Sprites/Menue UI/levels_hover.dds",
 		GameObjectTag::LevelSelectButton);
-	myLevelSelectButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.43f));
+	myLevelSelectButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.43f));
 	myButtons.push_back(std::move(myLevelSelectButton));
 
 	mySettingsButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/settings.dds", "Sprites/Menue UI/settings_hover.dds", 
 		GameObjectTag::SettingsButton);
-	mySettingsButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.53f));
+	mySettingsButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.53f));
 	myButtons.push_back(std::move(mySettingsButton));
 
 	myCreditsButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/credits.dds", "Sprites/Menue UI/credits_hover.dds", 
 		GameObjectTag::CreditsButton);
-	myCreditsButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.63f));
+	myCreditsButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.63f));
 	myButtons.push_back(std::move(myCreditsButton));
 
 	myQuitButton = std::make_unique<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds", 
 		GameObjectTag::QuitButton);
-	myQuitButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.73f));
+	myQuitButton->SetPosition(CommonUtilities::Vector2(x * 0.5f, y * 0.73f));
 	myButtons.push_back(std::move(myQuitButton));
 }
