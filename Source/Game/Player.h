@@ -47,7 +47,6 @@ public:
 
    	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
-
     void SetControllerActive(const bool aState);
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();
@@ -120,6 +119,8 @@ private:
     int myJumpChargeReset;
 
     float myJumpStrength;
+    float myCoyoteTime{};
+    float myCoyoteTimeReset{};
 
     std::unique_ptr<Health> myHealth;
 };

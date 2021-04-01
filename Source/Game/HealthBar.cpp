@@ -36,6 +36,9 @@ void HealthBar::Init()
 
 	myReducedHealth = CU::Vector2<float>();
 	myReducedPowerUp = CU::Vector2<float>();
+	myMaxHealth = myHealthBar->GetSize().x;
+	mySingleBarSize = 50.0f;
+	myHpOffSetX = 22.0f;
 
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -53,17 +56,22 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
-void HealthBar::RemoveHP()
+void HealthBar::RemoveHP(const int aDamageAmount)
 {
 	CU::Vector2<float> reducedHealth = myHealthBar->GetSize();
-	myReducedHealth.x -= 22.0f;
-	reducedHealth.x -= 50.0f;
+	myReducedHealth.x -= myHpOffSetX * aDamageAmount;
+	reducedHealth.x -= mySingleBarSize * aDamageAmount;
+	if (reducedHealth.x < 0) reducedHealth.x = 0; // TODO fix X offset so position doesnt go outside healthframe
 	myHealthBar->SetSize(reducedHealth);
 }
 
-void HealthBar::AddHP()
+void HealthBar::AddHP(const int aHealthAmount)
 {
-	// restore size of hp bar.
+	CU::Vector2<float> increasedHealth = myHealthBar->GetSize();
+	myReducedHealth.x += myHpOffSetX * aHealthAmount;
+	increasedHealth.x += mySingleBarSize * aHealthAmount;
+	if (increasedHealth.x > myMaxHealth) increasedHealth.x = myMaxHealth;
+	myHealthBar->SetSize(increasedHealth);
 }
 
 void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
