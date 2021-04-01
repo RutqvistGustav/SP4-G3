@@ -29,6 +29,7 @@
 #include "GameMessenger.h"
 #include "CheckpointMessage.h"
 #include "CheckpointContext.h"
+#include "CollectibleManager.h"
 
 GameScene::GameScene() = default;
 GameScene::~GameScene() = default;
@@ -45,7 +46,7 @@ void GameScene::Init()
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
-	myMinimap = std::make_unique<Minimap>(myTiledParser.get(), myTiledCollision.get());
+	myMinimap = std::make_unique<Minimap>(this, myTiledParser.get(), myTiledCollision.get());
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -54,6 +55,7 @@ void GameScene::Init()
 	myPlayer->Init();
 
 	myEnemyManager = std::make_unique<EnemyManager>(this, myMinimap.get());
+	myCollectibleManager = std::make_unique<CollectibleManager>(this);
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 
@@ -81,8 +83,10 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myCollisionManager->Update();
 
 	//Removal of marked GameObjects
-	myEnemyManager->Update(aDeltaTime, anUpdateContext);
+	myEnemyManager->DeleteMarkedEnemies();
+	myCollectibleManager->DeleteMarkedCollectables();
 	Scene::RemoveMarkedObjects();
+
 
 	//temp
 	myEnemyManager->AddTargetToAllEnemies(myPlayer);

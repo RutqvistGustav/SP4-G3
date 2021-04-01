@@ -3,6 +3,7 @@
 
   "MovementSpeed": 15500.0,
   "MaxSpeedCap": 550.0,
+  "BerserkSpeed": 2000.0,
   "BrakeStrength": 0.00000001,
   "StopAtVelocity": 0.0,
   "GravityStrength": 3200.0,
@@ -14,5 +15,5 @@
   "Invincibility" : 1.0,
 
   "ColliderWidth": 55,
-  "ColliderShiftX": -35
+  "ColliderShiftX": 35
 }

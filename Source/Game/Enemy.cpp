@@ -56,7 +56,7 @@ void Enemy::TakeDamage(const int aDamage)
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 {
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
-	nlohmann::json zombieData = data.at("EliteZombie");
+	nlohmann::json zombieData = data.at(aJsonPath);
 	myHealth = std::make_unique<Health>(zombieData.at("Health"));
 	myHealth->SetInvincibilityTimer(zombieData.at("Invincibility"));
 	myDamage = zombieData.at("Damage");
@@ -67,6 +67,16 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
 	myPhysicsController.SetGravity({ 0.0f, 1000.0f }); // TODO: Read from JSON
+}
+
+PowerUpType Enemy::GetLootType()
+{
+	return myLoot;
+}
+
+void Enemy::SetLootType(const PowerUpType aLootType)
+{
+	myLoot = aLootType;
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)

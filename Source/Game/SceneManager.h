@@ -24,6 +24,8 @@ public:
 
 	void Transition(std::unique_ptr<Scene> aTargetScene);
 
+	bool IsTransitionQueued() const;
+
 	inline Camera* GetCamera() { return myCamera.get(); }
 
 private:

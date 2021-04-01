@@ -9,6 +9,7 @@ class Player;
 class SpriteWrapper;
 class Enemy;
 class EnemyManager;
+class CollectibleManager;
 
 class TiledParser;
 class TiledRenderer;
@@ -42,6 +43,7 @@ private:
 	std::shared_ptr<Player> myPlayer;
 
 	std::unique_ptr<EnemyManager> myEnemyManager;
+	std::unique_ptr<CollectibleManager> myCollectibleManager;
 
 	std::unique_ptr<TiledParser> myTiledParser;
 	std::unique_ptr<TiledRenderer> myTiledRenderer;

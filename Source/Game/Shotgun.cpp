@@ -50,11 +50,47 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
 	}
+
+	UpdatePowerUps(aDeltaTime);
 }
 
 void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 	// TODO: Render weapon?
+}
+
+void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myIsPowerUpActive = true;
+	myActivePowerUp = aPowerUpType;
+	if (myActivePowerUp == PowerUpType::Berserk)
+	{
+		myPowerUpDuration = myBerserkDuration;
+		myPowerUpDamage = myBerserkDamage;
+		myPowerUpReloadDuration = myBerserkReloadDuration;
+	}
+	else if (myActivePowerUp == PowerUpType::SniperShot)
+	{
+		myPowerUpDuration = mySniperShotDuration;
+		myPowerUpDamage = mySniperShotDamage;
+		myPowerUpReloadDuration = mySniperShotReloadDuration;
+	}
+}
+
+void Shotgun::UpdatePowerUps(const float aDeltaTime)
+{
+	if (myIsPowerUpActive == true)
+	{
+		myPowerUpDuration -= aDeltaTime;
+		if (myPowerUpDuration <= 0)
+		{
+			if (myActivePowerUp == PowerUpType::Berserk)
+			{
+				GetWeaponHolder()->DisablePowerUp();
+			}
+			myIsPowerUpActive = false;
+		}
+	}
 }
 
 void Shotgun::Shoot()
@@ -101,7 +137,14 @@ void Shotgun::Reload()
 {
 	if (!IsReloading())
 	{
-		myReloadCompleteTime = myTime + myReloadDuration;
+		if (myIsPowerUpActive == false)
+		{
+			myReloadCompleteTime = myTime + myReloadDuration;
+		}
+		else
+		{
+			myReloadCompleteTime = myTime + myPowerUpReloadDuration;
+		}
 	}
 }
 
@@ -118,6 +161,15 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 
 	myRecoilKnockbackStrength = someJsonData["recoilKnockbackStrength"];
 	myBoostKnockBackStrength = someJsonData["boostKnockbackStrength"];
+
+	myBerserkDuration = someJsonData["Berserk"].at("Duration");
+	myBerserkDamage = someJsonData["Berserk"].at("Damage");
+	myBerserkReloadDuration = someJsonData["Berserk"].at("ReloadDuration");
+
+	mySniperShotDuration = someJsonData["SniperShot"].at("Duration");
+	mySniperShotDamage = someJsonData["SniperShot"].at("Damage");
+	mySniperShotReloadDuration = someJsonData["SniperShot"].at("ReloadDuration");
+	myExtendRangeX = someJsonData["SniperShot"].at("ExtendRangeX");
 }
 
 void Shotgun::Setup()
@@ -165,8 +217,10 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
 		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
-		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
-		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
+		// enemyAngle += enemyAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// myAngle += myAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// if (enemyAngle < 0.0f) enemyAngle = std::fmodf(enemyAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
+		// if (myAngle < 0.0f) myAngle = std::fmodf(myAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
 
 		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
 

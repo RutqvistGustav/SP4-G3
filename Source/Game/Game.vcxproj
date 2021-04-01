@@ -139,6 +139,7 @@
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
     <ClInclude Include="Collectable.h" />
+    <ClInclude Include="CollectibleManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionFilter.h" />
     <ClInclude Include="CollisionInfo.h" />
@@ -189,6 +190,8 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="PowerUpType.h" />
     <ClInclude Include="SceneManagerProxy.h" />
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="StageClearMessage.h" />
@@ -254,6 +257,7 @@
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Collectable.cpp" />
+    <ClCompile Include="CollectibleManager.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionFilter.cpp" />
     <ClCompile Include="CollisionListener.cpp" />
@@ -285,6 +289,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
