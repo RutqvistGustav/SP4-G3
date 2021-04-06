@@ -186,6 +186,7 @@
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InteractableMessage.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="LevelManagerProxy.h" />
     <ClInclude Include="LevelSelect.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MenuButton.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="Key.cpp" />
+    <ClCompile Include="LevelManagerProxy.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MenuButton.cpp" />

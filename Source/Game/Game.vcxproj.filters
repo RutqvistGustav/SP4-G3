@@ -485,6 +485,9 @@
     <ClInclude Include="MenuScene.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="LevelManagerProxy.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -726,6 +729,9 @@
     </ClCompile>
     <ClCompile Include="MenuScene.cpp">
       <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManagerProxy.cpp">
+      <Filter>Core\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
