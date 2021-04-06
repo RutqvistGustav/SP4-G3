@@ -3,6 +3,7 @@
 #include "MenuButton.h"
 #include "SpriteWrapper.h"
 #include "SceneManagerProxy.h"
+#include "UpdateContext.h"
 
 #include "MainMenu.h"
 
@@ -10,83 +11,93 @@
 #include "RenderCommand.h"
 #include "MousePointer.h"
 #include "Metrics.h"
-
-#include "TiledCollision.h"
-#include "TiledRenderer.h"
-#include "TiledParser.h"
+#include "CollisionManager.h"
 
 PauseMenu::PauseMenu() = default;
 PauseMenu::~PauseMenu() = default;
 
 void PauseMenu::Init()
 {
-	//myTiledParser = std::make_unique<TiledParser>("Maps/EmptyMap.json");
-	//myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
-	//myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
-	//myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
-	//
-	//myMousePointer = std::make_unique<MousePointer>(this);
-	//
-	//myBackGround = std::make_shared<SpriteWrapper>("");
-	//myBackGround->SetPanStrengthFactor(0);
+	myBackGround = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	myBackGround->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+	myBackGround->SetLayer(-2);
 
-	//InitButtons();
+	InitButtons();
+
+	myMousePointer->SetClickCallback(std::bind(&PauseMenu::MouseClicked, this, std::placeholders::_1)); // TODO What does this do?
 }
 
 void PauseMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	//myCollisionManager->Update();
-	//
-	//float x = Metrics::GetReferenceSize().x;
-	//float y = Metrics::GetReferenceSize().y;
-	//
-	//myBackGround->SetPosition(CU::Vector2(x / 2, y / 2));
-	//
-	//for (auto& button : myButtons)
-	//{
-	//	button->Update();
-	//}
-	//
-	//myMousePointer->Update(aDeltaTime, anUpdateContext);
-	//
-	//if (myMousePointer->ButtonClicked())
-	//{
-	//	switch (myMousePointer->ClickedButton())
-	//	{
-	//	case GameObjectTag::StartButton:
-	//	{
-	//		
-	//		break;
-	//	}
-	//	case GameObjectTag::QuitButton:
-	//	{
-	//		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
-	//		break;
-	//	}
-	//	}
-	//}
+	if (anUpdateContext.myInputInterface->IsPressingPause())
+	{
+		if (!myPauseIsActive)
+		{
+			myPauseIsActive = true;
+		}
+		else
+		{
+			myPauseIsActive = false;
+		}
+	}
 }
 
 void PauseMenu::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	//aRenderQueue->Queue(RenderCommand(myBackGround));
-	//
-	//for (auto& button : myButtons)
-	//{
-	//	button->Render(aRenderQueue, aRenderContext);
-	//}
+	if (myPauseIsActive == true)
+	{
+		MenuScene::Render(aRenderQueue, aRenderContext);
+
+		aRenderQueue->Queue(RenderCommand(myBackGround));
+	}
+}
+
+const bool PauseMenu::IsGamePaused()
+{
+	return myPauseIsActive;
 }
 
 void PauseMenu::InitButtons()
 {
-	//float x = Metrics::GetReferenceSize().x;
-	//float y = Metrics::GetReferenceSize().y;
-	//
-	//myStartButton = std::make_unique<MenuButton>(this, "Sprite 1", "Sprite 2", GameObjectTag::StartButton);
-	//myStartButton->SetPosition(CU::Vector2(x / 2, y /* * insert y offset*/));
-	//myButtons.push_back(myStartButton);
-	//
-	//myQuitButton = std::make_unique<MenuButton>(this, "Sprite 1", "Sprite 2", GameObjectTag::QuitButton);
-	//myQuitButton->SetPosition(CU::Vector2(x / 2, y /* * insert y offset*/));
-	//myButtons.push_back(myQuitButton);
+	float width = Metrics::GetReferenceSize().x;
+	float height = Metrics::GetReferenceSize().y;
+	
+	auto startButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds",
+		GameObjectTag::StartButton);
+	startButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.43f));
+	AddGameObject(startButton);
+
+	auto restartButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds",
+		GameObjectTag::RestartButton);
+	restartButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.53f));
+	AddGameObject(restartButton);
+	
+	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds",
+		GameObjectTag::QuitButton);
+	quitButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.63f));
+	AddGameObject(quitButton);
+}
+
+void PauseMenu::MouseClicked(GameObject* aTarget)
+{
+	if (aTarget == nullptr) return;
+
+	const GameObjectTag targetTag = aTarget->GetTag();
+
+	switch (targetTag)
+	{
+	case GameObjectTag::StartButton:
+		myPauseIsActive = false;
+		break;
+
+	case GameObjectTag::RestartButton:
+		myPauseIsActive = false;
+		//GetSceneManagerProxy()->Transition(Latest checkpoint);
+		break;
+
+	case GameObjectTag::QuitButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+		break;
+	}
+	
 }

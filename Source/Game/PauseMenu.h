@@ -1,15 +1,12 @@
 #pragma once
-#include "Scene.h"
+#include <memory>
 
-class MenuButton;
+#include "MenuScene.h"
+
 class SpriteWrapper;
 
-class TiledParser;
-class TiledRenderer;
-class TiledCollision;
-
 class PauseMenu :
-    public Scene
+    public MenuScene
 {
 public:
     PauseMenu();
@@ -19,18 +16,14 @@ public:
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+    const bool IsGamePaused();
+
 private:
     void InitButtons();
+    void MouseClicked(GameObject* aTarget);
 
-    std::unique_ptr<MenuButton> myStartButton;
-    std::unique_ptr<MenuButton> myQuitButton;
-
-    std::vector<std::unique_ptr<MenuButton>> myButtons;
-
+private:
+    bool myPauseIsActive = false;
     std::shared_ptr<SpriteWrapper> myBackGround;
-
-    std::unique_ptr<TiledParser> myTiledParser;
-    std::unique_ptr<TiledRenderer> myTiledRenderer;
-    std::unique_ptr<TiledCollision> myTiledCollision;
 };
 
