@@ -26,6 +26,20 @@ public:
 
 	bool IsTransitionQueued() const;
 
+	// == LEVEL MANAGER ==
+	// NOTE: TODO: Should be split out to a separate class, ex. LevelManager
+
+	void TransitionToLevel(int aLevelIndex);
+	void TransitionToMainMenu();
+
+	void RestartCurrentLevel();
+
+	int GetCurrentLevelIndex() const;
+
+	bool InLevel() const;
+
+	// =/= LEVEL MANAGER =/=
+
 	inline Camera* GetCamera() { return myCamera.get(); }
 
 private:
@@ -45,5 +59,7 @@ private:
 	std::unique_ptr<Scene> myQueuedScene;
 
 	std::unique_ptr<Camera> myCamera;
+
+	int myCurrentLevel{ -1 };
 
 };

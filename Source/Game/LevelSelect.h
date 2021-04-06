@@ -1,28 +1,32 @@
 #pragma once
-#include "Scene.h"
+
+#include "MenuScene.h"
+
 #include <memory>
 
 class MenuButton;
-
+class SpriteWrapper;
 
 class LevelSelect :
-    public Scene
+    public MenuScene
 {
-    LevelSelect();
+public:
+
+	LevelSelect();
     virtual ~LevelSelect() override;
 
 	virtual void Init() override;
 
-	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+
 	void InitButtons();
 
-	std::unique_ptr<MenuButton> myLevel1;
-	std::unique_ptr<MenuButton> myBackButton;
-	
-	std::vector<std::unique_ptr<MenuButton>> myButtons;
+	void MouseClicked(GameObject* aTarget);
+
+private:
+
+	std::shared_ptr<SpriteWrapper> myBackground;
 
 };
-

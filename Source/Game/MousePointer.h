@@ -1,6 +1,8 @@
 #pragma once
+
 #include "GameObject.h"
-#include "CollisionListener.h"
+
+#include <functional>
 
 namespace CommonUtilities
 {
@@ -10,22 +12,26 @@ namespace CommonUtilities
 class SpriteWrapper;
 class InputInterface;
 
-struct CollisionInfo;
-
 class MousePointer :
-	public GameObject,
-	public CollisionListener
+	public GameObject
 {
 public:
+
+	using ClickCallback = std::function<void(GameObject* aTarget)>;
+
 	MousePointer(Scene* aScene);
 	virtual ~MousePointer() override;
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-	bool GetLMBDown();
-	bool ButtonClicked();
-	GameObjectTag ClickedButton() const;
+	void SetClickCallback(const ClickCallback& aClickCallback);
+
+	bool IsMouseDown();
+	bool IsMouseHeld();
+
+	void ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput);
+	void ReadingLMBInput(InputInterface* aInputInterface);
 
 private:
 
@@ -33,16 +39,9 @@ private:
 
 private:
 
-	CU::Vector2<float> myMousePointerPos;
-	CU::Vector2<float> myLastPos;
-	CU::Vector2<float> myDragPos;
+	ClickCallback myClickCallback;
 
-	float myTimer;
-	bool myLastPosCalculate;
-	bool myClicked;
-	bool myButtonClicked;
-	GameObjectTag myClickedButton;
+	bool myMouseDown{};
+	bool myMouseHeld{};
 
-	void ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput);
-	void ReadingLMBInput(InputInterface* aInputInterface);
 };

@@ -7,8 +7,7 @@
 class Collider;
 
 class Shotgun :
-	public Weapon,
-	public CollisionListener
+	public Weapon
 {
 public:
 
