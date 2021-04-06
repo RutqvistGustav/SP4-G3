@@ -190,6 +190,7 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="PowerUpType.h" />
     <ClInclude Include="SceneManagerProxy.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />
