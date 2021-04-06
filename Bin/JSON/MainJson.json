@@ -9,6 +9,8 @@
     "JSON/Entities.json",
 
     "Animations/Player.json",
+    "Animations/HealthPickup.json",
+    "Animations/BerserkerPickup.json",
     "Animations/TestAnimation.json",
 
     "Dialog/Main.json"
