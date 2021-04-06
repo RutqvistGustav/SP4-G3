@@ -18,6 +18,8 @@ namespace GameLayer
 
 	static constexpr Layer Foreground = 10;
 
+	static constexpr Layer ParallaxForeground = 20;
+
 	static constexpr Layer Minimap = 50;
 
 	static constexpr Layer Cutscene = 999;

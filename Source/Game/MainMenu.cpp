@@ -6,6 +6,7 @@
 
 #include "MousePointer.h"
 
+#include "LevelManagerProxy.h"
 #include "SceneManagerProxy.h"
 
 #include "GameScene.h"
@@ -83,7 +84,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 	switch (targetTag)
 	{
 	case GameObjectTag::StartButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level1.json"));
+		GetLevelManagerProxy()->TransitionToLevel(1);
 		break;
 	case GameObjectTag::LevelSelectButton:
 		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>());

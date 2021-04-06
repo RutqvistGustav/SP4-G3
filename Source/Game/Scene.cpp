@@ -3,13 +3,18 @@
 #include "CollisionManager.h"
 #include "MousePointer.h"
 #include "GameObject.h"
-#include "SceneManagerProxy.h"
+#include "Camera.h"
 
-Scene::Scene() = default;
+Scene::Scene() :
+	myCamera({ 0.0f, 0.0f })
+{}
+
 Scene::~Scene() = default;
 
 void Scene::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
+	GetCamera()->Update(aDeltaTime, anUpdateContext);
+
 	for (std::shared_ptr<GameObject>& gameObject : myGameObjects)
 	{
 		gameObject->Update(aDeltaTime, anUpdateContext);
@@ -24,22 +29,28 @@ void Scene::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderConte
 	}
 }
 
-void Scene::OnEnter(SceneManagerProxy * aSceneManagerProxy, GlobalServiceProvider * aGlobalServiceProvider)
+void Scene::OnEnter(SceneManagerProxy* aSceneManagerProxy, LevelManagerProxy* aLevelManagerProxy, GlobalServiceProvider * aGlobalServiceProvider)
 {
 	assert(aSceneManagerProxy != nullptr);
 	assert(mySceneManagerProxy == nullptr);
+
+	assert(aLevelManagerProxy != nullptr);
+	assert(myLevelManagerProxy == nullptr);
 
 	assert(aGlobalServiceProvider != nullptr);
 	assert(myGlobalServiceProvider == nullptr);
 
 	mySceneManagerProxy = aSceneManagerProxy;
+	myLevelManagerProxy = aLevelManagerProxy;
 	myGlobalServiceProvider = aGlobalServiceProvider;
 }
 
 void Scene::OnExit()
 {
+	assert(myLevelManagerProxy != nullptr);
 	assert(mySceneManagerProxy != nullptr);
 
+	myLevelManagerProxy = nullptr;
 	mySceneManagerProxy = nullptr;
 }
 
@@ -62,7 +73,5 @@ void Scene::RemoveMarkedObjects()
 
 Camera* Scene::GetCamera()
 {
-	assert(GetSceneManagerProxy() != nullptr);
-
-	return GetSceneManagerProxy()->GetCamera();
+	return &myCamera;
 }
