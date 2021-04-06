@@ -14,8 +14,11 @@ public:
     virtual void Init() override;
     virtual void Update();
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext) override;
+
+    void SetLayer(GameLayer::Layer aLayer);
+
     void SetColliderSize(const CU::Vector2<float> aSize);
-    
+
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
 private:

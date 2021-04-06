@@ -87,6 +87,7 @@ void Settings::InitSliders()
 	masterVolume->SetValueChangeCallback(std::bind(&Settings::SetMasterVolume, this, std::placeholders::_1));
 	masterVolume->Init();
 	masterVolume->SetSlidePercentage(audioManager->GetMasterVolume());
+	masterVolume->SetLayer(1);
 	AddInterfaceElement(masterVolume);
 
 	auto sfxVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/sfx bar.dds", GameObjectTag::SfxSlider);
@@ -94,6 +95,7 @@ void Settings::InitSliders()
 	sfxVolume->SetValueChangeCallback(std::bind(&Settings::SetSfxVolume, this, std::placeholders::_1));
 	sfxVolume->Init();
 	sfxVolume->SetSlidePercentage(audioManager->GetSfxVolume());
+	sfxVolume->SetLayer(1);
 	AddInterfaceElement(sfxVolume);
 
 	auto musicVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/music bar.dds", GameObjectTag::MusicSlider);
@@ -101,6 +103,7 @@ void Settings::InitSliders()
 	musicVolume->SetValueChangeCallback(std::bind(&Settings::SetMusicVolume, this, std::placeholders::_1));
 	musicVolume->Init();
 	musicVolume->SetSlidePercentage(audioManager->GetMusicVolume());
+	musicVolume->SetLayer(1);
 	AddInterfaceElement(musicVolume);
 }
 
@@ -118,12 +121,14 @@ void Settings::InitButtons()
 		GameObjectTag::ArrowLeftButton);
 	leftArrow->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.71f));
 	leftArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
+	leftArrow->SetLayer(1);
 	AddInterfaceElement(leftArrow);
 
 	auto rightArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow right.dds", "Sprites/Menue UI/settings/arrow right.dds",
 		GameObjectTag::ArrowRightButton);
 	rightArrow->SetPosition(CommonUtilities::Vector2(width * 0.68f, height * 0.71f));
 	rightArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
+	rightArrow->SetLayer(1);
 	AddInterfaceElement(rightArrow);
 }
 

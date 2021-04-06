@@ -21,6 +21,8 @@ public:
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
+    void SetLayer(GameLayer::Layer aLayer);
+
     void SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos);
 
     void SetValueChangeCallback(const ValueChangeCallback& aValueChangeCallback);
