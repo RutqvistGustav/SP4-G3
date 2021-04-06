@@ -23,7 +23,7 @@ private:
     void MouseClicked(GameObject* aTarget);
 
 private:
-    bool myPauseIsActive = false;
+    bool myPauseIsActive = true;
     std::shared_ptr<SpriteWrapper> myBackGround;
 };
 

@@ -68,10 +68,6 @@ void GameScene::Init()
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 
-	myPauseMenu = std::make_unique<PauseMenu>();
-	myPauseMenu->OnEnter(GetSceneManagerProxy(), GetLevelManagerProxy(), GetGlobalServiceProvider());
-	myPauseMenu->Init();
-
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
@@ -88,7 +84,7 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	if (myPauseMenu->IsGamePaused() == false)
+	if (myIsGamePaused == false)
 	{
 		Scene::Update(aDeltaTime, anUpdateContext);
 		myPlayer->Update(aDeltaTime, anUpdateContext);
@@ -102,10 +98,16 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		//temp
 		myEnemyManager->AddTargetToAllEnemies(myPlayer);
 	}
+	else
+	{
+		myPauseMenu->Update(aDeltaTime, anUpdateContext);
+	}
+	StartPauseMenu(anUpdateContext);
+	StopPauseMenu();
+
 	Scene::RemoveMarkedObjects();
 	myCollisionManager->Update();
 
-	myPauseMenu->Update(aDeltaTime, anUpdateContext);
 
 	myParallaxContainer->Update(aDeltaTime);
 }
@@ -120,7 +122,7 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myParallaxContainer->Render(aRenderQueue);
 	myMinimap->Render(aRenderQueue);
 
-	myPauseMenu->Render(aRenderQueue, aRenderContext);
+	if(myIsGamePaused) myPauseMenu->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
@@ -145,4 +147,27 @@ void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
 	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
+}
+
+void GameScene::StartPauseMenu(UpdateContext& anUpdateContext)
+{
+	if (anUpdateContext.myInputInterface->IsPressingPause() && myPauseMenu == nullptr)
+	{
+		myIsGamePaused = true;
+		myPauseMenu = std::make_unique<PauseMenu>();
+		myPauseMenu->OnEnter(GetSceneManagerProxy(), GetLevelManagerProxy(), GetGlobalServiceProvider());
+		myPauseMenu->Init();
+	}
+}
+
+void GameScene::StopPauseMenu()
+{
+	if (myPauseMenu != nullptr)
+	{
+		if (myPauseMenu->IsGamePaused() == false)
+		{
+			myPauseMenu.reset();
+			myIsGamePaused = false;
+		}
+	}
 }

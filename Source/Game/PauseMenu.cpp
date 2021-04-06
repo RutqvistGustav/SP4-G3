@@ -4,6 +4,7 @@
 #include "SpriteWrapper.h"
 #include "SceneManagerProxy.h"
 #include "UpdateContext.h"
+#include "LevelManagerProxy.h"
 
 #include "MainMenu.h"
 
@@ -49,12 +50,8 @@ void PauseMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 void PauseMenu::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	if (myPauseIsActive == true)
-	{
-		MenuScene::Render(aRenderQueue, aRenderContext);
-
-		aRenderQueue->Queue(RenderCommand(myBackGround));
-	}
+	MenuScene::Render(aRenderQueue, aRenderContext);
+	aRenderQueue->Queue(RenderCommand(myBackGround));
 }
 
 const bool PauseMenu::IsGamePaused()
@@ -102,9 +99,7 @@ void PauseMenu::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::RestartButton:
-		myPauseIsActive = false;
-		
-		//GetSceneManagerProxy()->Transition(Latest checkpoint);
+		GetLevelManagerProxy()->RestartCurrentLevel();
 		break;
 
 	case GameObjectTag::QuitButton:

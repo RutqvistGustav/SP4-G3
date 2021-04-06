@@ -39,8 +39,12 @@ private:
 
 	CheckpointContext SaveCheckpoint();
 	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
+	void StartPauseMenu(UpdateContext& anUpdateContext);
+	void StopPauseMenu();
 
 private:
+	bool myIsGamePaused = false;
+
 	const std::string myMapPath;
 
 	std::shared_ptr<Player> myPlayer;
