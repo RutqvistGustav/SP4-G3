@@ -62,6 +62,12 @@ void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
+void Slider::SetLayer(GameLayer::Layer aLayer)
+{
+	myBody->SetLayer(aLayer);
+	mySprite->SetLayer(aLayer + 1);
+}
+
 void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
 {
 	myPosition = aPosition;
