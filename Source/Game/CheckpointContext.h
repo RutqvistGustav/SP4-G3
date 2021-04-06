@@ -41,6 +41,16 @@ public:
 		return nullptr;
 	}
 
+	bool HasData()
+	{
+		return mySavedObjects.size() > 0;
+	}
+
+	void Clear()
+	{
+		mySavedObjects.clear();
+	}
+
 private:
 
 	std::unordered_map<std::string, std::unique_ptr<CheckpointObjectData>> mySavedObjects;

@@ -126,23 +126,3 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
 #endif //_DEBUG
 }
-
-CheckpointContext GameScene::SaveCheckpoint()
-{
-	CheckpointContext checkpointContext;
-
-	CheckpointMessageData checkpointMessageData{};
-	checkpointMessageData.myCheckpointContext = &checkpointContext;
-
-	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointSave, &checkpointMessageData);
-
-	return checkpointContext;
-}
-
-void GameScene::LoadCheckpoint(CheckpointContext& aCheckpointContext)
-{
-	CheckpointMessageData checkpointMessageData{};
-	checkpointMessageData.myCheckpointContext = &aCheckpointContext;
-
-	GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
-}

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CheckpointContext.h"
 #include "Scene.h"
 
 #include <memory>
@@ -34,11 +33,6 @@ public:
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
-
-private:
-
-	CheckpointContext SaveCheckpoint();
-	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
 
 private:
 	const std::string myMapPath;

@@ -25,6 +25,8 @@
 
 #include "CollisionInfo.h"
 
+#include "CheckpointMessage.h"
+
 // Tools
 #include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
@@ -255,12 +257,27 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 	switch (aMessage)
 	{
 	case GameMessage::CheckpointSave:
-		// TODO
+	{
+		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->NewData<PlayerCheckpointData>("Player");
+		saveData->myPosition = GetPosition();
+
+		// TODO: Save more data as needed
+	}
 
 		break;
 
 	case GameMessage::CheckpointLoad:
-		// TODO
+	{
+		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->GetData<PlayerCheckpointData>("Player");
+
+		// TODO: Reset all variables to a correct state
+
+		myMovementVelocity = {};
+		myPhysicsController.SetVelocity({});
+
+		SetPosition(saveData->myPosition);
+		myCamera->SetPosition(GetPosition());
+	}
 
 		break;
 

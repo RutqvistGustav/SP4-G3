@@ -13,8 +13,8 @@
 #include "DialogueBox.h"
 
 #include "GoalZone.h"
-
 #include "DamageVolume.h"
+#include "CheckpointVolume.h"
 
 #include <cassert>
 
@@ -106,6 +106,16 @@ void TiledEntities::SpawnEntities()
 			damageVolume->SetTriggerSize(entity.GetSize());
 
 			myScene->AddGameObject(damageVolume);
+		}
+		else if (type == "Checkpoint")
+		{
+			std::shared_ptr<CheckpointVolume> checkpointVolume = std::make_shared<CheckpointVolume>(myScene);
+			checkpointVolume->Init();
+
+			checkpointVolume->SetPosition(entity.GetPosition());
+			checkpointVolume->SetTriggerSize(entity.GetSize());
+
+			myScene->AddGameObject(checkpointVolume);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 {
     "states": {
         "idle": {
-            "fps": 16,
+            "fps": 24,
             "texture": "Sprites/Player/animations/idle/ot_anim_idle_02.dds",
 
             "algorithm": "seqrow",
@@ -17,7 +17,7 @@
             "count": 24
         },
         "running": {
-            "fps": 16,
+            "fps": 24,
             "texture": "Sprites/Player/animations/run/ot_anim_run.dds",
 
             "algorithm": "seqrow",

@@ -4,6 +4,8 @@
 #include "SceneManagerProxy.h"
 #include "LevelManagerProxy.h"
 
+#include "CheckpointContext.h"
+
 #include <memory>
 
 class Camera;
@@ -39,6 +41,9 @@ public:
 
 	bool InLevel() const;
 
+	void SaveCheckpoint();
+	void LoadCheckpoint();
+
 	// =/= LEVEL MANAGER =/=
 
 	Camera* GetCamera();
@@ -61,5 +66,7 @@ private:
 	std::unique_ptr<Scene> myQueuedScene;
 
 	int myCurrentLevel{ -1 };
+
+	CheckpointContext myLastCheckpoint;
 
 };

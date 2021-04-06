@@ -491,6 +491,9 @@
     <ClInclude Include="ParallaxLayer.h">
       <Filter>Core\Parallax</Filter>
     </ClInclude>
+    <ClInclude Include="CheckpointVolume.h">
+      <Filter>GameObjects\Volumes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -738,6 +741,9 @@
     </ClCompile>
     <ClCompile Include="ParallaxLayer.cpp">
       <Filter>Core\Parallax</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckpointVolume.cpp">
+      <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

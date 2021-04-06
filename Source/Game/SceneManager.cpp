@@ -8,6 +8,11 @@
 #include "MainMenu.h"
 #include "GameScene.h"
 
+#include "CheckpointMessage.h"
+
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+
 #include <cassert>
 
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
@@ -90,7 +95,14 @@ void SceneManager::RestartCurrentLevel()
 {
 	assert(InLevel());
 
-	TransitionToLevel(GetCurrentLevelIndex());
+	if (myLastCheckpoint.HasData())
+	{
+		LoadCheckpoint();
+	}
+	else
+	{
+		TransitionToLevel(GetCurrentLevelIndex());
+	}
 }
 
 int SceneManager::GetCurrentLevelIndex() const
@@ -101,6 +113,28 @@ int SceneManager::GetCurrentLevelIndex() const
 bool SceneManager::InLevel() const
 {
 	return GetCurrentLevelIndex() >= 0;
+}
+
+void SceneManager::SaveCheckpoint()
+{
+	assert(InLevel());
+
+	myLastCheckpoint.Clear();
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &myLastCheckpoint;
+
+	myGlobalServiceProvider->GetGameMessenger()->Send(GameMessage::CheckpointSave, &checkpointMessageData);
+}
+
+void SceneManager::LoadCheckpoint()
+{
+	assert(InLevel());
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &myLastCheckpoint;
+
+	myGlobalServiceProvider->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
 }
 
 Camera* SceneManager::GetCamera()
