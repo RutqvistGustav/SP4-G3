@@ -6,7 +6,7 @@
 #include <optional>
 
 class TriggerVolume :
-	public CollisionListener, public GameObject
+	public GameObject
 {
 public:
 

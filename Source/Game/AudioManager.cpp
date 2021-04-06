@@ -26,6 +26,28 @@ float AudioManager::GetMasterVolume() const
     return static_cast<float>(BASS_GetConfig(BASS_CONFIG_GVOL_SAMPLE)) / 10000.0f;
 }
 
+void AudioManager::SetSfxVolume(float aVolume)
+{
+    // TODO: Implement
+}
+
+float AudioManager::GetSfxVolume() const
+{
+    // TODO: Implement
+    return 0.0f;
+}
+
+void AudioManager::SetMusicVolume(float aVolume)
+{
+    // TODO: Implement
+}
+
+float AudioManager::GetMusicVolume() const
+{
+    // TODO: Implement
+    return 0.0f;
+}
+
 void AudioManager::Play(const std::string& anAudioPath, float aVolume, bool aShouldLoop)
 {
     Tga2D::AudioOut::Handle channel;

@@ -109,6 +109,9 @@
     <Filter Include="Core\Collisions\Controllers">
       <UniqueIdentifier>{0c5893e4-469c-4a49-a92c-9cf71bb8ddb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Parallax">
+      <UniqueIdentifier>{bb25d333-bf6f-48a9-945d-963a29e260db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -427,7 +430,7 @@
     </ClInclude>
     <ClInclude Include="CollectibleManager.h">
       <Filter>Core\Managers</Filter>
-      </ClInclude>
+    </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Core\Collisions</Filter>
     </ClInclude>
@@ -466,6 +469,24 @@
     </ClInclude>
     <ClInclude Include="StageClearMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>GameObjects\Buttons</Filter>
+    </ClInclude>
+    <ClInclude Include="Foreground.h">
+      <Filter>Core\Parallax</Filter>
+    </ClInclude>
+    <ClInclude Include="ForegroundImage.h">
+      <Filter>Core\Parallax</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManagerProxy.h">
+      <Filter>Core\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -643,9 +664,6 @@
     <ClCompile Include="MousePointer.cpp">
       <Filter>GameObjects\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="CoordinateHelper.cpp">
-      <Filter>Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="TextWrapper.cpp">
       <Filter>Core\Wrappers</Filter>
     </ClCompile>
@@ -696,6 +714,24 @@
     </ClCompile>
     <ClCompile Include="GoalZone.cpp">
       <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>GameObjects\Buttons</Filter>
+    </ClCompile>
+    <ClCompile Include="ForegroundImage.cpp">
+      <Filter>Core\Parallax</Filter>
+    </ClCompile>
+    <ClCompile Include="Foreground.cpp">
+      <Filter>Core\Parallax</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManagerProxy.cpp">
+      <Filter>Core\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

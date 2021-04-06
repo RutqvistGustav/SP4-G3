@@ -81,34 +81,37 @@ void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, Col
 		return;
 	}
 
-	const TiledTile* aTile = myTiledCollision->GetTileAt(aPosition);
-	if (aTile != nullptr && aLayerFilter == CollisionLayer::MapSolid)
+	if (myTiledCollision != nullptr)
 	{
-		const CU::Vector2<float> alignedSize = { 64.0f, 64.0f };
-		const CU::Vector2<float> alignedPosition = { std::floorf(aPosition.x / alignedSize.x) * alignedSize.x, std::floorf(aPosition.y / alignedSize.y) * alignedSize.y };
-
-		const auto& collisionBoxes = aTile->GetCollisionBoxes();
-
-		if (collisionBoxes.empty())
+		const TiledTile* aTile = myTiledCollision->GetTileAt(aPosition);
+		if (aTile != nullptr && aLayerFilter == CollisionLayer::MapSolid)
 		{
-			aResult.push_back({ CollisionItem::Type::Tile, AABB(alignedPosition, alignedPosition + alignedSize) });
-		}
-		else
-		{
-			for (const auto& collisionBox : collisionBoxes)
+			const CU::Vector2<float> alignedSize = { 64.0f, 64.0f };
+			const CU::Vector2<float> alignedPosition = { std::floorf(aPosition.x / alignedSize.x) * alignedSize.x, std::floorf(aPosition.y / alignedSize.y) * alignedSize.y };
+
+			const auto& collisionBoxes = aTile->GetCollisionBoxes();
+
+			if (collisionBoxes.empty())
 			{
-				const CU::Vector2<float> position = alignedPosition + CU::Vector2<float>(collisionBox.myX, collisionBox.myY);
-				const CU::Vector2<float> size = { collisionBox.myWidth, collisionBox.myHeight };
-
-				AABB boxAABB = AABB(position, position + size);
-
-				if (boxAABB.Contains(aPosition))
+				aResult.push_back({ CollisionItem::Type::Tile, AABB(alignedPosition, alignedPosition + alignedSize) });
+			}
+			else
+			{
+				for (const auto& collisionBox : collisionBoxes)
 				{
-					aResult.push_back({ CollisionItem::Type::Tile, boxAABB });
+					const CU::Vector2<float> position = alignedPosition + CU::Vector2<float>(collisionBox.myX, collisionBox.myY);
+					const CU::Vector2<float> size = { collisionBox.myWidth, collisionBox.myHeight };
 
-					if (aResult.size() >= aResult.capacity())
+					AABB boxAABB = AABB(position, position + size);
+
+					if (boxAABB.Contains(aPosition))
 					{
-						break;
+						aResult.push_back({ CollisionItem::Type::Tile, boxAABB });
+
+						if (aResult.size() >= aResult.capacity())
+						{
+							break;
+						}
 					}
 				}
 			}
