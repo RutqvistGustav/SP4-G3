@@ -18,6 +18,12 @@ public:
 	void SetMasterVolume(float aVolume);
 	float GetMasterVolume() const;
 
+	void SetSfxVolume(float aVolume);
+	float GetSfxVolume() const;
+
+	void SetMusicVolume(float aVolume);
+	float GetMusicVolume() const;
+
 	void Play(const std::string& anAudioPath, float aVolume = 1.0f, bool aShouldLoop = false);
 	void Stop(const std::string& anAudioPath);
 

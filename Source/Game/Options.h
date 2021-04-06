@@ -1,14 +1,16 @@
 #pragma once
+
 #include "Scene.h"
+
 #include <memory>
 
 class MenuButton;
-class AudioManager;
 
 class Options :
     public Scene
 {
 public:
+
 	Options();
 	virtual ~Options() override;
 
@@ -18,15 +20,12 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+
 	void InitButtons();
 	void MuteSound();
 
+private:
+
 	bool myIsMuted;
-
-	std::unique_ptr<MenuButton> myMuteSound;
-	std::unique_ptr<MenuButton> myBackButton;
-	std::unique_ptr<AudioManager> myAudioManager;
-
-	std::vector<std::unique_ptr<MenuButton>> myButtons;
 };
 

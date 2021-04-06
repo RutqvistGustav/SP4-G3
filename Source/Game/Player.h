@@ -29,8 +29,7 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage,
-    public CollisionListener
+    public CheckpointMessage
 {
 public:
     

@@ -5,8 +5,7 @@
 class Collider;
 
 class MenuButton :
-    public GameObject,
-    public CollisionListener
+    public GameObject
 {
 public:
     MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag);

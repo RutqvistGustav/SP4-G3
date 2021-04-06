@@ -24,6 +24,7 @@ class GameScene : public Scene
 {
 public:
 
+	GameScene(const char* aMapPath);
 	GameScene();
 	virtual ~GameScene() override;
 
@@ -38,6 +39,8 @@ private:
 	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
 
 private:
+	const char* myMapPath;
+
 	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
 
 	std::shared_ptr<Player> myPlayer;
