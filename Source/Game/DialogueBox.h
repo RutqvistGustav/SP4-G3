@@ -10,6 +10,7 @@ class Scene;
 class Player;
 class SpriteWrapper;
 class TextWrapper;
+class SpriteSheetAnimation;
 
 class DialogueBox :
     public Interactable
@@ -29,6 +30,7 @@ private:
     bool myIsFirstVisit = true;
     unsigned int myCurrentSlide{};
 
+    std::unique_ptr<SpriteSheetAnimation> myAnimation;
     std::shared_ptr<SpriteWrapper> mySprite;
     std::shared_ptr<TextWrapper> myText;
     std::vector<std::string> mySlides;

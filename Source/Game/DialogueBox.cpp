@@ -8,9 +8,9 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 #include "Player.h"
+#include "SpriteSheetAnimation.h"
 
 #include <nlohmann/json.hpp>
-#include <fstream>
 #include <string>
 
 DialogueBox::DialogueBox(Scene* aScene)
@@ -33,6 +33,9 @@ void DialogueBox::Init(std::string anID)
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ 500.0f,500.0f });
+
+	//myAnimation = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Sprites/spriteSheets/arrow spritesheet.dds");
+	//myAnimation->SetIsLooping(true);
 
 	//SetTriggerRadius(50.0f);
 }
