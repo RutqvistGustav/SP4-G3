@@ -1,11 +1,11 @@
 {
   "Zombie": {
     "Health": 1,
-    "Damage": 5,
+    "Damage": 1,
     "MovementSpeed": 200.0,
     "MaxSpeedCap" :  400.0,
-    "DetectionRange" : 1000.0,
-    "Invincibility" : 0.5,
+    "DetectionRange" : 500.0,
+    "Invincibility" : 0.0,
     "KnockBack" : 20.0
   },
   "EliteZombie": {
