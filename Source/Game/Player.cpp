@@ -130,6 +130,18 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 
+	// NOTE: TODO:
+	// Very simple test version for now, when more complex animations are added this might
+	// need to be split into a separate state machine.
+	if (std::abs(myMovementVelocity.x) >= 1.0f)
+	{
+		SetState(Player::PlayerState::Running);
+	}
+	else
+	{
+		SetState(Player::PlayerState::Idle);
+	}
+
 	myAnimator->Update(aDeltaTime);
 	myAnimator->ApplyToSprite(mySprite);
 	mySprite->SetSize({ mySprite->GetSize().x * myDirection, mySprite->GetSize().y });
