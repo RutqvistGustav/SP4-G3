@@ -5,6 +5,9 @@
 
 #include "Scene.h"
 
+#include "MainMenu.h"
+#include "GameScene.h"
+
 #include <cassert>
 
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
@@ -65,6 +68,43 @@ void SceneManager::Transition(std::unique_ptr<Scene> aTargetScene)
 bool SceneManager::IsTransitionQueued() const
 {
 	return HasQueuedTransition();
+}
+
+void SceneManager::TransitionToLevel(int aLevelIndex)
+{
+	assert(aLevelIndex >= 0);
+
+	std::string levelPath = "Maps/Level";
+	levelPath += std::to_string(aLevelIndex);
+	levelPath += ".json";
+
+	Transition(std::make_unique<GameScene>(levelPath.c_str()));
+
+	myCurrentLevel = aLevelIndex;
+}
+
+void SceneManager::TransitionToMainMenu()
+{
+	Transition(std::make_unique<MainMenu>());
+
+	myCurrentLevel = -1;
+}
+
+void SceneManager::RestartCurrentLevel()
+{
+	assert(InLevel());
+
+	TransitionToLevel(GetCurrentLevelIndex());
+}
+
+int SceneManager::GetCurrentLevelIndex() const
+{
+	return myCurrentLevel;
+}
+
+bool SceneManager::InLevel() const
+{
+	return GetCurrentLevelIndex() >= 0;
 }
 
 void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)

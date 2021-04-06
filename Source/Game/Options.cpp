@@ -18,25 +18,19 @@ Options::~Options() = default;
 
 void Options::Init()
 {
-	myAudioManager = std::make_unique<AudioManager>();
-	myCollisionManager = std::make_unique<CollisionManager>();
-	myMousePointer = std::make_unique<MousePointer>(this);
-
 	InitButtons();
 }
 
 void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myCollisionManager->Update();
+	/*myCollisionManager->Update();
 
 	for (auto& o : myButtons)
 	{
 		o->Update();
 	}
 
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
-	if (myMousePointer->ButtonClicked())
+	if (myMousePointer->GetButtonClicked())
 	{
 		switch (myMousePointer->ClickedButton())
 		{
@@ -51,22 +45,22 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 			break;
 		}
 		}
-	}
+	}*/
 }
 
 void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	for (auto& o : myButtons)
+	/*for (auto& o : myButtons)
 	{
 		o->Render(aRenderQueue, aRenderContext);
 	}
 
-	myMousePointer->Render(aRenderQueue, aRenderContext);
+	myMousePointer->Render(aRenderQueue, aRenderContext);*/
 }
 
 void Options::InitButtons()
 {
-	float x = Metrics::GetReferenceSize().x;
+	/*float x = Metrics::GetReferenceSize().x;
 	float y = Metrics::GetReferenceSize().y;
 
 	myMuteSound = std::make_unique<MenuButton>(this, "Sprites/MuteButton.png", "Sprites/BackButton.png", GameObjectTag::MuteButton);
@@ -75,12 +69,12 @@ void Options::InitButtons()
 
 	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", "Sprites/MuteButton.png", GameObjectTag::BackButton);
 	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.7f));
-	myButtons.push_back(std::move(myBackButton));
+	myButtons.push_back(std::move(myBackButton));*/
 }
 
 void Options::MuteSound()
 {
-	if (!myIsMuted)
+	/*if (!myIsMuted)
 	{
 		myAudioManager->SetMasterVolume(0.0f);
 
@@ -91,5 +85,5 @@ void Options::MuteSound()
 		myAudioManager->SetMasterVolume(0.2f);
 
 		myIsMuted = false;
-	}
+	}*/
 }
