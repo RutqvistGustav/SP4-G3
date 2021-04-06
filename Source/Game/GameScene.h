@@ -19,6 +19,7 @@ class TiledEntities;
 class Minimap;
 
 class DialogueBox;
+class PauseMenu;
 
 class GameScene : public Scene
 {
@@ -54,4 +55,6 @@ private:
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
 	std::unique_ptr<Minimap> myMinimap;
+
+	std::unique_ptr<PauseMenu> myPauseMenu;
 };

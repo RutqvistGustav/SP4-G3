@@ -18,9 +18,11 @@ PauseMenu::~PauseMenu() = default;
 
 void PauseMenu::Init()
 {
-	myBackGround = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	MenuScene::Init();
+
+	myBackGround = std::make_shared<SpriteWrapper>("Sprites/Menue UI/pause/pause background.dds");
 	myBackGround->SetPosition(Metrics::GetReferenceSize() * 0.5f);
-	myBackGround->SetLayer(-2);
+	myBackGround->SetLayer(100);
 
 	InitButtons();
 
@@ -29,6 +31,8 @@ void PauseMenu::Init()
 
 void PauseMenu::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	MenuScene::Update(aDeltaTime, anUpdateContext);
+
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
 		if (!myPauseIsActive)
@@ -62,19 +66,22 @@ void PauseMenu::InitButtons()
 	float width = Metrics::GetReferenceSize().x;
 	float height = Metrics::GetReferenceSize().y;
 	
-	auto startButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds",
+	auto startButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/continue.dds", "Sprites/Menue UI/pause/continue_hover.dds",
 		GameObjectTag::StartButton);
 	startButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.43f));
+	startButton->SetLayer(103);
 	AddGameObject(startButton);
 
-	auto restartButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/start.dds", "Sprites/Menue UI/start_hover.dds",
+	auto restartButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/restart.dds", "Sprites/Menue UI/pause/restart_hover.dds",
 		GameObjectTag::RestartButton);
 	restartButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.53f));
+	restartButton->SetLayer(103);
 	AddGameObject(restartButton);
 	
-	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds",
+	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/main menu.dds", "Sprites/Menue UI/pause/main menu_hover.dds",
 		GameObjectTag::QuitButton);
 	quitButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.63f));
+	quitButton->SetLayer(103);
 	AddGameObject(quitButton);
 }
 

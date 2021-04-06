@@ -19,7 +19,7 @@ public:
     const bool IsGamePaused();
 
 private:
-    void InitButtons();
+    void InitButtons() ;
     void MouseClicked(GameObject* aTarget);
 
 private:

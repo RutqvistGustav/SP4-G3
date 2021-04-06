@@ -17,6 +17,7 @@ public:
     void SetColliderSize(const CU::Vector2<float> aSize);
     
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+    void SetLayer(GameLayer::Layer aLayer);
 
 private:
 

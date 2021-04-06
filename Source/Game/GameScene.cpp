@@ -13,6 +13,7 @@
 
 #include "SpriteWrapper.h"
 #include "DialogueBox.h"
+#include "PauseMenu.h"
 
 //Managers
 #include "CollisionManager.h"
@@ -63,6 +64,10 @@ void GameScene::Init()
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 
+	myPauseMenu = std::make_unique<PauseMenu>();
+	myPauseMenu->OnEnter(GetSceneManagerProxy(), GetGlobalServiceProvider());
+	myPauseMenu->Init();
+
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
@@ -79,21 +84,24 @@ void GameScene::Init()
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	Scene::Update(aDeltaTime, anUpdateContext);
-	myPlayer->Update(aDeltaTime, anUpdateContext);
+	if (myPauseMenu->IsGamePaused() == false)
+	{
+		Scene::Update(aDeltaTime, anUpdateContext);
+		myPlayer->Update(aDeltaTime, anUpdateContext);
 
-	myMinimap->SetGameView(GetCamera()->GetViewBounds());
+		myMinimap->SetGameView(GetCamera()->GetViewBounds());
 
+		//Removal of marked GameObjects
+		myEnemyManager->DeleteMarkedEnemies();
+		myCollectibleManager->DeleteMarkedCollectables();
+
+		//temp
+		myEnemyManager->AddTargetToAllEnemies(myPlayer);
+	}
+	Scene::RemoveMarkedObjects();
 	myCollisionManager->Update();
 
-	//Removal of marked GameObjects
-	myEnemyManager->DeleteMarkedEnemies();
-	myCollectibleManager->DeleteMarkedCollectables();
-	Scene::RemoveMarkedObjects();
-
-
-	//temp
-	myEnemyManager->AddTargetToAllEnemies(myPlayer);
+	myPauseMenu->Update(aDeltaTime, anUpdateContext);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -105,6 +113,8 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
 	myMinimap->Render(aRenderQueue);
+
+	myPauseMenu->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
