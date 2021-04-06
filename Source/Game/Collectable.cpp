@@ -17,15 +17,15 @@ Collectable::Collectable(Scene* aScene) :
 
 Collectable::~Collectable() = default;
 
-void Collectable::InitWithJson(const JsonData& /*someProperties*/)
-{
+void Collectable::InitWithJson(const JsonData& someProperties)
+{ 
 	Init();
 
 	// TODO: Find sprite from and configure animation from json
 
-	myAnimation = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Animations/TestAnimation.json");
+	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animation/TestAnimation.json");
 
-	myAnimation->SetState("default");
+	myAnimation->SetState("idle");
 	myAnimation->SetIsLooping(true);
 
 	myAnimation->ApplyToSprite(mySprite);
@@ -38,6 +38,11 @@ void Collectable::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);
+}
+
+void Collectable::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{
+	GameObject::Render(aRenderQueue, aRenderContext);
 }
 
 void Collectable::TriggerStay(GameObject* aGameObject)

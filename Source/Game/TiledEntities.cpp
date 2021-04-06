@@ -8,6 +8,9 @@
 #include "GameMessenger.h"
 #include "JsonManager.h"
 
+#include "PowerUp.h"
+#include "HealthPickup.h"
+
 #include "EnemyMessage.h"
 
 #include "DialogueBox.h"
@@ -116,6 +119,27 @@ void TiledEntities::SpawnEntities()
 			checkpointVolume->SetTriggerSize(entity.GetSize());
 
 			myScene->AddGameObject(checkpointVolume);
+		}
+		else if (type == "PickUp" && entity.HasProperty("SubType"))
+		{
+			if (entity.GetSubType() == "Berserk")
+			{
+				std::shared_ptr<PowerUp> berzerk = std::make_shared<PowerUp>(myScene, PowerUpType::Berserk);
+				berzerk->SetPosition(entity.GetPosition());
+				myScene->AddGameObject(berzerk);
+			}
+			if (entity.GetSubType() == "SniperShot")
+			{
+				std::shared_ptr<PowerUp> sniperShot = std::make_shared<PowerUp>(myScene, PowerUpType::SniperShot);
+				sniperShot->SetPosition(entity.GetPosition());
+				myScene->AddGameObject(sniperShot);
+			}
+			if (entity.GetSubType() == "HealthPickup")
+			{
+				std::shared_ptr<HealthPickup> healthPickup = std::make_shared<HealthPickup>(myScene);
+				healthPickup->SetPosition(entity.GetPosition());
+				myScene->AddGameObject(healthPickup);
+			}
 		}
 	}
 }
