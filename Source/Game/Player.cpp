@@ -34,7 +34,7 @@
 #include <imgui.h>
 #include "JsonManager.h"
 #include "HealthBar.h"
-#include "SceneManagerProxy.h"
+#include "LevelManagerProxy.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -228,7 +228,7 @@ void Player::TakeDamage(const int aDamage)
 	if(myHealth->IsPlayerInvinsible() == false) myHUD->GetHealthBar()->RemoveHP(aDamage);
 	if (myHealth->IsDead() == true)
 	{
-		GetScene()->GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
 }
 

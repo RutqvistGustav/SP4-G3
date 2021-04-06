@@ -31,12 +31,11 @@
 #include "CheckpointContext.h"
 #include "CollectibleManager.h"
 
-GameScene::GameScene() = default;
-GameScene::~GameScene() = default;
+GameScene::GameScene(const std::string& aMapPath) :
+	myMapPath(aMapPath)
+{}
 
-GameScene::GameScene(const char* aMapPath) : myMapPath(aMapPath)
-{
-}
+GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
