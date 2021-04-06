@@ -470,6 +470,9 @@
     <ClInclude Include="StageClearMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
@@ -714,6 +717,9 @@
     </ClCompile>
     <ClCompile Include="GoalZone.cpp">
       <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
     <ClCompile Include="Settings.cpp">
       <Filter>Scenes\Menus</Filter>

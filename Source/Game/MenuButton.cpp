@@ -47,12 +47,6 @@ void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 	aRenderQueue->Queue(RenderCommand(spriteToRender));
 }
 
-void MenuButton::SetLayer(GameLayer::Layer aLayer)
-{
-	mySprite->SetLayer(aLayer);
-	myHoverSprite->SetLayer(aLayer);
-}
-
 void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
 {
 	myPosition = aPosition;
@@ -63,6 +57,12 @@ void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
 	{
 		myCollider->SetPosition(myPosition);
 	}
+}
+
+void MenuButton::SetLayer(GameLayer::Layer aLayer)
+{
+	mySprite->SetLayer(aLayer);
+	myHoverSprite->SetLayer(aLayer);
 }
 
 void MenuButton::SetColliderSize(const CU::Vector2<float> aSize)
