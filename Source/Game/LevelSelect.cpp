@@ -4,6 +4,7 @@
 #include "CollisionManager.h"
 #include "MenuButton.h"
 #include "MainMenu.h"
+#include "LevelManagerProxy.h"
 #include "SceneManagerProxy.h"
 #include "GameScene.h"
 #include "Metrics.h"
@@ -73,13 +74,13 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 	switch (targetTag)
 	{
 	case GameObjectTag::Level1Button:
-		GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level1.json"));
+		GetLevelManagerProxy()->TransitionToLevel(1);
 		break;
 	case GameObjectTag::Level2Button:
-		GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level2.json"));
+		GetLevelManagerProxy()->TransitionToLevel(2);
 		break;
 	case GameObjectTag::Level3Button:
-		GetSceneManagerProxy()->Transition(std::make_unique<GameScene>("Maps/Level3.json"));
+		GetLevelManagerProxy()->TransitionToLevel(3);
 		break;
 
 	case GameObjectTag::BackButton:

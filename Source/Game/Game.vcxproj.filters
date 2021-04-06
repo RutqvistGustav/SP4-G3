@@ -470,23 +470,26 @@
     <ClInclude Include="StageClearMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
     <ClInclude Include="Slider.h">
       <Filter>GameObjects\Buttons</Filter>
     </ClInclude>
-    <ClInclude Include="Foreground.h">
-      <Filter>Core\Parallax</Filter>
-    </ClInclude>
-    <ClInclude Include="ForegroundImage.h">
-      <Filter>Core\Parallax</Filter>
-    </ClInclude>
     <ClInclude Include="MenuScene.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
     <ClInclude Include="LevelManagerProxy.h">
       <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallaxContainer.h">
+      <Filter>Core\Parallax</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallaxLayer.h">
+      <Filter>Core\Parallax</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -715,23 +718,26 @@
     <ClCompile Include="GoalZone.cpp">
       <Filter>GameObjects\Volumes</Filter>
     </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Scenes\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="Settings.cpp">
       <Filter>Scenes\Menus</Filter>
     </ClCompile>
     <ClCompile Include="Slider.cpp">
       <Filter>GameObjects\Buttons</Filter>
     </ClCompile>
-    <ClCompile Include="ForegroundImage.cpp">
-      <Filter>Core\Parallax</Filter>
-    </ClCompile>
-    <ClCompile Include="Foreground.cpp">
-      <Filter>Core\Parallax</Filter>
-    </ClCompile>
     <ClCompile Include="MenuScene.cpp">
       <Filter>Scenes\Menus</Filter>
     </ClCompile>
     <ClCompile Include="LevelManagerProxy.cpp">
       <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallaxContainer.cpp">
+      <Filter>Core\Parallax</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallaxLayer.cpp">
+      <Filter>Core\Parallax</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

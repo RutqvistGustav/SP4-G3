@@ -13,6 +13,7 @@
 
 #include "SpriteWrapper.h"
 #include "DialogueBox.h"
+#include "PauseMenu.h"
 
 //Managers
 #include "CollisionManager.h"
@@ -31,17 +32,16 @@
 #include "CheckpointContext.h"
 #include "CollectibleManager.h"
 
-GameScene::GameScene() = default;
-GameScene::~GameScene() = default;
+#include "ParallaxContainer.h"
 
-GameScene::GameScene(const char* aMapPath) : myMapPath(aMapPath)
-{
-}
+GameScene::GameScene(const std::string& aMapPath) :
+	myMapPath(aMapPath)
+{}
+
+GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
-	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
-
 	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>(myMapPath);
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
@@ -51,6 +51,11 @@ void GameScene::Init()
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
 	myMinimap = std::make_unique<Minimap>(this, myTiledParser.get(), myTiledCollision.get());
+	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
+
+	// TODO: Read from json?
+	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
+	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -63,6 +68,10 @@ void GameScene::Init()
 
 	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
 
+	myPauseMenu = std::make_unique<PauseMenu>();
+	myPauseMenu->OnEnter(GetSceneManagerProxy(), GetLevelManagerProxy(), GetGlobalServiceProvider());
+	myPauseMenu->Init();
+
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
 
@@ -73,38 +82,45 @@ void GameScene::Init()
 	{
 		myPlayer->SetPosition(playerSpawn->GetPosition());
 		GetCamera()->SetPosition(playerSpawn->GetPosition());
+		myParallaxContainer->SetParallaxOrigin(GetCamera()->GetPosition());
 	}
-
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	Scene::Update(aDeltaTime, anUpdateContext);
-	myPlayer->Update(aDeltaTime, anUpdateContext);
+	if (myPauseMenu->IsGamePaused() == false)
+	{
+		Scene::Update(aDeltaTime, anUpdateContext);
+		myPlayer->Update(aDeltaTime, anUpdateContext);
 
-	myMinimap->SetGameView(GetCamera()->GetViewBounds());
+		myMinimap->SetGameView(GetCamera()->GetViewBounds());
 
+		//Removal of marked GameObjects
+		myEnemyManager->DeleteMarkedEnemies();
+		myCollectibleManager->DeleteMarkedCollectables();
+
+		//temp
+		myEnemyManager->AddTargetToAllEnemies(myPlayer);
+	}
+	Scene::RemoveMarkedObjects();
 	myCollisionManager->Update();
 
-	//Removal of marked GameObjects
-	myEnemyManager->DeleteMarkedEnemies();
-	myCollectibleManager->DeleteMarkedCollectables();
-	Scene::RemoveMarkedObjects();
+	myPauseMenu->Update(aDeltaTime, anUpdateContext);
 
-
-	//temp
-	myEnemyManager->AddTargetToAllEnemies(myPlayer);
+	myParallaxContainer->Update(aDeltaTime);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	Scene::Render(aRenderQueue, aRenderContext);
 
-	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
+	myParallaxContainer->Render(aRenderQueue);
 	myMinimap->Render(aRenderQueue);
+
+	myPauseMenu->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
