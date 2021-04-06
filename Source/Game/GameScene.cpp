@@ -31,6 +31,8 @@
 #include "CheckpointContext.h"
 #include "CollectibleManager.h"
 
+#include "ParallaxContainer.h"
+
 GameScene::GameScene(const std::string& aMapPath) :
 	myMapPath(aMapPath)
 {}
@@ -39,8 +41,6 @@ GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
-	myTga2dLogoSprite = std::make_shared<SpriteWrapper>("Sprites/tga_logo.dds");
-
 	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>(myMapPath);
 	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
@@ -50,6 +50,11 @@ void GameScene::Init()
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
 	myMinimap = std::make_unique<Minimap>(this, myTiledParser.get(), myTiledCollision.get());
+	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
+
+	// TODO: Read from json?
+	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
+	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -72,8 +77,8 @@ void GameScene::Init()
 	{
 		myPlayer->SetPosition(playerSpawn->GetPosition());
 		GetCamera()->SetPosition(playerSpawn->GetPosition());
+		myParallaxContainer->SetParallaxOrigin(GetCamera()->GetPosition());
 	}
-
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -90,6 +95,7 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myCollectibleManager->DeleteMarkedCollectables();
 	Scene::RemoveMarkedObjects();
 
+	myParallaxContainer->Update(aDeltaTime);
 
 	//temp
 	myEnemyManager->AddTargetToAllEnemies(myPlayer);
@@ -99,10 +105,10 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 {
 	Scene::Render(aRenderQueue, aRenderContext);
 
-	aRenderQueue->Queue(RenderCommand(myTga2dLogoSprite));
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
+	myParallaxContainer->Render(aRenderQueue);
 	myMinimap->Render(aRenderQueue);
 
 #ifdef _DEBUG

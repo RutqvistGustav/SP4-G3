@@ -11,6 +11,8 @@ class Enemy;
 class EnemyManager;
 class CollectibleManager;
 
+class ParallaxContainer;
+
 class TiledParser;
 class TiledRenderer;
 class TiledCollision;
@@ -40,8 +42,6 @@ private:
 private:
 	const std::string myMapPath;
 
-	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
-
 	std::shared_ptr<Player> myPlayer;
 
 	std::unique_ptr<EnemyManager> myEnemyManager;
@@ -52,5 +52,6 @@ private:
 	std::unique_ptr<TiledCollision> myTiledCollision;
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
+	std::unique_ptr<ParallaxContainer> myParallaxContainer;
 	std::unique_ptr<Minimap> myMinimap;
 };
