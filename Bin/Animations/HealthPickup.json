@@ -1,7 +1,7 @@
 {
   "states": {
     "idle": {
-      "fps": 4,
+      "fps": 24,
       "texture": "Sprites/spriteSheets/health_icon_Spritesheet.dds",
 
       "algorithm": "seqrow",
@@ -14,7 +14,7 @@
         "column": 0
       },
 
-      "count": 40
+      "count": 48
     }
   }
 }

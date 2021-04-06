@@ -1,7 +1,7 @@
 {
   "states": {
     "idle": {
-      "fps": 16,
+      "fps": 24,
       "texture": "Sprites/spriteSheets/berserker_icon_Spritesheet.dds",
 
       "algorithm": "seqrow",

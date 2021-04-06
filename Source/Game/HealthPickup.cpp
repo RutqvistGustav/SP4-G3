@@ -12,7 +12,7 @@ HealthPickup::HealthPickup(Scene* aScene)
 {
 	myHealingValue = 1;
 
-	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Entities.json").at("HealthPickup"));
+	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("HealthPickup"));
 }
 
 void HealthPickup::InitWithJson(const JsonData& someProperties)
