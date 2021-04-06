@@ -23,6 +23,7 @@ void PauseMenu::Init()
 	myBackGround = std::make_shared<SpriteWrapper>("Sprites/Menue UI/pause/pause background.dds");
 	myBackGround->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackGround->SetLayer(100);
+	myBackGround->SetPanStrengthFactor(0);
 
 	InitButtons();
 
@@ -70,18 +71,21 @@ void PauseMenu::InitButtons()
 		GameObjectTag::StartButton);
 	startButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.43f));
 	startButton->SetLayer(103);
+	startButton->SetPanStrengthFactor(0);
 	AddGameObject(startButton);
 
 	auto restartButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/restart.dds", "Sprites/Menue UI/pause/restart_hover.dds",
 		GameObjectTag::RestartButton);
 	restartButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.53f));
 	restartButton->SetLayer(103);
+	restartButton->SetPanStrengthFactor(0);
 	AddGameObject(restartButton);
 	
 	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/main menu.dds", "Sprites/Menue UI/pause/main menu_hover.dds",
 		GameObjectTag::QuitButton);
 	quitButton->SetPosition(CU::Vector2(width * 0.5f, height * 0.63f));
 	quitButton->SetLayer(103);
+	quitButton->SetPanStrengthFactor(0);
 	AddGameObject(quitButton);
 }
 
@@ -99,6 +103,7 @@ void PauseMenu::MouseClicked(GameObject* aTarget)
 
 	case GameObjectTag::RestartButton:
 		myPauseIsActive = false;
+		
 		//GetSceneManagerProxy()->Transition(Latest checkpoint);
 		break;
 

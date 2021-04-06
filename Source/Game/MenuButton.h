@@ -18,6 +18,7 @@ public:
     
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
     void SetLayer(GameLayer::Layer aLayer);
+    void SetPanStrengthFactor(float aPanStrengthFactor);
 
 private:
 
