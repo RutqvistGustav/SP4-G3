@@ -19,6 +19,7 @@ public:
     DialogueBox(Scene* aScene);
 
     void Init(std::string anID);
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void OnInteract(Player* aPlayer) override;
     void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 

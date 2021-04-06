@@ -34,10 +34,16 @@ void DialogueBox::Init(std::string anID)
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ 500.0f,500.0f });
 
-	//myAnimation = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Sprites/spriteSheets/arrow spritesheet.dds");
-	//myAnimation->SetIsLooping(true);
+	myAnimation = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Sprites/spriteSheets/arrow spritesheet.dds");
+	myAnimation->SetIsLooping(true);
 
 	//SetTriggerRadius(50.0f);
+}
+
+void DialogueBox::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	myAnimation->Update(aDeltaTime);
+	myAnimation->ApplyToSprite(mySprite);
 }
 
 void DialogueBox::OnInteract(Player* aPlayer)
