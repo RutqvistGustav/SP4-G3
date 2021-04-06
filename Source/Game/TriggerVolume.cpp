@@ -10,10 +10,10 @@ TriggerVolume::TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter
 	myFilter(aFilter)
 {}
 
-void TriggerVolume::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
-{
-	// NOTE: Do not render anything for a TriggerVolume
-}
+//void TriggerVolume::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
+//{
+//	// NOTE: Do not render anything for a TriggerVolume
+//}
 
 void TriggerVolume::SetTriggerSize(const CU::Vector2<float>& aSize)
 {

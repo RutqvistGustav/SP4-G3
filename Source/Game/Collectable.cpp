@@ -23,7 +23,7 @@ void Collectable::InitWithJson(const JsonData& someProperties)
 
 	// TODO: Find sprite from and configure animation from json
 
-	myAnimation = std::make_unique<SpriteSheetAnimation>(someProperties);
+	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animation/TestAnimation.json");
 
 	myAnimation->SetState("idle");
 	myAnimation->SetIsLooping(true);

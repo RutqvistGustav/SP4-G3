@@ -1,12 +1,12 @@
 {
   "states": {
     "idle": {
-      "fps": 4,
-      "texture": "Sprites/spriteSheets/health icon_Spritesheet.dds",
+      "fps": 16,
+      "texture": "Sprites/spriteSheets/berserker_icon_Spritesheet.dds",
 
       "algorithm": "seqrow",
 
-      "frameWidth": 128,
+      "frameWidth": 200,
       "frameHeight": 128,
 
       "start": {

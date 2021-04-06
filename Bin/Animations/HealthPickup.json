@@ -2,7 +2,7 @@
   "states": {
     "idle": {
       "fps": 4,
-      "texture": "Sprites/spriteSheets/health icon_Spritesheet.dds",
+      "texture": "Sprites/spriteSheets/health_icon_Spritesheet.dds",
 
       "algorithm": "seqrow",
 

@@ -1198,6 +1198,29 @@
                  "width":66.6667,
                  "x":192,
                  "y":7744
+                }, 
+                {
+                 "ellipse":true,
+                 "height":24,
+                 "id":75,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"SubType",
+                         "type":"string",
+                         "value":"Berserk"
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"PickUp"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":34.6666666666667,
+                 "x":553.333333333333,
+                 "y":13496
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1218,7 +1241,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":75,
+ "nextobjectid":76,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
