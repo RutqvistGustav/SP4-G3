@@ -12,7 +12,7 @@ public:
 
 	TriggerVolume(Scene* aScene, std::optional<GameObjectTag> aFilter = std::nullopt);
 
-	//virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	void SetTriggerSize(const CU::Vector2<float>& aSize);
 	const CU::Vector2<float>& GetTriggerSize() const;

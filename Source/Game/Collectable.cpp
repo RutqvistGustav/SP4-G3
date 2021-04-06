@@ -40,6 +40,11 @@ void Collectable::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myAnimation->ApplyToSprite(mySprite);
 }
 
+void Collectable::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{
+	GameObject::Render(aRenderQueue, aRenderContext);
+}
+
 void Collectable::TriggerStay(GameObject* aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
