@@ -54,8 +54,8 @@ void GameScene::Init()
 	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
 
 	// TODO: Read from json?
-	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
-	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
+	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
+	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
