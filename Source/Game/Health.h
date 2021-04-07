@@ -19,5 +19,6 @@ private:
 	float myTimerCountdown;
 	float myInvincibilityTime;
 	bool myIsDead;
+	bool myIsInvisible = false;
 };
 
