@@ -15,11 +15,8 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 {
 	SetTag(aTag);
 	myHover = false;
-	myScene = aScene;
 
 	myHoverSprite = std::make_shared<SpriteWrapper>(aSpritePath2);
-	myHoverSprite->SetPanStrengthFactor(0);
-	mySprite->SetPanStrengthFactor(0);
 	
 	myCollider = std::make_shared<Collider>();
 	//myCollider->Init(this, myPosition, 40.f);
@@ -27,6 +24,7 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 	myCollider->Init(myPosition, CU::Vector2(mySprite->GetSize().x * 0.9f, mySprite->GetSize().y * 0.17f));
 	myCollider->SetCollisionListener(this);
 	myCollider->SetGameObject(this);
+	
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
@@ -44,14 +42,9 @@ void MenuButton::Update()
 
 void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	RenderCommand renderCommand = RenderCommand(mySprite);
+	std::shared_ptr<SpriteWrapper>& spriteToRender = myHover ? myHoverSprite : mySprite;
 
-	if (myHover)
-	{
-		renderCommand = RenderCommand(myHoverSprite);
-	}
-
-	aRenderQueue->Queue(renderCommand);
+	aRenderQueue->Queue(RenderCommand(spriteToRender));
 }
 
 void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
@@ -64,6 +57,18 @@ void MenuButton::SetPosition(const CU::Vector2<float> aPosition)
 	{
 		myCollider->SetPosition(myPosition);
 	}
+}
+
+void MenuButton::SetLayer(GameLayer::Layer aLayer)
+{
+	mySprite->SetLayer(aLayer);
+	myHoverSprite->SetLayer(aLayer);
+}
+
+void MenuButton::SetPanStrengthFactor(float aPanStrengthFactor)
+{
+	mySprite->SetPanStrengthFactor(aPanStrengthFactor);
+	myHoverSprite->SetPanStrengthFactor(aPanStrengthFactor);
 }
 
 void MenuButton::SetColliderSize(const CU::Vector2<float> aSize)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Metrics.h"
+
 #include <algorithm>
 
 #include <tga2d/engine.h>
@@ -9,44 +11,6 @@
 class CoordinateHelper
 {
 public:
-
-	static const CU::Vector2<float> ourReferenceSize;
-
-	static CU::Vector2<float> ToPixelPosition(CU::Vector2<float> aNormalized)
-	{
-		const CU::Vector2<float> renderSize = GetRenderSize();
-		return CU::Vector2<float>(aNormalized.x * renderSize.x, aNormalized.y * renderSize.y);
-	}
-
-	static CU::Vector2<float> ToNormalizedPosition(CU::Vector2<float> aPixel)
-	{
-		const CU::Vector2<float> renderSize = GetRenderSize();
-		return CU::Vector2<float>(aPixel.x / renderSize.x, aPixel.y / renderSize.y);
-	}
-
-	static CU::Vector2<float> ToPixelSize(CU::Vector2<float> aNormalized)
-	{
-		const CU::Vector2<float> renderSize = GetRenderSize();
-		return CU::Vector2<float>(aNormalized.x * renderSize.y, aNormalized.y * renderSize.y);
-	}
-
-	static CU::Vector2<float> ToNormalizedSize(CU::Vector2<float> aNormalized)
-	{
-		const CU::Vector2<float> renderSize = GetRenderSize();
-		return CU::Vector2<float>(aNormalized.x / renderSize.y, aNormalized.y / renderSize.y);
-	}
-
-	static CU::Vector2<float> ToNormalizedPositionFromVirtual(CU::Vector2<float> aVirtualPixel)
-	{
-		const CU::Vector2<float> virtualSize = GetVirtualSize();
-		return CU::Vector2<float>(aVirtualPixel.x / virtualSize.x, aVirtualPixel.y / virtualSize.y);
-	}
-
-	// NOTE: Use this to get the size of the screen in pixels when sizing & positioning elements!
-	static inline CU::Vector2<float> GetVirtualSize()
-	{
-		return CoordinateHelper::ourReferenceSize;
-	}
 
 	static CU::Vector2<float> GetWindowAreaSize()
 	{
@@ -80,7 +44,7 @@ public:
 	{
 		const CU::Vector2<float> renderSize = GetRenderSize();
 		const CU::Vector2<float> clientAreaSize = GetClientAreaSize();
-		const CU::Vector2<float> virtualSize = GetVirtualSize();
+		const CU::Vector2<float> referenceSize = Metrics::GetReferenceSize();
 
 		const float paddingX = (clientAreaSize.x - renderSize.x) * 0.5f;
 		const float paddingY = (clientAreaSize.y - renderSize.y) * 0.5f;
@@ -88,12 +52,12 @@ public:
 		const float percX = std::clamp((aClientPosition.x - paddingX) / renderSize.x, 0.0f, 1.0f);
 		const float percY = std::clamp((aClientPosition.y - paddingY) / renderSize.y, 0.0f, 1.0f);
 
-		return CU::Vector2<float>(virtualSize.x * percX, virtualSize.y * percY);
+		return CU::Vector2<float>(referenceSize.x * percX, referenceSize.y * percY);
 	}
 
 	static CU::Vector2<float> ComputeContainSize(CU::Vector2<float> anOriginalSize)
 	{
-		const CU::Vector2<float> virtualSize = GetVirtualSize();
+		const CU::Vector2<float> virtualSize = Metrics::GetReferenceSize();
 
 		const float virtualAspect = virtualSize.x / virtualSize.y;
 		const float originalAspect = anOriginalSize.x / anOriginalSize.y;
@@ -137,7 +101,7 @@ public:
 
 	static CU::Vector2<float> ComputeCoverSize(CU::Vector2<float> anOriginalSize)
 	{
-		const CU::Vector2<float> virtualSize = GetVirtualSize();
+		const CU::Vector2<float> virtualSize = Metrics::GetReferenceSize();
 
 		const float virtualAspect = virtualSize.x / virtualSize.y;
 		const float originalAspect = anOriginalSize.x / anOriginalSize.y;

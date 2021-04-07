@@ -7,8 +7,8 @@
 #include "Scene.h"
 #include "Health.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
-	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
+Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
+	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
 }
@@ -91,8 +91,12 @@ void Zombie::IdleMovement(const float aDeltaTime)
 
 bool Zombie::CheckIdle()
 {
-	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	const float distance = direction.LengthSqr();
-
-	return distance > (myDetectionRange * myDetectionRange);
+	if (myPosition.y > myTarget->GetPosition().y - 50.f && myPosition.y < myTarget->GetPosition().y + 25.0f)
+	{
+		CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
+		const float distance = direction.LengthSqr();
+		
+		return distance > (myDetectionRange * myDetectionRange);
+	}
+	return true;
 }

@@ -5,15 +5,21 @@
 
 #include "Scene.h"
 
+#include "MainMenu.h"
+#include "GameScene.h"
+
+#include "CheckpointMessage.h"
+
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+
 #include <cassert>
 
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myGlobalServiceProvider(aGlobalServiceProvider),
-	myProxy(*this)
-
-{
-	myCamera = std::make_unique<Camera>(CU::Vector2<float>(0.0f, 0.0f));
-}
+	mySceneManagerProxy(*this),
+	myLevelManagerProxy(*this)
+{}
 
 SceneManager::~SceneManager()
 {
@@ -24,11 +30,16 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 {
 	assert(myActiveScene != nullptr);
 
-	myCamera->Update(aDeltaTime, anUpdateContext);
-
 	if (HasQueuedTransition())
 	{
 		RunTransition(std::move(myQueuedScene));
+	}
+
+	if (myHasQueuedCheckpointLoad)
+	{
+		LoadCheckpoint();
+
+		myHasQueuedCheckpointLoad = false;
 	}
 
 	myActiveSceneLock.Lock();
@@ -67,6 +78,89 @@ bool SceneManager::IsTransitionQueued() const
 	return HasQueuedTransition();
 }
 
+void SceneManager::TransitionToLevel(int aLevelIndex)
+{
+	assert(aLevelIndex > 0);
+
+	std::string levelPath = "Maps/Level";
+	levelPath += std::to_string(aLevelIndex);
+	levelPath += ".json";
+
+	Transition(std::make_unique<GameScene>(levelPath));
+
+	myCurrentLevel = aLevelIndex;
+}
+
+void SceneManager::TransitionToMainMenu()
+{
+	Transition(std::make_unique<MainMenu>());
+
+	myCurrentLevel = -1;
+}
+
+void SceneManager::RestartCurrentLevel()
+{
+	assert(InLevel());
+
+	if (myLastCheckpoint.HasData())
+	{
+		if (myActiveSceneLock.IsLocked())
+		{
+			myHasQueuedCheckpointLoad = true;
+		}
+		else
+		{
+			LoadCheckpoint();
+		}
+	}
+	else
+	{
+		TransitionToLevel(GetCurrentLevelIndex());
+	}
+}
+
+int SceneManager::GetCurrentLevelIndex() const
+{
+	return myCurrentLevel;
+}
+
+bool SceneManager::InLevel() const
+{
+	return GetCurrentLevelIndex() >= 0;
+}
+
+void SceneManager::SaveCheckpoint()
+{
+	assert(InLevel());
+
+	myLastCheckpoint.Clear();
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &myLastCheckpoint;
+
+	myGlobalServiceProvider->GetGameMessenger()->Send(GameMessage::CheckpointSave, &checkpointMessageData);
+}
+
+void SceneManager::LoadCheckpoint()
+{
+	assert(InLevel());
+
+	CheckpointMessageData checkpointMessageData{};
+	checkpointMessageData.myCheckpointContext = &myLastCheckpoint;
+
+	myGlobalServiceProvider->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
+}
+
+Camera* SceneManager::GetCamera()
+{
+	if (myActiveScene == nullptr)
+	{
+		return nullptr;
+	}
+
+	return myActiveScene->GetCamera();
+}
+
 void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)
@@ -78,7 +172,7 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 
 	if (myActiveScene != nullptr)
 	{
-		myActiveScene->OnEnter(&myProxy, myGlobalServiceProvider);
+		myActiveScene->OnEnter(&mySceneManagerProxy, &myLevelManagerProxy, myGlobalServiceProvider);
 		myActiveScene->Init();
 	}
 }

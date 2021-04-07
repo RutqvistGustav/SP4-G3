@@ -4,7 +4,7 @@
 #include "SpriteWrapper.h"
 
 EliteZombie::EliteZombie(Scene* aScene)
-	: Zombie(aScene, "EliteZombie")
+	: Zombie(aScene, EnemyType::EliteZombie, "EliteZombie")
 {
 	// NOTE: DEBUG: Temp to see difference
 	mySprite->SetColor({0.5f, 0.0f, 0.0f, 1.0f});

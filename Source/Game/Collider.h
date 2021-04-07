@@ -19,7 +19,7 @@ class SpriteWrapper;
 class TiledCollision;
 class TiledTile;
 class RenderQueue;
-class RenderContext;
+struct RenderContext;
 class CollisionListener;
 
 class Collider
