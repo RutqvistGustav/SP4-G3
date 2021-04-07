@@ -17,6 +17,7 @@
 Enemy::Enemy(Scene* aScene, const char* aSpritePath)
 	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath)
 {
+	myCollider->SetBoxSize({55.0f});
 }
 
 Enemy::~Enemy() = default;
@@ -27,7 +28,6 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	{
 		myKnockbackTimer -= aDeltaTime;
 	}
-
 	myPhysicsController.Update(aDeltaTime);
 	GameObject::SetPosition(myPhysicsController.GetPosition());
 }

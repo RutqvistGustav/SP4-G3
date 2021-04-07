@@ -17,6 +17,7 @@ Zombie::~Zombie() = default;
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
+	myPreviousVelocity = myPhysicsController.GetVelocity();
 	// TODO: Change Direction Near Walls
 	if (myTarget != nullptr)
 	{
@@ -68,13 +69,18 @@ void Zombie::Movement(const float aDeltaTime)
 
 void Zombie::IdleMovement(const float aDeltaTime)
 {
-	//TODO - Change Direction when hitting a wall
-
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
-	float direction = velocity.x >= 0.0f ? 1.0f : 0.0f;
-
+	float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
+	
+	velocity.x *= std::powf(0.001f, aDeltaTime);
 	velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
 
+	if (myPhysicsController.IsAgainstWall())
+	{
+		velocity.x = -myPreviousVelocity.x * 0.01f;
+	}
+
+	myPhysicsController.SetVelocity(velocity);
 	/*UpdateGravity(aDeltaTime);
 	if (myVelocity.x > 0.0f)
 	{
