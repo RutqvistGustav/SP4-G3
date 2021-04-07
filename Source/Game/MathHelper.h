@@ -29,6 +29,11 @@ namespace MathHelper
 		return aValue < someMin ? someMin : aValue > someMax ? someMax : aValue;
 	}
 
+	template <typename T>
+	int Signum(T val) {
+		return (T(0) < val) - (val < T(0));
+	}
+
 	static CU::Vector2<float> MoveTowards(CU::Vector2<float> aValue, CU::Vector2<float> aTarget, float aMaxDelta)
 	{
 		CU::Vector2<float> toTarget = aTarget - aValue;

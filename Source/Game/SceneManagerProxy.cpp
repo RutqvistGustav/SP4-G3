@@ -17,8 +17,3 @@ bool SceneManagerProxy::IsTransitionQueued() const
 {
 	return mySceneManager.IsTransitionQueued();
 }
-
-Camera* SceneManagerProxy::GetCamera()
-{
-	return mySceneManager.GetCamera();
-}

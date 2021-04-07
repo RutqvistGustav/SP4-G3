@@ -25,6 +25,8 @@
 
 #include "CollisionInfo.h"
 
+#include "CheckpointMessage.h"
+
 // Tools
 #include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
@@ -34,7 +36,7 @@
 #include <imgui.h>
 #include "JsonManager.h"
 #include "HealthBar.h"
-#include "SceneManagerProxy.h"
+#include "LevelManagerProxy.h"
 
 // json
 #include <nlohmann/json.hpp>
@@ -129,6 +131,18 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myHUD->Update(myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
+
+	// NOTE: TODO:
+	// Very simple test version for now, when more complex animations are added this might
+	// need to be split into a separate state machine.
+	if (std::abs(myMovementVelocity.x) >= 1.0f)
+	{
+		SetState(Player::PlayerState::Running);
+	}
+	else
+	{
+		SetState(Player::PlayerState::Idle);
+	}
 
 	myAnimator->Update(aDeltaTime);
 	myAnimator->ApplyToSprite(mySprite);
@@ -228,7 +242,7 @@ void Player::TakeDamage(const int aDamage)
 	if(myHealth->IsPlayerInvinsible() == false) myHUD->GetHealthBar()->RemoveHP(aDamage);
 	if (myHealth->IsDead() == true)
 	{
-		GetScene()->GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
+		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
 }
 
@@ -243,12 +257,27 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 	switch (aMessage)
 	{
 	case GameMessage::CheckpointSave:
-		// TODO
+	{
+		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->NewData<PlayerCheckpointData>("Player");
+		saveData->myPosition = GetPosition();
+
+		// TODO: Save more data as needed
+	}
 
 		break;
 
 	case GameMessage::CheckpointLoad:
-		// TODO
+	{
+		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->GetData<PlayerCheckpointData>("Player");
+
+		// TODO: Reset all variables to a correct state
+
+		myMovementVelocity = {};
+		myPhysicsController.SetVelocity({});
+
+		SetPosition(saveData->myPosition);
+		myCamera->SetPosition(GetPosition());
+	}
 
 		break;
 

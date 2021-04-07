@@ -138,6 +138,7 @@
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
+    <ClInclude Include="CheckpointVolume.h" />
     <ClInclude Include="Collectable.h" />
     <ClInclude Include="CollectibleManager.h" />
     <ClInclude Include="Collider.h" />
@@ -169,8 +170,6 @@
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="Foreground.h" />
-    <ClInclude Include="ForegroundImage.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLayer.h" />
     <ClInclude Include="GameMessage.h" />
@@ -194,6 +193,9 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="ParallaxContainer.h" />
+    <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="PowerUpType.h" />
     <ClInclude Include="SceneManagerProxy.h" />
@@ -262,6 +264,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CheckpointVolume.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="CollectibleManager.cpp" />
     <ClCompile Include="Collider.cpp" />
@@ -281,8 +284,6 @@
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EntityPhysicsController.cpp" />
-    <ClCompile Include="Foreground.cpp" />
-    <ClCompile Include="ForegroundImage.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
     <ClCompile Include="GoalZone.cpp" />
@@ -298,6 +299,9 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="ParallaxContainer.cpp" />
+    <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="SceneManagerProxy.cpp" />
     <ClCompile Include="GlobalServiceProvider.cpp" />

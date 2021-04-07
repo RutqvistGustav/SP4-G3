@@ -5,6 +5,8 @@
 
 #include "CollisionListener.h"
 
+#include "CheckpointObjectData.h"
+
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
@@ -55,6 +57,11 @@ public:
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);
 protected:
+
+    struct PlayerCheckpointData : public CheckpointObjectData
+    {
+        CU::Vector2<float> myPosition;
+    };
 
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
