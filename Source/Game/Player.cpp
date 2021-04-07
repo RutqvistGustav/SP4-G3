@@ -239,10 +239,10 @@ void Player::DisablePowerUp()
 
 void Player::TakeDamage(const int aDamage)
 {
-	if (myHealth->IsPlayerInvinsible() == false)
+	if (myHealth->IsPlayerInvincible() == false)
 	{
 		myHealth->TakeDamage(aDamage);
-		myHUD->GetHealthBar()->RemoveHP(aDamage);
+		//myHUD->GetHealthBar()->RemoveHP(aDamage);
 
 		if (myHealth->IsDead() == true)
 		{
