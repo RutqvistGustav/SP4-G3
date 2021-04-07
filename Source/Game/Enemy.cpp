@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Health.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "JsonManager.h"
 
 #include "Player.h"
@@ -51,6 +52,10 @@ void Enemy::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
 	myDeleteThisFrame = myHealth->IsDead();
+	if (myHealth->IsDead())
+	{
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
+	}
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
