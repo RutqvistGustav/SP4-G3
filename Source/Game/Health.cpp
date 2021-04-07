@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Health.h"
+
+#include "MathHelper.h"
+
 #include <iostream>
 
 Health::Health(const int aHealthValue) :
@@ -26,11 +29,8 @@ void Health::TakeDamage(const int aDamage)
 {
 	if (myTimerCountdown <= 0.0f)
 	{
-		myHealth -= aDamage;
-		if (myHealth <= 0)
-		{
-			myIsDead = true;
-		}
+		AddHealth(-aDamage);
+
 		myTimerCountdown = myInvincibilityTime;
 		myIsInvisible = true;
 	}
@@ -38,17 +38,7 @@ void Health::TakeDamage(const int aDamage)
 
 void Health::AddHealth(const int aHealthAmount)
 {
-	if ((myHealth + aHealthAmount) >= myMaxHealth)
-	{
-		myHealth = myMaxHealth;
-		return;
-	}
-	myHealth += aHealthAmount;
-}
-
-const bool Health::IsDead()
-{
-	return myIsDead;
+	SetHealth(GetHealth() + aHealthAmount);
 }
 
 void Health::SetInvincibilityTimer(const float aTimerValue)
@@ -56,7 +46,21 @@ void Health::SetInvincibilityTimer(const float aTimerValue)
 	myInvincibilityTime = aTimerValue;
 }
 
-const bool Health::IsPlayerInvinsible()
+const bool Health::IsPlayerInvincible()
 {
-	return myIsInvisible;
+	return myTimerCountdown > 0.0f;
+}
+
+void Health::SetFullHealth()
+{
+	SetHealth(myMaxHealth);
+}
+
+void Health::SetHealth(const int anAmount)
+{
+	//return myIsInvisible;
+	myHealth = MathHelper::Clamp(anAmount, 0, myMaxHealth);
+	myIsDead = myHealth <= 0;
+
+	Notify(myHealth);
 }

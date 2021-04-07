@@ -15,10 +15,10 @@
 #include <nlohmann/json.hpp>
 
 
-Enemy::Enemy(Scene* aScene, const char* aSpritePath)
-	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath)
-{
-}
+Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
+	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
+	myType(aEnemyType)
+{}
 
 Enemy::~Enemy() = default;
 
@@ -96,6 +96,16 @@ void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 	myPhysicsController.SetPosition(aPosition);
+}
+
+void Enemy::SetInitialPosition(const CU::Vector2<float>& anInitialPosition)
+{
+	myInitialPosition = anInitialPosition;
+}
+
+const CU::Vector2<float>& Enemy::GetInitialPosition() const
+{
+	return myInitialPosition;
 }
 
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)

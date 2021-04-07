@@ -9,8 +9,8 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
-	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
+Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
+	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
 }

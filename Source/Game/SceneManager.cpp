@@ -36,6 +36,13 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 		RunTransition(std::move(myQueuedScene));
 	}
 
+	if (myHasQueuedCheckpointLoad)
+	{
+		LoadCheckpoint();
+
+		myHasQueuedCheckpointLoad = false;
+	}
+
 	myActiveSceneLock.Lock();
 
 	myActiveScene->Update(aDeltaTime, anUpdateContext);
@@ -98,7 +105,14 @@ void SceneManager::RestartCurrentLevel()
 
 	if (myLastCheckpoint.HasData())
 	{
-		LoadCheckpoint();
+		if (myActiveSceneLock.IsLocked())
+		{
+			myHasQueuedCheckpointLoad = true;
+		}
+		else
+		{
+			LoadCheckpoint();
+		}
 	}
 	else
 	{

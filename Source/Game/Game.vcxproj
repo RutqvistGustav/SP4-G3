@@ -166,6 +166,7 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h" />
+    <ClInclude Include="EnemyType.h" />
     <ClInclude Include="EntityPhysicsController.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
