@@ -56,7 +56,7 @@ void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 
 	{
 		SetupSpriteForPart({ 0.0f, 0.0f });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
+		// mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
@@ -64,7 +64,7 @@ void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 	if (renderHorizontalExtent)
 	{
 		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myLayerOffset.x)), 0.0f });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
+		// mySprite->SetColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
@@ -72,7 +72,7 @@ void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 	if (renderVerticalExtent)
 	{
 		SetupSpriteForPart({ 0.0f, static_cast<float>(MathHelper::Signum(myLayerOffset.y)) });
-		mySprite->SetColor(Tga2D::CColor(0.0f, 1.0f, 0.0f, 1.0f));
+		// mySprite->SetColor(Tga2D::CColor(0.0f, 1.0f, 0.0f, 1.0f));
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
@@ -80,7 +80,7 @@ void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 	if (renderHorizontalExtent && renderVerticalExtent)
 	{
 		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myLayerOffset.x)), static_cast<float>(MathHelper::Signum(myLayerOffset.y)) });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 0.0f, 1.0f));
+		// mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 0.0f, 1.0f));
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
