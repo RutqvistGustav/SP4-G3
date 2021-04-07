@@ -66,7 +66,7 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myKnockback = zombieData.at("KnockBack");
 
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
-	myPhysicsController.SetGravity({ 0.0f, 1000.0f }); // TODO: Read from JSON
+	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
 }
 
 PowerUpType Enemy::GetLootType()
