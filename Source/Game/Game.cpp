@@ -101,6 +101,13 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
 	createParameters.myTargetHeight = static_cast<unsigned short>(referenceSize.y);
 
+	// NOTE: GD Test background color
+	// R: 33 => 0.129
+	// G: 24 => 0.094
+	// B: 25 => 0.098
+
+	createParameters.myClearColor = Tga2D::CColor(0.129f, 0.094f, 0.098f, 1.0f);
+
 	//createParameters.myPreferedMultiSamplingQuality = Tga2D::EMultiSamplingQuality_High;
 	createParameters.myActivateDebugSystems = Tga2D::eDebugFeature_Fps |
 		Tga2D::eDebugFeature_Mem |
