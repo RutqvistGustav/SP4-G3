@@ -20,7 +20,7 @@ void Health::Update(const float aDeltaTime)
 
 void Health::TakeDamage(const int aDamage)
 {
-	if (myTimerCountdown <= 0.0f)
+	if (IsPlayerInvinsible())
 	{
 		myHealth -= aDamage;
 		if (myHealth <= 0)
@@ -28,9 +28,7 @@ void Health::TakeDamage(const int aDamage)
 			myIsDead = true;
 		}
 		myTimerCountdown = myInvincibilityTime;
-		std::cout << "Health " << myHealth << std::endl;
 	}
-
 }
 
 void Health::AddHealth(const int aHealthAmount)
@@ -51,4 +49,9 @@ const bool Health::IsDead()
 void Health::SetInvincibilityTimer(const float aTimerValue)
 {
 	myInvincibilityTime = aTimerValue;
+}
+
+const bool Health::IsPlayerInvinsible()
+{
+	return (myTimerCountdown <= 0.0f);
 }

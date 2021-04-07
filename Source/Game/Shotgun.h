@@ -7,8 +7,7 @@
 class Collider;
 
 class Shotgun :
-	public Weapon,
-	public CollisionListener
+	public Weapon
 {
 public:
 
@@ -76,9 +75,4 @@ private:
 	float myBerserkDuration{};
 	float myBerserkDamage{};
 	float myBerserkReloadDuration{};
-
-	float mySniperShotDuration{};
-	float mySniperShotDamage{};
-	float mySniperShotReloadDuration{};
-	float myExtendRangeX{};
 };

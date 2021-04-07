@@ -15,8 +15,8 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void RemoveHP();
-    void AddHP();
+    void RemoveHP(const int aDamageAmount);
+    void AddHP(const int aHealthAmount);
     void ActivatePowerUp(PowerUpType aPowerUpType);
 
 private:
@@ -28,6 +28,10 @@ private:
     float myBerserkDurationReset{};
     float mySniperShotDuration{};
     float mySniperShotDurationReset{};
+
+    float myMaxHealth{};
+    float mySingleBarSize{};
+    float myHpOffSetX{};
 
     std::shared_ptr<SpriteWrapper> myHealthBar;
     std::shared_ptr<SpriteWrapper> myPowerUpBar;

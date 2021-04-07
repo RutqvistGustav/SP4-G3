@@ -1,14 +1,16 @@
 #pragma once
 
-#include <memory>
-#include <vector>
+#include "Camera.h"
 #include "GameObjectTag.h"
 
-class Camera;
+#include <memory>
+#include <vector>
+
 class GameObject;
 struct UpdateContext;
 struct RenderContext;
 class RenderQueue;
+class LevelManagerProxy;
 class SceneManagerProxy;
 class JsonManager;
 class WeaponFactory;
@@ -28,7 +30,7 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	virtual void OnEnter(SceneManagerProxy* aSceneManagerProxy, GlobalServiceProvider* aGlobalServiceProvider);
+	virtual void OnEnter(SceneManagerProxy* aSceneManagerProxy, LevelManagerProxy* aLevelManagerProxy, GlobalServiceProvider* aGlobalServiceProvider);
 	virtual void OnExit();
 	
 	virtual void AddGameObject(std::shared_ptr<GameObject> aGameObject);
@@ -38,6 +40,7 @@ public:
 	Camera* GetCamera();
 
 	inline SceneManagerProxy* GetSceneManagerProxy() { return mySceneManagerProxy; }
+	inline LevelManagerProxy* GetLevelManagerProxy() { return myLevelManagerProxy; }
 
 	inline CollisionManager* GetCollisionManager() { return myCollisionManager.get(); }
 
@@ -46,11 +49,14 @@ public:
 protected:
 
 	std::unique_ptr<CollisionManager> myCollisionManager;
-	std::unique_ptr<MousePointer> myMousePointer;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
 
 private:
 
 	SceneManagerProxy* mySceneManagerProxy{};
+	LevelManagerProxy* myLevelManagerProxy{};
 	GlobalServiceProvider* myGlobalServiceProvider{};
+
+	Camera myCamera;
+
 };

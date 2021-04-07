@@ -1,19 +1,22 @@
 #include "stdafx.h"
 #include "Slider.h"
+
+#include "MousePointer.h"
+
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
+
 #include "Collider.h"
 #include "CollisionManager.h"
-#include "MousePointer.h"
+#include "CollisionInfo.h"
 
 Slider::Slider(Scene* aScene, const char* aSpritePath, GameObjectTag aTag)
 	: GameObject(aScene, aTag)
 {
 	SetTag(aTag);
-	myScene = aScene;
+
 	myBody = std::make_shared<SpriteWrapper>(aSpritePath);
-	myMove = false;
 }
 
 Slider::~Slider() = default;
@@ -24,37 +27,45 @@ void Slider::Init()
 	myRightBoundry = myPosition.x * 1.36f;
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/slider zombie head.dds");
-	mySprite->SetPanStrengthFactor(0);
-	myBody->SetPanStrengthFactor(0);
-	SetVolumePos();
 	mySprite->SetPosition(myPosition);
 
-	//myCollider->Init(this, myPosition, 40.f);
-	myCollider->SetBoxSize(CU::Vector2(mySprite->GetSize().x, mySprite->GetSize().y));
+	myCollider->Init(myPosition, mySprite->GetSize());
+	myCollider->SetCollisionListener(this);
+	myCollider->SetGameObject(this);
+
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
-void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext, bool aLMBDown, CU::Vector2<float> aMousePos)
+void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	//if (myMove)
-	//{
-	//	Move(aMousePosX);
-	//}
-	if (aLMBDown)
+	if (myMousePointer != nullptr)
 	{
-		ClickedMove(aMousePos);
-	}
+		myIsTrackingMouse = myIsTrackingMouse ? myMousePointer->IsMouseHeld() : myMousePointer->IsMouseDown();
 
-	myPositionLastFrame = myPosition;
-	CalculateVolume();
+		if (myIsTrackingMouse)
+		{
+			MoveWithMouse();
+		}
+		else
+		{
+			if (!myIsMouseOnSlider)
+			{
+				myMousePointer = nullptr;
+			}
+		}
+	}
 }
 
 void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	RenderCommand renderCommand = RenderCommand(myBody);
-	aRenderQueue->Queue(renderCommand);
-	RenderCommand renderCommand2 = RenderCommand(mySprite);
-	aRenderQueue->Queue(renderCommand2);
+	aRenderQueue->Queue(RenderCommand(myBody));
+	aRenderQueue->Queue(RenderCommand(mySprite));
+}
+
+void Slider::SetLayer(GameLayer::Layer aLayer)
+{
+	myBody->SetLayer(aLayer);
+	mySprite->SetLayer(aLayer + 1);
 }
 
 void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
@@ -75,65 +86,71 @@ void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
 	}
 }
 
-void Slider::SetColliderSize(const CU::Vector2<float> aSize)
+void Slider::SetValueChangeCallback(const ValueChangeCallback& aValueChangeCallback)
 {
+	myValueChangeCallback = aValueChangeCallback;
 }
 
-void Slider::SetVolumePos()
+void Slider::OnStay(const CollisionInfo& someCollisionInfo)
 {
-	float volume = .5f;
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+	assert(gameObject != nullptr);
 
-	myPosition.x = (myRightBoundry - myLeftBoundry) * volume + myLeftBoundry;
-}
-
-void Slider::CalculateVolume()
-{
-	float volume =  myPosition.x / (myRightBoundry + myLeftBoundry);
-}
-
-void Slider::OnCollision(GameObject* aGameObject)
-{
-	if (aGameObject->GetTag() == GameObjectTag::MousePointer)
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::MousePointer)
 	{
-		MousePointer* mousePointer = static_cast<MousePointer*>(aGameObject);
-		
-		if (mousePointer->GetLMBDown())
+		myMousePointer = static_cast<MousePointer*>(gameObject);
+		myIsMouseOnSlider = true;
+	}
+}
+
+void Slider::OnExit(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+	assert(gameObject != nullptr);
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::MousePointer)
+	{
+		myIsMouseOnSlider = false;
+
+		if (!myIsTrackingMouse)
 		{
-			myMove = true;
+			myMousePointer = nullptr;
 		}
 	}
 }
 
-void Slider::PressedMove(float aPosX)
+void Slider::MoveWithMouse()
 {
-	if (aPosX >= myLeftBoundry && aPosX <= myRightBoundry)
+	assert(myMousePointer != nullptr);
+
+	const CU::Vector2<float> mousePosition = myMousePointer->GetPosition();
+
+	const float newX = std::clamp(mousePosition.x, myLeftBoundry, myRightBoundry);
+	const float targetPercentage = ComputeSlidePercentage(newX);
+
+	SetSlidePercentage(targetPercentage);
+}
+
+void Slider::SetSlidePercentage(float aPercentage)
+{
+	const float actualPercentage = std::clamp(aPercentage, 0.0f, 1.0f);
+
+	const float positionX = myLeftBoundry + (myRightBoundry - myLeftBoundry) * actualPercentage;
+
+	SetPosition({ positionX, myPosition.y }, false);
+
+	if (myValueChangeCallback)
 	{
-		mySprite->SetPosition(CU::Vector2(aPosX, myPosition.y));
-		myCollider->SetPosition(CU::Vector2(aPosX, myPosition.y));
+		myValueChangeCallback(actualPercentage);
 	}
 }
 
-void Slider::ClickedMove(CU::Vector2<float> aMousePos)
+float Slider::ComputeSlidePercentage(const float aPositionX) const
 {
-	const float y = myCollider->GetBoxSize().y;
-	const float offSetX = 35.f;
+	return (aPositionX - myLeftBoundry) / (myRightBoundry - myLeftBoundry);
+}
 
-	if (aMousePos.x >= myLeftBoundry - offSetX && aMousePos.x <= myRightBoundry + offSetX &&
-		aMousePos.y <= myPosition.y + (y * 0.5f) && aMousePos.y >= myPosition.y - (y * 0.5f))
-	{
-		if (aMousePos.x <= myLeftBoundry)
-		{
-			myPosition.x = myLeftBoundry;
-		}
-		else if (aMousePos.x >= myRightBoundry)
-		{
-			myPosition.x = myRightBoundry;
-		}
-		else
-		{
-			myPosition.x = aMousePos.x;
-		}
-
-		SetPosition(myPosition, false);
-	}
+float Slider::GetSlidePercentage() const
+{
+	return ComputeSlidePercentage(myPosition.x);
 }

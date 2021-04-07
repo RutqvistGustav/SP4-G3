@@ -10,10 +10,11 @@
 
   "JumpCharges": 2,
   "JumpStrength": 1000.0,
+  "CoyoteTime": 0.1,
 
   "Health" : 10,
   "Invincibility" : 1.0,
 
   "ColliderWidth": 55,
-  "ColliderShiftX": 35
+  "ColliderShiftX": 15
 }

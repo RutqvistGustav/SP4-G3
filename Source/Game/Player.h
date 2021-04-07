@@ -5,6 +5,8 @@
 
 #include "CollisionListener.h"
 
+#include "CheckpointObjectData.h"
+
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
 
@@ -29,8 +31,7 @@ class InputInterface;
 
 class Player :
     public GameObject,
-    public CheckpointMessage,
-    public CollisionListener
+    public CheckpointMessage
 {
 public:
     
@@ -47,7 +48,6 @@ public:
 
    	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
-
     void SetControllerActive(const bool aState);
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();
@@ -57,6 +57,11 @@ public:
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);
 protected:
+
+    struct PlayerCheckpointData : public CheckpointObjectData
+    {
+        CU::Vector2<float> myPosition;
+    };
 
     virtual GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData) override;
 
@@ -120,6 +125,8 @@ private:
     int myJumpChargeReset;
 
     float myJumpStrength;
+    float myCoyoteTime{};
+    float myCoyoteTimeReset{};
 
     std::unique_ptr<Health> myHealth;
 };

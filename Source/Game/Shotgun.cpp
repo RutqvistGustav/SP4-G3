@@ -69,12 +69,6 @@ void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
 		myPowerUpDamage = myBerserkDamage;
 		myPowerUpReloadDuration = myBerserkReloadDuration;
 	}
-	else if (myActivePowerUp == PowerUpType::SniperShot)
-	{
-		myPowerUpDuration = mySniperShotDuration;
-		myPowerUpDamage = mySniperShotDamage;
-		myPowerUpReloadDuration = mySniperShotReloadDuration;
-	}
 }
 
 void Shotgun::UpdatePowerUps(const float aDeltaTime)
@@ -165,11 +159,6 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 	myBerserkDuration = someJsonData["Berserk"].at("Duration");
 	myBerserkDamage = someJsonData["Berserk"].at("Damage");
 	myBerserkReloadDuration = someJsonData["Berserk"].at("ReloadDuration");
-
-	mySniperShotDuration = someJsonData["SniperShot"].at("Duration");
-	mySniperShotDamage = someJsonData["SniperShot"].at("Damage");
-	mySniperShotReloadDuration = someJsonData["SniperShot"].at("ReloadDuration");
-	myExtendRangeX = someJsonData["SniperShot"].at("ExtendRangeX");
 }
 
 void Shotgun::Setup()

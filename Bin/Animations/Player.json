@@ -1,20 +1,36 @@
 {
     "states": {
         "idle": {
-            "fps": 16,
-            "texture": "Sprites/Player/animations/idle/otIdle_anim.dds",
+            "fps": 24,
+            "texture": "Sprites/Player/animations/idle/ot_anim_idle_02.dds",
 
             "algorithm": "seqrow",
 
-            "frameWidth": 128,
-            "frameHeight": 180,
+            "frameWidth": 180,
+            "frameHeight": 182,
 
             "start": {
                 "row": 0,
                 "column": 0
             },
 
-            "count": 23
+            "count": 24
+        },
+        "running": {
+            "fps": 24,
+            "texture": "Sprites/Player/animations/run/ot_anim_run.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 180,
+            "frameHeight": 182,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 24
         }
     }
 }
