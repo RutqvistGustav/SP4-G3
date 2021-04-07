@@ -19,6 +19,9 @@ public:
 
 	bool InLevel() const;
 
+	void SaveCheckpoint();
+	void LoadCheckpoint();
+
 private:
 
 	SceneManager& mySceneManager;

@@ -1,5 +1,16 @@
 [
     {
+        "color": "#ff00aa00",
+        "name": "Checkpoint",
+        "properties": [
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "Checkpoint"
+            }
+        ]
+    },
+    {
         "color": "#ffffff00",
         "name": "Dialog",
         "properties": [

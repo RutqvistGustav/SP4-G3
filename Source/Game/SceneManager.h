@@ -2,6 +2,9 @@
 
 #include "LockedSection.h"
 #include "SceneManagerProxy.h"
+#include "LevelManagerProxy.h"
+
+#include "CheckpointContext.h"
 
 #include <memory>
 
@@ -38,9 +41,12 @@ public:
 
 	bool InLevel() const;
 
+	void SaveCheckpoint();
+	void LoadCheckpoint();
+
 	// =/= LEVEL MANAGER =/=
 
-	inline Camera* GetCamera() { return myCamera.get(); }
+	Camera* GetCamera();
 
 private:
 
@@ -49,7 +55,8 @@ private:
 
 private:
 
-	SceneManagerProxy myProxy;
+	SceneManagerProxy mySceneManagerProxy;
+	LevelManagerProxy myLevelManagerProxy;
 
 	GlobalServiceProvider* myGlobalServiceProvider;
 
@@ -58,8 +65,8 @@ private:
 	std::unique_ptr<Scene> myActiveScene;
 	std::unique_ptr<Scene> myQueuedScene;
 
-	std::unique_ptr<Camera> myCamera;
-
 	int myCurrentLevel{ -1 };
+
+	CheckpointContext myLastCheckpoint;
 
 };

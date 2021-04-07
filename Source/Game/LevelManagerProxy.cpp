@@ -31,3 +31,13 @@ bool LevelManagerProxy::InLevel() const
 {
 	return mySceneManager.InLevel();
 }
+
+void LevelManagerProxy::SaveCheckpoint()
+{
+	mySceneManager.SaveCheckpoint();
+}
+
+void LevelManagerProxy::LoadCheckpoint()
+{
+	mySceneManager.LoadCheckpoint();
+}

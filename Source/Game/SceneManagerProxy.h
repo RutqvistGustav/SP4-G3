@@ -17,8 +17,6 @@ public:
 
 	bool IsTransitionQueued() const;
 
-	Camera* GetCamera();
-
 private:
 
 	SceneManager& mySceneManager;

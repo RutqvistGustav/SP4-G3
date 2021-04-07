@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CheckpointContext.h"
 #include "Scene.h"
 
 #include <memory>
@@ -11,6 +10,8 @@ class Enemy;
 class EnemyManager;
 class CollectibleManager;
 
+class ParallaxContainer;
+
 class TiledParser;
 class TiledRenderer;
 class TiledCollision;
@@ -19,13 +20,13 @@ class TiledEntities;
 class Minimap;
 
 class DialogueBox;
+class PauseMenu;
 
 class GameScene : public Scene
 {
 public:
 
-	GameScene(const char* aMapPath);
-	GameScene();
+	GameScene(const std::string& aMapPath);
 	virtual ~GameScene() override;
 
 	virtual void Init() override;
@@ -35,13 +36,13 @@ public:
 
 private:
 
-	CheckpointContext SaveCheckpoint();
-	void LoadCheckpoint(CheckpointContext& aCheckpointContext);
+	void StartPauseMenu(UpdateContext& anUpdateContext);
+	void StopPauseMenu();
 
 private:
-	const char* myMapPath;
+	bool myIsGamePaused = false;
 
-	std::shared_ptr<SpriteWrapper> myTga2dLogoSprite;
+	const std::string myMapPath;
 
 	std::shared_ptr<Player> myPlayer;
 
@@ -53,5 +54,8 @@ private:
 	std::unique_ptr<TiledCollision> myTiledCollision;
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
+	std::unique_ptr<ParallaxContainer> myParallaxContainer;
 	std::unique_ptr<Minimap> myMinimap;
+
+	std::unique_ptr<PauseMenu> myPauseMenu;
 };
