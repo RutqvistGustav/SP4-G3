@@ -54,9 +54,6 @@ Player::Player(Scene* aScene)
 {
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
-
-	// Init HUD
-	myHUD = std::make_unique<HUD>(aScene);
 }
 
 Player::~Player()
@@ -81,7 +78,10 @@ void Player::Init()
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
 
+	// Init HUD
+	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get());
 	myHUD->Init();
+
 	myWeaponController->Init();
 
 	SetPosition(GetPosition());
@@ -239,8 +239,8 @@ void Player::DisablePowerUp()
 void Player::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
-	if(myHealth->IsPlayerInvinsible() == false) myHUD->GetHealthBar()->RemoveHP(aDamage);
-	if (myHealth->IsDead() == true)
+
+	if (myHealth->IsDead())
 	{
 		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
@@ -248,7 +248,6 @@ void Player::TakeDamage(const int aDamage)
 
 void Player::AddHealth(const int aHealthAmount)
 {
-	myHUD->GetHealthBar()->AddHP(aHealthAmount);
 	myHealth->AddHealth(aHealthAmount);
 }
 
@@ -274,6 +273,9 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		myMovementVelocity = {};
 		myPhysicsController.SetVelocity({});
+
+		// TODO: NOTE: Hack to get full health
+		myHealth->SetFullHealth();
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());

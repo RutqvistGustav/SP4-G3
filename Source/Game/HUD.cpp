@@ -7,10 +7,10 @@
 #include "UIHook.h"
 #include "CollisionManager.h"
 
-HUD::HUD(Scene* aScene)
+HUD::HUD(Scene* aScene, Health* aHealthInterface)
 	: GameObject(aScene)
 {
-	myHealthBar = std::make_unique<HealthBar>(aScene);
+	myHealthBar = std::make_unique<HealthBar>(aScene, aHealthInterface);
 	myAmmoCounter = std::make_unique<AmmoCounter>(aScene);
 
 	//CollisionManager::GetInstance()->RemoveCollider(myCollider);

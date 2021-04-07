@@ -1,21 +1,24 @@
 #pragma once
-#include "GameObject.h"
-#include <memory>
-#include "CollisionListener.h"
-#include <any>
 
+#include "GameObject.h"
+#include "CollisionListener.h"
+
+#include <any>
+#include <memory>
+
+class Health;
 class HealthBar;
 class AmmoCounter;
-
 
 class HUD :
     public GameObject
 {
 public:
-    HUD(Scene* aScene);
+    HUD(Scene* aScene, Health* aHealthInterface);
     ~HUD() = default;
 
     virtual void Init() override;
+
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
