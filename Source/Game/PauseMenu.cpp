@@ -103,7 +103,8 @@ void PauseMenu::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::QuitButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+		//GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+		GetSceneManagerProxy()->TransitionToMainMenu();
 		break;
 	}
 	

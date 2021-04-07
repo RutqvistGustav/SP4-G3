@@ -11,6 +11,7 @@
 #include "CheckpointMessage.h"
 
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "GameMessenger.h"
 
 #include <cassert>
@@ -147,6 +148,48 @@ Camera* SceneManager::GetCamera()
 	return myActiveScene->GetCamera();
 }
 
+void SceneManager::PlayMusic()
+{
+	if (GetCurrentLevelIndex() != EMusic::MainMenuMusic)
+	{
+		myIsMainMusicPlaying = false;
+		myGlobalServiceProvider->GetAudioManager()->StopAll();
+	}
+	else if(myIsMainMusicPlaying == false)
+	{
+		myGlobalServiceProvider->GetAudioManager()->StopAll();
+	}
+
+	switch (GetCurrentLevelIndex())
+	{
+	case EMusic::Level01:
+	{
+		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/1. Unbreakable.mp3", 0.5f, true);
+		break;
+	}
+	case EMusic::Level02:
+	{
+		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/2.Hard Rock.mp3", 0.5f, true);
+		break;
+	}
+	case EMusic::Level03:
+	{
+		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/10.Heart of Warrior.mp3", 0.5f, true);
+		break;
+	}
+	case EMusic::MainMenuMusic:
+	{
+		if (myIsMainMusicPlaying == false)
+		{
+			myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/7.Rage Machine.mp3", 0.5f, true);
+			myIsMainMusicPlaying = true;
+		}
+		
+		break;
+	}
+	}
+}
+
 void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 {
 	if (myActiveScene != nullptr)
@@ -161,6 +204,8 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 		myActiveScene->OnEnter(&mySceneManagerProxy, &myLevelManagerProxy, myGlobalServiceProvider);
 		myActiveScene->Init();
 	}
+
+	PlayMusic();
 }
 
 bool SceneManager::HasQueuedTransition() const
