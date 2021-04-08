@@ -80,6 +80,8 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
 	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
+
+	mySprite->SetLayer(GameLayer::Enemy);
 }
 
 PowerUpType Enemy::GetLootType()
