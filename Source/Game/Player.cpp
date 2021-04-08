@@ -243,12 +243,12 @@ void Player::TakeDamage(const int aDamage)
 
 		if (myHealth->IsDead() == true)
 		{
-			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player death.wav");
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
 			GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 		}
 		else
 		{
-			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player damage 05.wav");
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player damage 05.wav");
 		}
 	}
 }
@@ -357,7 +357,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 	{
 		if (myJumpCharges == 1)
 		{
-			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Jump 01.mp3");
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Jump 01.mp3");
 		}
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
