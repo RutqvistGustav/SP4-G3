@@ -34,12 +34,6 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager() = default;
 
-void AudioManager::Init()
-{
-    
-
-}
-
 void AudioManager::SetMasterVolume(float aVolume)
 {
     myMasterVolume = std::clamp(aVolume, 0.0f, 1.0f);
@@ -52,7 +46,6 @@ void AudioManager::SetMasterVolume(float aVolume)
     {
         sfx.second->SetVolume(myMasterVolume);
     }
-    std::cout << "Master " << myMasterVolume << std::endl;
 }
 
 float AudioManager::GetMasterVolume() const
@@ -68,7 +61,6 @@ void AudioManager::SetSfxVolume(float aVolume)
     {
         song.second->SetVolume(mySfxVolume);
     }
-    std::cout << "Sound " << mySfxVolume << std::endl;
 }
 
 float AudioManager::GetSfxVolume() const
@@ -80,11 +72,10 @@ void AudioManager::SetMusicVolume(float aVolume)
 {
     myMusicVolume = std::clamp(aVolume, 0.0f, 1.0f);
 
-    for (auto& sfx : mySounds)
+    for (auto& song : myMusic)
     {
-        sfx.second->SetVolume(myMusicVolume);
+        song.second->SetVolume(myMusicVolume);
     }
-    std::cout << "Music " << myMusicVolume << std::endl;
 }
 
 float AudioManager::GetMusicVolume() const
@@ -114,7 +105,7 @@ void AudioManager::StopSfx(const std::string& anAudioPath)
 
 bool AudioManager::IsPlaying(const std::string& anAudioPath)
 {
-    return false;//Tga2D::audio_helpers::IsNowPlaying(*myAudioOut, anAudioPath);
+    return false;
 }
 
 void AudioManager::StopAll(bool anOnlyRepeating)

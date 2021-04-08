@@ -6,7 +6,6 @@
 
 namespace Tga2D
 {
-	class AudioOut;
 	class CAudio;
 }
 
@@ -16,8 +15,6 @@ public:
 
 	AudioManager();
 	~AudioManager();
-
-	void Init();
 
 	void SetMasterVolume(float aVolume);
 	float GetMasterVolume() const;
