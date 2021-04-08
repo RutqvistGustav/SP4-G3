@@ -5,11 +5,11 @@
     "DistanceFromPlayerY": -150.0
   },
   "Ammo": {
-    "LoadedStatePath": "Sprites/HUD/Shell.dds",
+    "SpritePath": "Sprites/HUD/Bullet.dds",
     "HalfEmptyStatePath": "Sprites/HUD/",
     "EmptyStatePath": "Sprites/HUD/",
     "ReloadAnimationPath": "Sprites/HUD/",
-    "DistanceFromPlayerX": 230.0,
+    "DistanceFromPlayerX": 150.0,
     "DistanceFromPlayerY": -150.0,
     "SizeX": 100.0,
     "SizeY": 100.0,
