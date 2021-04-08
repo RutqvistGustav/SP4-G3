@@ -16,9 +16,11 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 
 	void SetRotation(float aRotation);
+	void SetScale(float aScale);
 
 private:
 
+	float myScale{ 1.0f };
 	std::unique_ptr<SpriteSheetAnimation> myAnimation;
 
 };

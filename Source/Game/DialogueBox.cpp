@@ -34,9 +34,18 @@ void DialogueBox::Init(std::string anID)
 
 	const JsonData& dialogData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
 
-	assert(dialogData.count(anID) > 0 && "Could not find dialog with ID!");
+	std::string dialogString;
+	if (dialogData.find(anID) != dialogData.end())
+	{
+		dialogString = dialogData.at(anID);
+	}
+	else
+	{
+		// NOTE: No dialog found, should not happen in production
+		dialogString = "This should not happen :/";
 
-	const std::string dialogString = dialogData.at(anID);
+		ERROR_PRINT("Could not find dialog with id %s", anID.c_str());
+	}
 
 	FillSlides(dialogString);
 
