@@ -49,6 +49,15 @@ public:
 	Camera* GetCamera();
 
 private:
+	bool myIsMainMusicPlaying = false;
+	enum EMusic
+	{
+		Level01 = 1,
+		Level02 = 2,
+		Level03 = 3,
+		MainMenuMusic = -1
+	};
+	void PlayMusic();
 
 	void RunTransition(std::unique_ptr<Scene> aTargetScene);
 	bool HasQueuedTransition() const;
@@ -63,7 +72,9 @@ private:
 	LockedSection myActiveSceneLock;
 
 	std::unique_ptr<Scene> myActiveScene;
+
 	std::unique_ptr<Scene> myQueuedScene;
+	bool myHasQueuedCheckpointLoad{};
 
 	int myCurrentLevel{ -1 };
 

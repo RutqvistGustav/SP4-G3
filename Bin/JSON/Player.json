@@ -3,7 +3,7 @@
 
   "MovementSpeed": 15500.0,
   "MaxSpeedCap": 550.0,
-  "BerserkSpeed": 2000.0,
+  "BerserkSpeed": 8000.0,
   "BrakeStrength": 0.00000001,
   "StopAtVelocity": 0.01,
   "GravityStrength": 3200.0,

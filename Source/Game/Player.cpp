@@ -10,6 +10,7 @@
 #include "PlayerWeaponController.h"
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "HUD.h"
 
 #include "CheckpointMessage.h"
@@ -54,9 +55,6 @@ Player::Player(Scene* aScene)
 {
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
-
-	// Init HUD
-	myHUD = std::make_unique<HUD>(aScene);
 }
 
 Player::~Player()
@@ -81,7 +79,10 @@ void Player::Init()
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
 
+	// Init HUD
+	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get());
 	myHUD->Init();
+
 	myWeaponController->Init();
 
 	SetPosition(GetPosition());
@@ -238,17 +239,25 @@ void Player::DisablePowerUp()
 
 void Player::TakeDamage(const int aDamage)
 {
-	myHealth->TakeDamage(aDamage);
-	if(myHealth->IsPlayerInvinsible() == false) myHUD->GetHealthBar()->RemoveHP(aDamage);
-	if (myHealth->IsDead() == true)
+	if (myHealth->IsPlayerInvincible() == false)
 	{
-		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+		myHealth->TakeDamage(aDamage);
+		//myHUD->GetHealthBar()->RemoveHP(aDamage);
+
+		if (myHealth->IsDead() == true)
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player death.wav");
+			GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+		}
+		else
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player damage 05.wav");
+		}
 	}
 }
 
 void Player::AddHealth(const int aHealthAmount)
 {
-	myHUD->GetHealthBar()->AddHP(aHealthAmount);
 	myHealth->AddHealth(aHealthAmount);
 }
 
@@ -274,6 +283,9 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		myMovementVelocity = {};
 		myPhysicsController.SetVelocity({});
+
+		// TODO: NOTE: Hack to get full health
+		myHealth->SetFullHealth();
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());
@@ -373,6 +385,10 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 
 	if (anInput->IsJumping() && myJumpCharges > 0)
 	{
+		if (myJumpCharges == 1)
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Jump 01.mp3");
+		}
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
 	}

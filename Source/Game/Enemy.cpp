@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Health.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "JsonManager.h"
 
 #include "Player.h"
@@ -14,10 +15,10 @@
 #include <nlohmann/json.hpp>
 
 
-Enemy::Enemy(Scene* aScene, const char* aSpritePath)
-	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath)
-{
-}
+Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
+	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
+	myType(aEnemyType)
+{}
 
 Enemy::~Enemy() = default;
 
@@ -51,6 +52,10 @@ void Enemy::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
 	myDeleteThisFrame = myHealth->IsDead();
+	if (myHealth->IsDead())
+	{
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
+	}
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
@@ -91,6 +96,16 @@ void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 	myPhysicsController.SetPosition(aPosition);
+}
+
+void Enemy::SetInitialPosition(const CU::Vector2<float>& anInitialPosition)
+{
+	myInitialPosition = anInitialPosition;
+}
+
+const CU::Vector2<float>& Enemy::GetInitialPosition() const
+{
+	return myInitialPosition;
 }
 
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)

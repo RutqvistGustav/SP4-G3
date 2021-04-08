@@ -494,6 +494,9 @@
     <ClInclude Include="CheckpointVolume.h">
       <Filter>GameObjects\Volumes</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyType.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
