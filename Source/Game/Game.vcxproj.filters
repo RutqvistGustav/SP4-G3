@@ -112,6 +112,9 @@
     <Filter Include="Core\Parallax">
       <UniqueIdentifier>{bb25d333-bf6f-48a9-945d-963a29e260db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects\Particles">
+      <UniqueIdentifier>{a8bdf749-1c6c-424f-9a87-de4967daf86b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -494,6 +497,21 @@
     <ClInclude Include="CheckpointVolume.h">
       <Filter>GameObjects\Volumes</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyType.h">
+      <Filter>GameObjects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSheetParticleEffect.h">
+      <Filter>GameObjects\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffectManager.h">
+      <Filter>Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnParticleEffectMessage.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEffectType.h">
+      <Filter>GameObjects\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -744,6 +762,12 @@
     </ClCompile>
     <ClCompile Include="CheckpointVolume.cpp">
       <Filter>GameObjects\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSheetParticleEffect.cpp">
+      <Filter>GameObjects\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEffectManager.cpp">
+      <Filter>Core\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

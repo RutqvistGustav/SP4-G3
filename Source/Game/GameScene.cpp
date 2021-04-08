@@ -15,16 +15,19 @@
 #include "DialogueBox.h"
 #include "PauseMenu.h"
 
+#include "MathHelper.h"
+
 //Managers
 #include "CollisionManager.h"
 #include "EnemyManager.h"
+#include "ParticleEffectManager.h"
+
+#include "LevelManagerProxy.h"
 
 #include "TiledParser.h"
 #include "TiledRenderer.h"
 #include "TiledCollision.h"
 #include "TiledEntities.h"
-
-#include "Minimap.h"
 
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
@@ -50,12 +53,14 @@ void GameScene::Init()
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
-	myMinimap = std::make_unique<Minimap>(this, myTiledParser.get(), myTiledCollision.get());
 	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
 
 	// TODO: Read from json?
-	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
-	myParallaxContainer->AddLayer(0.8f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
+	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
+	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
+
+	myParallaxDustLayers[0] = myParallaxContainer->GetLayer(0);
+	myParallaxDustLayers[1] = myParallaxContainer->GetLayer(1);
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -63,10 +68,9 @@ void GameScene::Init()
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
 
-	myEnemyManager = std::make_unique<EnemyManager>(this, myMinimap.get());
+	myEnemyManager = std::make_unique<EnemyManager>(this);
 	myCollectibleManager = std::make_unique<CollectibleManager>(this);
-
-	myMinimap->AddObject(myPlayer.get(), Minimap::MapObjectType::Player);
+	myParticleEffectManager = std::make_unique<ParticleEffectManager>(this);
 
 	GetCamera()->SetLevelBounds(AABB(CU::Vector2<float>(), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight())));
 	GetCamera()->SetPosition(CU::Vector2<float>());
@@ -80,6 +84,13 @@ void GameScene::Init()
 		GetCamera()->SetPosition(playerSpawn->GetPosition());
 		myParallaxContainer->SetParallaxOrigin(GetCamera()->GetPosition());
 	}
+
+	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::StageClear, this);
+}
+
+void GameScene::OnExit()
+{
+	GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::StageClear, this);
 }
 
 void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -89,11 +100,11 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		Scene::Update(aDeltaTime, anUpdateContext);
 		myPlayer->Update(aDeltaTime, anUpdateContext);
 
-		myMinimap->SetGameView(GetCamera()->GetViewBounds());
-
 		//Removal of marked GameObjects
 		myEnemyManager->DeleteMarkedEnemies();
 		myCollectibleManager->DeleteMarkedCollectables();
+
+		UpdateCustomParallaxEffects(aDeltaTime);
 
 		//temp
 		myEnemyManager->AddTargetToAllEnemies(myPlayer);
@@ -120,13 +131,35 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
 
 	myParallaxContainer->Render(aRenderQueue);
-	myMinimap->Render(aRenderQueue);
 
 	if(myIsGamePaused) myPauseMenu->Render(aRenderQueue, aRenderContext);
 
 #ifdef _DEBUG
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
 #endif //_DEBUG
+}
+
+GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* someMessageData)
+{
+	assert(aMessage == GameMessage::StageClear);
+
+	GetLevelManagerProxy()->TransitionNextLevel();
+
+	return GameMessageAction::Keep;
+}
+
+void GameScene::UpdateCustomParallaxEffects(float aDeltaTime)
+{
+	constexpr float rotationSpeed = 90.0f;
+	constexpr float offsetAmplitude = 20.0f;
+
+	myParallaxDustRotation += rotationSpeed * aDeltaTime;
+
+	const float radRotation = MathHelper::DegToRad(myParallaxDustRotation);
+	const CU::Vector2<float> offset = CU::Vector2<float>(std::cos(radRotation), std::sin(radRotation)) * offsetAmplitude;
+
+	myParallaxDustLayers[0]->SetLayerOffset(offset);
+	myParallaxDustLayers[1]->SetLayerOffset(offset);
 }
 
 void GameScene::StartPauseMenu(UpdateContext& anUpdateContext)

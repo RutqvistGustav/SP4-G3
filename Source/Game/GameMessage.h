@@ -12,4 +12,6 @@ enum class GameMessage
 	InteractableExit,
 
 	StageClear,
+
+	SpawnParticleEffect,
 };

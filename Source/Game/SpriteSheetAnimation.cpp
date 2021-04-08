@@ -78,6 +78,11 @@ float SpriteSheetAnimation::GetDuration() const
 	return static_cast<float>(state.myFrames.size()) * state.myInvFps;
 }
 
+bool SpriteSheetAnimation::HasEnded() const
+{
+	return !IsLooping() && myTime >= GetDuration();
+}
+
 bool SpriteSheetAnimation::InState() const
 {
 	return !myActiveState.empty();

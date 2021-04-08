@@ -52,11 +52,11 @@ void TiledEntities::SpawnEntities()
 
 			if (entity.GetSubType() == "Zombie")
 			{
-				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
+				enemyMessageData.myEnemyType = EnemyType::Zombie;
 			}
 			else if (entity.GetSubType() == "EliteZombie")
 			{
-				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::EliteZombie;
+				enemyMessageData.myEnemyType = EnemyType::EliteZombie;
 			}
 			else
 			{

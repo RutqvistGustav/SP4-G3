@@ -13,8 +13,6 @@
 
 #include <cassert>
 
-#include <iostream>
-
 ParallaxLayer::ParallaxLayer(Scene* aScene, const float aSpeedFactor, const GameLayer::Layer aLayer, const std::string& aSpritePath) :
 	myScene(aScene),
 	mySpeedFactor(aSpeedFactor),
@@ -41,49 +39,55 @@ ParallaxLayer::~ParallaxLayer() = default;
 
 void ParallaxLayer::Update(const float aDeltaTime, const CU::Vector2<float>& anOffset)
 {
-	myLayerOffset = anOffset * mySpeedFactor;
+	myFinalRenderOffset = myLayerOffset + anOffset * mySpeedFactor;
 
-	myLayerOffset.x = std::fmodf(myLayerOffset.x, Metrics::GetReferenceSize().x);
-	myLayerOffset.y = std::fmodf(myLayerOffset.y, Metrics::GetReferenceSize().y);
+	myFinalRenderOffset.x = std::fmodf(myFinalRenderOffset.x, Metrics::GetReferenceSize().x);
+	myFinalRenderOffset.y = std::fmodf(myFinalRenderOffset.y, Metrics::GetReferenceSize().y);
 }
 
 void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 {
 	constexpr float threshold = 1.0f;
 
-	const bool renderHorizontalExtent = std::abs(myLayerOffset.x) >= threshold;
-	const bool renderVerticalExtent = std::abs(myLayerOffset.y) >= threshold;
+	const bool renderHorizontalExtent = std::abs(myFinalRenderOffset.x) >= threshold;
+	const bool renderVerticalExtent = std::abs(myFinalRenderOffset.y) >= threshold;
 
 	{
 		SetupSpriteForPart({ 0.0f, 0.0f });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 1.0f, 1.0f));
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
 
 	if (renderHorizontalExtent)
 	{
-		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myLayerOffset.x)), 0.0f });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 0.0f, 0.0f, 1.0f));
+		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myFinalRenderOffset.x)), 0.0f });
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
 
 	if (renderVerticalExtent)
 	{
-		SetupSpriteForPart({ 0.0f, static_cast<float>(MathHelper::Signum(myLayerOffset.y)) });
-		mySprite->SetColor(Tga2D::CColor(0.0f, 1.0f, 0.0f, 1.0f));
+		SetupSpriteForPart({ 0.0f, static_cast<float>(MathHelper::Signum(myFinalRenderOffset.y)) });
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
 
 	if (renderHorizontalExtent && renderVerticalExtent)
 	{
-		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myLayerOffset.x)), static_cast<float>(MathHelper::Signum(myLayerOffset.y)) });
-		mySprite->SetColor(Tga2D::CColor(1.0f, 1.0f, 0.0f, 1.0f));
+		SetupSpriteForPart({ static_cast<float>(MathHelper::Signum(myFinalRenderOffset.x)), static_cast<float>(MathHelper::Signum(myFinalRenderOffset.y)) });
 
 		aRenderQueue->Queue(RenderCommand(mySprite));
 	}
+}
+
+void ParallaxLayer::SetLayerOffset(const CU::Vector2<float>& anOffset)
+{
+	myLayerOffset = anOffset;
+}
+
+const CU::Vector2<float>& ParallaxLayer::GetLayerOffset() const
+{
+	return myLayerOffset;
 }
 
 void ParallaxLayer::SetupSpriteForPart(const CU::Vector2<float>& aDirection)
@@ -93,5 +97,5 @@ void ParallaxLayer::SetupSpriteForPart(const CU::Vector2<float>& aDirection)
 	const CU::Vector2<float> center = referenceSize * 0.5f;
 	const CU::Vector2<float> partOffset = { -aDirection.x * referenceSize.x, -aDirection.y * referenceSize.y };
 
-	mySprite->SetPosition(center + partOffset + myLayerOffset);
+	mySprite->SetPosition(center + partOffset + myFinalRenderOffset);
 }

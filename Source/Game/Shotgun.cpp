@@ -1,11 +1,17 @@
 #include "stdafx.h"
 #include "Shotgun.h"
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
 #include "Collider.h"
 #include "CollisionManager.h"
 #include "CollisionInfo.h"
 
 #include "Enemy.h"
+
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
 
 #include "WeaponHolder.h"
 
@@ -49,6 +55,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	{
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/Reload.mp3");
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -94,12 +101,16 @@ void Shotgun::Shoot()
 		return;
 	}
 
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-1.wav");
+
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	SpawnMuzzleFlash();
 
 	if (!IsLoaded())
 	{
@@ -113,6 +124,7 @@ void Shotgun::Boost()
 	{
 		return;
 	}
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-3.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -191,6 +203,18 @@ bool Shotgun::IsReloading() const
 bool Shotgun::IsLoaded() const
 {
 	return myLoadedAmmo > 0;
+}
+
+void Shotgun::SpawnMuzzleFlash() const
+{
+	// TODO: NOTE: Somehow adjust spawn position depending on barrle location
+
+	SpawnParticleEffectMessageData spawnData;
+	spawnData.myType = ParticleEffectType::MuzzleFlash;
+	spawnData.myPosition = GetPosition() + GetDirection() * 115.0f + CU::Vector2<float>(0.0f, -30.0f);
+	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)

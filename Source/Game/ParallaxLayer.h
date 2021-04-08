@@ -21,6 +21,9 @@ public:
 	void Update(const float aDeltaTime, const CU::Vector2<float>& anOffset);
 	void Render(RenderQueue* const aRenderQueue);
 
+	void SetLayerOffset(const CU::Vector2<float> &anOffset);
+	const CU::Vector2<float>& GetLayerOffset() const;
+
 private:
 
 	void SetupSpriteForPart(const CU::Vector2<float>& aDirection);
@@ -35,6 +38,8 @@ private:
 	const std::string mySpritePath;
 
 	CU::Vector2<float> myLayerOffset;
+
+	CU::Vector2<float> myFinalRenderOffset;
 	std::shared_ptr<SpriteWrapper> mySprite;
 
 };
