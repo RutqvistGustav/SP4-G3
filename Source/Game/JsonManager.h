@@ -16,7 +16,6 @@ public:
 	const JsonData& GetData(const std::string& aFileName) const;
 
 	std::string SetSpritePath(const std::string& aVaribleName, const std::string& aFilePath) const;
-	void LoadArrays(const std::string& aVaribleName, const std::string& aFilePath);
 
 private:
 	void InitAllFiles();

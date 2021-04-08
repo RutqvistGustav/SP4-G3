@@ -1,3 +1,4 @@
 {
-  "PlayerTest1": "This is a test dialog with\nlinebreaks & multiple pages%This is the next page!"
+  "PlayerTest1": "This is a test dialog with\nlinebreaks & multiple pages%bThis is the next page!",
+  "L3D1": "This is a test message to test the dialogue system.%bAnd this is to test the linebreak function. \nAnd this is to test adding a new line."  
 }
