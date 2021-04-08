@@ -18,6 +18,7 @@ public:
 		eState_Grounded     = (1 << 0),
 
 		eState_AgainstWall  = (1 << 1),
+		eState_InsideWall	= (1 << 2)
 	};
 
 	EntityPhysicsController();

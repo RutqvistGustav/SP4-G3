@@ -13,7 +13,7 @@ EntityPhysicsController::EntityPhysicsController() = default;
 
 EntityPhysicsController::~EntityPhysicsController() = default;
 
-void EntityPhysicsController::Init(Scene* aScene, const Vec2f& aSize)
+void EntityPhysicsController::Init(Scene * aScene, const Vec2f & aSize)
 {
 	myScene = aScene;
 	mySize = aSize;
@@ -35,7 +35,7 @@ void EntityPhysicsController::Update(float aDeltaTime)
 		myVelocity.x = 0.0f;
 }
 
-void EntityPhysicsController::SetGravity(const Vec2f& someGravity)
+void EntityPhysicsController::SetGravity(const Vec2f & someGravity)
 {
 	myGravity = someGravity;
 }
@@ -45,7 +45,7 @@ Vec2f EntityPhysicsController::GetGravity() const
 	return myGravity;
 }
 
-void EntityPhysicsController::SetPosition(const Vec2f& aPosition)
+void EntityPhysicsController::SetPosition(const Vec2f & aPosition)
 {
 	myPosition = aPosition;
 }
@@ -55,12 +55,12 @@ const Vec2f& EntityPhysicsController::GetPosition() const
 	return myPosition;
 }
 
-void EntityPhysicsController::ApplyForce(const CU::Vector2<float>& aForce)
+void EntityPhysicsController::ApplyForce(const CU::Vector2<float>&aForce)
 {
 	myVelocity += aForce;
 }
 
-void EntityPhysicsController::SetVelocity(const Vec2f& aVelocity)
+void EntityPhysicsController::SetVelocity(const Vec2f & aVelocity)
 {
 	myVelocity = aVelocity;
 }
@@ -96,7 +96,7 @@ void EntityPhysicsController::BuildCollisionEdges()
 	myCollisionEdges[Edge::Left] = CreateCollisionEdge(entityAABB.GetCenter() - Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f), Vec2f(0.0f, 1.0f), verticalPoints);
 }
 
-std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMiddle, const Vec2f& aDirection, int aPointCount)
+std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f & aMiddle, const Vec2f & aDirection, int aPointCount)
 {
 	assert((aPointCount % 2) != 0 && "aPointCount must not be even!");
 
@@ -128,7 +128,7 @@ void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge)
 	}
 }
 
-void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aFinalPosition, bool& aWasObstructed, float& aDisplacement)
+void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f & aFinalPosition, bool& aWasObstructed, float& aDisplacement)
 {
 	if (myCollisionBuffer.empty())
 		return;
@@ -145,7 +145,8 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aF
 		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y - 1.0f;
 		break;
 	case Edge::Bottom:
-		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
+		if (!HasState(eState::eState_InsideWall))
+			displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
 		break;
 
 	case Edge::Left:
@@ -183,17 +184,46 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		testEdge = aDistance > 0.0f ? Edge::Right : Edge::Left;
 	}
 
-	AccumulateEdgeCollisions(testEdge);
-	ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
+
+
+	static bool willTest = true;
 
 	if (anAxis == Axis::X)
 	{
+
+		/*bool wallTest = false;
+
+		for (int i = 0; i < myCollisionBuffer.size(); ++i)
+		{
+			for (int j = 0; j < myCollisionEdges.size(); ++j)
+			{
+				if (wallTest)
+					break;
+				wallTest = myCollisionBuffer[i].myAABB.Contains(myCollisionEdges.at(testEdge).at(j));
+			}
+		}*/
+
 		const bool isAgainstWall = !myCollisionBuffer.empty();
 
 		if (isAgainstWall)
 			AddState(eState::eState_AgainstWall);
 		else
 			RemoveState(eState::eState_AgainstWall);
+
+
+
+
+
+		if (HasState(eState::eState_AgainstWall) && !HasState(eState::eState_InsideWall))
+		{
+			AddState(eState::eState_InsideWall);
+		}
+		else if (!HasState(eState::eState_AgainstWall) && HasState(eState::eState_InsideWall))
+		{
+			RemoveState(eState::eState_InsideWall);
+			willTest = true;
+		}
+
 	}
 	else if (anAxis == Axis::Y)
 	{
@@ -203,8 +233,31 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		if (isGrounded)
 			AddState(eState::eState_Grounded);
 		else
+		{
 			RemoveState(eState::eState_Grounded);
+			if (HasState(eState::eState_InsideWall))
+			{
+				willTest = false;
+			}
+		}
 	}
+
+	/*if ((!HasState(eState::eState_InsideWall) || HasState(eState::eState_AgainstWall)) && (testEdge == Edge::Right || testEdge == Edge::Left))
+	{
+
+
+	}
+	else if ((testEdge == Edge::Top || testEdge == Edge::Bottom))
+	{
+		AccumulateEdgeCollisions(testEdge);
+		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
+	}*/
+	if (willTest || testEdge == Edge::Bottom)
+	{
+		AccumulateEdgeCollisions(testEdge);
+		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
+	}
+
 
 	myPosition += direction * actualDistance;
 
