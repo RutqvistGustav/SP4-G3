@@ -15,22 +15,30 @@ class DialogueBox :
     public Interactable
 {
 public:
+
     DialogueBox(Scene* aScene);
 
     void Init(std::string anID);
-    virtual void OnInteract(Player* aPlayer) override;
+
     void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-private:
-    void FillSlides(std::string& anAllSlides);
+    virtual void OnInteract(Player* aPlayer) override;
+
+protected:
+
+    virtual void TriggerExit(GameObject* aGameObject) override;
 
 private:
-    bool myIsInteracting = false;
-    bool myIsFirstVisit = true;
-    unsigned int myCurrentSlide{};
 
-    std::shared_ptr<SpriteWrapper> mySprite;
+    void FillSlides(const std::string& aDialogText);
+
+    inline bool ShouldShowDialog() const { return myCurrentPage >= 0; }
+
+private:
+
+    int myCurrentPage{ -1 };
+
     std::shared_ptr<TextWrapper> myText;
-    std::vector<std::string> mySlides;
-};
+    std::vector<std::string> myPages;
 
+};
