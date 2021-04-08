@@ -32,6 +32,11 @@ void ParallaxContainer::AddLayer(const float aSpeed, GameLayer::Layer aLayer, co
 	myLayers.emplace_back(myScene, aSpeed, aLayer, aSpritePath);
 }
 
+ParallaxLayer* ParallaxContainer::GetLayer(int anIndex)
+{
+	return &myLayers[anIndex];
+}
+
 void ParallaxContainer::SetParallaxOrigin(const CU::Vector2<float>& anOrigin)
 {
 	myOrigin = anOrigin;

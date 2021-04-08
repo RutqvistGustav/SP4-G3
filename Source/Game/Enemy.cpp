@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Health.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "JsonManager.h"
 
 #include "Player.h"
@@ -11,8 +12,8 @@
 
 #include "SpriteWrapper.h"
 
-#include <nlohmann/json.hpp>
-
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
 
 Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
 	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
@@ -50,7 +51,19 @@ const int Enemy::DealDamage()
 void Enemy::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
-	myDeleteThisFrame = myHealth->IsDead();
+
+	if (myHealth->IsDead())
+	{
+		SetDeleteThisFrame();
+
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
+	}
+
+	SpawnParticleEffectMessageData spawnData{};
+	spawnData.myType = ParticleEffectType::BloodSplatter;
+	spawnData.myPosition = GetPosition();
+
+	GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)

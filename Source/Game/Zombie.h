@@ -17,5 +17,8 @@ public:
     virtual void IdleMovement(const float aDeltaTime);
 
     virtual bool CheckIdle();
+    void PlayTriggeredSoundOnce();
 
+private:
+    bool myHasSoundPlayOnce = false;
 };

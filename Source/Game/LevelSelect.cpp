@@ -84,7 +84,7 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::BackButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
+		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
 		break;
 	}
 }

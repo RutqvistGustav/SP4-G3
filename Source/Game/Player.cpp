@@ -10,6 +10,7 @@
 #include "PlayerWeaponController.h"
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "HUD.h"
 
 #include "CheckpointMessage.h"
@@ -238,11 +239,20 @@ void Player::DisablePowerUp()
 
 void Player::TakeDamage(const int aDamage)
 {
-	myHealth->TakeDamage(aDamage);
-
-	if (myHealth->IsDead())
+	if (myHealth->IsPlayerInvincible() == false)
 	{
-		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+		myHealth->TakeDamage(aDamage);
+		//myHUD->GetHealthBar()->RemoveHP(aDamage);
+
+		if (myHealth->IsDead() == true)
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player death.wav");
+			GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+		}
+		else
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Player damage 05.wav");
+		}
 	}
 }
 
@@ -375,6 +385,10 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 
 	if (anInput->IsJumping() && myJumpCharges > 0)
 	{
+		if (myJumpCharges == 1)
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Player/Jump 01.mp3");
+		}
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
 	}

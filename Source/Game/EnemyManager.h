@@ -13,14 +13,12 @@ class RenderQueue;
 class Enemy;
 class EnemyFactory;
 
-class Minimap;
-
 class EnemyManager :
 	public IGameMessageSubscriber
 {
 public:
 
-	EnemyManager(Scene* aScene, Minimap* aMinimap);
+	EnemyManager(Scene* aScene);
 	~EnemyManager();
 
 	void AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType);
@@ -55,8 +53,6 @@ private:
 
 	std::vector<std::shared_ptr<Enemy>> myEnemies;
 	Scene* myScene;
-
-	Minimap* myMinimap;
 
 };
 

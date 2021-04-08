@@ -18,16 +18,21 @@ void Health::Update(const float aDeltaTime)
 	if (myTimerCountdown > 0.0f)
 	{
 		myTimerCountdown -= aDeltaTime;
+		if (myTimerCountdown <= 0.0f)
+		{
+			myIsInvisible = false;
+		}
 	}
 }
 
 void Health::TakeDamage(const int aDamage)
 {
-	if (!IsPlayerInvincible())
+	if (myTimerCountdown <= 0.0f)
 	{
 		AddHealth(-aDamage);
 
 		myTimerCountdown = myInvincibilityTime;
+		myIsInvisible = true;
 	}
 }
 
@@ -53,6 +58,7 @@ void Health::SetFullHealth()
 
 void Health::SetHealth(const int anAmount)
 {
+	//return myIsInvisible;
 	myHealth = MathHelper::Clamp(anAmount, 0, myMaxHealth);
 	myIsDead = myHealth <= 0;
 
