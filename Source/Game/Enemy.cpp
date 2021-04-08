@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Health.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "JsonManager.h"
 
 #include "Player.h"
@@ -54,6 +55,8 @@ void Enemy::TakeDamage(const int aDamage)
 	if (myHealth->IsDead())
 	{
 		SetDeleteThisFrame();
+
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
 	}
 
 	SpawnParticleEffectMessageData spawnData{};

@@ -13,6 +13,11 @@ void SceneManagerProxy::Transition(std::unique_ptr<Scene> aTargetScene, bool aHa
 	mySceneManager.Transition(std::move(aTargetScene), aHasAnimation);
 }
 
+void SceneManagerProxy::TransitionToMainMenu()
+{
+	mySceneManager.TransitionToMainMenu();
+}
+
 bool SceneManagerProxy::IsTransitionQueued() const
 {
 	return mySceneManager.IsTransitionQueued();
