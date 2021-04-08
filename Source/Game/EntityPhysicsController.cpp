@@ -58,12 +58,12 @@ const Vec2f& EntityPhysicsController::GetPosition() const
 }
 
 
-void EntityPhysicsController::ApplyFrameImpulse(const CU::Vector2<float>& anImpulse)
+void EntityPhysicsController::ApplyFrameImpulse(const CU::Vector2<float>&anImpulse)
 {
 	myFrameImpulses += anImpulse;
 }
 
-void EntityPhysicsController::ApplyForce(const CU::Vector2<float>& aForce)
+void EntityPhysicsController::ApplyForce(const CU::Vector2<float>&aForce)
 {
 	myVelocity += aForce;
 }
@@ -129,7 +129,7 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f & aM
 	return result;
 }
 
-void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f& aFinalPosition)
+void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f & aFinalPosition)
 {
 	const auto& points = myCollisionEdges.at(anEdge);
 
@@ -157,8 +157,7 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f & a
 		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y;
 		break;
 	case Edge::Bottom:
-		if (!HasState(eState::eState_InsideWall))
-			displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
+		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
 		break;
 
 	case Edge::Left:
@@ -192,7 +191,8 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 	}
 
 	static bool willTest = true;
-	
+
+
 	if (anAxis == Axis::X)
 	{
 
@@ -209,6 +209,9 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		}*/
 
 		const bool isAgainstWall = !myCollisionBuffer.empty();
+
+		
+
 
 		if (isAgainstWall)
 			AddState(eState::eState_AgainstWall);
@@ -257,17 +260,17 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		AccumulateEdgeCollisions(testEdge);
 		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
 	}*/
+	
+		const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
 	if (willTest || testEdge == Edge::Bottom)
 	{
 
-const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
-
-	AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
-	ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
+		AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
+		ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
 
 
-		// AccumulateEdgeCollisions(testEdge);
-		// ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
+		/*AccumulateEdgeCollisions(testEdge);
+		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);*/
 	}
 
 
