@@ -78,6 +78,7 @@ void Player::Init()
 
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
+	mySprite->SetLayer(GameLayer::Player);
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get());
