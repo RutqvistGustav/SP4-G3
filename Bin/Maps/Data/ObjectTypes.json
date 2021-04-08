@@ -1,8 +1,13 @@
 [
     {
-        "color": "#ffaaff00",
-        "name": "Collider",
+        "color": "#ff00aa00",
+        "name": "Checkpoint",
         "properties": [
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "Checkpoint"
+            }
         ]
     },
     {
@@ -10,14 +15,52 @@
         "name": "Dialog",
         "properties": [
             {
-                "name": "DialogId",
+                "name": "DialogID",
                 "type": "string",
                 "value": ""
             },
             {
                 "name": "Type",
                 "type": "string",
-                "value": "InteractableDialog"
+                "value": "DialogBox"
+            }
+        ]
+    },
+    {
+        "color": "#ffff0000",
+        "name": "Enemy",
+        "properties": [
+            {
+                "name": "SubType",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "Enemy"
+            }
+        ]
+    },
+    {
+        "color": "#ff0000ff",
+        "name": "Goal",
+        "properties": [
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "Goal"
+            }
+        ]
+    },
+    {
+        "color": "#ff550000",
+        "name": "Hazard",
+        "properties": [
+            {
+                "name": "Type",
+                "type": "string",
+                "value": "Hazard"
             }
         ]
     }

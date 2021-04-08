@@ -1,0 +1,15 @@
+{
+    "Hazard": {
+        "Default": {
+            "Damage": 100,
+            "Knockback": 800.0,
+            "KnockbackInterval": 0.2
+        }
+    },
+  "HealthPickup": {
+    "SpritePath" :  "Animations/HealthPickup.json"
+  },
+  "BerserkerPickup": {
+    "SpritePath": "Animations/BerserkerPickup.json"
+  }
+}

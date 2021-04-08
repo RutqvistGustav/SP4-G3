@@ -1,9 +1,19 @@
 {
   "FilePaths": [
     "JSON/MainJson.json",
+    "JSON/HUD.json",
     "JSON/Player.json",
     "JSON/Weapons.json",
     "JSON/EnemyTypes.json",
+
+    "JSON/Entities.json",
+
+    "Animations/Player.json",
+    "Animations/HealthPickup.json",
+    "Animations/BerserkerPickup.json",
+    "Animations/TestAnimation.json",
+    "Animations/Particles/MuzzleFlash.json",
+    "Animations/Particles/BloodSplatter.json",
 
     "Dialog/Main.json"
   ]

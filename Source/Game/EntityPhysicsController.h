@@ -34,6 +34,8 @@ public:
 	void SetPosition(const CU::Vector2<float>& aPosition);
 	const CU::Vector2<float>& GetPosition() const;
 
+	void ApplyFrameImpulse(const CU::Vector2<float>& anImpulse);
+
 	void ApplyForce(const CU::Vector2<float>& aForce);
 
 	void SetVelocity(const CU::Vector2<float>& aVelocity);
@@ -63,7 +65,7 @@ private:
 	void BuildCollisionEdges();
 	std::vector<CU::Vector2<float>> CreateCollisionEdge(const CU::Vector2<float>& aMiddle, const CU::Vector2<float>& aDirection, int aPointCount);
 
-	void AccumulateEdgeCollisions(Edge anEdge);
+	void AccumulateEdgeCollisions(Edge anEdge, const CU::Vector2<float>& aFinalPosition);
 	void ResolveEdgeCollisions(Edge anEdge, const CU::Vector2<float>& aFinalPosition, bool& aWasObstructed, float& aDisplacement);
 
 	bool Move(Axis anAxis, float aDistance);
@@ -81,6 +83,8 @@ private:
 	CU::Vector2<float> myPosition;
 	CU::Vector2<float> myVelocity;
 	CU::Vector2<float> mySize;
+
+	CU::Vector2<float> myFrameImpulses;
 
 	Scene* myScene{};
 

@@ -6,12 +6,16 @@
 #include "SpriteWrapper.h"
 #include "CollisionManager.h"
 #include "Scene.h"
+#include "GlobalServiceProvider.h"
+#include "JsonManager.h"
 
-#include <nlohmann/json.hpp>
-#include <fstream>
+#include "MathHelper.h"
 
-HealthBar::HealthBar(Scene* aScene)
-	: GameObject(aScene)
+#include "Health.h"
+
+HealthBar::HealthBar(Scene* aScene, Health* aHealthInterface) :
+	GameObject(aScene),
+	myHealthInterface(aHealthInterface)
 {
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -19,19 +23,28 @@ HealthBar::HealthBar(Scene* aScene)
 
 void HealthBar::Init()
 {
-	nlohmann::json data;
-	std::ifstream file("JSON/HUD.json");
-	data = nlohmann::json::parse(file);
-	file.close();
-	nlohmann::json healthData = data.at("HealthBar");
+	nlohmann::json healthData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/HUD.json").at("HealthBar");
 
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HUD frame.dds");
+	myHealthBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HealthBar.dds");
+	myPowerUpBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/PowerUpBar.dds");
+
+	myHealthBar->SetPivot({ 0.0f, 0.5f });
+	myPowerUpBar->SetPivot({ 0.0f, 0.5f });
+
+	myInitialHealthBarWidth = myHealthBar->GetSize().x;
+	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
+
+	mySingleBarSize = 50.0f;
+	myHpOffSetX = 22.0f;
 
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
+
+	myHealthInterface->Subscribe(this);
 }
 
 void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
@@ -41,20 +54,35 @@ void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
 
 void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
+	aRenderQueue->Queue(RenderCommand(myHealthBar));
+	aRenderQueue->Queue(RenderCommand(myPowerUpBar));
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
-void HealthBar::RemoveHP()
+void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
 {
-	// decrease size of hp bar.
-}
-
-void HealthBar::AddHP()
-{
-	// restore size of hp bar.
+	myPowerUpType = aPowerUpType;
 }
 
 void HealthBar::UpdatePosition(CU::Vector2<float> aPlayerPosition)
 {
+	const CU::Vector2<float> barStartOffset = { -mySprite->GetSize().x * 0.5f, 0.0f };
+
 	SetPosition(aPlayerPosition + myDistanceFromPlayer);
+
+	myHealthBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + barStartOffset);
+	myPowerUpBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + barStartOffset);
+}
+
+void HealthBar::OnEvent(int someNewHealth)
+{
+	// NOTE: Health has changed
+	// TODO: Fix for bars?
+
+	const float percentange = MathHelper::Clamp(someNewHealth / static_cast<float>(myHealthInterface->GetMaxHealth()), 0.0f, 1.0f);
+
+	const CU::Vector2<float> newSize = { myInitialHealthBarWidth * percentange, myHealthBar->GetSize().y };
+
+	myHealthBar->SetTextureRect({ 0.0f, 0.0f, percentange, 1.0f });
+	myHealthBar->SetSize(newSize);
 }

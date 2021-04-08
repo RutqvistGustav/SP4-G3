@@ -5,8 +5,7 @@
 class Collider;
 
 class MenuButton :
-    public GameObject,
-    public CollisionListener
+    public GameObject
 {
 public:
     MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag);
@@ -15,8 +14,12 @@ public:
     virtual void Init() override;
     virtual void Update();
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext) override;
-    
+
+    void SetColliderSize(const CU::Vector2<float> aSize);
+
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+    void SetLayer(GameLayer::Layer aLayer);
+    void SetPanStrengthFactor(float aPanStrengthFactor);
 
 private:
 

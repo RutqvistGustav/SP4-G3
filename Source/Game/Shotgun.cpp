@@ -1,11 +1,17 @@
 #include "stdafx.h"
 #include "Shotgun.h"
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
 #include "Collider.h"
 #include "CollisionManager.h"
 #include "CollisionInfo.h"
 
 #include "Enemy.h"
+
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
 
 #include "WeaponHolder.h"
 
@@ -49,12 +55,43 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	{
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/Reload.mp3");
 	}
+
+	UpdatePowerUps(aDeltaTime);
 }
 
 void Shotgun::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 	// TODO: Render weapon?
+}
+
+void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
+{
+	myIsPowerUpActive = true;
+	myActivePowerUp = aPowerUpType;
+	if (myActivePowerUp == PowerUpType::Berserk)
+	{
+		myPowerUpDuration = myBerserkDuration;
+		myPowerUpDamage = myBerserkDamage;
+		myPowerUpReloadDuration = myBerserkReloadDuration;
+	}
+}
+
+void Shotgun::UpdatePowerUps(const float aDeltaTime)
+{
+	if (myIsPowerUpActive == true)
+	{
+		myPowerUpDuration -= aDeltaTime;
+		if (myPowerUpDuration <= 0)
+		{
+			if (myActivePowerUp == PowerUpType::Berserk)
+			{
+				GetWeaponHolder()->DisablePowerUp();
+			}
+			myIsPowerUpActive = false;
+		}
+	}
 }
 
 void Shotgun::Shoot()
@@ -64,12 +101,16 @@ void Shotgun::Shoot()
 		return;
 	}
 
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-1.wav");
+
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	SpawnMuzzleFlash();
 
 	if (!IsLoaded())
 	{
@@ -83,6 +124,7 @@ void Shotgun::Boost()
 	{
 		return;
 	}
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-3.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -101,7 +143,14 @@ void Shotgun::Reload()
 {
 	if (!IsReloading())
 	{
-		myReloadCompleteTime = myTime + myReloadDuration;
+		if (myIsPowerUpActive == false)
+		{
+			myReloadCompleteTime = myTime + myReloadDuration;
+		}
+		else
+		{
+			myReloadCompleteTime = myTime + myPowerUpReloadDuration;
+		}
 	}
 }
 
@@ -118,6 +167,10 @@ void Shotgun::LoadJson(const JsonData& someJsonData)
 
 	myRecoilKnockbackStrength = someJsonData["recoilKnockbackStrength"];
 	myBoostKnockBackStrength = someJsonData["boostKnockbackStrength"];
+
+	myBerserkDuration = someJsonData["Berserk"].at("Duration");
+	myBerserkDamage = someJsonData["Berserk"].at("Damage");
+	myBerserkReloadDuration = someJsonData["Berserk"].at("ReloadDuration");
 }
 
 void Shotgun::Setup()
@@ -152,6 +205,18 @@ bool Shotgun::IsLoaded() const
 	return myLoadedAmmo > 0;
 }
 
+void Shotgun::SpawnMuzzleFlash() const
+{
+	// TODO: NOTE: Somehow adjust spawn position depending on barrle location
+
+	SpawnParticleEffectMessageData spawnData;
+	spawnData.myType = ParticleEffectType::MuzzleFlash;
+	spawnData.myPosition = GetPosition() + GetDirection() * 115.0f + CU::Vector2<float>(0.0f, -30.0f);
+	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
+}
+
 void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 {
 	if (!myIsShotVolumeActive)
@@ -165,8 +230,10 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
 		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
-		if (enemyAngle < 0.0f) enemyAngle += MathHelper::locPif * 2.0f;
-		if (myAngle < 0.0f) myAngle += MathHelper::locPif * 2.0f;
+		// enemyAngle += enemyAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// myAngle += myAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
+		// if (enemyAngle < 0.0f) enemyAngle = std::fmodf(enemyAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
+		// if (myAngle < 0.0f) myAngle = std::fmodf(myAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
 
 		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
 

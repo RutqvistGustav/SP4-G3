@@ -1,0 +1,36 @@
+{
+    "states": {
+        "idle": {
+            "fps": 24,
+            "texture": "Sprites/Player/animations/idle/ot_anim_idle_02.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 180,
+            "frameHeight": 182,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 24
+        },
+        "running": {
+            "fps": 24,
+            "texture": "Sprites/Player/animations/run/ot_anim_run.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 180,
+            "frameHeight": 182,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 24
+        }
+    }
+}

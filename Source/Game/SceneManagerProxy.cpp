@@ -8,12 +8,17 @@ SceneManagerProxy::SceneManagerProxy(SceneManager& aSceneManager) :
 	mySceneManager(aSceneManager)
 {}
 
-void SceneManagerProxy::Transition(std::unique_ptr<Scene> aTargetScene)
+void SceneManagerProxy::Transition(std::unique_ptr<Scene> aTargetScene, bool aHasAnimation)
 {
-	mySceneManager.Transition(std::move(aTargetScene));
+	mySceneManager.Transition(std::move(aTargetScene), aHasAnimation);
 }
 
-Camera* SceneManagerProxy::GetCamera()
+void SceneManagerProxy::TransitionToMainMenu()
 {
-	return mySceneManager.GetCamera();
+	mySceneManager.TransitionToMainMenu();
+}
+
+bool SceneManagerProxy::IsTransitionQueued() const
+{
+	return mySceneManager.IsTransitionQueued();
 }

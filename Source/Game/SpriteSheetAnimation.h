@@ -1,5 +1,7 @@
 #pragma once
 
+#include "JsonData.h"
+
 #include <unordered_map>
 #include <vector>
 
@@ -27,6 +29,7 @@ public:
 
 	float GetDuration() const;
 
+	bool HasEnded() const;
 	bool InState() const;
 
 	inline void SetIsLooping(bool anIsLooping) { myIsLooping = anIsLooping; }
@@ -53,6 +56,10 @@ private:
 	const AnimationState& GetCurrentState() const;
 
 	void Load(const JsonManager* aJsonManager, const std::string& anAnimationPath);
+
+	void LoadManualFrames(const JsonData& someState, AnimationState& aResultState);
+	void LoadSeqRowFrames(const JsonData& someState, AnimationState& aResultState);
+
 	Tga2D::CTexture* TryLoadTexture(const std::string& aPath) const;
 
 private:

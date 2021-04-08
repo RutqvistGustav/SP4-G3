@@ -46,33 +46,39 @@ namespace CommonUtilities
         case WM_LBUTTONUP:
         {
             myMouseKeys[EMouseKey::LEFT].myKeyReleased = true;
+            myMouseKeys[EMouseKey::LEFT].myKeyHold = false;
             break;
         }
         case WM_LBUTTONDOWN:
         {
             myMouseKeys[EMouseKey::LEFT].myKeyPressed = true;
+            myMouseKeys[EMouseKey::LEFT].myKeyHold = true;
             break;
         }
         case WM_MBUTTONUP:
         {
             myMouseKeys[EMouseKey::MIDDLE].myKeyReleased = true;
+            myMouseKeys[EMouseKey::MIDDLE].myKeyHold = false;
             break;
         }
 
         case WM_MBUTTONDOWN:
         {
             myMouseKeys[EMouseKey::MIDDLE].myKeyPressed = true;
+            myMouseKeys[EMouseKey::MIDDLE].myKeyHold = true;
             break;
         }
         case WM_RBUTTONUP:
         {
             myMouseKeys[EMouseKey::RIGHT].myKeyReleased = true;
+            myMouseKeys[EMouseKey::RIGHT].myKeyHold = false;
             break;
         }
 
         case WM_RBUTTONDOWN:
         {
             myMouseKeys[EMouseKey::RIGHT].myKeyPressed = true;
+            myMouseKeys[EMouseKey::RIGHT].myKeyHold = true;
             break;
         }
 

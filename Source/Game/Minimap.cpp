@@ -14,6 +14,8 @@
 #include "TiledCollision.h"
 #include "TiledParser.h"
 
+#include "SceneManagerProxy.h"
+
 static Tga2D::CColor GetColorForObjectType(Minimap::MapObjectType aType)
 {
 	switch (aType)
@@ -44,7 +46,8 @@ static Tga2D::CColor GetColorForObjectType(Minimap::MapObjectType aType)
 
 // For current needs implementation 1 is the best.
 
-Minimap::Minimap(TiledParser* aTiledParser, TiledCollision* aTiledCollision) :
+Minimap::Minimap(Scene* aScene, TiledParser* aTiledParser, TiledCollision* aTiledCollision) :
+	myScene(aScene),
 	myTiledParser(aTiledParser),
 	myTiledCollision(aTiledCollision)
 {
@@ -87,6 +90,14 @@ void Minimap::Update(float aDeltaTime)
 
 void Minimap::Render(RenderQueue* const aRenderQueue)
 {
+	if (myScene->GetSceneManagerProxy()->IsTransitionQueued())
+	{
+		// NOTE: HACK: If scene manager has a queued transition it means we will unload at the end of this frame / start of next frame
+		// this will destroy the dynamic texture which will be rendered after the texture for it is destroyed
+		// quick fix is to not render anything that frame.
+		return;
+	}
+
 	aRenderQueue->Queue(RenderCommand(myMapSprite));
 
 	for (const MapObject& mapObject : myObjects)

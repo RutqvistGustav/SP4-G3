@@ -5,6 +5,9 @@
 #include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
 
+#include "RenderQueue.h"
+#include "RenderCommand.h"
+
 #include "Scene.h"
 #include "Player.h"
 
@@ -16,18 +19,21 @@ void DamageVolume::InitWithJson(const JsonData & someProperties)
 {
 	Init();
 
-	// TODO: Load in from json
-	myDamage = 1;
-	myKnockbackStrength = 1000.0f;
-
-	myAnimation = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Animations/TestAnimation.json");
-
-	myAnimation->SetState("default");
-	myAnimation->SetIsLooping(true);
-
-	myAnimation->ApplyToSprite(mySprite);
-	SetTriggerSize(mySprite->GetSize());
+	myDamage = someProperties.value("Damage", 1);
+	myKnockbackStrength = someProperties.value("Knockback", 1000.0f);
+	myKnockbackInterval = someProperties.value("KnockbackInterval", 0.1f);
 }
+
+void DamageVolume::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	if (myKnockbackTimer > 0.0f)
+	{
+		myKnockbackTimer -= aDeltaTime;
+	}
+}
+
+void DamageVolume::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+{}
 
 void DamageVolume::TriggerStay(GameObject* aGameObject)
 {
@@ -39,5 +45,11 @@ void DamageVolume::TriggerStay(GameObject* aGameObject)
 void DamageVolume::Damage(Player* aPlayer)
 {
 	aPlayer->TakeDamage(myDamage);
-	aPlayer->ApplyForce((aPlayer->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
+
+	if (myKnockbackTimer <= 0.0f)
+	{
+		aPlayer->ApplyForce((aPlayer->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
+
+		myKnockbackTimer = myKnockbackInterval;
+	}
 }

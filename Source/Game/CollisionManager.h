@@ -19,7 +19,7 @@ namespace Tga2D
 
 class TiledCollision;
 class RenderQueue;
-class RenderContext;
+struct RenderContext;
 
 class CollisionManager
 {
@@ -44,7 +44,7 @@ public:
 	
 	void InitDebug();
 	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
-	bool myDoRender = true;
+	bool myDoRender = false;
 
 #endif // _DEBUG
 
@@ -57,7 +57,7 @@ private:
 	ContactManager myContactManager;
 	LockedSection myUpdateLock;
 	
-	TiledCollision* myTiledCollision;
+	TiledCollision* myTiledCollision{};
 
 };
 

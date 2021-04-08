@@ -4,70 +4,87 @@
 #include "CollisionManager.h"
 #include "MenuButton.h"
 #include "MainMenu.h"
+#include "LevelManagerProxy.h"
 #include "SceneManagerProxy.h"
 #include "GameScene.h"
 #include "Metrics.h"
+#include "RenderCommand.h"
+#include "RenderQueue.h"
 
 LevelSelect::LevelSelect() = default;
 LevelSelect::~LevelSelect() = default;
 
 void LevelSelect::Init()
 {
-	myCollisionManager = std::make_unique<CollisionManager>();
-	myMousePointer = std::make_unique<MousePointer>(this);
+	MenuScene::Init();
+
+	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+	myBackground->SetLayer(-1);
 
 	InitButtons();
-}
 
-void LevelSelect::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
-{
-	myCollisionManager->Update();
-
-	for (auto& o : myButtons)
-	{
-		o->Update();
-	}
-
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
-	if (myMousePointer->ButtonClicked())
-	{
-		switch (myMousePointer->ClickedButton())
-		{
-		case GameObjectTag::Level1Button:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<GameScene>());
-			break;
-		}
-		case GameObjectTag::BackButton:
-		{
-			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>());
-			break;
-		}
-		}
-	}
+	myMousePointer->SetClickCallback(std::bind(&LevelSelect::MouseClicked, this, std::placeholders::_1));
 }
 
 void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	for (auto& o : myButtons)
-	{
-		o->Render(aRenderQueue, aRenderContext);
-	}
+	MenuScene::Render(aRenderQueue, aRenderContext);
 
-	myMousePointer->Render(aRenderQueue, aRenderContext);
+	aRenderQueue->Queue(RenderCommand(myBackground));
+
+	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
 }
 
 void LevelSelect::InitButtons()
 {
-	float x = Metrics::GetReferenceSize().x;
-	float y = Metrics::GetReferenceSize().y;
+	const float width = Metrics::GetReferenceSize().x;
+	const float height = Metrics::GetReferenceSize().y;
 
-	myLevel1 = std::make_unique<MenuButton>(this, "Sprites/Level1Button.png", "Sprites/Level1Button.png", GameObjectTag::Level1Button);
-	myLevel1->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.10f));
-	myButtons.push_back(std::move(myLevel1));
+	constexpr int levelCount = 3;
+	constexpr float levelBoxWidth = 480.0f;
 
-	myBackButton = std::make_unique<MenuButton>(this, "Sprites/BackButton.png", "Sprites/Level1Button.png", GameObjectTag::BackButton);
-	myBackButton->SetPosition(CommonUtilities::Vector2(x / 2, y * 0.90f));
-	myButtons.push_back(std::move(myBackButton));
+	const float startX = width * 0.5f - levelBoxWidth * (levelCount / 2);
+
+	for (int i = 0; i < levelCount; ++i)
+	{
+		const GameObjectTag buttonTag = static_cast<GameObjectTag>(static_cast<int>(GameObjectTag::Level1Button) + i);
+
+		auto levelButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/lvlsellect.dds", "Sprites/Menue UI/lvlsellect.dds", buttonTag);
+		levelButton->SetPosition(CommonUtilities::Vector2(startX + i * levelBoxWidth, height * 0.50f));
+		levelButton->SetColliderSize({ 0.7f, 0.7f });
+
+		AddInterfaceElement(levelButton);
+	}
+
+	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
+	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.85f));
+	AddInterfaceElement(backButton);
+}
+
+void LevelSelect::MouseClicked(GameObject* aTarget)
+{
+	if (aTarget == nullptr)
+	{
+		return;
+	}
+
+	const GameObjectTag targetTag = aTarget->GetTag();
+
+	switch (targetTag)
+	{
+	case GameObjectTag::Level1Button:
+		GetLevelManagerProxy()->TransitionToLevel(1);
+		break;
+	case GameObjectTag::Level2Button:
+		GetLevelManagerProxy()->TransitionToLevel(2);
+		break;
+	case GameObjectTag::Level3Button:
+		GetLevelManagerProxy()->TransitionToLevel(3);
+		break;
+
+	case GameObjectTag::BackButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
+		break;
+	}
 }

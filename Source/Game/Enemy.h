@@ -1,7 +1,10 @@
 #pragma once
 
 #include "GameObject.h"
+#include "PowerUpType.h"
 #include "EntityPhysicsController.h"
+
+#include "EnemyType.h"
 
 #include <memory>
 
@@ -11,7 +14,7 @@ class Enemy :
     public GameObject
 {
 public:
-    Enemy(Scene* aScene, const char* aSpritePath = nullptr);
+    Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath = nullptr);
     virtual ~Enemy();
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
@@ -21,10 +24,17 @@ public:
     virtual const int DealDamage();
     virtual void TakeDamage(const int aDamage);
     virtual void InitEnemyJsonValues(const std::string& aJsonPath);
+    virtual PowerUpType GetLootType();
+    virtual void SetLootType(const PowerUpType aLootType);
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+
+    void SetInitialPosition(const CU::Vector2<float>& anInitialPosition);
+    const CU::Vector2<float>& GetInitialPosition() const;
+
+    inline EnemyType GetType() const { return myType; }
 
 protected:
 
@@ -37,10 +47,15 @@ protected:
     float myMaxSpeed;
     float myDetectionRange;
     float myKnockback;
+    PowerUpType myLoot;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
 
     float myKnockbackTimer{};
+
+    EnemyType myType;
+
+    CU::Vector2<float> myInitialPosition;
 
     EntityPhysicsController myPhysicsController;
 };

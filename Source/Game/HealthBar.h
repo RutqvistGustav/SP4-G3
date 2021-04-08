@@ -1,12 +1,19 @@
 #pragma once
+
 #include "GameObject.h"
+#include "PowerUpType.h"
 #include "CollisionListener.h"
 
+#include "SimpleEventObserver.h"
+
+class Health;
+
 class HealthBar :
-    public GameObject
+    public GameObject,
+    public SimpleEventObserver<int>
 {
 public:
-    HealthBar(Scene* aScene);
+    HealthBar(Scene* aScene, Health* aHealthInterface);
     ~HealthBar() = default;
 
     virtual void Init() override;
@@ -14,18 +21,33 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void RemoveHP();
-    void AddHP();
+    void ActivatePowerUp(PowerUpType aPowerUpType);
 
 private:
-    CU::Vector2<float> myDistanceFromPlayer;
-    /*
-    Two sprites
-    One for the frame
-    the other for the red filling in the bar
-    filling will decrease in size when taking damage
-    */
 
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
+
+    virtual void OnEvent(int someNewHealth) override;
+
+private:
+
+    Health* myHealthInterface;
+
+    CU::Vector2<float> myDistanceFromPlayer;
+
+    PowerUpType myPowerUpType;
+    float myBerserkDuration{};
+    float myBerserkDurationReset{};
+    float mySniperShotDuration{};
+    float mySniperShotDurationReset{};
+
+    float mySingleBarSize{};
+    float myHpOffSetX{};
+
+    float myInitialHealthBarWidth;
+    float myInitialPowerUpBarWidth;
+
+    std::shared_ptr<SpriteWrapper> myHealthBar;
+    std::shared_ptr<SpriteWrapper> myPowerUpBar;
 };
 

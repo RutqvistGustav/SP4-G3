@@ -7,8 +7,7 @@
 class Collider;
 
 class Shotgun :
-	public Weapon,
-	public CollisionListener
+	public Weapon
 {
 public:
 
@@ -17,6 +16,9 @@ public:
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+
+	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
+	void UpdatePowerUps(const float aDeltaTime);
 
 	virtual void Shoot() override;
 	virtual void Boost() override;
@@ -33,6 +35,8 @@ protected:
 	bool IsReloadingComplete() const;
 	bool IsReloading() const;
 	bool IsLoaded() const;
+
+	void SpawnMuzzleFlash() const;
 
 	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
@@ -62,4 +66,15 @@ private:
 	float myRecoilKnockbackStrength{};
 	float myBoostKnockBackStrength{};
 
+	// PowerUp Variables
+	PowerUpType myActivePowerUp;
+	bool myIsPowerUpActive = false;
+
+	float myPowerUpDuration{};
+	float myPowerUpDamage{};
+	float myPowerUpReloadDuration{};
+
+	float myBerserkDuration{};
+	float myBerserkDamage{};
+	float myBerserkReloadDuration{};
 };

@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Health.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "JsonManager.h"
 
 #include "Player.h"
@@ -11,13 +12,13 @@
 
 #include "SpriteWrapper.h"
 
-#include <nlohmann/json.hpp>
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
 
-
-Enemy::Enemy(Scene* aScene, const char* aSpritePath)
-	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath)
-{
-}
+Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
+	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
+	myType(aEnemyType)
+{}
 
 Enemy::~Enemy() = default;
 
@@ -50,13 +51,25 @@ const int Enemy::DealDamage()
 void Enemy::TakeDamage(const int aDamage)
 {
 	myHealth->TakeDamage(aDamage);
-	myDeleteThisFrame = myHealth->IsDead();
+
+	if (myHealth->IsDead())
+	{
+		SetDeleteThisFrame();
+
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
+	}
+
+	SpawnParticleEffectMessageData spawnData{};
+	spawnData.myType = ParticleEffectType::BloodSplatter;
+	spawnData.myPosition = GetPosition();
+
+	GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 {
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/EnemyTypes.json");
-	nlohmann::json zombieData = data.at("EliteZombie");
+	nlohmann::json zombieData = data.at(aJsonPath);
 	myHealth = std::make_unique<Health>(zombieData.at("Health"));
 	myHealth->SetInvincibilityTimer(zombieData.at("Invincibility"));
 	myDamage = zombieData.at("Damage");
@@ -66,7 +79,19 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myKnockback = zombieData.at("KnockBack");
 
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
-	myPhysicsController.SetGravity({ 0.0f, 1000.0f }); // TODO: Read from JSON
+	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
+
+	mySprite->SetLayer(GameLayer::Enemy);
+}
+
+PowerUpType Enemy::GetLootType()
+{
+	return myLoot;
+}
+
+void Enemy::SetLootType(const PowerUpType aLootType)
+{
+	myLoot = aLootType;
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
@@ -81,6 +106,16 @@ void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 	myPhysicsController.SetPosition(aPosition);
+}
+
+void Enemy::SetInitialPosition(const CU::Vector2<float>& anInitialPosition)
+{
+	myInitialPosition = anInitialPosition;
+}
+
+const CU::Vector2<float>& Enemy::GetInitialPosition() const
+{
+	return myInitialPosition;
 }
 
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)

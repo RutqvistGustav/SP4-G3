@@ -6,9 +6,11 @@
 #include "Collider.h"
 #include "Scene.h"
 #include "Health.h"
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
-	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
+Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
+	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
 }
@@ -17,8 +19,7 @@ Zombie::~Zombie() = default;
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	// TODO: Jump when near walls
-	//		 Climb on eachother?
+	// TODO: Change Direction Near Walls
 	if (myTarget != nullptr)
 	{
 		if (CheckIdle())
@@ -41,6 +42,8 @@ void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 
 void Zombie::Movement(const float aDeltaTime)
 {
+	PlayTriggeredSoundOnce();
+
 	const CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
@@ -92,8 +95,21 @@ void Zombie::IdleMovement(const float aDeltaTime)
 
 bool Zombie::CheckIdle()
 {
-	CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
-	const float distance = direction.LengthSqr();
+	if (myPosition.y > myTarget->GetPosition().y - 50.f && myPosition.y < myTarget->GetPosition().y + 25.0f)
+	{
+		CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
+		const float distance = direction.LengthSqr();
+		
+		return distance > (myDetectionRange * myDetectionRange);
+	}
+	return true;
+}
 
-	return distance > (myDetectionRange * myDetectionRange);
+void Zombie::PlayTriggeredSoundOnce()
+{
+	if (myHasSoundPlayOnce == false)
+	{
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie Growl 03.mp3");
+		myHasSoundPlayOnce = true;
+	}
 }

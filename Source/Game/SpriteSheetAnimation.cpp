@@ -78,6 +78,11 @@ float SpriteSheetAnimation::GetDuration() const
 	return static_cast<float>(state.myFrames.size()) * state.myInvFps;
 }
 
+bool SpriteSheetAnimation::HasEnded() const
+{
+	return !IsLooping() && myTime >= GetDuration();
+}
+
 bool SpriteSheetAnimation::InState() const
 {
 	return !myActiveState.empty();
@@ -127,35 +132,92 @@ void SpriteSheetAnimation::Load(const JsonManager* aJsonManager, const std::stri
 			newState.myTexture = defaultTexture;
 		}
 
-		assert(stateData.contains("frames") && "no frames in state!");
+		const std::string algorithm = stateData.value("algorithm", "manual");
 
-		const auto& frames = stateData["frames"];
-		assert(frames.is_array() && "frames not array!");
-
-		newState.myFrames.reserve(frames.size());
-
-		for (const auto& frameData : frames)
+		if (algorithm == "manual")
 		{
-			const int x = frameData.value("x", -1);
-			const int y = frameData.value("y", -1);
-			const int w = frameData.value("width", -1);
-			const int h = frameData.value("height", -1);
-
-			assert(x >= 0 && y >= 0 && w > 0 && h > 0 && "invalid frame!");
-
-			VECTOR2F imageSize;
-			imageSize = newState.myTexture->myImageSize;
-
-			AnimationFrame newFrame{};
-			newFrame.myX      = x / imageSize.myX;
-			newFrame.myY      = y / imageSize.myY;
-			newFrame.myWidth  = w / imageSize.myX;
-			newFrame.myHeight = h / imageSize.myY;
-		
-			newState.myFrames.push_back(newFrame);
+			LoadManualFrames(stateData, newState);
+		}
+		else if (algorithm == "seqrow")
+		{
+			LoadSeqRowFrames(stateData, newState);
+		}
+		else
+		{
+			assert(false && "Invalid algorithm in animation file!");
 		}
 
 		myStates.insert({ stateName, newState });
+	}
+}
+
+void SpriteSheetAnimation::LoadManualFrames(const JsonData& someState, AnimationState& aResultState)
+{
+	assert(someState.contains("frames") && "no frames in state!");
+
+	const auto& frames = someState["frames"];
+	assert(frames.is_array() && "frames not array!");
+
+	aResultState.myFrames.reserve(frames.size());
+
+	for (const auto& frameData : frames)
+	{
+		const int x = frameData.value("x", -1);
+		const int y = frameData.value("y", -1);
+		const int w = frameData.value("width", -1);
+		const int h = frameData.value("height", -1);
+
+		assert(x >= 0 && y >= 0 && w > 0 && h > 0 && "invalid frame!");
+
+		VECTOR2F imageSize;
+		imageSize = aResultState.myTexture->myImageSize;
+
+		AnimationFrame newFrame{};
+		newFrame.myX = x / imageSize.myX;
+		newFrame.myY = y / imageSize.myY;
+		newFrame.myWidth = w / imageSize.myX;
+		newFrame.myHeight = h / imageSize.myY;
+
+		aResultState.myFrames.push_back(newFrame);
+	}
+}
+
+void SpriteSheetAnimation::LoadSeqRowFrames(const JsonData& someState, AnimationState& aResultState)
+{
+	VECTOR2F textureSize;
+	textureSize = aResultState.myTexture->myImageSize;
+
+	const int framePixelWidth = someState["frameWidth"];
+	const int framePixelHeight = someState["frameHeight"];
+
+	const int startRow = someState["start"]["row"];
+	const int startColumn = someState["start"]["column"];
+
+	const int frameCount = someState["count"];
+
+	// ----
+
+	const int framesPerRow = static_cast<int>(std::floorf(textureSize.x / framePixelWidth));
+
+	const float frameWidth = framePixelWidth / textureSize.x;
+	const float frameHeight = framePixelHeight / textureSize.y;
+
+	const int startIndex = startColumn + startRow * framesPerRow;
+	for (int i = startIndex; i < startIndex + frameCount; ++i)
+	{
+		const int row = i / framesPerRow;
+		const int column = i % framesPerRow;
+
+		const float startU = column * frameWidth;
+		const float startV = row * frameHeight;
+
+		AnimationFrame frame{};
+		frame.myX = startU;
+		frame.myY = startV;
+		frame.myWidth = frameWidth;
+		frame.myHeight = frameHeight;
+
+		aResultState.myFrames.push_back(frame);
 	}
 }
 
