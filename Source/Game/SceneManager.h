@@ -14,6 +14,7 @@ struct RenderContext;
 class RenderQueue;
 class Scene;
 class GlobalServiceProvider;
+class SpriteWrapper;
 
 class SceneManager
 {
@@ -25,7 +26,7 @@ public:
 	void Update(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 
-	void Transition(std::unique_ptr<Scene> aTargetScene);
+	void Transition(std::unique_ptr<Scene> aTargetScene, bool aHasAnimation = true);
 
 	bool IsTransitionQueued() const;
 
@@ -34,6 +35,8 @@ public:
 
 	void TransitionToLevel(int aLevelIndex);
 	void TransitionToMainMenu();
+
+	void TransitionNextLevel();
 
 	void RestartCurrentLevel();
 
@@ -46,6 +49,7 @@ public:
 
 	// =/= LEVEL MANAGER =/=
 
+	void FadeAndQueueCallback(std::function<void()> aFadeCallback);
 	Camera* GetCamera();
 
 private:
@@ -60,9 +64,15 @@ private:
 	void PlayMusic();
 
 	void RunTransition(std::unique_ptr<Scene> aTargetScene);
-	bool HasQueuedTransition() const;
 
 private:
+
+	static constexpr float ourFadeSpeed = 1.0f;
+
+	// NOTE: Transition stuff
+	std::shared_ptr<SpriteWrapper> myFadeSprite;
+	std::function<void()> myFadeDoneCallback;
+	float myFadeProgress{ -1.0f };
 
 	SceneManagerProxy mySceneManagerProxy;
 	LevelManagerProxy myLevelManagerProxy;
@@ -72,9 +82,6 @@ private:
 	LockedSection myActiveSceneLock;
 
 	std::unique_ptr<Scene> myActiveScene;
-
-	std::unique_ptr<Scene> myQueuedScene;
-	bool myHasQueuedCheckpointLoad{};
 
 	int myCurrentLevel{ -1 };
 

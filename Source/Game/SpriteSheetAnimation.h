@@ -29,6 +29,7 @@ public:
 
 	float GetDuration() const;
 
+	bool HasEnded() const;
 	bool InState() const;
 
 	inline void SetIsLooping(bool anIsLooping) { myIsLooping = anIsLooping; }

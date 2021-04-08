@@ -194,6 +194,8 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="ParticleEffectManager.h" />
+    <ClInclude Include="ParticleEffectType.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="ParallaxContainer.h" />
     <ClInclude Include="ParallaxLayer.h" />
@@ -203,6 +205,8 @@
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="SpawnParticleEffectMessage.h" />
+    <ClInclude Include="SpriteSheetParticleEffect.h" />
     <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
@@ -300,6 +304,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="ParticleEffectManager.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="ParallaxContainer.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
@@ -308,6 +313,7 @@
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SpriteSheetParticleEffect.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />

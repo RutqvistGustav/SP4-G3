@@ -87,11 +87,11 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 		GetLevelManagerProxy()->TransitionToLevel(1);
 		break;
 	case GameObjectTag::LevelSelectButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>());
+		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>(), false);
 		break;
 
 	case GameObjectTag::SettingsButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<Settings>());
+		GetSceneManagerProxy()->Transition(std::make_unique<Settings>(), false);
 		break;
 
 	case GameObjectTag::CreditsButton:
