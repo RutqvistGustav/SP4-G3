@@ -86,6 +86,8 @@ void TiledEntities::SpawnEntities()
 			std::shared_ptr<DialogueBox> textbox = std::make_shared<DialogueBox>(myScene);
 			textbox->Init(entity.GetProperty("DialogID"));
 			textbox->SetPosition(entity.GetPosition());
+			textbox->SetTriggerSize(entity.GetSize());
+
 			myScene->AddGameObject(textbox);
 		}
 		else if (type == "Goal")

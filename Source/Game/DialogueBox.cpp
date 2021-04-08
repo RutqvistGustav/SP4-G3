@@ -9,7 +9,8 @@
 #include "RenderCommand.h"
 #include "Player.h"
 
-#include <nlohmann/json.hpp>
+#include "Metrics.h"
+
 #include <fstream>
 #include <string>
 
@@ -20,68 +21,71 @@ DialogueBox::DialogueBox(Scene* aScene)
 void DialogueBox::Init(std::string anID)
 {
 	GameObject::Init();
-	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData(anID);
-	std::string allSlides = data.at(anID);
-	FillSlides(allSlides);
 
-	myText = std::make_shared<TextWrapper>("Text/arial.ttf", Tga2D::EFontSize_60, 0);
-	myText->SetText(mySlides[myCurrentSlide]);
+	const JsonData& dialogData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
+
+	assert(dialogData.count(anID) > 0 && "Could not find dialog with ID!");
+
+	const std::string dialogString = dialogData.at(anID);
+
+	FillSlides(dialogString);
+
+	myText = std::make_shared<TextWrapper>("Text/arial.ttf", Tga2D::EFontSize_30, 0);
 	myText->SetPanStrengthFactor(0.0f);
-	myText->SetPosition({ 800.0f, 500.0f });
-	myText->SetLayer(999);
+	myText->SetPivot({ 0.5f, 0.5f });
+	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
+	myText->SetLayer(GameLayer::HUD + 1);
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
 	mySprite->SetPanStrengthFactor(0.0f);
-	mySprite->SetPosition({ 500.0f,500.0f });
-
-	//SetTriggerRadius(50.0f);
+	mySprite->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
+	mySprite->SetLayer(GameLayer::HUD);
 }
 
 void DialogueBox::OnInteract(Player* aPlayer)
 {
-	if (IsInteracting(aPlayer) && myIsFirstVisit == false)
+	++myCurrentPage;
+
+	if (myCurrentPage < static_cast<int>(myPages.size()))
 	{
-		++myCurrentSlide;
-		if (myCurrentSlide == mySlides.size())
-		{
-			aPlayer->SetControllerActive(true);
-			myIsInteracting = false;
-			myIsFirstVisit = true;
-			myCurrentSlide = 0;
-		}
+		myText->SetText(myPages[myCurrentPage]);
+		aPlayer->SetControllerActive(false);
 	}
 	else
 	{
-		aPlayer->SetControllerActive(false);
-		myIsInteracting = true; 
-		myIsFirstVisit = false;
+		myCurrentPage = -1;
+		aPlayer->SetControllerActive(true);
 	}
-	myText->SetText(mySlides[myCurrentSlide]);
+}
+
+void DialogueBox::TriggerExit(GameObject* aGameObject)
+{
+	Interactable::TriggerExit(aGameObject);
+
+	myCurrentPage = -1;
 }
 
 void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	if (myIsInteracting)
+	if (ShouldShowDialog())
 	{
 		aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
 	}
 }
 
-void DialogueBox::FillSlides(std::string& anAllSlides)
+void DialogueBox::FillSlides(const std::string& aDialogText)
 {
-	std::string slide;
-	for (int index = 0; index < anAllSlides.size(); ++index)
-	{
-		if (anAllSlides[index] == '%')
-		{
-			mySlides.push_back(slide);
-			slide = "";
-		}
-		else
-		{
-			slide += anAllSlides[index];
-		}
-	}
-	mySlides.push_back(slide);
+	myPages.clear();
+
+	const std::string delimiter = "%b";
+	std::size_t lastIndex = 0;
+	std::size_t foundIndex = 0;
+	
+	do {
+		foundIndex = aDialogText.find(delimiter, lastIndex);
+
+		myPages.push_back(aDialogText.substr(lastIndex, foundIndex != std::string::npos ? foundIndex - lastIndex : foundIndex));
+		lastIndex = foundIndex + delimiter.length();
+	} while (foundIndex != std::string::npos);
 }
