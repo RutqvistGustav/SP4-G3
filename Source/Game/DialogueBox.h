@@ -10,27 +10,41 @@ class Scene;
 class Player;
 class SpriteWrapper;
 class TextWrapper;
+class SpriteSheetAnimation;
 
 class DialogueBox :
     public Interactable
 {
 public:
+
     DialogueBox(Scene* aScene);
 
     void Init(std::string anID);
+
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+    virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+
     virtual void OnInteract(Player* aPlayer) override;
-    void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+
+    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
+
+protected:
+
+    virtual void TriggerExit(GameObject* aGameObject) override;
 
 private:
-    void FillSlides(std::string& anAllSlides);
+
+    void FillSlides(const std::string& aDialogText);
+
+    inline bool ShouldShowDialog() const { return myCurrentPage >= 0; }
 
 private:
-    bool myIsInteracting = false;
-    bool myIsFirstVisit = true;
-    unsigned int myCurrentSlide{};
 
-    std::shared_ptr<SpriteWrapper> mySprite;
+    int myCurrentPage{ -1 };
+
+    std::unique_ptr<SpriteSheetAnimation> myIndicatorAnimator;
+    std::shared_ptr<SpriteWrapper> myIndicator;
     std::shared_ptr<TextWrapper> myText;
-    std::vector<std::string> mySlides;
-};
+    std::vector<std::string> myPages;
 
+};

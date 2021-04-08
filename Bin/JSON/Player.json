@@ -5,7 +5,7 @@
   "MaxSpeedCap": 550.0,
   "BerserkSpeed": 8000.0,
   "BrakeStrength": 0.00000001,
-  "StopAtVelocity": 0.0,
+  "StopAtVelocity": 0.01,
   "GravityStrength": 3200.0,
 
   "JumpCharges": 2,

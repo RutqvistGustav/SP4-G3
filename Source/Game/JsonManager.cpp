@@ -21,17 +21,6 @@ std::string JsonManager::SetSpritePath(const std::string& aVaribleName, const st
 	return aSpriteName;
 }
 
-void JsonManager::LoadArrays(const std::string& aVaribleName, const std::string& aFilePath)
-{
-	if (myJsonData.at(aFilePath).is_array())
-	{
-		for (int i = 0; i < myJsonData.at(aFilePath)[aVaribleName].size(); i++)
-		{
-
-		}
-	}
-}
-
 void JsonManager::InitAllFiles()
 {
 	std::ifstream mainFile(myMainJsonFile);

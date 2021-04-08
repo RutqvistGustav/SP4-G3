@@ -55,7 +55,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	{
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
-		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/Reload.mp3");
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/Reload.mp3");
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -101,7 +101,7 @@ void Shotgun::Shoot()
 		return;
 	}
 
-	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-1.wav");
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-1.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -124,7 +124,7 @@ void Shotgun::Boost()
 	{
 		return;
 	}
-	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-3.wav");
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-3.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
