@@ -13,13 +13,26 @@
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
 
+#include "RenderQueue.h"
+#include "RenderCommand.h"
+
+#include "Metrics.h"
+#include "SpriteWrapper.h"
+
 #include <cassert>
 
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myGlobalServiceProvider(aGlobalServiceProvider),
 	mySceneManagerProxy(*this),
 	myLevelManagerProxy(*this)
-{}
+{
+	myFadeSprite = std::make_shared<SpriteWrapper>();
+	myFadeSprite->SetSize(Metrics::GetReferenceSize());
+	myFadeSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+	myFadeSprite->SetLayer(GameLayer::Transitions);
+	myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.0f));
+	myFadeSprite->SetPanStrengthFactor(0.0f);
+}
 
 SceneManager::~SceneManager()
 {
@@ -30,23 +43,30 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 {
 	assert(myActiveScene != nullptr);
 
-	if (HasQueuedTransition())
+	if (myFadeProgress >= 0.0f)
 	{
-		RunTransition(std::move(myQueuedScene));
-	}
+		myFadeProgress += aDeltaTime * ourFadeSpeed;
 
-	if (myHasQueuedCheckpointLoad)
+		if (myFadeProgress >= 0.5f && myFadeDoneCallback != nullptr)
+		{
+			myFadeDoneCallback();
+			myFadeDoneCallback = nullptr;
+		}
+
+		const float alpha = 1.0f - std::abs((myFadeProgress - 0.5f) * 2.0f);
+		myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, alpha));
+
+		// NOTE: Reset / done condition
+		if (myFadeProgress >= 1.0f) myFadeProgress = -1.0f;
+	}
+	else
 	{
-		LoadCheckpoint();
+		myActiveSceneLock.Lock();
 
-		myHasQueuedCheckpointLoad = false;
+		myActiveScene->Update(aDeltaTime, anUpdateContext);
+
+		myActiveSceneLock.Unlock();
 	}
-
-	myActiveSceneLock.Lock();
-
-	myActiveScene->Update(aDeltaTime, anUpdateContext);
-
-	myActiveSceneLock.Unlock();
 }
 
 void SceneManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -59,27 +79,44 @@ void SceneManager::Render(RenderQueue* const aRenderQueue, RenderContext& aRende
 	myActiveScene->Render(aRenderQueue, aRenderContext);
 
 	myActiveSceneLock.Unlock();
+
+	if (myFadeProgress >= 0.0f)
+	{
+		aRenderQueue->Queue(RenderCommand(myFadeSprite));
+	}
 }
 
-void SceneManager::Transition(std::unique_ptr<Scene> aTargetScene)
+void SceneManager::Transition(std::unique_ptr<Scene> aTargetScene, bool aHasAnimation)
 {
-	if (myActiveSceneLock.IsLocked())
+	if (IsTransitionQueued())
+		return;
+
+	if (myActiveScene == nullptr)
 	{
-		myQueuedScene = std::move(aTargetScene);
+		RunTransition(std::move(aTargetScene));
 	}
 	else
 	{
-		RunTransition(std::move(aTargetScene));
+		Scene* rawTargetScene = aTargetScene.release();
+		FadeAndQueueCallback([this, rawTargetScene] { RunTransition(std::unique_ptr<Scene>(rawTargetScene)); });
+
+		if (!aHasAnimation)
+		{
+			myFadeProgress = 1.0f;
+		}
 	}
 }
 
 bool SceneManager::IsTransitionQueued() const
 {
-	return HasQueuedTransition();
+	return myFadeProgress >= 0.0f;
 }
 
 void SceneManager::TransitionToLevel(int aLevelIndex)
 {
+	if (IsTransitionQueued())
+		return;
+
 	assert(aLevelIndex > 0);
 
 	std::string levelPath = "Maps/Level";
@@ -93,25 +130,44 @@ void SceneManager::TransitionToLevel(int aLevelIndex)
 
 void SceneManager::TransitionToMainMenu()
 {
+	if (IsTransitionQueued())
+		return;
+
 	Transition(std::make_unique<MainMenu>());
 
 	myCurrentLevel = -1;
+}
+
+void SceneManager::TransitionNextLevel()
+{
+	assert(InLevel());
+
+	if (IsTransitionQueued())
+		return;
+
+	const int nextLevel = GetCurrentLevelIndex() + 1;
+
+	if (nextLevel > 3)
+	{
+		// TODO: NOTE: Game complete
+		TransitionToMainMenu();
+	}
+	else
+	{
+		TransitionToLevel(nextLevel);
+	}
 }
 
 void SceneManager::RestartCurrentLevel()
 {
 	assert(InLevel());
 
+	if (IsTransitionQueued())
+		return;
+
 	if (myLastCheckpoint.HasData())
 	{
-		if (myActiveSceneLock.IsLocked())
-		{
-			myHasQueuedCheckpointLoad = true;
-		}
-		else
-		{
-			LoadCheckpoint();
-		}
+		FadeAndQueueCallback([this]() { LoadCheckpoint(); });
 	}
 	else
 	{
@@ -151,6 +207,12 @@ void SceneManager::LoadCheckpoint()
 	myGlobalServiceProvider->GetGameMessenger()->Send(GameMessage::CheckpointLoad, &checkpointMessageData);
 }
 
+void SceneManager::FadeAndQueueCallback(std::function<void()> aFadeCallback)
+{
+	myFadeDoneCallback = aFadeCallback;
+	myFadeProgress = 0.0f;
+}
+
 Camera* SceneManager::GetCamera()
 {
 	if (myActiveScene == nullptr)
@@ -175,9 +237,4 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 		myActiveScene->OnEnter(&mySceneManagerProxy, &myLevelManagerProxy, myGlobalServiceProvider);
 		myActiveScene->Init();
 	}
-}
-
-bool SceneManager::HasQueuedTransition() const
-{
-	return myQueuedScene != nullptr;
 }

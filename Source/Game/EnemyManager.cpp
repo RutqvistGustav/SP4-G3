@@ -14,13 +14,10 @@
 #include "EnemyDeathMessage.h"
 #include "Vector2.hpp"
 
-#include "Minimap.h"
-
 #include <iostream>
 
-EnemyManager::EnemyManager(Scene* aScene, Minimap* aMinimap) :
-	myScene(aScene),
-	myMinimap(aMinimap)
+EnemyManager::EnemyManager(Scene* aScene) :
+	myScene(aScene)
 {
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::SpawnEnemy, this);
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
@@ -49,8 +46,6 @@ void EnemyManager::AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition,
 
 	myEnemies.push_back(enemy);
 	myScene->AddGameObject(enemy);
-
-	myMinimap->AddObject(enemy.get(), Minimap::MapObjectType::Enemy);
 }
 
 void EnemyManager::AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget)
@@ -131,8 +126,6 @@ void EnemyManager::DeleteMarkedEnemies()
 			SendDeathMessage(myEnemies[enemyIndex]->GetLootType(), myEnemies[enemyIndex]->GetPosition());
 			
 			auto eraseIt = myEnemies.begin() + enemyIndex;
-
-			myMinimap->RemoveObject(eraseIt->get());
 
 			myEnemies.erase(eraseIt);
 		}

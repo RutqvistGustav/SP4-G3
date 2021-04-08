@@ -7,6 +7,10 @@
 
 #include "Enemy.h"
 
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
+
 #include "WeaponHolder.h"
 
 #include "MathHelper.h"
@@ -101,6 +105,8 @@ void Shotgun::Shoot()
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 
+	SpawnMuzzleFlash();
+
 	if (!IsLoaded())
 	{
 		Reload();
@@ -191,6 +197,18 @@ bool Shotgun::IsReloading() const
 bool Shotgun::IsLoaded() const
 {
 	return myLoadedAmmo > 0;
+}
+
+void Shotgun::SpawnMuzzleFlash() const
+{
+	// TODO: NOTE: Somehow adjust spawn position depending on barrle location
+
+	SpawnParticleEffectMessageData spawnData;
+	spawnData.myType = ParticleEffectType::MuzzleFlash;
+	spawnData.myPosition = GetPosition() + GetDirection() * 115.0f + CU::Vector2<float>(0.0f, -30.0f);
+	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)

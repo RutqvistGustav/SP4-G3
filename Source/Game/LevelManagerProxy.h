@@ -13,6 +13,7 @@ public:
 	void TransitionToLevel(int aLevelIndex);
 	void TransitionToMainMenu();
 
+	void TransitionNextLevel();
 	void RestartCurrentLevel();
 
 	int GetCurrentLevelIndex() const;

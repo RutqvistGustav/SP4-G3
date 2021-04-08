@@ -30,11 +30,14 @@ GameObject::~GameObject()
 
 void GameObject::Init()
 {
-	myCollider->Init(myPosition, mySprite->GetSize());
-	myCollider->SetCollisionListener(this);
-	myCollider->SetGameObject(this);
+	if (myCollider != nullptr)
+	{
+		myCollider->Init(myPosition, mySprite->GetSize());
+		myCollider->SetCollisionListener(this);
+		myCollider->SetGameObject(this);
 
-	myScene->GetCollisionManager()->AddCollider(myCollider);
+		myScene->GetCollisionManager()->AddCollider(myCollider);
+	}
 }
 
 void GameObject::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)

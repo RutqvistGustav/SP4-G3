@@ -19,6 +19,7 @@ public:
 	void Render(RenderQueue* const aRenderQueue);
 
 	void AddLayer(const float aSpeed, GameLayer::Layer aLayer, const std::string& aSpritePath);
+	ParallaxLayer* GetLayer(int anIndex);
 
 	void SetParallaxOrigin(const CU::Vector2<float>& anOrigin);
 

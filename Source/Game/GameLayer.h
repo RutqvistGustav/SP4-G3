@@ -22,5 +22,6 @@ namespace GameLayer
 
 	static constexpr Layer Minimap = 50;
 
-	static constexpr Layer Cutscene = 999;
+	static constexpr Layer Cutscene = 998;
+	static constexpr Layer Transitions = 999;
 }

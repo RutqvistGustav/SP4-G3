@@ -36,6 +36,8 @@ protected:
 	bool IsReloading() const;
 	bool IsLoaded() const;
 
+	void SpawnMuzzleFlash() const;
+
 	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 private:

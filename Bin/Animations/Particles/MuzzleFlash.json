@@ -1,0 +1,20 @@
+{
+    "states": {
+        "default": {
+            "fps": 48,
+            "texture": "Sprites/AnimationSheets/spritesheet_muzzleFlash.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 64,
+            "frameHeight": 64,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 14
+        }
+    }
+}
