@@ -512,6 +512,9 @@
     <ClInclude Include="ParticleEffectType.h">
       <Filter>GameObjects\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterAnimator.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -768,6 +771,9 @@
     </ClCompile>
     <ClCompile Include="ParticleEffectManager.cpp">
       <Filter>Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterAnimator.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
