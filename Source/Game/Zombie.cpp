@@ -7,8 +7,8 @@
 #include "Scene.h"
 #include "Health.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
-	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
+Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
+	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
 }

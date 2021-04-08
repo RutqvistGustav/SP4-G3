@@ -63,7 +63,9 @@ private:
 	LockedSection myActiveSceneLock;
 
 	std::unique_ptr<Scene> myActiveScene;
+
 	std::unique_ptr<Scene> myQueuedScene;
+	bool myHasQueuedCheckpointLoad{};
 
 	int myCurrentLevel{ -1 };
 

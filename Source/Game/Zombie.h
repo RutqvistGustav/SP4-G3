@@ -7,7 +7,7 @@ class Zombie :
 {
 public:
 
-    Zombie(Scene* aScene, const std::string& aType = "Zombie");
+    Zombie(Scene* aScene, EnemyType anEnemyType = EnemyType::Zombie, const std::string& aType = "Zombie");
     ~Zombie();
 
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
