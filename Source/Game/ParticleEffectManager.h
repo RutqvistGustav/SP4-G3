@@ -12,7 +12,7 @@ public:
 	ParticleEffectManager(Scene* aScene);
 	~ParticleEffectManager();
 
-	void SpawnParticleEffect(ParticleEffectType aType, const CU::Vector2<float>& aPosition, const float aRotation);
+	void SpawnParticleEffect(ParticleEffectType aType, const CU::Vector2<float>& aPosition, const float aRotation, const float aScale);
 
 private:
 

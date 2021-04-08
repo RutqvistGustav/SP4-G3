@@ -51,7 +51,8 @@
 
 Player::Player(Scene* aScene)
 	: GameObject(aScene, GameObjectTag::Player),
-	myCamera(aScene->GetCamera())
+	myCamera(aScene->GetCamera()),
+	myCharacterAnimator(aScene, "Animations/Player.json")
 {
 	// Init weapon controller
 	myWeaponController = std::make_unique<PlayerWeaponController>(GetScene(), this);
@@ -71,11 +72,6 @@ void Player::Init()
 	
 	InitVariables(data);
 
-	myDirection = 1.0f;
-
-	myAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), data.at("SpritePath"));
-	myAnimator->SetIsLooping(true);
-
 	// Init Sprite
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetLayer(GameLayer::Player);
@@ -87,7 +83,8 @@ void Player::Init()
 	myWeaponController->Init();
 
 	SetPosition(GetPosition());
-	SetState(PlayerState::Idle);
+	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+	myCharacterAnimator.ApplyToSprite(mySprite);
 
 	CU::Vector2<float> colliderSize = mySprite->GetSize();
 	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
@@ -139,16 +136,15 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	// need to be split into a separate state machine.
 	if (std::abs(myMovementVelocity.x) >= 1.0f)
 	{
-		SetState(Player::PlayerState::Running);
+		myCharacterAnimator.SetState(CharacterAnimator::State::Run);
 	}
 	else
 	{
-		SetState(Player::PlayerState::Idle);
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
-	myAnimator->Update(aDeltaTime);
-	myAnimator->ApplyToSprite(mySprite);
-	mySprite->SetSize({ mySprite->GetSize().x * myDirection, mySprite->GetSize().y });
+	myCharacterAnimator.Update(aDeltaTime);
+	myCharacterAnimator.ApplyToSprite(mySprite);
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -215,7 +211,7 @@ void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 
-	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myDirection, mySpriteShift.y));
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myCharacterAnimator.GetDirection(), mySpriteShift.y));
 	myPhysicsController.SetPosition(aPosition);
 }
 
@@ -337,33 +333,6 @@ void Player::ImGui()
 	ImGui::End();
 }
 
-void Player::SetState(PlayerState aState)
-{
-	if (myState == aState)
-	{
-		return;
-	}
-
-	switch (aState)
-	{
-	case PlayerState::Idle:
-		myAnimator->SetState("idle");
-		break;
-
-	case PlayerState::Running:
-		myAnimator->SetState("running");
-		break;
-
-	default:
-		assert(false && "Invalid player state!");
-		break;
-	}
-
-	myAnimator->ApplyToSprite(mySprite);
-
-	myState = aState;
-}
-
 void Player::Move(const float aDeltaTime, InputInterface* anInput)
 {
 	CU::Vector2<float> physicsVelocity = myPhysicsController.GetVelocity();
@@ -405,11 +374,11 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 
 	if (myMovementVelocity.x > 0.0f)
 	{
-		myDirection = 1.0f;
+		myCharacterAnimator.SetDirection(1.0f);
 	}
 	else if (myMovementVelocity.x < 0.0f)
 	{
-		myDirection = -1.0f;
+		myCharacterAnimator.SetDirection(-1.0f);
 	}
 
 	myPhysicsController.ApplyFrameImpulse(myMovementVelocity * aDeltaTime);
