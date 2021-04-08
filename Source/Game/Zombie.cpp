@@ -109,7 +109,7 @@ void Zombie::PlayTriggeredSoundOnce()
 {
 	if (myHasSoundPlayOnce == false)
 	{
-		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie Growl 03.mp3");
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Growl_03.mp3");
 		myHasSoundPlayOnce = true;
 	}
 }

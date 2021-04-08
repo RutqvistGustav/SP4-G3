@@ -7,6 +7,7 @@
     "JSON/EnemyTypes.json",
 
     "JSON/Entities.json",
+    "JSON/Sound-MusicPaths.json",
 
     "Animations/Player.json",
     "Animations/HealthPickup.json",
