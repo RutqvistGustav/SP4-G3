@@ -207,12 +207,13 @@ bool Shotgun::IsLoaded() const
 
 void Shotgun::SpawnMuzzleFlash() const
 {
-	// TODO: NOTE: Somehow adjust spawn position depending on barrle location
+	constexpr float scale = 1.75f;
 
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
-	spawnData.myPosition = GetPosition() + GetDirection() * 115.0f + CU::Vector2<float>(0.0f, -30.0f);
+	spawnData.myPosition = GetPosition() + GetDirection() * scale * 0.5f * 75.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+	spawnData.myScale = scale;
 
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }

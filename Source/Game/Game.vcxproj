@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseRenderData.h" />
+    <ClInclude Include="CharacterAnimator.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
@@ -269,6 +270,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CharacterAnimator.cpp" />
     <ClCompile Include="CheckpointVolume.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="CollectibleManager.cpp" />
