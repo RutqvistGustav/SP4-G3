@@ -55,8 +55,9 @@ void Enemy::TakeDamage(const int aDamage)
 	if (myHealth->IsDead())
 	{
 		SetDeleteThisFrame();
+	
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Groan_02.mp3");
 
-		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
 	}
 
 	SpawnParticleEffectMessageData spawnData{};

@@ -11,12 +11,22 @@
 
 #include "Metrics.h"
 
+#include "SpriteSheetAnimation.h"
+
 #include <fstream>
 #include <string>
 
 DialogueBox::DialogueBox(Scene* aScene)
 	: Interactable(aScene)
-{}
+{
+	myIndicatorAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json");
+	myIndicatorAnimator->SetState("idle");
+	myIndicatorAnimator->SetIsLooping(true);
+
+	myIndicator = std::make_shared<SpriteWrapper>();
+	myIndicator->SetLayer(GameLayer::HUD);
+	myIndicatorAnimator->ApplyToSprite(myIndicator);
+}
 
 void DialogueBox::Init(std::string anID)
 {
@@ -58,11 +68,27 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	}
 }
 
+void DialogueBox::SetPosition(const CU::Vector2<float> aPosition)
+{
+	Interactable::SetPosition(aPosition);
+
+	const CU::Vector2<float> offset = CU::Vector2<float>(0.0f, (myIndicator->GetSize().y + GetTriggerSize().y) * -0.5f);
+	myIndicator->SetPosition(aPosition + offset);
+}
+
 void DialogueBox::TriggerExit(GameObject* aGameObject)
 {
 	Interactable::TriggerExit(aGameObject);
 
 	myCurrentPage = -1;
+}
+
+void DialogueBox::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	Interactable::Update(aDeltaTime, anUpdateContext);
+
+	myIndicatorAnimator->Update(aDeltaTime);
+	myIndicatorAnimator->ApplyToSprite(myIndicator);
 }
 
 void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -71,6 +97,11 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 	{
 		aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
+	}
+
+	if (InRange())
+	{
+		aRenderQueue->Queue(RenderCommand(myIndicator));
 	}
 }
 
