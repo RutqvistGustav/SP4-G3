@@ -13,6 +13,8 @@ Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
 	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
+	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+	myCharacterAnimator.ApplyToSprite(mySprite);
 }
 
 Zombie::~Zombie() = default;
@@ -26,6 +28,7 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		if (CheckIdle())
 		{
 			IdleMovement(aDeltaTime);
+			myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 		}
 		else
 		{
@@ -74,8 +77,8 @@ void Zombie::Movement(const float aDeltaTime)
 void Zombie::IdleMovement(const float aDeltaTime)
 {
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
-	float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
 	
+	const float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
 	velocity.x *= std::powf(0.001f, aDeltaTime);
 	velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
 
@@ -93,18 +96,6 @@ void Zombie::IdleMovement(const float aDeltaTime)
 	}
 
 	myPhysicsController.SetVelocity(velocity);
-	/*UpdateGravity(aDeltaTime);
-	if (myVelocity.x > 0.0f)
-	{
-		myVelocity.x = myMaxSpeed * 0.5f;
-	}
-	else if (myVelocity.x < 0.0f)
-	{
-		myVelocity.x = -myMaxSpeed * 0.5f;
-	}
-	CU::Vector2<float> frameMovement = myPosition;
-	frameMovement += myVelocity * aDeltaTime;
-	SetPosition(frameMovement);*/
 }
 
 bool Zombie::CheckIdle()
