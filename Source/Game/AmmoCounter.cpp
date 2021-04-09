@@ -38,7 +38,7 @@ void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
 	UpdatePosition(aPlayerPosition);
 }
 
-void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 	aRenderQueue->Queue(RenderCommand(mySecondSprite));

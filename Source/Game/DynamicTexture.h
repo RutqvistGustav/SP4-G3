@@ -48,7 +48,7 @@ private:
 			std::uint8_t myG;
 			std::uint8_t myB;
 			std::uint8_t myA;
-		};
+		} myComponents;
 
 		std::uint32_t myColor;
 	};

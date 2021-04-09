@@ -176,7 +176,7 @@ void Settings::SetResolutionBool(int aResolutionY)
 	}
 }
 
-void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (my720)
 	{

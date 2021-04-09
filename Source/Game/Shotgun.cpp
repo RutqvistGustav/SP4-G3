@@ -228,22 +228,10 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Enemy)
 	{
 		const CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
-		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
-		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
-		// enemyAngle += enemyAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
-		// myAngle += myAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
-		// if (enemyAngle < 0.0f) enemyAngle = std::fmodf(enemyAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
-		// if (myAngle < 0.0f) myAngle = std::fmodf(myAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
+		Enemy* enemy = static_cast<Enemy*>(gameObject);
 
-		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
-
-		if (degDiff <= myAoeAngle)
-		{
-			Enemy* enemy = static_cast<Enemy*>(gameObject);
-
-			enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
-			enemy->TakeDamage(myDamage);
-		}
+		enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+		enemy->TakeDamage(myDamage);
 	}
 }

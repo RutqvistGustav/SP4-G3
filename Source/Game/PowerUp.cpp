@@ -2,6 +2,7 @@
 #include "PowerUp.h"
 #include "JsonManager.h"
 #include "SpriteSheetAnimation.h"
+#include "SpriteWrapper.h"
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 #include "Player.h"

@@ -52,7 +52,7 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 	}
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const EnemyDeathMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
 {
 	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
 	return GameMessageAction::Keep;

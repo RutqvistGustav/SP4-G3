@@ -36,6 +36,15 @@ public:
 			&& myMax.y >= anOther.myMin.y && myMin.y <= anOther.myMax.y;
 	}
 
+	void Extend(const AABB& anOther)
+	{
+		myMin.x = min(myMin.x, anOther.myMin.x);
+		myMin.y = min(myMin.y, anOther.myMin.y);
+
+		myMax.x = max(myMax.x, anOther.myMax.x);
+		myMax.y = max(myMax.y, anOther.myMax.y);
+	}
+
 	void Shift(const CU::Vector2<float>& aDisplacement)
 	{
 		myMin += aDisplacement;

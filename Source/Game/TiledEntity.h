@@ -17,7 +17,7 @@ public:
 	inline const CU::Vector2<float>& GetSize() const { return mySize; }
 
 	inline const std::string& GetType() const { return GetProperty("Type"); }
-	[[deprecated("use GetProperty instead!")]] inline const std::string& GetSubType() const { return GetProperty("SubType"); }
+	inline const std::string& GetSubType() const { return GetProperty("SubType"); }
 
 private:
 

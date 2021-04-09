@@ -55,7 +55,7 @@ void DialogueBox::Init(std::string anID)
 	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
 	myText->SetLayer(GameLayer::HUD + 1);
 
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
+	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
 	mySprite->SetLayer(GameLayer::HUD);
@@ -100,11 +100,11 @@ void DialogueBox::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myIndicatorAnimator->ApplyToSprite(myIndicator);
 }
 
-void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (ShouldShowDialog())
 	{
-		aRenderQueue->Queue(RenderCommand(mySprite));
+		// aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
 	}
 
