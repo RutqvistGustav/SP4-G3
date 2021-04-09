@@ -15,7 +15,7 @@ class Enemy :
     public GameObject
 {
 public:
-    Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath = nullptr);
+    Enemy(Scene* aScene, EnemyType aEnemyType);
     virtual ~Enemy();
 
     virtual void Init() override;
@@ -41,8 +41,9 @@ public:
 
 protected:
 
-
+    virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
     virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
+    virtual void OnExit(const CollisionInfo& someCollisionInfo) override;
 
 protected:
 
@@ -59,11 +60,12 @@ protected:
 
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
-    CU::Vector2<float> myPreviousVelocity{};
 
     CharacterAnimator myCharacterAnimator;
 
     float myKnockbackTimer{};
+
+    bool myIsPlayerInRange{};
 
     EnemyType myType;
 

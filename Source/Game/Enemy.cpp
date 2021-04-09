@@ -17,8 +17,8 @@
 #include "GameMessenger.h"
 #include "SpawnParticleEffectMessage.h"
 
-Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
-	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
+Enemy::Enemy(Scene* aScene, EnemyType aEnemyType)
+	: GameObject(aScene, GameObjectTag::Enemy),
 	myType(aEnemyType),
 	myCharacterAnimator(aScene, "Animations/Zombie.json")
 {}
@@ -139,7 +139,7 @@ void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
 
-	mySprite->SetPosition(aPosition + mySpriteShift);
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myCharacterAnimator.GetDirection(), mySpriteShift.y));
 	myPhysicsController.SetPosition(aPosition);
 }
 
@@ -151,6 +151,16 @@ void Enemy::SetInitialPosition(const CU::Vector2<float>& anInitialPosition)
 const CU::Vector2<float>& Enemy::GetInitialPosition() const
 {
 	return myInitialPosition;
+}
+
+void Enemy::OnEnter(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		myIsPlayerInRange = true;
+	}
 }
 
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
@@ -172,5 +182,15 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 
 			myKnockbackTimer = 0.1f;
 		}
+	}
+}
+
+void Enemy::OnExit(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		myIsPlayerInRange = false;
 	}
 }

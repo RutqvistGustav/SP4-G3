@@ -10,18 +10,18 @@
 #include "AudioManager.h"
 
 Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
-	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
+	: Enemy(aScene, anEnemyType)
 {
-	InitEnemyJsonValues(aType);
 	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	myCharacterAnimator.ApplyToSprite(mySprite);
+
+	InitEnemyJsonValues(aType);
 }
 
 Zombie::~Zombie() = default;
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myPreviousVelocity = myPhysicsController.GetVelocity();
 	// TODO: Change Direction Near Walls
 	if (myTarget != nullptr)
 	{
@@ -52,26 +52,13 @@ void Zombie::Movement(const float aDeltaTime)
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
 	velocity.x *= std::powf(0.001f, aDeltaTime);
-	velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+
+	if (!myIsPlayerInRange)
+	{
+		velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+	}
 
 	myPhysicsController.SetVelocity(velocity);
-
-	/*if (myTarget->GetPosition().x < myPosition.x)
-	{
-		if (myVelocity.x > 20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
-		else
-		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-		}
-	}
-	if (myTarget->GetPosition().x > myPosition.x && myVelocity.x <= myMaxSpeed)
-	{
-		if (myVelocity.x < -20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
-		else
-		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-		}
-	}*/
 }
 
 void Zombie::IdleMovement(const float aDeltaTime)
@@ -84,7 +71,7 @@ void Zombie::IdleMovement(const float aDeltaTime)
 
 	if (myPhysicsController.IsAgainstWall())
 	{
-		velocity.x = -myPreviousVelocity.x * 0.01f;
+		velocity.x = -myCharacterAnimator.GetDirection();
 	}
 
 	if (
