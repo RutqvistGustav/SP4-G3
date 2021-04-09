@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseRenderData.h" />
+    <ClInclude Include="CharacterAnimator.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h" />
+    <ClInclude Include="EnemyType.h" />
     <ClInclude Include="EntityPhysicsController.h" />
     <ClInclude Include="EventObserver.h" />
     <ClInclude Include="EventSubject.h" />
@@ -193,6 +195,8 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="ParticleEffectManager.h" />
+    <ClInclude Include="ParticleEffectType.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="ParallaxContainer.h" />
     <ClInclude Include="ParallaxLayer.h" />
@@ -202,6 +206,8 @@
     <ClInclude Include="GlobalServiceProvider.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="SpawnParticleEffectMessage.h" />
+    <ClInclude Include="SpriteSheetParticleEffect.h" />
     <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
@@ -264,6 +270,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CharacterAnimator.cpp" />
     <ClCompile Include="CheckpointVolume.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="CollectibleManager.cpp" />
@@ -299,6 +306,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="ParticleEffectManager.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="ParallaxContainer.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
@@ -307,6 +315,7 @@
     <ClCompile Include="GlobalServiceProvider.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="SpriteSheetParticleEffect.cpp" />
     <ClCompile Include="TextWrapper.cpp" />
     <ClCompile Include="TiledCache.cpp" />
     <ClCompile Include="TiledCollision.cpp" />

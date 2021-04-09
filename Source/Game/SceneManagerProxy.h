@@ -13,7 +13,8 @@ public:
 
 	SceneManagerProxy(SceneManager& aSceneManager);
 
-	void Transition(std::unique_ptr<Scene> aTargetScene);
+	void Transition(std::unique_ptr<Scene> aTargetScene, bool aHasAnimation = true);
+	void TransitionToMainMenu();
 
 	bool IsTransitionQueued() const;
 

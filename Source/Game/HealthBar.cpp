@@ -9,10 +9,13 @@
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
 
-#include <nlohmann/json.hpp>
+#include "MathHelper.h"
 
-HealthBar::HealthBar(Scene* aScene)
-	: GameObject(aScene)
+#include "Health.h"
+
+HealthBar::HealthBar(Scene* aScene, Health* aHealthInterface) :
+	GameObject(aScene),
+	myHealthInterface(aHealthInterface)
 {
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -25,23 +28,28 @@ void HealthBar::Init()
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HUD frame.dds");
-	myHealthBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HealthBar.dds");
-	myPowerUpBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/PowerUpBar.dds");
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/health_frame.dds");
+	myHealthBar = std::make_shared<SpriteWrapper>("Sprites/HUD/health.dds");
+	myPowerUpFrame = std::make_shared<SpriteWrapper>("Sprites/HUD/Powerup_frame.dds");
+	myPowerUpBar = std::make_shared<SpriteWrapper>("Sprites/HUD/Powerup.dds");
 
-	//CU::Vector2<float> scale = { 250.0f,100.0f };
-	//mySprite->SetSize(scale);
-	//myHealthBar->SetSize(scale);
-	//myPowerUpBar->SetSize(scale);
+	myHealthBar->SetPivot({ 0.5f, 0.5f });
+	myPowerUpBar->SetPivot({ 0.5f, 0.5f });
+	myPowerUpFrame->SetPivot({ 0.5f, 0.5f });
+	mySprite->SetPivot({ 0.5f, 0.5f });
 
-	myReducedHealth = CU::Vector2<float>();
-	myReducedPowerUp = CU::Vector2<float>();
-	myMaxHealth = myHealthBar->GetSize().x;
+	myPowerupOffset = {0.0f, 30.0f};
+
+	myInitialHealthBarWidth = myHealthBar->GetSize().x;
+	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
+
 	mySingleBarSize = 50.0f;
 	myHpOffSetX = 22.0f;
 
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
+
+	myHealthInterface->Subscribe(this);
 }
 
 void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
@@ -51,27 +59,10 @@ void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
 
 void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	aRenderQueue->Queue(RenderCommand(myHealthBar));
 	aRenderQueue->Queue(RenderCommand(myPowerUpBar));
+	aRenderQueue->Queue(RenderCommand(myPowerUpFrame));
+	aRenderQueue->Queue(RenderCommand(myHealthBar));
 	aRenderQueue->Queue(RenderCommand(mySprite));
-}
-
-void HealthBar::RemoveHP(const int aDamageAmount)
-{
-	CU::Vector2<float> reducedHealth = myHealthBar->GetSize();
-	myReducedHealth.x -= myHpOffSetX * aDamageAmount;
-	reducedHealth.x -= mySingleBarSize * aDamageAmount;
-	if (reducedHealth.x < 0) reducedHealth.x = 0; // TODO fix X offset so position doesnt go outside healthframe
-	myHealthBar->SetSize(reducedHealth);
-}
-
-void HealthBar::AddHP(const int aHealthAmount)
-{
-	CU::Vector2<float> increasedHealth = myHealthBar->GetSize();
-	myReducedHealth.x += myHpOffSetX * aHealthAmount;
-	increasedHealth.x += mySingleBarSize * aHealthAmount;
-	if (increasedHealth.x > myMaxHealth) increasedHealth.x = myMaxHealth;
-	myHealthBar->SetSize(increasedHealth);
 }
 
 void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
@@ -82,6 +73,21 @@ void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
 void HealthBar::UpdatePosition(CU::Vector2<float> aPlayerPosition)
 {
 	SetPosition(aPlayerPosition + myDistanceFromPlayer);
-	myHealthBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + myReducedHealth);
-	myPowerUpBar->SetPosition(aPlayerPosition + myDistanceFromPlayer);
+	myPowerUpFrame->SetPosition(aPlayerPosition + myDistanceFromPlayer + myPowerupOffset);
+
+	myHealthBar->SetPosition(aPlayerPosition + myDistanceFromPlayer);
+	myPowerUpBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + myPowerupOffset);
+}
+
+void HealthBar::OnEvent(int someNewHealth)
+{
+	// NOTE: Health has changed
+	// TODO: Fix for bars?
+
+	const float percentange = MathHelper::Clamp(someNewHealth / static_cast<float>(myHealthInterface->GetMaxHealth()), 0.0f, 1.0f);
+
+	const CU::Vector2<float> newSize = { myInitialHealthBarWidth * percentange, myHealthBar->GetSize().y };
+
+	myHealthBar->SetTextureRect({ 0.0f, 0.0f, percentange, 1.0f });
+	myHealthBar->SetSize(newSize);
 }

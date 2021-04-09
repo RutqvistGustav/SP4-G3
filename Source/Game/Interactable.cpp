@@ -38,6 +38,7 @@ void Interactable::TriggerExit(GameObject* aGameObject)
 	assert(aGameObject != nullptr);
 
 	SetInRange(false);
+	myIsInteracting = false;
 }
 
 bool Interactable::IsInteracting(Player* /*aPlayer*/)

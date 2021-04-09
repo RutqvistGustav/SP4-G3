@@ -19,6 +19,9 @@ protected:
 
 	virtual bool IsInteracting(Player* aPlayer);
 
+	inline bool InRange() const { return myInRange; }
+	inline bool IsInteracting() const { return myIsInteracting; }
+
 private:
 
 	void SetInRange(bool anInRange);

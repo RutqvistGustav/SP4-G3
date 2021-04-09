@@ -17,6 +17,11 @@ void LevelManagerProxy::TransitionToMainMenu()
 	mySceneManager.TransitionToMainMenu();
 }
 
+void LevelManagerProxy::TransitionNextLevel()
+{
+	mySceneManager.TransitionNextLevel();
+}
+
 void LevelManagerProxy::RestartCurrentLevel()
 {
 	mySceneManager.RestartCurrentLevel();

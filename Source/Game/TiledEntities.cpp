@@ -52,11 +52,11 @@ void TiledEntities::SpawnEntities()
 
 			if (entity.GetSubType() == "Zombie")
 			{
-				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::Zombie;
+				enemyMessageData.myEnemyType = EnemyType::Zombie;
 			}
 			else if (entity.GetSubType() == "EliteZombie")
 			{
-				enemyMessageData.myEnemyType = EnemyFactory::EnemyType::EliteZombie;
+				enemyMessageData.myEnemyType = EnemyType::EliteZombie;
 			}
 			else
 			{
@@ -85,7 +85,9 @@ void TiledEntities::SpawnEntities()
 		{
 			std::shared_ptr<DialogueBox> textbox = std::make_shared<DialogueBox>(myScene);
 			textbox->Init(entity.GetProperty("DialogID"));
+			textbox->SetTriggerSize(entity.GetSize());
 			textbox->SetPosition(entity.GetPosition());
+
 			myScene->AddGameObject(textbox);
 		}
 		else if (type == "Goal")

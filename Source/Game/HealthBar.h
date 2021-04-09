@@ -1,13 +1,19 @@
 #pragma once
+
 #include "GameObject.h"
 #include "PowerUpType.h"
 #include "CollisionListener.h"
 
+#include "SimpleEventObserver.h"
+
+class Health;
+
 class HealthBar :
-    public GameObject
+    public GameObject,
+    public SimpleEventObserver<int>
 {
 public:
-    HealthBar(Scene* aScene);
+    HealthBar(Scene* aScene, Health* aHealthInterface);
     ~HealthBar() = default;
 
     virtual void Init() override;
@@ -15,12 +21,18 @@ public:
     virtual void Update(CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-    void RemoveHP(const int aDamageAmount);
-    void AddHP(const int aHealthAmount);
     void ActivatePowerUp(PowerUpType aPowerUpType);
 
 private:
+
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
+
+    virtual void OnEvent(int someNewHealth) override;
+
+private:
+
+    Health* myHealthInterface;
+
     CU::Vector2<float> myDistanceFromPlayer;
 
     PowerUpType myPowerUpType;
@@ -29,13 +41,16 @@ private:
     float mySniperShotDuration{};
     float mySniperShotDurationReset{};
 
-    float myMaxHealth{};
     float mySingleBarSize{};
     float myHpOffSetX{};
 
+    float myInitialHealthBarWidth;
+    float myInitialPowerUpBarWidth;
+
+    CU::Vector2<float> myPowerupOffset;
+
     std::shared_ptr<SpriteWrapper> myHealthBar;
+    std::shared_ptr<SpriteWrapper> myPowerUpFrame;
     std::shared_ptr<SpriteWrapper> myPowerUpBar;
-    CU::Vector2<float> myReducedHealth;
-    CU::Vector2<float> myReducedPowerUp;
 };
 

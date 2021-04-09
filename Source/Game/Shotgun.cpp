@@ -1,11 +1,17 @@
 #include "stdafx.h"
 #include "Shotgun.h"
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
 #include "Collider.h"
 #include "CollisionManager.h"
 #include "CollisionInfo.h"
 
 #include "Enemy.h"
+
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "SpawnParticleEffectMessage.h"
 
 #include "WeaponHolder.h"
 
@@ -49,6 +55,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	{
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/Reload.mp3");
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -94,12 +101,16 @@ void Shotgun::Shoot()
 		return;
 	}
 
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-1.wav");
+
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	SpawnMuzzleFlash();
 
 	if (!IsLoaded())
 	{
@@ -113,6 +124,7 @@ void Shotgun::Boost()
 	{
 		return;
 	}
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-3.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -191,6 +203,19 @@ bool Shotgun::IsReloading() const
 bool Shotgun::IsLoaded() const
 {
 	return myLoadedAmmo > 0;
+}
+
+void Shotgun::SpawnMuzzleFlash() const
+{
+	constexpr float scale = 1.75f;
+
+	SpawnParticleEffectMessageData spawnData;
+	spawnData.myType = ParticleEffectType::MuzzleFlash;
+	spawnData.myPosition = GetPosition() + GetDirection() * scale * 0.5f * 75.0f;
+	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+	spawnData.myScale = scale;
+
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)

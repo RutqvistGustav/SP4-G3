@@ -6,9 +6,11 @@
 #include "Collider.h"
 #include "Scene.h"
 #include "Health.h"
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
-Zombie::Zombie(Scene* aScene, const std::string& aType)
-	: Enemy(aScene, "Sprites/Enemies/Zombie.dds")
+Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
+	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
 {
 	InitEnemyJsonValues(aType);
 }
@@ -41,6 +43,8 @@ void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderConte
 
 void Zombie::Movement(const float aDeltaTime)
 {
+	PlayTriggeredSoundOnce();
+
 	const CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
@@ -105,4 +109,13 @@ bool Zombie::CheckIdle()
 		return distance > (myDetectionRange * myDetectionRange);
 	}
 	return true;
+}
+
+void Zombie::PlayTriggeredSoundOnce()
+{
+	if (myHasSoundPlayOnce == false)
+	{
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Growl_03.mp3");
+		myHasSoundPlayOnce = true;
+	}
 }
