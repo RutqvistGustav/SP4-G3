@@ -73,5 +73,8 @@ std::string CharacterAnimator::GetAnimationStateName(State aState) const
 
 	case State::Run:
 		return "running";
+
+	case State::Attack:
+		return "attack";
 	}
 }

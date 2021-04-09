@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "PowerUpType.h"
 #include "EntityPhysicsController.h"
+#include "CharacterAnimator.h"
 
 #include "EnemyType.h"
 
@@ -52,6 +53,8 @@ protected:
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
     CU::Vector2<float> myPreviousVelocity{};
+
+    CharacterAnimator myCharacterAnimator;
 
     float myKnockbackTimer{};
 

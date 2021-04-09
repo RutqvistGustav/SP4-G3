@@ -5,6 +5,8 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 #include "JsonManager.h"
+#include "SpriteSheetAnimation.h"
+#include "CharacterAnimator.h"
 
 #include "Player.h"
 
@@ -17,7 +19,8 @@
 
 Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
 	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
-	myType(aEnemyType)
+	myType(aEnemyType),
+	myCharacterAnimator(aScene, "Animations/Zombie.json")
 {}
 
 Enemy::~Enemy() = default;
@@ -30,6 +33,8 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	myPhysicsController.Update(aDeltaTime);
 	GameObject::SetPosition(myPhysicsController.GetPosition());
+	myCharacterAnimator.Update(aDeltaTime);
+	myCharacterAnimator.ApplyToSprite(mySprite);
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -81,6 +86,7 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myPhysicsController.Init(GetScene(), mySprite->GetSize());
 	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
 
+
 	mySprite->SetLayer(GameLayer::Enemy);
 }
 
@@ -127,6 +133,8 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 		Player* player = static_cast<Player*>(gameObject);
 
 		player->TakeDamage(myDamage);
+
+		myCharacterAnimator.SetState(CharacterAnimator::State::Attack);
 
 		if (myKnockbackTimer <= 0.0f)
 		{
