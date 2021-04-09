@@ -25,6 +25,8 @@ public:
 	static void SendOnStay(const Collider* aColliderA, const Collider* aColliderB);
 	static void SendOnExit(const Collider* aColliderA, const Collider* aColliderB);
 
+	inline int GetContactCount() const { return static_cast<int>(myContacts.size()); }
+
 private:
 
 	std::shared_ptr<Contact> GetFreeContact();

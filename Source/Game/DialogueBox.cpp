@@ -100,7 +100,7 @@ void DialogueBox::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myIndicatorAnimator->ApplyToSprite(myIndicator);
 }
 
-void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (ShouldShowDialog())
 	{

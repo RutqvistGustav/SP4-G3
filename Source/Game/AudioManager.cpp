@@ -76,12 +76,12 @@ float AudioManager::GetMusicVolume() const
     return myMusicVolume;
 }
 
-void AudioManager::PlayMusic(const std::string& anAudioPath, float aVolume, bool aShouldLoop)
+void AudioManager::PlayMusic(const std::string& anAudioPath)
 {
     myMusic.at(anAudioPath)->Play();
 }
 
-void AudioManager::PlaySfx(const std::string& anAudioPath, float aVolume, bool aShouldLoop)
+void AudioManager::PlaySfx(const std::string& anAudioPath)
 {
     mySounds.at(anAudioPath)->Play();
 }
@@ -96,12 +96,12 @@ void AudioManager::StopSfx(const std::string& anAudioPath)
    mySounds.find(anAudioPath)->second->Stop();
 }
 
-bool AudioManager::IsPlaying(const std::string& anAudioPath)
+bool AudioManager::IsPlaying(const std::string& /*anAudioPath*/)
 {
     return false;
 }
 
-void AudioManager::StopAll(bool anOnlyRepeating)
+void AudioManager::StopAll()
 {
     for (auto& song : myMusic)
     {

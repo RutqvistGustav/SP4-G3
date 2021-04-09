@@ -3,6 +3,9 @@
 
 #include "GlobalServiceProvider.h"
 
+#include "GameLayer.h"
+
+#include "SpriteWrapper.h"
 #include "SpriteSheetAnimation.h"
 
 SpriteSheetParticleEffect::SpriteSheetParticleEffect(Scene* aScene, const std::string& anAnimationPath) :

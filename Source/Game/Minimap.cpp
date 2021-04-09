@@ -84,7 +84,7 @@ Minimap::Minimap(Scene* aScene, TiledParser* aTiledParser, TiledCollision* aTile
 
 Minimap::~Minimap() = default;
 
-void Minimap::Update(float aDeltaTime)
+void Minimap::Update(float /*aDeltaTime*/)
 {
 }
 

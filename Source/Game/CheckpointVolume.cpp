@@ -9,7 +9,7 @@ CheckpointVolume::CheckpointVolume(Scene* aScene) :
 	TriggerVolume(aScene, GameObjectTag::Player)
 {}
 
-void CheckpointVolume::TriggerEnter(GameObject* aGameObject)
+void CheckpointVolume::TriggerEnter(GameObject* /*aGameObject*/)
 {
 	if (!myIsUsed)
 	{

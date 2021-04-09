@@ -10,6 +10,7 @@
 #include "Metrics.h"
 #include "RenderCommand.h"
 #include "RenderQueue.h"
+#include "SpriteWrapper.h"
 
 LevelSelect::LevelSelect() = default;
 LevelSelect::~LevelSelect() = default;
@@ -33,7 +34,11 @@ void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 
 	aRenderQueue->Queue(RenderCommand(myBackground));
 
+#ifdef _DEBUG
+
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+
+#endif
 }
 
 void LevelSelect::InitButtons()

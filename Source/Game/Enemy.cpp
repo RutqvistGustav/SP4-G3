@@ -29,6 +29,7 @@ void Enemy::Init()
 {
 	GameObject::Init();
 
+	myCollider->SetLayer(CollisionLayer::Entity);
 	myCollider->SetBoxSize(myColliderSize);
 
 	myPhysicsController.Init(GetScene(), myCollider->GetBoxSize());
@@ -38,7 +39,7 @@ void Enemy::Init()
 	mySprite->SetLayer(GameLayer::Enemy);
 }
 
-void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Enemy::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	if (myKnockbackTimer > 0.0f)
 	{

@@ -32,11 +32,11 @@ public:
 
 	void Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize);
 
-	void SetBoxSize(const CU::Vector2<float> aSize);
-	CU::Vector2<float> GetBoxSize();
+	void SetBoxSize(const CU::Vector2<float>& aSize);
+	const CU::Vector2<float>& GetBoxSize() const;
 
-	void SetPosition(const CU::Vector2<float> aPos);
-	const CU::Vector2<float> GetPosition()const;
+	void SetPosition(const CU::Vector2<float>& aPos);
+	const CU::Vector2<float>& GetPosition()const;
 	
 	AABB GetAABB() const;
 

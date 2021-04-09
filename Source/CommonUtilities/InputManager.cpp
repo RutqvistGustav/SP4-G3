@@ -25,15 +25,8 @@ namespace CommonUtilities
         {
         case WM_KEYDOWN:
         {
-            if (myKeys[wParam].myKeyHold == false)
-            {
-                myKeys[wParam].myKeyPressed = true;
-                myKeys[wParam].myKeyHold = true;
-            }
-            else if (myKeys[wParam].myKeyPressed == true)
-            {
-                myKeys[wParam].myKeyPressed == false;
-            }
+            myKeys[wParam].myKeyPressed = true;
+            myKeys[wParam].myKeyHold = true;
             break;
         }
         case WM_KEYUP:
@@ -84,15 +77,16 @@ namespace CommonUtilities
 
         case WM_MOUSEMOVE:
         {
-            myMousePosition.myMouseX = GET_X_LPARAM(lParam);
-            myMousePosition.myMouseY = GET_Y_LPARAM(lParam);
+            myMousePosition.myMouseX = static_cast<float>(GET_X_LPARAM(lParam));
+            myMousePosition.myMouseY = static_cast<float>(GET_Y_LPARAM(lParam));
             break;
         }
 
         default:
-            return 0;
             break;
         }
+
+        return 0;
     }
 
     void Input::ResetFrame()

@@ -26,7 +26,7 @@ namespace CommonUtilities
 		myTotalTime = fl_Duration.count();
 
 		myDeltaStart = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> db_Duration = myDeltaStart - myDeltaEnd;
+		std::chrono::duration<float> db_Duration = myDeltaStart - myDeltaEnd;
 		myDeltaTime = db_Duration.count();
 		myDeltaEnd = myDeltaStart;
 	}
