@@ -52,22 +52,22 @@ void Collider::Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aS
 	mySize = aSize;
 }
 
-void Collider::SetPosition(const CU::Vector2<float> aPos)
+void Collider::SetPosition(const CU::Vector2<float>& aPos)
 {
 	myPos = aPos;
 }
 
-void Collider::SetBoxSize(const CU::Vector2<float> aSize)
+void Collider::SetBoxSize(const CU::Vector2<float>& aSize)
 {
 	mySize = aSize;
 }
 
-CU::Vector2<float> Collider::GetBoxSize()
+const CU::Vector2<float>& Collider::GetBoxSize() const
 {
 	return mySize;
 }
 
-const CU::Vector2<float> Collider::GetPosition() const
+const CU::Vector2<float>& Collider::GetPosition() const
 {
 	return myPos;
 }
@@ -93,7 +93,7 @@ void Collider::InitDebug()
 	// myDebugSprite = new Tga2D::CSprite("debugCookie.png");
 }
 
-void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (!myDoRender)
 		return;

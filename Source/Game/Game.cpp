@@ -131,6 +131,8 @@ void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
 	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
+	myAudioManager->SetSfxVolume(1.0f);
+	myAudioManager->SetMusicVolume(1.0f);
 
 	myJsonManager = std::make_unique <JsonManager>();
 	myWeaponFactory = std::make_unique<WeaponFactory>(myJsonManager.get());

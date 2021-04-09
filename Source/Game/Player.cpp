@@ -92,8 +92,11 @@ void Player::Init()
 	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
 	if (myColliderHeight > 0.0f) colliderSize.y = myColliderHeight;
 
+	myCollider->SetLayer(CollisionLayer::Player);
 	myCollider->SetBoxSize(colliderSize);
+
 	myPhysicsController.Init(GetScene(), colliderSize);
+	myPhysicsController.SetPosition(GetPosition());
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
 
 	// Subscribe to events
@@ -199,14 +202,6 @@ void Player::InitVariables(nlohmann::json someData)
 void Player::StopMovement()
 {
 	myPhysicsController.SetVelocity({});
-}
-
-void Player::OnStay(const CollisionInfo& someCollisionInfo)
-{
-	/*if (someCollisionInfo.myOtherCollider->IsTrigger() == false)
-	{
-		SetPosition(myPosition);
-	}*/
 }
 
 void Player::SetPosition(const CU::Vector2<float> aPosition)

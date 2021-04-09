@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
 #include "SpriteSheetAnimation.h"
+#include "SpriteWrapper.h"
 #include "JsonManager.h"
 
 HealthPickup::HealthPickup(Scene* aScene)

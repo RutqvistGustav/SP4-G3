@@ -25,6 +25,8 @@ public:
 	static void SendOnStay(const Collider* aColliderA, const Collider* aColliderB);
 	static void SendOnExit(const Collider* aColliderA, const Collider* aColliderB);
 
+	inline int GetContactCount() const { return static_cast<int>(myContacts.size()); }
+
 private:
 
 	std::shared_ptr<Contact> GetFreeContact();
@@ -32,7 +34,7 @@ private:
 
 private:
 
-	static constexpr std::size_t ourInitialFreeContactsSize = 128;
+	static constexpr std::size_t ourInitialFreeContactsSize = 256;
 
 	std::map<ContactKey, std::shared_ptr<Contact>> myContacts;
 	std::queue<std::shared_ptr<Contact>> myFreeContacts;

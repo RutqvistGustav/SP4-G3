@@ -25,15 +25,15 @@ public:
 	void SetMusicVolume(float aVolume);
 	float GetMusicVolume() const;
 
-	void PlayMusic(const std::string& anAudioPath, float aVolume = 1.0f, bool aShouldLoop = false);
-	void PlaySfx(const std::string& anAudioPath, float aVolume = 1.0f, bool aShouldLoop = false);
+	void PlayMusic(const std::string& anAudioPath);
+	void PlaySfx(const std::string& anAudioPath);
 
 	void StopMusic(const std::string& anAudioPath);
 	void StopSfx(const std::string& anAudioPath);
 
 	bool IsPlaying(const std::string& anAudioPath);
 
-	void StopAll(bool anOnlyRepeating = false);
+	void StopAll();
 
 private:
 	float myMasterVolume{};

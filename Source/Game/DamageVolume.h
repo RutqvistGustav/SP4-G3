@@ -35,7 +35,7 @@ private:
 	float myKnockbackTimer{};
 
 	// JSON data
-	float myDamage{};
+	int myDamage;
 	float myKnockbackStrength{};
 	float myKnockbackInterval{};
 

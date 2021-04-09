@@ -24,7 +24,7 @@ void MousePointer::Update(float aDeltaTime, UpdateContext& anUpdateContext)
 	ReadingLMBInput(anUpdateContext.myInputInterface);
 }
 
-void MousePointer::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void MousePointer::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 }
 
@@ -55,7 +55,7 @@ bool MousePointer::IsMouseHeld()
 	return myMouseHeld;
 }
 
-void MousePointer::ReadingMouseCoordinates(float aDeltaTime, CommonUtilities::Input* aInput)
+void MousePointer::ReadingMouseCoordinates(float /*aDeltaTime*/, CommonUtilities::Input* aInput)
 {
 	auto mousePos = aInput->GetMousePosition();
 	const CU::Vector2<float> mousePosition = { static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY) };

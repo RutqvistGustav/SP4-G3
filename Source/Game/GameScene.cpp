@@ -64,6 +64,7 @@ void GameScene::Init()
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
+	myCollisionManager->IgnoreCollision(CollisionLayer::Entity, CollisionLayer::Entity);
 
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
@@ -139,7 +140,7 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 #endif //_DEBUG
 }
 
-GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* someMessageData)
+GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* /*someMessageData*/)
 {
 	assert(aMessage == GameMessage::StageClear);
 

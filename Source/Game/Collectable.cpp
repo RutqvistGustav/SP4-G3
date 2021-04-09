@@ -17,7 +17,7 @@ Collectable::Collectable(Scene* aScene) :
 
 Collectable::~Collectable() = default;
 
-void Collectable::InitWithJson(const JsonData& someProperties)
+void Collectable::InitWithJson(const JsonData& /*someProperties*/)
 { 
 	Init();
 
@@ -60,7 +60,7 @@ void Collectable::TriggerStay(GameObject* aGameObject)
 	}
 }
 
-bool Collectable::CanCollect(Player* aPlayer)
+bool Collectable::CanCollect(Player* /*aPlayer*/)
 {
 	return !myIsCollected;
 }

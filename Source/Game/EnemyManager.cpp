@@ -103,7 +103,7 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Chec
 	return GameMessageAction::Keep;
 }
 
-GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const EnemyMessageData* someMessageData)
+GameMessageAction EnemyManager::OnMessage(const GameMessage /*aMessage*/, const EnemyMessageData* someMessageData)
 {
 	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget, someMessageData->myLootType);
 	return GameMessageAction::Keep;

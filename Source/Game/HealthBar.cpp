@@ -65,7 +65,7 @@ void HealthBar::Update(const float aDeltaTime, CU::Vector2<float> aPlayerPositio
 	UpdatePosition(aPlayerPosition);
 }
 
-void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	aRenderQueue->Queue(RenderCommand(myPowerUpBar));
 	aRenderQueue->Queue(RenderCommand(myPowerUpFrame));

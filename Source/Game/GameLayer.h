@@ -12,6 +12,7 @@ namespace GameLayer
 	static constexpr Layer Solid = 5;
 	static constexpr Layer ForegroundSolid = 6;
 
+	static constexpr Layer Prop = 7;
 	static constexpr Layer Enemy = 7;
 	static constexpr Layer Player = 8;
 	static constexpr Layer ParticleEffects = 9;

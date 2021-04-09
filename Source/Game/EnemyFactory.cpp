@@ -10,16 +10,12 @@ std::unique_ptr<Enemy> EnemyFactory::CreateEnemy(EnemyType aType, Scene* aScene)
 {
 	switch (aType)
 	{
+	default:
+		assert(false && "Invalid enemy type!");
 	case(EnemyType::Zombie):
-	{
 		return std::make_unique<Zombie>(aScene);
-		break;
-	}
+
 	case(EnemyType::EliteZombie):
-	{
 		return std::make_unique<EliteZombie>(aScene);
-		break;
-	}
-		
 	}
 }
