@@ -32,14 +32,10 @@ private:
 
     CU::Vector2<float> myDistanceFromPlayer;
 
-    bool myPowerUpActive = false;
-
     unsigned int myCurrentBullets;
     unsigned int myResetBullets;
 
-    // GameObject holds fully loaded state.
-    std::shared_ptr<SpriteWrapper> myHalfState;
-    std::shared_ptr<SpriteWrapper> myEmptyState;
-    // Reload animation
+    std::shared_ptr<SpriteWrapper> mySecondSprite;
+    CU::Vector2<float> mySpriteDistance{};
 };
 

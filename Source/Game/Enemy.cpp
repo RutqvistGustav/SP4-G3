@@ -28,7 +28,6 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	{
 		myKnockbackTimer -= aDeltaTime;
 	}
-
 	myPhysicsController.Update(aDeltaTime);
 	GameObject::SetPosition(myPhysicsController.GetPosition());
 }

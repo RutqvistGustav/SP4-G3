@@ -35,6 +35,7 @@ public:
 
 protected:
 
+	CU::Vector2<float> ComputeWeaponPosition();
 	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
 	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown = false) override;
