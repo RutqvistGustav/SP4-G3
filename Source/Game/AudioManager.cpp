@@ -37,15 +37,8 @@ AudioManager::~AudioManager() = default;
 void AudioManager::SetMasterVolume(float aVolume)
 {
     myMasterVolume = std::clamp(aVolume, 0.0f, 1.0f);
-
-    for (auto& song : myMusic)
-    {
-        song.second->SetVolume(myMasterVolume);
-    }
-    for (auto& sfx : mySounds)
-    {
-        sfx.second->SetVolume(myMasterVolume);
-    }
+    SetSfxVolume(GetSfxVolume());
+    SetMusicVolume(GetMusicVolume());
 }
 
 float AudioManager::GetMasterVolume() const
@@ -59,7 +52,7 @@ void AudioManager::SetSfxVolume(float aVolume)
 
     for (auto& song : mySounds)
     {
-        song.second->SetVolume(mySfxVolume);
+        song.second->SetVolume(myMasterVolume * mySfxVolume);
     }
 }
 
@@ -74,7 +67,7 @@ void AudioManager::SetMusicVolume(float aVolume)
 
     for (auto& song : myMusic)
     {
-        song.second->SetVolume(myMusicVolume);
+        song.second->SetVolume(myMasterVolume * myMusicVolume);
     }
 }
 
