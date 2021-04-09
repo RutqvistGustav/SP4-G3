@@ -17,6 +17,7 @@
 
 #include "Weapon.h"
 #include "WeaponFactory.h"
+#include "Shotgun.h"
 
 PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
 	myScene(aScene),
@@ -143,4 +144,9 @@ void PlayerWeaponController::ActivatePowerUp(PowerUpType aPowerUpType)
 void PlayerWeaponController::DisablePowerUp()
 {
 	myPlayer->DisablePowerUp();
+}
+
+Shotgun* PlayerWeaponController::GetShotgun()
+{
+	return static_cast<Shotgun*>(myShotgun.get());
 }

@@ -76,11 +76,13 @@ void Player::Init()
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetLayer(GameLayer::Player);
 
+	myWeaponController->Init();
+
 	// Init HUD
-	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get());
+	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get(), myWeaponController->GetShotgun());
+	
 	myHUD->Init();
 
-	myWeaponController->Init();
 
 	SetPosition(GetPosition());
 	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
@@ -127,7 +129,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myCamera->SetPosition(newCameraPosition);
 
 	myHealth->Update(aDeltaTime);
-	myHUD->Update(myPosition);
+	myHUD->Update(aDeltaTime, myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 
@@ -223,6 +225,7 @@ void Player::SetControllerActive(const bool aState)
 void Player::ActivatePowerUp(PowerUpType aPowerUpType)
 {
 	myWeaponController->ActivatePowerUp(aPowerUpType);
+	myHUD->GetHealthBar()->ActivatePowerUp(aPowerUpType);
 	if (aPowerUpType == PowerUpType::Berserk)
 	{
 		mySpeed += myBerserkSpeed;

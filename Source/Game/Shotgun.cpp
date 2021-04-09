@@ -56,6 +56,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
 		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/Reload.mp3");
+		Notify(myLoadedAmmo);
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -112,6 +113,8 @@ void Shotgun::Shoot()
 
 	SpawnMuzzleFlash();
 
+	Notify(myLoadedAmmo);
+
 	if (!IsLoaded())
 	{
 		Reload();
@@ -132,6 +135,8 @@ void Shotgun::Boost()
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myBoostKnockBackStrength, true);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	Notify(myLoadedAmmo);
 
 	if (!IsLoaded())
 	{

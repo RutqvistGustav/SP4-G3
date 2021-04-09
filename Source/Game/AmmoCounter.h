@@ -2,11 +2,14 @@
 #include "GameObject.h"
 #include <memory>
 #include "nlohmann/json.hpp"
+#include "SimpleEventObserver.h"
 
 class SpriteWrapper;
+class Shotgun;
 
 class AmmoCounter :
-    public GameObject
+    public GameObject,
+    public SimpleEventObserver<int>
 {
 public:
     enum AmmoState
@@ -16,7 +19,7 @@ public:
         Empty = 0
     };
 
-    AmmoCounter(Scene* aScene);
+    AmmoCounter(Scene* aScene, Shotgun* aShotgun);
     AmmoCounter() = default;
 
     virtual void Init() override;
@@ -30,6 +33,9 @@ private:
     void UpdatePosition(CU::Vector2<float> aPlayerPosition);
     void InitSprites(nlohmann::json someData);
 
+    virtual void OnEvent(int anAmmoAmount) override;
+
+private:
     CU::Vector2<float> myDistanceFromPlayer;
 
     unsigned int myCurrentBullets;
@@ -37,5 +43,6 @@ private:
 
     std::shared_ptr<SpriteWrapper> mySecondSprite;
     CU::Vector2<float> mySpriteDistance{};
+    Shotgun* myShotgun;
 };
 
