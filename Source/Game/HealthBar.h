@@ -47,7 +47,10 @@ private:
     float myInitialHealthBarWidth;
     float myInitialPowerUpBarWidth;
 
+    CU::Vector2<float> myPowerupOffset;
+
     std::shared_ptr<SpriteWrapper> myHealthBar;
+    std::shared_ptr<SpriteWrapper> myPowerUpFrame;
     std::shared_ptr<SpriteWrapper> myPowerUpBar;
 };
 

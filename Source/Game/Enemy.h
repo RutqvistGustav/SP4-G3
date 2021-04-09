@@ -38,6 +38,7 @@ public:
 
 protected:
 
+
     virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 protected:
@@ -50,6 +51,7 @@ protected:
     PowerUpType myLoot;
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
+    CU::Vector2<float> myPreviousVelocity{};
 
     float myKnockbackTimer{};
 

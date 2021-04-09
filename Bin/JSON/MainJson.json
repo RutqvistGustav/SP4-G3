@@ -10,6 +10,7 @@
     "JSON/Sound-MusicPaths.json",
 
     "Animations/Player.json",
+    "Animations/Zombie.json",
     "Animations/HealthPickup.json",
     "Animations/BerserkerPickup.json",
     "Animations/BouncingArrow.json",

@@ -28,12 +28,17 @@ void HealthBar::Init()
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HUD frame.dds");
-	myHealthBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/HealthBar.dds");
-	myPowerUpBar = std::make_shared<SpriteWrapper>("Sprites/HUD/temps/PowerUpBar.dds");
+	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/health_frame.dds");
+	myHealthBar = std::make_shared<SpriteWrapper>("Sprites/HUD/health.dds");
+	myPowerUpFrame = std::make_shared<SpriteWrapper>("Sprites/HUD/Powerup_frame.dds");
+	myPowerUpBar = std::make_shared<SpriteWrapper>("Sprites/HUD/Powerup.dds");
 
-	myHealthBar->SetPivot({ 0.0f, 0.5f });
-	myPowerUpBar->SetPivot({ 0.0f, 0.5f });
+	myHealthBar->SetPivot({ 0.5f, 0.5f });
+	myPowerUpBar->SetPivot({ 0.5f, 0.5f });
+	myPowerUpFrame->SetPivot({ 0.5f, 0.5f });
+	mySprite->SetPivot({ 0.5f, 0.5f });
+
+	myPowerupOffset = {0.0f, 30.0f};
 
 	myInitialHealthBarWidth = myHealthBar->GetSize().x;
 	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
@@ -54,8 +59,9 @@ void HealthBar::Update(CU::Vector2<float> aPlayerPosition)
 
 void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
-	aRenderQueue->Queue(RenderCommand(myHealthBar));
 	aRenderQueue->Queue(RenderCommand(myPowerUpBar));
+	aRenderQueue->Queue(RenderCommand(myPowerUpFrame));
+	aRenderQueue->Queue(RenderCommand(myHealthBar));
 	aRenderQueue->Queue(RenderCommand(mySprite));
 }
 
@@ -66,12 +72,11 @@ void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
 
 void HealthBar::UpdatePosition(CU::Vector2<float> aPlayerPosition)
 {
-	const CU::Vector2<float> barStartOffset = { -mySprite->GetSize().x * 0.5f, 0.0f };
-
 	SetPosition(aPlayerPosition + myDistanceFromPlayer);
+	myPowerUpFrame->SetPosition(aPlayerPosition + myDistanceFromPlayer + myPowerupOffset);
 
-	myHealthBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + barStartOffset);
-	myPowerUpBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + barStartOffset);
+	myHealthBar->SetPosition(aPlayerPosition + myDistanceFromPlayer);
+	myPowerUpBar->SetPosition(aPlayerPosition + myDistanceFromPlayer + myPowerupOffset);
 }
 
 void HealthBar::OnEvent(int someNewHealth)
