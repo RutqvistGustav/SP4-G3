@@ -251,6 +251,8 @@ void Settings::MouseClicked(GameObject* aTarget)
 		return;
 	}
 
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
+
 	const GameObjectTag targetTag = aTarget->GetTag();
 
 	switch (targetTag)

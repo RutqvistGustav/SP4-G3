@@ -6,6 +6,9 @@
 #include "UpdateContext.h"
 #include "LevelManagerProxy.h"
 
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
+
 #include "MainMenu.h"
 
 #include "RenderQueue.h"
@@ -89,6 +92,8 @@ void PauseMenu::InitButtons()
 void PauseMenu::MouseClicked(GameObject* aTarget)
 {
 	if (aTarget == nullptr) return;
+
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	const GameObjectTag targetTag = aTarget->GetTag();
 

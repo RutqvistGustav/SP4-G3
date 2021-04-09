@@ -15,6 +15,8 @@
     "Sound/Player/Player death.wav",
     "Sound/Weapon/Reload.mp3",
     "Sound/Weapon/shotgun-firing-1.wav",
-    "Sound/Weapon/shotgun-firing-3.wav"
+    "Sound/Weapon/shotgun-firing-3.wav",
+    "Sound/Misc/Health_Pickup.wav",
+    "Sound/Misc/Menu_Button.wav"
   ]
 }

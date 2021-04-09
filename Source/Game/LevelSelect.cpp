@@ -12,6 +12,9 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
+
 LevelSelect::LevelSelect() = default;
 LevelSelect::~LevelSelect() = default;
 
@@ -73,6 +76,8 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 	{
 		return;
 	}
+
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	const GameObjectTag targetTag = aTarget->GetTag();
 
