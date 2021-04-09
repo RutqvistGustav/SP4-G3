@@ -22,6 +22,19 @@ Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
 
 Enemy::~Enemy() = default;
 
+void Enemy::Init()
+{
+	GameObject::Init();
+
+	myCollider->SetBoxSize(myColliderSize);
+
+	myPhysicsController.Init(GetScene(), myCollider->GetBoxSize());
+	myPhysicsController.SetPosition(GetPosition());
+	myPhysicsController.SetGravity({ 0.0f, myGravity });
+
+	mySprite->SetLayer(GameLayer::Enemy);
+}
+
 void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	if (myKnockbackTimer > 0.0f)
@@ -29,7 +42,7 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myKnockbackTimer -= aDeltaTime;
 	}
 	myPhysicsController.Update(aDeltaTime);
-	GameObject::SetPosition(myPhysicsController.GetPosition());
+	SetPosition(myPhysicsController.GetPosition());
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -77,11 +90,15 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
+	myGravity = zombieData.at("Gravity");
 
-	myPhysicsController.Init(GetScene(), mySprite->GetSize());
-	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
+	myColliderSize = mySprite->GetSize();
 
-	mySprite->SetLayer(GameLayer::Enemy);
+	myColliderSize.x = zombieData.value("ColliderWidth", myColliderSize.x);
+	myColliderSize.y = zombieData.value("ColliderHeight", myColliderSize.y);
+
+	mySpriteShift.x = zombieData.value("SpriteShiftX", mySpriteShift.x);
+	mySpriteShift.y = zombieData.value("SpriteShiftY", mySpriteShift.y);
 }
 
 PowerUpType Enemy::GetLootType()
@@ -105,6 +122,8 @@ void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
 void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
+
+	mySprite->SetPosition(aPosition + mySpriteShift);
 	myPhysicsController.SetPosition(aPosition);
 }
 

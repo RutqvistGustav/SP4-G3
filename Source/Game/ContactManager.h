@@ -32,7 +32,7 @@ private:
 
 private:
 
-	static constexpr std::size_t ourInitialFreeContactsSize = 128;
+	static constexpr std::size_t ourInitialFreeContactsSize = 256;
 
 	std::map<ContactKey, std::shared_ptr<Contact>> myContacts;
 	std::queue<std::shared_ptr<Contact>> myFreeContacts;

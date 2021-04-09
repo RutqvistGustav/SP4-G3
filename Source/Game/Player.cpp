@@ -92,6 +92,7 @@ void Player::Init()
 
 	myCollider->SetBoxSize(colliderSize);
 	myPhysicsController.Init(GetScene(), colliderSize);
+	myPhysicsController.SetPosition(GetPosition());
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
 
 	// Subscribe to events

@@ -84,6 +84,14 @@ void Zombie::IdleMovement(const float aDeltaTime)
 		velocity.x = -myPreviousVelocity.x * 0.01f;
 	}
 
+	if (
+		(velocity.x < 0.0f && myPhysicsController.IsFloorOvershootLeft()) ||
+		(velocity.x > 0.0f && myPhysicsController.IsFloorOvershootRight())
+		)
+	{
+		velocity.x *= -1.0f;
+	}
+
 	myPhysicsController.SetVelocity(velocity);
 	/*UpdateGravity(aDeltaTime);
 	if (myVelocity.x > 0.0f)

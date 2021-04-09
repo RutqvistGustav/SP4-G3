@@ -96,11 +96,11 @@ void EntityPhysicsController::BuildCollisionEdges()
 	const int verticalPoints = static_cast<int>(entityAABB.GetSize().y / 32.0f) + 1;
 	const int horizontalPoints = static_cast<int>(entityAABB.GetSize().x / 32.0f) + 1;
 
-	myCollisionEdges[Edge::Bottom] = CreateCollisionEdge(entityAABB.GetCenter() + Vec2f(0.0f, entityAABB.GetSize().y * 0.5f), Vec2f(1.0f, 0.0f), horizontalPoints);
-	myCollisionEdges[Edge::Top] = CreateCollisionEdge(entityAABB.GetCenter() - Vec2f(0.0f, entityAABB.GetSize().y * 0.5f), Vec2f(1.0f, 0.0f), horizontalPoints);
+	myCollisionEdges[Edge::Bottom] = CreateCollisionEdge(Vec2f(0.0f, entityAABB.GetSize().y * 0.5f), Vec2f(1.0f, 0.0f), horizontalPoints);
+	myCollisionEdges[Edge::Top] = CreateCollisionEdge(Vec2f(0.0f, entityAABB.GetSize().y * 0.5f) * -1.0f, Vec2f(1.0f, 0.0f), horizontalPoints);
 
-	myCollisionEdges[Edge::Right] = CreateCollisionEdge(entityAABB.GetCenter() + Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f), Vec2f(0.0f, 1.0f), verticalPoints);
-	myCollisionEdges[Edge::Left] = CreateCollisionEdge(entityAABB.GetCenter() - Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f), Vec2f(0.0f, 1.0f), verticalPoints);
+	myCollisionEdges[Edge::Right] = CreateCollisionEdge(Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f), Vec2f(0.0f, 1.0f), verticalPoints);
+	myCollisionEdges[Edge::Left] = CreateCollisionEdge(Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f) * -1.0f, Vec2f(0.0f, 1.0f), verticalPoints);
 }
 
 std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMiddle, const Vec2f& aDirection, int aPointCount)
@@ -114,9 +114,7 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMi
 	const AABB entityAABB = GetAABB();
 	std::vector<Vec2f> result;
 
-	constexpr float undershoot = 3.0f;
-
-	const Vec2f size = Vec2f((entityAABB.GetSize().x - undershoot) * aDirection.x, (entityAABB.GetSize().y - undershoot) * aDirection.y);
+	const Vec2f size = Vec2f((entityAABB.GetSize().x - ourCollisionPointUndershoot) * aDirection.x, (entityAABB.GetSize().y - ourCollisionPointUndershoot) * aDirection.y);
 	const Vec2f step = Vec2f(size.x / (usedPointCount - 1), size.y / (usedPointCount - 1));
 
 	Vec2f startPosition = aMiddle - step * static_cast<float>(usedPointCount / 2);
@@ -172,6 +170,20 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aF
 	aWasObstructed = true;
 }
 
+AABB EntityPhysicsController::ComputeCollisionBufferBounds() const
+{
+	assert(!myCollisionBuffer.empty());
+
+	AABB collisionBounds = myCollisionBuffer[0].myAABB;
+
+	for (std::size_t i = 1; i < myCollisionBuffer.size(); ++i)
+	{
+		collisionBounds.Extend(myCollisionBuffer[i].myAABB);
+	}
+
+	return collisionBounds;
+}
+
 bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 {
 	const Vec2f direction = anAxis == Axis::X ? locVecRight : locVecDown;
@@ -208,13 +220,31 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		const bool isGrounded = (testEdge == Edge::Bottom) && !myCollisionBuffer.empty();
 		// const bool hitCeiling = (testEdge == Edge::Top) && !myCollisionBuffer.empty();
 
-		if (isGrounded)
-			AddState(eState::eState_Grounded);
-		else
-			RemoveState(eState::eState_Grounded);
+		SetState(eState::eState_Grounded, isGrounded);
 	}
 
 	myPosition += direction * actualDistance;
+
+	if (anAxis == Axis::Y)
+	{
+		if (IsGrounded())
+		{
+			// NOTE: Check if our entities whole shape is grounded or only partially
+			const AABB floorBounds = ComputeCollisionBufferBounds();
+			const AABB entityBounds = GetAABB();
+
+			const float toFloorEdgeLeft = floorBounds.GetMin().x - entityBounds.GetMin().x;
+			const float toFloorEdgeRight = floorBounds.GetMax().x - entityBounds.GetMax().x;
+
+			SetState(eState::eState_FloorOvershootLeft, toFloorEdgeLeft > ourCollisionPointUndershoot);
+			SetState(eState::eState_FloorOvershootRight, toFloorEdgeRight < -ourCollisionPointUndershoot);
+		}
+		else
+		{
+			RemoveState(eState::eState_FloorOvershootLeft);
+			RemoveState(eState::eState_FloorOvershootRight);
+		}
+	}
 
 	return !wasObstructed;
 }

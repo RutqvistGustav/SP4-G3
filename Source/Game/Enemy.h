@@ -17,6 +17,8 @@ public:
     Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath = nullptr);
     virtual ~Enemy();
 
+    virtual void Init() override;
+
     virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
     
@@ -48,7 +50,12 @@ protected:
     float myMaxSpeed;
     float myDetectionRange;
     float myKnockback;
+    float myGravity;
     PowerUpType myLoot;
+
+    CU::Vector2<float> myColliderSize;
+    CU::Vector2<float> mySpriteShift;
+
     std::shared_ptr<GameObject> myTarget;
     std::unique_ptr<Health> myHealth;
     CU::Vector2<float> myPreviousVelocity{};
