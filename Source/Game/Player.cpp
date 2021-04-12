@@ -356,7 +356,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 		myCoyoteTime = myCoyoteTimeReset;
 	}
 
-	if (anInput->IsJumping() && myJumpCharges > 0)
+	if (CanControl() && anInput->IsJumping() && myJumpCharges > 0)
 	{
 		if (myJumpCharges == 1)
 		{

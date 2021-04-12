@@ -39,6 +39,7 @@ namespace Tga2D
 		class CSprite* mySprite;
 		class CVideoPlayer* myPlayer;
 
+		struct ID3D11ShaderResourceView* mySavedShaderResource;
 		struct ID3D11ShaderResourceView* myShaderResource;
 		struct ID3D11Texture2D *myTexture;
 		

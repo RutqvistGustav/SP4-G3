@@ -33,6 +33,8 @@ public:
 
 	bool Init(const std::wstring& aVersion = L"", HWND aHWND = nullptr);
 
+	static void QueueSetResolution(int aWidth, int aHeight);
+
 private:
 
 	void InitCallBack();

@@ -1,0 +1,1 @@
+testa Avancement2020-Medium först, för å se om det ser ok ut, blir texten för tjock/tunn så får vi testa en annan
