@@ -524,6 +524,9 @@
     <ClInclude Include="IntroScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="OutroScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -788,6 +791,9 @@
       <Filter>GameObjects\Props</Filter>
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="OutroScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>

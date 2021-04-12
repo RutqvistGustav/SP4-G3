@@ -7,6 +7,7 @@
 
 #include "MainMenu.h"
 #include "GameScene.h"
+#include "OutroScene.h"
 
 #include "CheckpointMessage.h"
 
@@ -151,7 +152,8 @@ void SceneManager::TransitionNextLevel()
 	if (nextLevel > 3)
 	{
 		// TODO: NOTE: Game complete
-		TransitionToMainMenu();
+		Transition(std::make_unique<OutroScene>());
+		//TransitionToMainMenu();
 	}
 	else
 	{

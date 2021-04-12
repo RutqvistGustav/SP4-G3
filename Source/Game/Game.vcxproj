@@ -197,6 +197,7 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="OutroScene.h" />
     <ClInclude Include="ParticleEffectManager.h" />
     <ClInclude Include="ParticleEffectType.h" />
     <ClInclude Include="PauseMenu.h" />
@@ -310,6 +311,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="OutroScene.cpp" />
     <ClCompile Include="ParticleEffectManager.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="ParallaxContainer.cpp" />
