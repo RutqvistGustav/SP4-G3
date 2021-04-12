@@ -7,6 +7,8 @@
 
 #include "MainMenu.h"
 #include "GameScene.h"
+#include "IntroScene.h"
+#include "OutroScene.h"
 
 #include "CheckpointMessage.h"
 
@@ -151,7 +153,12 @@ void SceneManager::TransitionNextLevel()
 	if (nextLevel > 3)
 	{
 		// TODO: NOTE: Game complete
-		TransitionToMainMenu();
+		Transition(std::make_unique<OutroScene>());
+		//TransitionToMainMenu();
+	}
+	else if (nextLevel == 0)
+	{
+		Transition(std::make_unique<IntroScene>());
 	}
 	else
 	{
@@ -245,7 +252,7 @@ void SceneManager::PlayMusic()
 	}
 	case EMusic::Level02:
 	{
-		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/2.Hard Rock.mp3");
+		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/5.Be Faster.mp3");
 		break;
 	}
 	case EMusic::Level03:

@@ -17,6 +17,9 @@
     "Sound/Weapon/shotgun-firing-1.wav",
     "Sound/Weapon/shotgun-firing-3.wav",
     "Sound/Misc/Health_Pickup.wav",
-    "Sound/Misc/Menu_Button.wav"
+    "Sound/Misc/Menu_Button.wav",
+
+    "Sound/Cutscenes/Intro.mp3",
+    "Sound/Cutscenes/Outro.mp3"
   ]
 }

@@ -30,6 +30,9 @@ Tga2D::CVideo::~CVideo()
 
 	if (mySprite)
 	{
+		mySprite->GetTexturedQuad()->myTexture->myResource = mySavedShaderResource;
+		mySavedShaderResource = nullptr;
+
 		delete mySprite;
 		mySprite = nullptr;
 	}
@@ -139,6 +142,7 @@ bool CVideo::Init(const char* aPath, bool aPlayAudio)
 		CEngine::GetInstance()->GetDirect3D().GetDevice()->CreateTexture2D(&texture_desc, nullptr, &myTexture);
 		CEngine::GetInstance()->GetDirect3D().GetDevice()->CreateShaderResourceView(myTexture, NULL, &myShaderResource);
 
+		mySavedShaderResource = mySprite->GetTexturedQuad()->myTexture->myResource;
 		mySprite->GetTexturedQuad()->myTexture->myResource = myShaderResource;
 
 		VECTOR2F texSize = VECTOR2F(static_cast<float>(mySize.x), static_cast<float>(mySize.y));
