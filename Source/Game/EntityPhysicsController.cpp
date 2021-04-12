@@ -158,7 +158,7 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f & a
 		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y;
 		break;
 	case Edge::Bottom:
-		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
+		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y;
 		break;
 
 	case Edge::Left:
@@ -199,17 +199,16 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 
 	for (int i = 0; i < myCollisionBuffer.size(); ++i)
 	{
-		if (anAxis == Axis::X || entityAABB.GetMax().y > myCollisionBuffer[i].myAABB.GetMin().y);
+		if (myCollisionBuffer[i].myType == CollisionItem::Type::HalfTile)
 		{
-			myCollisionBuffer.erase(myCollisionBuffer.begin() + i);
-			--i;
+			if (anAxis == Axis::X || entityAABB.GetMax().y > myCollisionBuffer[i].myAABB.GetMin().y)
+			{
+				myCollisionBuffer.erase(myCollisionBuffer.begin() + i);
+				--i;
+			}
 		}
 	}
 
-	/*if (!(!HasState(eState::eState_InsideWall) || testEdge == Edge::Bottom))
-	{
-		myCollisionBuffer.clear();
-	}*/
 	ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
 
 	if (anAxis == Axis::X)
