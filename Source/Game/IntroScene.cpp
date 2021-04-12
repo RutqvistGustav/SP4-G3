@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "IntroScene.h"
 
+#include "UpdateContext.h"
 #include "GlobalServiceProvider.h"
 #include "LevelManagerProxy.h"
 #include "JsonManager.h"
@@ -22,6 +23,7 @@ void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	if (myIntro->IsPlaying())
 	{
 		myIntro->Update(aDeltaTime);
+		SkipCutscene(anUpdateContext);
 	}
 	else
 	{
@@ -34,5 +36,13 @@ void IntroScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderC
 	if (myIntro != nullptr)
 	{
 		myIntro->Render(aRenderQueue);
+	}
+}
+
+void IntroScene::SkipCutscene(UpdateContext& anUpdateContext)
+{
+	if (anUpdateContext.myInputInterface->IsPressingPause())
+	{
+		myIntro->Stop();
 	}
 }

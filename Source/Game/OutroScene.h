@@ -16,6 +16,9 @@ public:
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+    void SkipCutscene(UpdateContext& anUpdateContext);
+
+private:
     std::unique_ptr<CutscenePlayer> myOutro;
 };
 
