@@ -6,17 +6,16 @@ class CutscenePlayer;
 class IntroScene :
     public Scene
 {
-public:
-    IntroScene();
-    virtual ~IntroScene() override;
+    public:
+        IntroScene();
+        virtual ~IntroScene() override;
 
-    virtual void Init() override;
+        virtual void Init() override;
 
-    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
-    virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+        virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+        virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-private:
-    std::unique_ptr<CutscenePlayer> myIntro;
-
+    private:
+        std::unique_ptr<CutscenePlayer> myIntro;
 };
 

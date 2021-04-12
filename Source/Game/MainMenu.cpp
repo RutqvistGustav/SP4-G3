@@ -11,6 +11,7 @@
 
 #include "GameScene.h"
 #include "LevelSelect.h"
+#include "IntroScene.h"
 
 #include "MenuButton.h"
 #include "Settings.h"
@@ -90,7 +91,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 	switch (targetTag)
 	{
 	case GameObjectTag::StartButton:
-		GetLevelManagerProxy()->TransitionToLevel(1);
+		GetSceneManagerProxy()->Transition(std::make_unique<IntroScene>(), true);
 		break;
 	case GameObjectTag::LevelSelectButton:
 		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>(), false);

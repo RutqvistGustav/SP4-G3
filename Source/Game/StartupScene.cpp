@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "IntroScene.h"
+#include "StartupScene.h"
 
 #include "GlobalServiceProvider.h"
 #include "LevelManagerProxy.h"
 #include "JsonManager.h"
 #include "CutscenePlayer.h"
 
-IntroScene::IntroScene() = default;
+StartupScene::StartupScene() = default;
 
-IntroScene::~IntroScene() = default;
+StartupScene::~StartupScene() = default;
 
-void IntroScene::Init()
+void StartupScene::Init()
 {
 	myIntro = std::make_unique<CutscenePlayer>();
 	nlohmann::json data = GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/VideoPaths.json");
 	myIntro->Init(data.at("StartupPath"));
 }
 
-void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void StartupScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	if (myIntro->IsPlaying())
 	{
@@ -25,11 +25,11 @@ void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	else
 	{
-		GetLevelManagerProxy()->TransitionToLevel(1);
+		GetLevelManagerProxy()->TransitionToMainMenu();
 	}
 }
 
-void IntroScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void StartupScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	if (myIntro != nullptr)
 	{

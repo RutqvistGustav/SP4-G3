@@ -189,6 +189,7 @@
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InteractableMessage.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="StartupScene.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="LevelManagerProxy.h" />
     <ClInclude Include="LevelSelect.h" />
@@ -304,6 +305,7 @@
     <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="StartupScene.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="LevelManagerProxy.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
