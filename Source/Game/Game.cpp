@@ -102,7 +102,7 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 #endif
 
 	// NOTE: Fullscreen
-	RECT desktopRect;
+	/*RECT desktopRect;
 	HWND desktopWindow = GetDesktopWindow();
 	GetWindowRect(desktopWindow, &desktopRect);
 
@@ -110,7 +110,7 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myWindowWidth = static_cast<unsigned short>(desktopRect.right);
 	createParameters.myWindowHeight = static_cast<unsigned short>(desktopRect.bottom);
 	createParameters.myRenderWidth = createParameters.myWindowWidth;
-	createParameters.myRenderHeight = createParameters.myWindowHeight;
+	createParameters.myRenderHeight = createParameters.myWindowHeight;*/
 
 	// NOTE: GD Test background color
 	// R: 33 => 0.129
@@ -141,7 +141,7 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 void CGame::QueueSetResolution(int aWidth, int aHeight)
 {
 	// NOTE: TODO: If multithreading this need to be changed
-	Tga2D::CEngine::GetInstance()->SetResolution(VECTOR2UI(aWidth, aHeight));
+	Tga2D::CEngine::GetInstance()->Resize(VECTOR2UI(aWidth, aHeight));
 }
 
 void CGame::InitCallBack()
