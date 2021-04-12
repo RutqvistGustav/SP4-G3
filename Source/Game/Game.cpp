@@ -52,17 +52,9 @@ CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
-{
-	//myGameWorld = new CGameWorld();
+{}
 
-}
-
-
-CGame::~CGame()
-{
-	/*delete myGameWorld;
-	myGameWorld = nullptr;*/
-}
+CGame::~CGame() = default;
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -101,6 +93,20 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
 	createParameters.myTargetHeight = static_cast<unsigned short>(referenceSize.y);
 
+#ifndef _DEBUG
+#endif
+
+	// NOTE: Fullscreen
+	RECT desktopRect;
+	HWND desktopWindow = GetDesktopWindow();
+	GetWindowRect(desktopWindow, &desktopRect);
+
+	createParameters.myStartInFullScreen = true;
+	createParameters.myWindowWidth = static_cast<unsigned short>(desktopRect.right);
+	createParameters.myWindowHeight = static_cast<unsigned short>(desktopRect.bottom);
+	createParameters.myRenderWidth = createParameters.myWindowWidth;
+	createParameters.myRenderHeight = createParameters.myWindowHeight;
+
 	// NOTE: GD Test background color
 	// R: 33 => 0.129
 	// G: 24 => 0.094
@@ -127,10 +133,16 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	return true;
 }
 
+void CGame::QueueSetResolution(int aWidth, int aHeight)
+{
+	// NOTE: TODO: If multithreading this need to be changed
+	Tga2D::CEngine::GetInstance()->SetResolution(VECTOR2UI(aWidth, aHeight));
+}
+
 void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
-	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
+	myAudioManager->SetMasterVolume(0.0f); // TODO: DEBUG: Set low master volume
 	myAudioManager->SetSfxVolume(1.0f);
 	myAudioManager->SetMusicVolume(1.0f);
 

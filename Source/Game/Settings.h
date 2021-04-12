@@ -15,6 +15,15 @@ class Settings :
 {
 public:
 
+	enum class Resolution
+	{
+		R1280x720,
+		R1600x900,
+		R1920x1080,
+
+		Count,
+	};
+
 	Settings();
 	virtual ~Settings() override;
 
@@ -28,10 +37,10 @@ private:
 	void InitSliders();
 	void InitButtons();
 
-	void SetResolution(int aResolutionY);
-	void SetResolutionBool(int aResolutionY);
+	void SetResolution(Resolution aResolution);
+	void SlideResolution(int anAmount);
+
 	void RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
-	void ChangeResolution(GameObjectTag aTag);
 
 	void MouseClicked(GameObject* aTarget);
 
@@ -41,11 +50,7 @@ private:
 
 private:
 
-	bool my720{};
-	bool my900{};
-	bool my1080{};
-
-	CU::Vector2<float> myScreenResolution;
+	Resolution myResolution{ Resolution::R1920x1080 };
 
 	std::shared_ptr<SpriteWrapper> my720Sprite;
 	std::shared_ptr<SpriteWrapper> my900Sprite;

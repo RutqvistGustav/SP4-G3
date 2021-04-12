@@ -60,6 +60,9 @@ void MousePointer::ReadingMouseCoordinates(float /*aDeltaTime*/, CommonUtilities
 	auto mousePos = aInput->GetMousePosition();
 	const CU::Vector2<float> mousePosition = { static_cast<float>(mousePos.myMouseX), static_cast<float>(mousePos.myMouseY) };
 
+	if (IsMouseDown())
+		std::cout << mousePos.myMouseX << " " << mousePos.myMouseY << std::endl;
+
 	SetPosition(CoordinateHelper::GetClientPositionAsVirtual(mousePosition));
 }
 
