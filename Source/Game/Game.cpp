@@ -91,19 +91,9 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myApplicationName = L"TGA 2D " + BUILD_NAME + L"[" + aVersion + L"] ";
 
 #ifndef _DEBUG
-	createParameters.myStartInFullScreen = true;
-#endif // _DEBUG
-
-	
-	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
-	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
-	createParameters.myTargetHeight = static_cast<unsigned short>(referenceSize.y);
-
-#ifndef _DEBUG
-#endif
 
 	// NOTE: Fullscreen
-	/*RECT desktopRect;
+	RECT desktopRect;
 	HWND desktopWindow = GetDesktopWindow();
 	GetWindowRect(desktopWindow, &desktopRect);
 
@@ -111,7 +101,13 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myWindowWidth = static_cast<unsigned short>(desktopRect.right);
 	createParameters.myWindowHeight = static_cast<unsigned short>(desktopRect.bottom);
 	createParameters.myRenderWidth = createParameters.myWindowWidth;
-	createParameters.myRenderHeight = createParameters.myWindowHeight;*/
+	createParameters.myRenderHeight = createParameters.myWindowHeight;
+
+#endif
+	
+	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
+	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
+	createParameters.myTargetHeight = static_cast<unsigned short>(referenceSize.y);
 
 	// NOTE: GD Test background color
 	// R: 33 => 0.129
@@ -148,7 +144,7 @@ void CGame::QueueSetResolution(int aWidth, int aHeight)
 void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
-	myAudioManager->SetMasterVolume(0.0f); // TODO: DEBUG: Set low master volume
+	myAudioManager->SetMasterVolume(0.1f); // TODO: DEBUG: Set low master volume
 	myAudioManager->SetSfxVolume(1.0f);
 	myAudioManager->SetMusicVolume(1.0f);
 
