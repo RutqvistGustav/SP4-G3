@@ -212,7 +212,7 @@ bool Shotgun::IsLoaded() const
 
 void Shotgun::SpawnMuzzleFlash() const
 {
-	constexpr float scale = 1.75f;
+	constexpr float scale = 4.0f;
 
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
