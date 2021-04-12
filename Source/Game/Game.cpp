@@ -96,6 +96,11 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myWinProcCallback = [this](HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {return WinProc(hWnd, message, wParam, lParam); };
 	createParameters.myUpdateFunctionToCall = [this] {UpdateCallBack(); };
 	createParameters.myApplicationName = L"TGA 2D " + BUILD_NAME + L"[" + aVersion + L"] ";
+
+#ifndef _DEBUG
+	createParameters.myStartInFullScreen = true;
+#endif // _DEBUG
+
 	
 	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
 	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
