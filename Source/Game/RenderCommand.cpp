@@ -96,7 +96,7 @@ void RenderCommand::Init(const std::shared_ptr<TextWrapper> aText)
 	myText.myRotation = aText->GetRotation();
 	myText.myScale = aText->GetScale();
 	myText.myColor = aText->GetColor();
-	myText.myPosition = aText->GetPosition() + CU::Vector2<float>(aText->GetWidth() * -aText->GetPivot().x, aText->GetHeight() * (1.0f - aText->GetPivot().y));
+	myText.myPosition = aText->GetPosition() + CU::Vector2<float>(aText->GetWidth() * -aText->GetPivot().x, static_cast<float>(aText->GetFontSize()) + aText->GetHeight() * -aText->GetPivot().y);
 
 	myText.myPathAndName = aText->GetPathAndName();
 	myText.myFontSize = aText->GetFontSize();
