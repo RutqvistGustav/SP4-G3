@@ -5,6 +5,8 @@
 #include "LevelManagerProxy.h"
 #include "GlobalServiceProvider.h"
 
+#include "SpriteWrapper.h"
+
 #include <cassert>
 
 CheckpointVolume::CheckpointVolume(Scene* aScene) :
