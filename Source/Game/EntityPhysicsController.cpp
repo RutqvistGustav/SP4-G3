@@ -193,13 +193,24 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 
 
 	const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
-	if ((!HasState(eState::eState_InsideWall) || testEdge == Edge::Bottom)
-		/*&& (!myGoThrough || testEdge == Edge::Bottom)*/
-		)
+	AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
+
+	const AABB entityAABB = AABB::FromCenterAndSize(myPosition, mySize);
+
+	for (int i = 0; i < myCollisionBuffer.size(); ++i)
 	{
-		AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
-		ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
+		if (anAxis == Axis::X || entityAABB.GetMax().y > myCollisionBuffer[i].myAABB.GetMin().y);
+		{
+			myCollisionBuffer.erase(myCollisionBuffer.begin() + i);
+			--i;
+		}
 	}
+
+	/*if (!(!HasState(eState::eState_InsideWall) || testEdge == Edge::Bottom))
+	{
+		myCollisionBuffer.clear();
+	}*/
+	ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
 
 	if (anAxis == Axis::X)
 	{
