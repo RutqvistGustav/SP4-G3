@@ -76,11 +76,13 @@ void Player::Init()
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetLayer(GameLayer::Player);
 
+	myWeaponController->Init();
+
 	// Init HUD
-	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get());
+	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get(), myWeaponController->GetShotgun());
+	
 	myHUD->Init();
 
-	myWeaponController->Init();
 
 	SetPosition(GetPosition());
 	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
@@ -90,8 +92,11 @@ void Player::Init()
 	if (myColliderWidth > 0.0f) colliderSize.x = myColliderWidth;
 	if (myColliderHeight > 0.0f) colliderSize.y = myColliderHeight;
 
+	myCollider->SetLayer(CollisionLayer::Player);
 	myCollider->SetBoxSize(colliderSize);
+
 	myPhysicsController.Init(GetScene(), colliderSize);
+	myPhysicsController.SetPosition(GetPosition());
 	myPhysicsController.SetGravity({ 0.0f, myGravity });
 
 	// Subscribe to events
@@ -127,7 +132,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myCamera->SetPosition(newCameraPosition);
 
 	myHealth->Update(aDeltaTime);
-	myHUD->Update(myPosition);
+	myHUD->Update(aDeltaTime, myPosition);
 
 	myWeaponController->Update(aDeltaTime, anUpdateContext);
 
@@ -199,14 +204,6 @@ void Player::StopMovement()
 	myPhysicsController.SetVelocity({});
 }
 
-void Player::OnStay(const CollisionInfo& someCollisionInfo)
-{
-	/*if (someCollisionInfo.myOtherCollider->IsTrigger() == false)
-	{
-		SetPosition(myPosition);
-	}*/
-}
-
 void Player::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
@@ -223,6 +220,7 @@ void Player::SetControllerActive(const bool aState)
 void Player::ActivatePowerUp(PowerUpType aPowerUpType)
 {
 	myWeaponController->ActivatePowerUp(aPowerUpType);
+	myHUD->GetHealthBar()->ActivatePowerUp(aPowerUpType);
 	if (aPowerUpType == PowerUpType::Berserk)
 	{
 		mySpeed += myBerserkSpeed;

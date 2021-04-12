@@ -10,8 +10,11 @@
 #include "AudioManager.h"
 
 Zombie::Zombie(Scene* aScene, EnemyType anEnemyType, const std::string& aType)
-	: Enemy(aScene, anEnemyType, "Sprites/Enemies/Zombie.dds")
+	: Enemy(aScene, anEnemyType)
 {
+	myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+	myCharacterAnimator.ApplyToSprite(mySprite);
+
 	InitEnemyJsonValues(aType);
 }
 
@@ -19,13 +22,13 @@ Zombie::~Zombie() = default;
 
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	myPreviousVelocity = myPhysicsController.GetVelocity();
 	// TODO: Change Direction Near Walls
 	if (myTarget != nullptr)
 	{
 		if (CheckIdle())
 		{
 			IdleMovement(aDeltaTime);
+			myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 		}
 		else
 		{
@@ -49,54 +52,37 @@ void Zombie::Movement(const float aDeltaTime)
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
 	velocity.x *= std::powf(0.001f, aDeltaTime);
-	velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+
+	if (!myIsPlayerInRange)
+	{
+		velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
+	}
 
 	myPhysicsController.SetVelocity(velocity);
-
-	/*if (myTarget->GetPosition().x < myPosition.x)
-	{
-		if (myVelocity.x > 20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
-		else
-		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-		}
-	}
-	if (myTarget->GetPosition().x > myPosition.x && myVelocity.x <= myMaxSpeed)
-	{
-		if (myVelocity.x < -20.0f) myVelocity.x *= pow(0.001, aDeltaTime); // Brake Movement
-		else
-		{
-			myVelocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-		}
-	}*/
 }
 
 void Zombie::IdleMovement(const float aDeltaTime)
 {
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
-	float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
 	
+	const float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
 	velocity.x *= std::powf(0.001f, aDeltaTime);
 	velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
 
 	if (myPhysicsController.IsAgainstWall())
 	{
-		velocity.x = -myPreviousVelocity.x * 0.01f;
+		velocity.x = -myCharacterAnimator.GetDirection();
+	}
+
+	if (
+		(velocity.x < 0.0f && myPhysicsController.IsFloorOvershootLeft()) ||
+		(velocity.x > 0.0f && myPhysicsController.IsFloorOvershootRight())
+		)
+	{
+		velocity.x *= -1.0f;
 	}
 
 	myPhysicsController.SetVelocity(velocity);
-	/*UpdateGravity(aDeltaTime);
-	if (myVelocity.x > 0.0f)
-	{
-		myVelocity.x = myMaxSpeed * 0.5f;
-	}
-	else if (myVelocity.x < 0.0f)
-	{
-		myVelocity.x = -myMaxSpeed * 0.5f;
-	}
-	CU::Vector2<float> frameMovement = myPosition;
-	frameMovement += myVelocity * aDeltaTime;
-	SetPosition(frameMovement);*/
 }
 
 bool Zombie::CheckIdle()

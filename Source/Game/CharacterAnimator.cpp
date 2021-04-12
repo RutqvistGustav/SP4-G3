@@ -43,7 +43,7 @@ void CharacterAnimator::SetDirection(float aDirection)
 {
 	assert(aDirection != 0.0f);
 
-	myDirection = MathHelper::Signum(aDirection);
+	myDirection = static_cast<float>(MathHelper::Signum(aDirection));
 }
 
 float CharacterAnimator::GetDirection() const
@@ -73,5 +73,8 @@ std::string CharacterAnimator::GetAnimationStateName(State aState) const
 
 	case State::Run:
 		return "running";
+
+	case State::Attack:
+		return "attack";
 	}
 }

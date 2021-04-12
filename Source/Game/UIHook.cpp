@@ -38,7 +38,7 @@ void UIHook::Update(CU::Vector2<float> aPlayerPosition)
 	UpdatePosition(aPlayerPosition);
 }
 
-void UIHook::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void UIHook::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (myIsHighlightActive == true)
 	{

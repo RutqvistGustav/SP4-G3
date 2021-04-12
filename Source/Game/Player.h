@@ -48,8 +48,6 @@ public:
 
     void StopMovement();
 
-   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
-
     void SetControllerActive(const bool aState);
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();

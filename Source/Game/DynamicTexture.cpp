@@ -11,10 +11,10 @@ DynamicTexture::DynamicTexture(int aWidth, int aHeight) :
 	myWidth(aWidth),
 	myHeight(aHeight)
 {
-	myAlignedWidth = static_cast<int>(std::powf(2.0f, std::ceilf(std::log2f(myWidth))));
-	myAlignedHeight = static_cast<int>(std::powf(2.0f, std::ceilf(std::log2f(myHeight))));
+	myAlignedWidth = static_cast<int>(std::powf(2.0f, std::ceilf(std::log2f(static_cast<float>(myWidth)))));
+	myAlignedHeight = static_cast<int>(std::powf(2.0f, std::ceilf(std::log2f(static_cast<float>(myHeight)))));
 
-	myPixelBuffer = std::make_unique<Pixel[]>(myWidth * myHeight);
+	myPixelBuffer = std::make_unique<Pixel[]>(static_cast<std::size_t>(myWidth) * static_cast<std::size_t>(myHeight));
 
 	Build();
 }
@@ -47,10 +47,10 @@ void DynamicTexture::SetPixel(int aPosX, int aPosY, const Tga2D::CColor& aColor)
 
 	Pixel& pixel = myPixelBuffer[aPosX + aPosY * myWidth];
 
-	pixel.myR = static_cast<std::uint8_t>(255.0f * aColor.myR);
-	pixel.myG = static_cast<std::uint8_t>(255.0f * aColor.myG);
-	pixel.myB = static_cast<std::uint8_t>(255.0f * aColor.myB);
-	pixel.myA = static_cast<std::uint8_t>(255.0f * aColor.myA);
+	pixel.myComponents.myR = static_cast<std::uint8_t>(255.0f * aColor.myR);
+	pixel.myComponents.myG = static_cast<std::uint8_t>(255.0f * aColor.myG);
+	pixel.myComponents.myB = static_cast<std::uint8_t>(255.0f * aColor.myB);
+	pixel.myComponents.myA = static_cast<std::uint8_t>(255.0f * aColor.myA);
 }
 
 Tga2D::CColor DynamicTexture::GetPixel(int aPosX, int aPosY) const
@@ -60,7 +60,7 @@ Tga2D::CColor DynamicTexture::GetPixel(int aPosX, int aPosY) const
 
 	const Pixel& pixel = myPixelBuffer[aPosX + aPosY * myWidth];
 
-	return Tga2D::CColor(pixel.myR / 255.0f, pixel.myG / 255.0f, pixel.myB / 255.0f, pixel.myA / 255.0f);
+	return Tga2D::CColor(pixel.myComponents.myR / 255.0f, pixel.myComponents.myG / 255.0f, pixel.myComponents.myB / 255.0f, pixel.myComponents.myA / 255.0f);
 }
 
 void DynamicTexture::CommitChanges()

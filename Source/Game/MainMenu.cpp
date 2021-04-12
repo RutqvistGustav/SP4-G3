@@ -18,6 +18,9 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
+
 MainMenu::MainMenu() = default;
 MainMenu::~MainMenu() = default;
 
@@ -80,6 +83,8 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 	}
 
 	const GameObjectTag targetTag = aTarget->GetTag();
+
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	switch (targetTag)
 	{

@@ -3,7 +3,7 @@
 
 #include "MathHelper.h"
 
-#include <iostream>
+//#include <iostream>
 
 Health::Health(const int aHealthValue) :
 	myMaxHealth(aHealthValue),

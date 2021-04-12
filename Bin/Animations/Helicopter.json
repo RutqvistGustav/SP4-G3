@@ -1,0 +1,20 @@
+{
+    "states": {
+        "default": {
+            "fps": 24,
+            "texture": "Sprites/AnimationSheets/Spritesheet_helicopter.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 1024,
+            "frameHeight": 1024,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 50
+        }
+    }
+}

@@ -1,16 +1,18 @@
 {
   "HealthBar": {
-    "SpritePath": "Sprites/HUD/HealthBar.dds",
+    "HpFramePath": "Sprites/HUD/health_frame.dds",
+    "HpBarPath": "Sprites/HUD/health.dds",
+    "PowerupFramePath": "Sprites/HUD/Powerup_frame.dds",
+    "PowerupBarPath": "Sprites/HUD/Powerup.dds",
+
     "DistanceFromPlayerX": 0.0,
     "DistanceFromPlayerY": -150.0
   },
   "Ammo": {
     "SpritePath": "Sprites/HUD/Bullet.dds",
-    "HalfEmptyStatePath": "Sprites/HUD/",
-    "EmptyStatePath": "Sprites/HUD/",
-    "ReloadAnimationPath": "Sprites/HUD/",
     "DistanceFromPlayerX": 150.0,
     "DistanceFromPlayerY": -150.0,
+    "DistanceBetweenBullets" : 25.0,
     "SizeX": 100.0,
     "SizeY": 100.0,
     "AmmoAmount": 2

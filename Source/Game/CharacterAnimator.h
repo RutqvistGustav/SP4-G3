@@ -20,6 +20,7 @@ public:
 		Run,
 		Fall,
 		Jump,
+		Attack
 	};
 
 	CharacterAnimator(Scene* aScene, const std::string& anAnimationPath);

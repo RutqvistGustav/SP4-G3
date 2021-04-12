@@ -18,6 +18,7 @@ class Scene;
 class Weapon;
 class WeaponFactory;
 class Grapple;
+class Shotgun;
 
 class PlayerWeaponController : protected IWeaponHolder
 {
@@ -32,6 +33,7 @@ public:
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
 	virtual void DisablePowerUp() override;
+	Shotgun* GetShotgun();
 
 protected:
 

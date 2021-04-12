@@ -3,11 +3,13 @@
 #include "Weapon.h"
 #include "CollisionListener.h"
 #include <memory>
+#include "SimpleEventSubject.h"
 
 class Collider;
 
 class Shotgun :
-	public Weapon
+	public Weapon,
+	public SimpleEventSubject<int>
 {
 public:
 

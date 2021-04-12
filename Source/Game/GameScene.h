@@ -68,7 +68,7 @@ private:
 	std::unique_ptr<TiledEntities> myTiledEntities;
 
 	float myParallaxDustRotation{};
-	std::array<ParallaxLayer*, 2> myParallaxDustLayers;
+	std::array<ParallaxLayer*, 2> myParallaxDustLayers{};
 	std::unique_ptr<ParallaxContainer> myParallaxContainer;
 
 	std::unique_ptr<PauseMenu> myPauseMenu;

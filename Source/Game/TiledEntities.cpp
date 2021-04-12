@@ -19,6 +19,8 @@
 #include "DamageVolume.h"
 #include "CheckpointVolume.h"
 
+#include "Helicopter.h"
+
 #include <cassert>
 
 TiledEntities::TiledEntities(const TiledParser* aParser, Scene* aScene) :
@@ -69,11 +71,11 @@ void TiledEntities::SpawnEntities()
 				{
 					enemyMessageData.myLootType = PowerUpType::Berserk;
 				}
-				if (entity.GetProperty("Loot") == "SniperShot")
+				else if (entity.GetProperty("Loot") == "SniperShot")
 				{
 					enemyMessageData.myLootType = PowerUpType::SniperShot;
 				}
-				if (entity.GetProperty("Loot") == "HealthPickup")
+				else if (entity.GetProperty("Loot") == "HealthPickup")
 				{
 					enemyMessageData.myLootType = PowerUpType::HealthPickup;
 				}
@@ -130,17 +132,34 @@ void TiledEntities::SpawnEntities()
 				berzerk->SetPosition(entity.GetPosition());
 				myScene->AddGameObject(berzerk);
 			}
-			if (entity.GetSubType() == "SniperShot")
+			else if (entity.GetSubType() == "SniperShot")
 			{
 				std::shared_ptr<PowerUp> sniperShot = std::make_shared<PowerUp>(myScene, PowerUpType::SniperShot);
 				sniperShot->SetPosition(entity.GetPosition());
 				myScene->AddGameObject(sniperShot);
 			}
-			if (entity.GetSubType() == "HealthPickup")
+			else if (entity.GetSubType() == "HealthPickup")
 			{
 				std::shared_ptr<HealthPickup> healthPickup = std::make_shared<HealthPickup>(myScene);
 				healthPickup->SetPosition(entity.GetPosition());
 				myScene->AddGameObject(healthPickup);
+			}
+		}
+		else if (type == "AnimatedProp")
+		{
+			std::shared_ptr<GameObject> prop;
+
+			if (entity.GetSubType() == "Helicopter")
+			{
+				prop = std::make_shared<Helicopter>(myScene);
+			}
+
+			if (prop)
+			{
+				prop->Init();
+				prop->SetPosition(entity.GetPosition());
+
+				myScene->AddGameObject(prop);
 			}
 		}
 	}

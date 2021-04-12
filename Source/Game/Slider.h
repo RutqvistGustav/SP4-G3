@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+#include "GameLayer.h"
+
 #include <functional>
 
 class Collider;

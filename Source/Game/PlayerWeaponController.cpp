@@ -17,6 +17,7 @@
 
 #include "Weapon.h"
 #include "WeaponFactory.h"
+#include "Shotgun.h"
 
 PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
 	myScene(aScene),
@@ -57,7 +58,7 @@ void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderConte
 
 CU::Vector2<float> PlayerWeaponController::ComputeWeaponPosition()
 {
-	const float direction = MathHelper::Signum(myShotgun->GetDirection().x);
+	const float direction = static_cast<float>(MathHelper::Signum(myShotgun->GetDirection().x));
 
 	CU::Vector2<float> offset = { 0.0f, 0.0f };
 
@@ -143,4 +144,9 @@ void PlayerWeaponController::ActivatePowerUp(PowerUpType aPowerUpType)
 void PlayerWeaponController::DisablePowerUp()
 {
 	myPlayer->DisablePowerUp();
+}
+
+Shotgun* PlayerWeaponController::GetShotgun()
+{
+	return static_cast<Shotgun*>(myShotgun.get());
 }

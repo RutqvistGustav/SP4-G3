@@ -5,6 +5,7 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 #include "Scene.h"
+#include "Shotgun.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -12,8 +13,9 @@
 
 #include "CollisionManager.h"
 
-AmmoCounter::AmmoCounter(Scene* aScene)
-	: GameObject(aScene)
+AmmoCounter::AmmoCounter(Scene* aScene, Shotgun* aShotgun)
+	: GameObject(aScene),
+	myShotgun(aShotgun)
 {
 	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -31,6 +33,7 @@ void AmmoCounter::Init()
 	myResetBullets = myCurrentBullets;
 
 	InitSprites(ammoData);
+	myShotgun->Subscribe(this);
 }
 
 void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
@@ -38,7 +41,7 @@ void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
 	UpdatePosition(aPlayerPosition);
 }
 
-void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	aRenderQueue->Queue(RenderCommand(mySprite));
 	aRenderQueue->Queue(RenderCommand(mySecondSprite));
@@ -46,21 +49,21 @@ void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 
 void AmmoCounter::RemoveBullet()
 {
-	if (myCurrentBullets > 0)
+	if (myCurrentBullets == 1)
 	{
-		--myCurrentBullets;
-		if (myCurrentBullets == 1)
-		{
-			Tga2D::CColor inactiveColor = mySprite->GetColor();
-			inactiveColor.myA = 0.5f;
-			mySprite->SetColor(inactiveColor);
-		}
-		else if ( myCurrentBullets == 0)
-		{
-			Tga2D::CColor inactiveColor = mySecondSprite->GetColor();
-			inactiveColor.myA = 0.5f;
-			mySecondSprite->SetColor(inactiveColor);
-		}
+		Tga2D::CColor inactiveColor = mySprite->GetColor();
+		inactiveColor.myA = 0.5f;
+		mySprite->SetColor(inactiveColor);
+	}
+	else if ( myCurrentBullets == 0)
+	{
+		Tga2D::CColor inactiveColor = mySecondSprite->GetColor();
+		inactiveColor.myA = 0.5f;
+		mySecondSprite->SetColor(inactiveColor);
+	}
+	else
+	{
+		Reload();
 	}
 }
 
@@ -92,7 +95,13 @@ void AmmoCounter::InitSprites(nlohmann::json someData)
 	mySecondSprite = std::make_shared<SpriteWrapper>(spritepath);
 	CU::Vector2<float> new_pos = mySecondSprite->GetPosition();
 
-	mySpriteDistance.x = 25.0f;
+	mySpriteDistance.x = someData.at("DistanceBetweenBullets");
 	new_pos.x += mySpriteDistance.x;
 	mySecondSprite->SetPosition(new_pos);
+}
+
+void AmmoCounter::OnEvent(int anAmmoAmount)
+{
+	myCurrentBullets = anAmmoAmount;
+	RemoveBullet();
 }
