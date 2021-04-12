@@ -535,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>Scenes\Cutscenes</Filter>
+	</ClInclude>
+    <ClInclude Include="SpriteUtil.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

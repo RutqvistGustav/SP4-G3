@@ -23,6 +23,8 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
+#include "SpriteUtil.h"
+
 MainMenu::MainMenu() = default;
 MainMenu::~MainMenu() = default;
 
@@ -33,6 +35,8 @@ void MainMenu::Init()
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
 	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackground->SetLayer(-1);
+
+	SpriteUtil::SetSpriteRect(myBackground, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
 
 	InitButtons();
 

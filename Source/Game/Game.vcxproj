@@ -213,6 +213,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpawnParticleEffectMessage.h" />
     <ClInclude Include="SpriteSheetParticleEffect.h" />
+    <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
