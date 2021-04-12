@@ -59,6 +59,8 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 		{
 			myCharacterAnimator.SetDirection(-1.0f);
 		}
+
+		myHealth->Update(aDeltaTime);
 	}
 
 	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())

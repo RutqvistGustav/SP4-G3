@@ -117,10 +117,11 @@ void TiledEntities::SpawnEntities()
 		else if (type == "Checkpoint")
 		{
 			std::shared_ptr<CheckpointVolume> checkpointVolume = std::make_shared<CheckpointVolume>(myScene);
-			checkpointVolume->Init();
 
 			checkpointVolume->SetPosition(entity.GetPosition());
 			checkpointVolume->SetTriggerSize(entity.GetSize());
+			checkpointVolume->Init();
+
 
 			myScene->AddGameObject(checkpointVolume);
 		}
