@@ -184,6 +184,10 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 			myKnockbackTimer = 0.1f;
 		}
 	}
+	else
+	{
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+	}
 }
 
 void Enemy::OnExit(const CollisionInfo& someCollisionInfo)
