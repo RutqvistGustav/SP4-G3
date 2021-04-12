@@ -10,6 +10,7 @@ struct CollisionItem
 	{
 		Tile,
 		Collider,
+		HalfTile,
 	};
 
 	Type myType;

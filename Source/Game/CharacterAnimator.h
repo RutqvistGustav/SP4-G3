@@ -20,7 +20,8 @@ public:
 		Run,
 		Fall,
 		Jump,
-		Attack
+		Attack,
+		Death
 	};
 
 	CharacterAnimator(Scene* aScene, const std::string& anAnimationPath);
@@ -36,6 +37,8 @@ public:
 
 	void SetState(State aState);
 	inline State GetState() const { return myState; }
+
+	bool HasEnded() const;
 
 private:
 

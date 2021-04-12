@@ -526,6 +526,9 @@
     </ClInclude>
     <ClInclude Include="OutroScene.h">
       <Filter>Scenes</Filter>
+	</ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Scenes\Menus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -795,6 +798,9 @@
     </ClCompile>
     <ClCompile Include="OutroScene.cpp">
       <Filter>Scenes</Filter>
+	</ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ Zombie::~Zombie() = default;
 void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 	// TODO: Change Direction Near Walls
-	if (myTarget != nullptr)
+	if (myTarget != nullptr && !myHealth->IsDead())
 	{
 		if (CheckIdle())
 		{

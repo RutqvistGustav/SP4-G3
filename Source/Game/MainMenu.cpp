@@ -17,6 +17,7 @@
 
 #include "RenderQueue.h"
 #include "RenderCommand.h"
+#include "Credits.h"
 
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
@@ -100,7 +101,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::CreditsButton:
-		// TODO: Implement
+		GetSceneManagerProxy()->Transition(std::make_unique<Credits>(), false);
 		break;
 
 	case GameObjectTag::QuitButton:

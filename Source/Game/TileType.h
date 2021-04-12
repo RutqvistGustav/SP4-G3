@@ -2,9 +2,8 @@
 
 enum class TileType
 {
-	None,
 	Solid,
-	SolidTop,
+	HalfSolid,
 	Count
 	// TODO: Add more tile types after need
 };
