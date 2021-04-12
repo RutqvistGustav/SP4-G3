@@ -91,11 +91,9 @@ void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, Col
 
 			const auto& collisionBoxes = aTile->GetCollisionBoxes();
 
-			if (collisionBoxes.empty())
-			{
-				aResult.push_back({ CollisionItem::Type::Tile, AABB(alignedPosition, alignedPosition + alignedSize) });
-			}
-			else
+			const CollisionItem::Type tileType = aTile->GetType() == TileType::HalfSolid ? CollisionItem::Type::HalfTile : CollisionItem::Type::Tile;
+
+			if (!collisionBoxes.empty())
 			{
 				for (const auto& collisionBox : collisionBoxes)
 				{
@@ -106,7 +104,7 @@ void CollisionManager::PointTestNoAlloc(const CU::Vector2<float>& aPosition, Col
 
 					if (boxAABB.Contains(aPosition))
 					{
-						aResult.push_back({ CollisionItem::Type::Tile, boxAABB });
+						aResult.push_back({ tileType, boxAABB });
 
 						if (aResult.size() >= aResult.capacity())
 						{

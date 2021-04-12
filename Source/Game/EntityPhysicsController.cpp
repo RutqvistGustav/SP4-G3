@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EntityPhysicsController.h"
+#include "GameObject.h"
 
 #include "CollisionManager.h"
 #include "Scene.h"
@@ -13,7 +14,7 @@ EntityPhysicsController::EntityPhysicsController() = default;
 
 EntityPhysicsController::~EntityPhysicsController() = default;
 
-void EntityPhysicsController::Init(Scene* aScene, const Vec2f& aSize)
+void EntityPhysicsController::Init(Scene * aScene, const Vec2f & aSize)
 {
 	myScene = aScene;
 	mySize = aSize;
@@ -37,7 +38,7 @@ void EntityPhysicsController::Update(float aDeltaTime)
 	myFrameImpulses = Vec2f();
 }
 
-void EntityPhysicsController::SetGravity(const Vec2f& someGravity)
+void EntityPhysicsController::SetGravity(const Vec2f & someGravity)
 {
 	myGravity = someGravity;
 }
@@ -47,7 +48,7 @@ Vec2f EntityPhysicsController::GetGravity() const
 	return myGravity;
 }
 
-void EntityPhysicsController::SetPosition(const Vec2f& aPosition)
+void EntityPhysicsController::SetPosition(const Vec2f & aPosition)
 {
 	myPosition = aPosition;
 }
@@ -57,17 +58,18 @@ const Vec2f& EntityPhysicsController::GetPosition() const
 	return myPosition;
 }
 
-void EntityPhysicsController::ApplyFrameImpulse(const CU::Vector2<float>& anImpulse)
+
+void EntityPhysicsController::ApplyFrameImpulse(const CU::Vector2<float>&anImpulse)
 {
 	myFrameImpulses += anImpulse;
 }
 
-void EntityPhysicsController::ApplyForce(const CU::Vector2<float>& aForce)
+void EntityPhysicsController::ApplyForce(const CU::Vector2<float>&aForce)
 {
 	myVelocity += aForce;
 }
 
-void EntityPhysicsController::SetVelocity(const Vec2f& aVelocity)
+void EntityPhysicsController::SetVelocity(const Vec2f & aVelocity)
 {
 	myVelocity = aVelocity;
 }
@@ -103,7 +105,7 @@ void EntityPhysicsController::BuildCollisionEdges()
 	myCollisionEdges[Edge::Left] = CreateCollisionEdge(Vec2f(entityAABB.GetSize().x * 0.5f, 0.0f) * -1.0f, Vec2f(0.0f, 1.0f), verticalPoints);
 }
 
-std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMiddle, const Vec2f& aDirection, int aPointCount)
+std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f & aMiddle, const Vec2f & aDirection, int aPointCount)
 {
 	int usedPointCount = aPointCount;
 	if ((usedPointCount % 2) == 0)
@@ -126,7 +128,7 @@ std::vector<Vec2f> EntityPhysicsController::CreateCollisionEdge(const Vec2f& aMi
 	return result;
 }
 
-void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f& aFinalPosition)
+void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f & aFinalPosition)
 {
 	const auto& points = myCollisionEdges.at(anEdge);
 
@@ -137,7 +139,7 @@ void EntityPhysicsController::AccumulateEdgeCollisions(Edge anEdge, const Vec2f&
 	}
 }
 
-void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aFinalPosition, bool& aWasObstructed, float& aDisplacement)
+void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f & aFinalPosition, bool& aWasObstructed, float& aDisplacement)
 {
 	if (myCollisionBuffer.empty())
 		return;
@@ -154,7 +156,7 @@ void EntityPhysicsController::ResolveEdgeCollisions(Edge anEdge, const Vec2f& aF
 		displacementAdjust = collisionAABB.GetMax().y - entityAABB.GetMin().y;
 		break;
 	case Edge::Bottom:
-		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y + 1.0f;
+		displacementAdjust = collisionAABB.GetMin().y - entityAABB.GetMax().y;
 		break;
 
 	case Edge::Left:
@@ -201,19 +203,31 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		testEdge = aDistance > 0.0f ? Edge::Right : Edge::Left;
 	}
 
-	const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
 
+	const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
 	AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
+
+	const AABB entityAABB = AABB::FromCenterAndSize(myPosition, mySize);
+
+	for (int i = 0; i < myCollisionBuffer.size(); ++i)
+	{
+		if (myCollisionBuffer[i].myType == CollisionItem::Type::HalfTile)
+		{
+			if (anAxis == Axis::X || entityAABB.GetMax().y > myCollisionBuffer[i].myAABB.GetMin().y)
+			{
+				myCollisionBuffer.erase(myCollisionBuffer.begin() + i);
+				--i;
+			}
+		}
+	}
+
 	ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
 
 	if (anAxis == Axis::X)
 	{
 		const bool isAgainstWall = !myCollisionBuffer.empty();
 
-		if (isAgainstWall)
-			AddState(eState::eState_AgainstWall);
-		else
-			RemoveState(eState::eState_AgainstWall);
+		SetState(eState::eState_AgainstWall, isAgainstWall);
 	}
 	else if (anAxis == Axis::Y)
 	{

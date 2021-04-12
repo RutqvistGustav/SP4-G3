@@ -195,8 +195,11 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 
 		std::shared_ptr<TiledTile> gameTile = myTiledCache.TryFindTile(gid);
 
+		
+
 		if (gameTile == nullptr)
 		{
+			
 			const std::string tilsetKey = tile->getTileset()->getImagePath().u8string();
 			const auto& tilesetSize = tile->getTileset()->getImageSize();
 			const auto& drawingRect = tile->getDrawingRect();
@@ -219,6 +222,10 @@ bool TiledParser::ParseTileLayer(tson::Layer* aLayer, int someOrder)
 				gameTile->AddCollisionBox({ objectX, objectY, objectW, objectH });
 			}
 
+			if (tile->getProperties().hasProperty("HS"))
+			{
+				gameTile->myType = TileType::HalfSolid;
+			}
 			myTiledCache.AddTile(gid, gameTile);
 		}
 

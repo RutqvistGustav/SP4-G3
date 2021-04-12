@@ -49,6 +49,7 @@ public:
 	inline bool IsFloorOvershootLeft() { return HasState(eState::eState_FloorOvershootLeft); }
 	inline bool IsAgainstWall() const { return HasState(eState::eState_AgainstWall); }
 	inline bool IsGrounded() const { return HasState(eState::eState_Grounded); }
+	bool myGoThrough = false;
 
 private:
 
