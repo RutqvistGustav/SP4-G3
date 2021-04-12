@@ -252,7 +252,7 @@ void SceneManager::PlayMusic()
 	}
 	case EMusic::Level02:
 	{
-		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/2.Hard Rock.mp3");
+		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/5.Be Faster.mp3");
 		break;
 	}
 	case EMusic::Level03:
