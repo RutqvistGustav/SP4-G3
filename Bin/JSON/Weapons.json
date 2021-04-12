@@ -4,7 +4,7 @@
 
     "ammoPerClip": 2,
 
-    "reloadDuration": 1,
+    "reloadDuration": 0.4,
 
     "damage": 10,
 
