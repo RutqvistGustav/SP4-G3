@@ -16,7 +16,7 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
-#include <iostream>
+#include "SpriteUtil.h"
 
 Settings::Settings() = default;
 Settings::~Settings() = default;
@@ -55,6 +55,9 @@ void Settings::InitSprites()
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
+
+	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
+
 	mySprites.push_back(background);
 
 	auto settingsSprites = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");

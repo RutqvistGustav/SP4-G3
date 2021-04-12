@@ -48,7 +48,9 @@ public:
 
     void StopMovement();
 
-    void SetControllerActive(const bool aState);
+    void SetCanControl(const bool aState);
+    bool CanControl() const;
+
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
@@ -98,7 +100,7 @@ private:
     float myColliderHeight{};
 
     // Movement
-    bool myIsControllerActive = true;
+    bool myCanControl = true;
     bool myIsMovingLeft = false;
     bool myIsMovingRight = false;
     bool myIsOnGround = false;
