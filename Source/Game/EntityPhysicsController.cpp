@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EntityPhysicsController.h"
+#include "GameObject.h"
 
 #include "CollisionManager.h"
 #include "Scene.h"
@@ -190,36 +191,25 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		testEdge = aDistance > 0.0f ? Edge::Right : Edge::Left;
 	}
 
-	static bool willTest = true;
 
+	const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
+	if ((!HasState(eState::eState_InsideWall) || testEdge == Edge::Bottom)
+		/*&& (!myGoThrough || testEdge == Edge::Bottom)*/
+		)
+	{
+		AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
+		ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
+	}
 
 	if (anAxis == Axis::X)
 	{
-
-		/*bool wallTest = false;
-
-		for (int i = 0; i < myCollisionBuffer.size(); ++i)
-		{
-			for (int j = 0; j < myCollisionEdges.size(); ++j)
-			{
-				if (wallTest)
-					break;
-				wallTest = myCollisionBuffer[i].myAABB.Contains(myCollisionEdges.at(testEdge).at(j));
-			}
-		}*/
-
 		const bool isAgainstWall = !myCollisionBuffer.empty();
-
-		
 
 
 		if (isAgainstWall)
 			AddState(eState::eState_AgainstWall);
 		else
 			RemoveState(eState::eState_AgainstWall);
-
-
-
 
 
 		if (HasState(eState::eState_AgainstWall) && !HasState(eState::eState_InsideWall))
@@ -229,7 +219,6 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		else if (!HasState(eState::eState_AgainstWall) && HasState(eState::eState_InsideWall))
 		{
 			RemoveState(eState::eState_InsideWall);
-			willTest = true;
 		}
 
 	}
@@ -243,36 +232,11 @@ bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
 		else
 		{
 			RemoveState(eState::eState_Grounded);
-			if (HasState(eState::eState_InsideWall))
-			{
-				willTest = false;
-			}
 		}
 	}
-
-	/*if ((!HasState(eState::eState_InsideWall) || HasState(eState::eState_AgainstWall)) && (testEdge == Edge::Right || testEdge == Edge::Left))
-	{
-
-
-	}
-	else if ((testEdge == Edge::Top || testEdge == Edge::Bottom))
-	{
-		AccumulateEdgeCollisions(testEdge);
-		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);
-	}*/
 	
-		const Vec2f predictedFinalPosition = myPosition + direction * actualDistance;
-	if (willTest || testEdge == Edge::Bottom)
-	{
-
-		AccumulateEdgeCollisions(testEdge, predictedFinalPosition);
-		ResolveEdgeCollisions(testEdge, predictedFinalPosition, wasObstructed, actualDistance);
-
-
-		/*AccumulateEdgeCollisions(testEdge);
-		ResolveEdgeCollisions(testEdge, myPosition + direction * actualDistance, wasObstructed, actualDistance);*/
-	}
-
+		
+	
 
 	myPosition += direction * actualDistance;
 

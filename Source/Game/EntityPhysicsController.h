@@ -45,6 +45,7 @@ public:
 
 	inline bool IsAgainstWall() const { return HasState(eState::eState_AgainstWall); }
 	inline bool IsGrounded() const { return HasState(eState::eState_Grounded); }
+	bool myGoThrough = false;
 
 private:
 
