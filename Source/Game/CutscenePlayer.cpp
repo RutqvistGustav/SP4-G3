@@ -20,7 +20,7 @@ bool CutscenePlayer::Init(const std::string & aVideoPath)
 	myVideo = std::make_unique<Tga2D::CVideo>();
 
 	// TODO: Should sound be played from video or played separately?
-	bool success = myVideo->Init(aVideoPath.c_str(), true);
+	bool success = myVideo->Init(aVideoPath.c_str(), false);
 
 	if (!success)
 	{
@@ -28,6 +28,8 @@ bool CutscenePlayer::Init(const std::string & aVideoPath)
 
 		return false;
 	}
+
+	myVideo->Play();
 
 	const Tga2D::STextureRext* uvRect = myVideo->GetSprite()->GetTextureRect();
 
@@ -42,8 +44,6 @@ bool CutscenePlayer::Init(const std::string & aVideoPath)
 	myFrameSprite->SetPanStrengthFactor(0);
 	
 	myFrameSprite->SetLayer(GameLayer::Cutscene);
-
-	myVideo->Play();
 
 	return true;
 }

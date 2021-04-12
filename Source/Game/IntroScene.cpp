@@ -19,15 +19,12 @@ void IntroScene::Init()
 
 void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-	if (myIntro->IsPlaying()/* && myIntro->IsPlaying()*/)
+	if (myIntro->IsPlaying())
 	{
 		myIntro->Update(aDeltaTime);
-		myIntro->Stop();
-		//myIntro.reset();
 	}
-	else if(myIntro == nullptr)
+	else
 	{
-		//myIntro->Stop();
 		GetLevelManagerProxy()->TransitionToMainMenu();
 	}
 }
