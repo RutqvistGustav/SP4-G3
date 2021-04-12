@@ -1078,6 +1078,20 @@ void Tga2D::CDirectEngine::SetDebugObjectName(_In_ ID3D11DeviceChild* resource, 
 #endif
 }
 
+void Tga2D::CDirectEngine::Resize(VECTOR2UI aResolution)
+{
+	DXGI_SWAP_CHAIN_DESC swapChainDesc;
+	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
+	mySwapchain->GetDesc(&swapChainDesc);
+
+	DXGI_MODE_DESC modeDesc = swapChainDesc.BufferDesc;
+	modeDesc.Width = aResolution.myX;
+	modeDesc.Height = aResolution.myY;
+
+	HRESULT result = mySwapchain->ResizeTarget(&modeDesc);
+	assert(result == S_OK && "Failed to call ResizeTarget to SwapChain!");
+}
+
 void Tga2D::CDirectEngine::SetResolution(VECTOR2UI aResolution)
 {
 	if (aResolution.x == 0 || aResolution.y == 0)
@@ -1124,7 +1138,7 @@ void Tga2D::CDirectEngine::SetResolution(VECTOR2UI aResolution)
 		return;
 	}
 
-	if (mySwapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0) != S_OK)
+	if (mySwapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH) != S_OK)
 	{
 		ERROR_PRINT("%s", "Could not resize buffers!");
 		return;

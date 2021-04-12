@@ -342,6 +342,11 @@ void Tga2D::CEngine::SetResolution(const VECTOR2UI &aResolution, bool aAlsoSetWi
 
 }
 
+void Tga2D::CEngine::Resize(const VECTOR2UI& aResolution)
+{
+	myDirect3D->Resize(aResolution);
+}
+
 void Tga2D::CEngine::CalculateRatios()
 {
 	float sizeX = static_cast<float>(myWindowSize.x);
