@@ -12,6 +12,8 @@
 #include "MainMenu.h"
 #include "MousePointer.h"
 
+#include "SpriteUtil.h"
+
 void Credits::Init()
 {
 	MenuScene::Init();
@@ -25,6 +27,9 @@ void Credits::Init()
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/CreditScreen.dds");
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
+	
+	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
+
 	mySprites.push_back(background);
 
 
