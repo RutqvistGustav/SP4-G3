@@ -1,52 +1,52 @@
 {
-    "states": {
-        "idle": {
-            "fps": 24,
-            "texture": "Sprites/Enemies/animations/idle/zombieAnim_idle.dds",
+  "states": {
+    "idle": {
+      "fps": 24,
+      "texture": "Sprites/Enemies/animations/idle/zombieAnim_idle.dds",
 
-            "algorithm": "seqrow",
+      "algorithm": "seqrow",
 
-            "frameWidth": 180,
-            "frameHeight": 205,
+      "frameWidth": 180,
+      "frameHeight": 205,
 
-            "start": {
-                "row": 0,
-                "column": 0
-            },
+      "start": {
+        "row": 0,
+        "column": 0
+      },
 
-            "count": 24
-        },
-        "death": {
-            "fps": 24,
-            "texture": "Sprites/Enemies/animations/death/zombieAnim_death.dds",
+      "count": 24
+    },
+    "death": {
+      "fps": 40,
+      "texture": "Sprites/Enemies/animations/death/zombieAnim_death.dds",
 
-            "algorithm": "seqrow",
+      "algorithm": "seqrow",
 
-            "frameWidth": 330,
-            "frameHeight": 205,
+      "frameWidth": 330,
+      "frameHeight": 205,
 
-            "start": {
-                "row": 0,
-                "column": 0
-            },
+      "start": {
+        "row": 0,
+        "column": 0
+      },
 
-            "count": 46
-        },
-        "attack": {
-            "fps": 24,
-            "texture": "Sprites/Enemies/animations/attack/zombieAnim_attack.dds",
+      "count": 46
+    },
+    "attack": {
+      "fps": 24,
+      "texture": "Sprites/Enemies/animations/attack/zombieAnim_attack.dds",
 
-            "algorithm": "seqrow",
+      "algorithm": "seqrow",
 
-            "frameWidth": 180,
-            "frameHeight": 205,
+      "frameWidth": 180,
+      "frameHeight": 205,
 
-            "start": {
-                "row": 0,
-                "column": 0
-            },
+      "start": {
+        "row": 0,
+        "column": 0
+      },
 
-            "count": 24
-        }
+      "count": 24
     }
+  }
 }

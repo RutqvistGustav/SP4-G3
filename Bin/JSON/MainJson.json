@@ -11,6 +11,7 @@
 
     "Animations/Player.json",
     "Animations/Zombie.json",
+    "Animations/CheckPoint.json",
     "Animations/HealthPickup.json",
     "Animations/BerserkerPickup.json",
     "Animations/BouncingArrow.json",

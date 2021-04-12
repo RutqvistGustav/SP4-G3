@@ -1,6 +1,6 @@
 {
   "Zombie": {
-    "Health": 1,
+    "Health": 2,
     "Damage": 1,
     "MovementSpeed": 200.0,
     "MaxSpeedCap" :  400.0,

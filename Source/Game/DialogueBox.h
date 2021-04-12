@@ -41,6 +41,7 @@ private:
 private:
 
     int myCurrentPage{ -1 };
+    bool myHasRead{};
 
     std::unique_ptr<SpriteSheetAnimation> myIndicatorAnimator;
     std::shared_ptr<SpriteWrapper> myIndicator;

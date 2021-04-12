@@ -521,6 +521,12 @@
     <ClInclude Include="Helicopter.h">
       <Filter>GameObjects\Props</Filter>
     </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -783,6 +789,9 @@
     </ClCompile>
     <ClCompile Include="Helicopter.cpp">
       <Filter>GameObjects\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

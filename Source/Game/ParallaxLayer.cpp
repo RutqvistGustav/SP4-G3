@@ -28,8 +28,8 @@ ParallaxLayer::ParallaxLayer(Scene* aScene, const float aSpeedFactor, const Game
 	const float endU = Metrics::GetReferenceSize().x / textureSize.x;
 	const float endV = Metrics::GetReferenceSize().y / textureSize.y;
 
-	assert(endU > 0.0f && endU <= 1.0f && "Invalid parallax layer texture dimensions");
-	assert(endV > 0.0f && endV <= 1.0f && "Invalid parallax layer texture dimensions");
+	//assert(endU > 0.0f && endU <= 1.0f && "Invalid parallax layer texture dimensions");
+	//assert(endV > 0.0f && endV <= 1.0f && "Invalid parallax layer texture dimensions");
 
 	mySprite->SetTextureRect({ 0.0f, 0.0f, MathHelper::Clamp(endU, 0.0f, 1.0f), MathHelper::Clamp(endV, 0.0f, 1.0f) });
 	mySprite->SetSize(Metrics::GetReferenceSize());

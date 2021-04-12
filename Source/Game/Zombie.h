@@ -21,4 +21,5 @@ public:
 
 private:
     bool myHasSoundPlayOnce = false;
+    bool myHasPlayedDeathAnimation = false;
 };

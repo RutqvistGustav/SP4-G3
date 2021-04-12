@@ -212,9 +212,14 @@ void Player::SetPosition(const CU::Vector2<float> aPosition)
 	myPhysicsController.SetPosition(aPosition);
 }
 
-void Player::SetControllerActive(const bool aState)
+void Player::SetCanControl(const bool aState)
 {
-	myIsControllerActive = aState;
+	myCanControl = aState;
+}
+
+bool Player::CanControl() const
+{
+	return myCanControl;
 }
 
 void Player::ActivatePowerUp(PowerUpType aPowerUpType)
@@ -351,7 +356,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 		myCoyoteTime = myCoyoteTimeReset;
 	}
 
-	if (anInput->IsJumping() && myJumpCharges > 0)
+	if (CanControl() && anInput->IsJumping() && myJumpCharges > 0)
 	{
 		if (myJumpCharges == 1)
 		{
@@ -389,8 +394,12 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 CU::Vector2<float> Player::GetDirection(InputInterface* anInput)
 {
 	CU::Vector2<float> direction(0.0f, 0.0f);
-	if (anInput->IsMovingLeft_Down()) --direction.x;
-	if (anInput->IsMovingRight_Down()) ++direction.x;
+
+	if (CanControl())
+	{
+		if (anInput->IsMovingLeft_Down()) --direction.x;
+		if (anInput->IsMovingRight_Down()) ++direction.x;
+	}
 
 	return direction;
 }
