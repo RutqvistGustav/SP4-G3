@@ -521,6 +521,9 @@
     <ClInclude Include="Helicopter.h">
       <Filter>GameObjects\Props</Filter>
     </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -783,6 +786,9 @@
     </ClCompile>
     <ClCompile Include="Helicopter.cpp">
       <Filter>GameObjects\Props</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

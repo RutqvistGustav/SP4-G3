@@ -56,6 +56,7 @@ private:
 	bool myIsMainMusicPlaying = false;
 	enum EMusic
 	{
+		Intro = 0,
 		Level01 = 1,
 		Level02 = 2,
 		Level03 = 3,

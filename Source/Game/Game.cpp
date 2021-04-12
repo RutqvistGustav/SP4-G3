@@ -18,6 +18,7 @@
 #include "WeaponFactory.h"
 
 #include "MainMenu.h"
+#include "IntroScene.h"
 
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
@@ -152,7 +153,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInputInterface = myInputInterface.get();
 	myUpdateContext.myInput = myInput.get();
 
-	mySceneManager->Transition(std::make_unique<MainMenu>());
+	mySceneManager->Transition(std::make_unique<IntroScene>());
 }
 
 void CGame::UpdateCallBack()

@@ -23,9 +23,9 @@ public:
 	void Render(RenderQueue* const aRenderQueue);
 
 	bool IsPlaying();
+	void Stop();
 
 private:
-
 	std::unique_ptr<Tga2D::CVideo> myVideo;
 	std::shared_ptr<SpriteWrapper> myFrameSprite;
 

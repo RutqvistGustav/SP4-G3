@@ -18,6 +18,7 @@
     "Animations/Particles/MuzzleFlash.json",
     "Animations/Particles/BloodSplatter.json",
 
-    "Dialog/Main.json"
+    "Dialog/Main.json",
+    "JSON/VideoPaths.json"
   ]
 }
