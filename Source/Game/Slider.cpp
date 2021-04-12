@@ -36,7 +36,7 @@ void Slider::Init()
 	myScene->GetCollisionManager()->AddCollider(myCollider);
 }
 
-void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Slider::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
 	if (myMousePointer != nullptr)
 	{
@@ -56,7 +56,7 @@ void Slider::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 }
 
-void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Slider::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	aRenderQueue->Queue(RenderCommand(myBody));
 	aRenderQueue->Queue(RenderCommand(mySprite));

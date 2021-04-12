@@ -1,77 +1,110 @@
 #include "stdafx.h"
 #include "AudioManager.h"
+#include <tga2d/audio/audio.h>
 
 #include <tga2d/audio/audio_out.h>
 
 #include <algorithm>
 
 #include <bass/bass.h>
+#include <tga2d/audio/audio.h>
+
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <iostream>
 
 #pragma comment(lib,"bass.lib")
 
-AudioManager::AudioManager() :
-    myAudioOut(std::make_unique<Tga2D::AudioOut>())
-{}
+AudioManager::AudioManager() 
+{
+    std::ifstream file("JSON/Sound-MusicPaths.json");
+    nlohmann::json data = nlohmann::json::parse(file);
+
+    for (std::string path : data.at("Music"))
+    {
+        myMusic[path] = std::make_unique<Tga2D::CAudio>();
+        myMusic.at(path)->Init(path.c_str(), true);
+    }
+    for (std::string path : data.at("Sound"))
+    {
+        mySounds[path] = std::make_unique<Tga2D::CAudio>();
+        mySounds.at(path)->Init(path.c_str(), false);
+    }
+}
 
 AudioManager::~AudioManager() = default;
 
 void AudioManager::SetMasterVolume(float aVolume)
 {
-    const DWORD volume = static_cast<DWORD>(std::clamp(aVolume, 0.0f, 1.0f) * 10000.0f);
-    BASS_SetConfig(BASS_CONFIG_GVOL_SAMPLE, volume);
+    myMasterVolume = std::clamp(aVolume, 0.0f, 1.0f);
+    SetSfxVolume(GetSfxVolume());
+    SetMusicVolume(GetMusicVolume());
 }
 
 float AudioManager::GetMasterVolume() const
 {
-    return static_cast<float>(BASS_GetConfig(BASS_CONFIG_GVOL_SAMPLE)) / 10000.0f;
+    return myMasterVolume;
 }
 
 void AudioManager::SetSfxVolume(float aVolume)
 {
-    // TODO: Implement
+    mySfxVolume = std::clamp(aVolume, 0.0f, 1.0f);
+
+    for (auto& song : mySounds)
+    {
+        song.second->SetVolume(myMasterVolume * mySfxVolume);
+    }
 }
 
 float AudioManager::GetSfxVolume() const
 {
-    // TODO: Implement
-    return 0.0f;
+    return mySfxVolume;
 }
 
 void AudioManager::SetMusicVolume(float aVolume)
 {
-    // TODO: Implement
+    myMusicVolume = std::clamp(aVolume, 0.0f, 1.0f);
+
+    for (auto& song : myMusic)
+    {
+        song.second->SetVolume(myMasterVolume * myMusicVolume);
+    }
 }
 
 float AudioManager::GetMusicVolume() const
 {
-    // TODO: Implement
-    return 0.0f;
+    return myMusicVolume;
 }
 
-void AudioManager::Play(const std::string& anAudioPath, float aVolume, bool aShouldLoop)
+void AudioManager::PlayMusic(const std::string& anAudioPath)
 {
-    Tga2D::AudioOut::Handle channel;
+    myMusic.at(anAudioPath)->Play();
+}
 
-    myAudioOut->Play(anAudioPath, false, channel);
-    myAudioOut->SetVolume(channel, aVolume);
+void AudioManager::PlaySfx(const std::string& anAudioPath)
+{
+    mySounds.at(anAudioPath)->Play();
+}
 
-    if (aShouldLoop)
+void AudioManager::StopMusic(const std::string& anAudioPath)
+{
+    myMusic.find(anAudioPath)->second->Stop();
+}
+
+void AudioManager::StopSfx(const std::string& anAudioPath)
+{
+   mySounds.find(anAudioPath)->second->Stop();
+}
+
+bool AudioManager::IsPlaying(const std::string& /*anAudioPath*/)
+{
+    return false;
+}
+
+void AudioManager::StopAll()
+{
+    for (auto& song : myMusic)
     {
-        BASS_ChannelFlags(channel, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
+        song.second->Stop();
     }
-}
-
-void AudioManager::Stop(const std::string& anAudioPath)
-{
-    myAudioOut->Stop(anAudioPath, true);
-}
-
-bool AudioManager::IsPlaying(const std::string& anAudioPath)
-{
-    return Tga2D::audio_helpers::IsNowPlaying(*myAudioOut, anAudioPath);
-}
-
-void AudioManager::StopAll(bool anOnlyRepeating)
-{
-    Tga2D::audio_helpers::StopAllNowPlaying(*myAudioOut, anOnlyRepeating);
 }

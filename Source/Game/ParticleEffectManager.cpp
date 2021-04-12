@@ -21,13 +21,14 @@ ParticleEffectManager::~ParticleEffectManager()
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::SpawnParticleEffect, this);
 }
 
-void ParticleEffectManager::SpawnParticleEffect(ParticleEffectType aType, const CU::Vector2<float>& aPosition, const float aRotation)
+void ParticleEffectManager::SpawnParticleEffect(ParticleEffectType aType, const CU::Vector2<float>& aPosition, const float aRotation, const float aScale)
 {
 	const std::string& animationPath = mySpriteSheetParticleAnimationPaths.at(aType);
 	std::shared_ptr<SpriteSheetParticleEffect> particleEffect = std::make_shared<SpriteSheetParticleEffect>(myScene, animationPath);
 	particleEffect->Init();
 	particleEffect->SetPosition(aPosition);
 	particleEffect->SetRotation(aRotation);
+	particleEffect->SetScale(aScale);
 
 	// TODO: If needed we could keep track of all active particle effects in our own vector
 
@@ -38,7 +39,7 @@ GameMessageAction ParticleEffectManager::OnMessage(const GameMessage aMessage, c
 {
 	assert(aMessage == GameMessage::SpawnParticleEffect);
 
-	SpawnParticleEffect(someMessageData->myType, someMessageData->myPosition, someMessageData->myRotation);
+	SpawnParticleEffect(someMessageData->myType, someMessageData->myPosition, someMessageData->myRotation, someMessageData->myScale);
 
 	return GameMessageAction::Keep;
 }

@@ -5,6 +5,8 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 #include "JsonManager.h"
+#include "SpriteSheetAnimation.h"
+#include "CharacterAnimator.h"
 
 #include "Player.h"
 
@@ -15,14 +17,29 @@
 #include "GameMessenger.h"
 #include "SpawnParticleEffectMessage.h"
 
-Enemy::Enemy(Scene* aScene, EnemyType aEnemyType, const char* aSpritePath)
-	: GameObject(aScene, GameObjectTag::Enemy, aSpritePath),
-	myType(aEnemyType)
+Enemy::Enemy(Scene* aScene, EnemyType aEnemyType)
+	: GameObject(aScene, GameObjectTag::Enemy),
+	myType(aEnemyType),
+	myCharacterAnimator(aScene, "Animations/Zombie.json")
 {}
 
 Enemy::~Enemy() = default;
 
-void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Enemy::Init()
+{
+	GameObject::Init();
+
+	myCollider->SetLayer(CollisionLayer::Entity);
+	myCollider->SetBoxSize(myColliderSize);
+
+	myPhysicsController.Init(GetScene(), myCollider->GetBoxSize());
+	myPhysicsController.SetPosition(GetPosition());
+	myPhysicsController.SetGravity({ 0.0f, myGravity });
+
+	mySprite->SetLayer(GameLayer::Enemy);
+}
+
+void Enemy::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	if (myKnockbackTimer > 0.0f)
 	{
@@ -30,7 +47,19 @@ void Enemy::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	myPhysicsController.Update(aDeltaTime);
-	GameObject::SetPosition(myPhysicsController.GetPosition());
+	SetPosition(myPhysicsController.GetPosition());
+
+	if (myPhysicsController.GetVelocity().x > 0.0f)
+	{
+		myCharacterAnimator.SetDirection(1.0f);
+	}
+	else if (myPhysicsController.GetVelocity().x < 0.0f)
+	{
+		myCharacterAnimator.SetDirection(-1.0f);
+	}
+
+	myCharacterAnimator.Update(aDeltaTime);
+	myCharacterAnimator.ApplyToSprite(mySprite);
 }
 
 void Enemy::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -55,8 +84,9 @@ void Enemy::TakeDamage(const int aDamage)
 	if (myHealth->IsDead())
 	{
 		SetDeleteThisFrame();
+	
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Groan_02.mp3");
 
-		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Enemy/Zombie_Groan 02.mp3");
 	}
 
 	SpawnParticleEffectMessageData spawnData{};
@@ -77,11 +107,15 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
+	myGravity = zombieData.at("Gravity");
 
-	myPhysicsController.Init(GetScene(), mySprite->GetSize());
-	myPhysicsController.SetGravity({ 0.0f, zombieData.at("Gravity") });
+	myColliderSize = mySprite->GetSize();
 
-	mySprite->SetLayer(GameLayer::Enemy);
+	myColliderSize.x = zombieData.value("ColliderWidth", myColliderSize.x);
+	myColliderSize.y = zombieData.value("ColliderHeight", myColliderSize.y);
+
+	mySpriteShift.x = zombieData.value("SpriteShiftX", mySpriteShift.x);
+	mySpriteShift.y = zombieData.value("SpriteShiftY", mySpriteShift.y);
 }
 
 PowerUpType Enemy::GetLootType()
@@ -105,6 +139,8 @@ void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)
 void Enemy::SetPosition(const CU::Vector2<float> aPosition)
 {
 	GameObject::SetPosition(aPosition);
+
+	mySprite->SetPosition(aPosition + CU::Vector2<float>(mySpriteShift.x * myCharacterAnimator.GetDirection(), mySpriteShift.y));
 	myPhysicsController.SetPosition(aPosition);
 }
 
@@ -118,6 +154,16 @@ const CU::Vector2<float>& Enemy::GetInitialPosition() const
 	return myInitialPosition;
 }
 
+void Enemy::OnEnter(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		myIsPlayerInRange = true;
+	}
+}
+
 void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 {
 	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
@@ -128,6 +174,8 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 
 		player->TakeDamage(myDamage);
 
+		myCharacterAnimator.SetState(CharacterAnimator::State::Attack);
+
 		if (myKnockbackTimer <= 0.0f)
 		{
 			CU::Vector2<float> direction = player->GetPosition() - GetPosition();
@@ -135,5 +183,15 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 
 			myKnockbackTimer = 0.1f;
 		}
+	}
+}
+
+void Enemy::OnExit(const CollisionInfo& someCollisionInfo)
+{
+	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
+
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	{
+		myIsPlayerInRange = false;
 	}
 }

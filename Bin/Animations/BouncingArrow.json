@@ -1,0 +1,20 @@
+{
+    "states": {
+      "idle": {
+        "fps": 24,
+        "texture": "Sprites/spriteSheets/arrow spritesheet.dds",
+  
+        "algorithm": "seqrow",
+  
+        "frameWidth": 128,
+        "frameHeight": 128,
+  
+        "start": {
+          "row": 0,
+          "column": 0
+        },
+  
+        "count": 47
+      }
+    }
+  }

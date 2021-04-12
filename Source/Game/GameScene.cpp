@@ -64,6 +64,7 @@ void GameScene::Init()
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
+	myCollisionManager->IgnoreCollision(CollisionLayer::Entity, CollisionLayer::Entity);
 
 	myPlayer = std::make_shared<Player>(this);
 	myPlayer->Init();
@@ -139,7 +140,7 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 #endif //_DEBUG
 }
 
-GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* someMessageData)
+GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* /*someMessageData*/)
 {
 	assert(aMessage == GameMessage::StageClear);
 
@@ -156,10 +157,11 @@ void GameScene::UpdateCustomParallaxEffects(float aDeltaTime)
 	myParallaxDustRotation += rotationSpeed * aDeltaTime;
 
 	const float radRotation = MathHelper::DegToRad(myParallaxDustRotation);
-	const CU::Vector2<float> offset = CU::Vector2<float>(std::cos(radRotation), std::sin(radRotation)) * offsetAmplitude;
+	const CU::Vector2<float> offset0 = CU::Vector2<float>(std::cos(radRotation), std::sin(radRotation)) * offsetAmplitude;
+	const CU::Vector2<float> offset1 = CU::Vector2<float>(std::cos(-radRotation), std::sin(-radRotation)) * offsetAmplitude;
 
-	myParallaxDustLayers[0]->SetLayerOffset(offset);
-	myParallaxDustLayers[1]->SetLayerOffset(offset);
+	myParallaxDustLayers[0]->SetLayerOffset(offset0);
+	myParallaxDustLayers[1]->SetLayerOffset(offset1);
 }
 
 void GameScene::StartPauseMenu(UpdateContext& anUpdateContext)

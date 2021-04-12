@@ -176,7 +176,7 @@ void Settings::SetResolutionBool(int aResolutionY)
 	}
 }
 
-void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (my720)
 	{
@@ -250,6 +250,8 @@ void Settings::MouseClicked(GameObject* aTarget)
 	{
 		return;
 	}
+
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	const GameObjectTag targetTag = aTarget->GetTag();
 

@@ -7,11 +7,14 @@
     "JSON/EnemyTypes.json",
 
     "JSON/Entities.json",
+    "JSON/Sound-MusicPaths.json",
 
     "Animations/Player.json",
+    "Animations/Zombie.json",
     "Animations/HealthPickup.json",
     "Animations/BerserkerPickup.json",
-    "Animations/TestAnimation.json",
+    "Animations/BouncingArrow.json",
+    "Animations/Helicopter.json",
     "Animations/Particles/MuzzleFlash.json",
     "Animations/Particles/BloodSplatter.json",
 

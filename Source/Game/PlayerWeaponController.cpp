@@ -13,9 +13,11 @@
 #include "Scene.h"
 
 #include "Camera.h"
+#include "CharacterAnimator.h"
 
 #include "Weapon.h"
 #include "WeaponFactory.h"
+#include "Shotgun.h"
 
 PlayerWeaponController::PlayerWeaponController(Scene* aScene, Player* aPlayer) :
 	myScene(aScene),
@@ -33,9 +35,9 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 {
 	const CU::Vector2<float> aimDirection = ComputeAimDirection(anUpdateContext);
 
-	myShotgun->SetPosition(myPlayer->GetPosition());
-
 	myShotgun->SetDirection(aimDirection);
+
+	myShotgun->SetPosition(ComputeWeaponPosition());
 
 	myShotgun->Update(aDeltaTime, anUpdateContext);
 
@@ -52,6 +54,27 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	myShotgun->Render(aRenderQueue, aRenderContext);
+}
+
+CU::Vector2<float> PlayerWeaponController::ComputeWeaponPosition()
+{
+	const float direction = static_cast<float>(MathHelper::Signum(myShotgun->GetDirection().x));
+
+	CU::Vector2<float> offset = { 0.0f, 0.0f };
+
+	switch (myPlayer->GetCharacterAnimator()->GetState())
+	{
+	default:
+	case CharacterAnimator::State::Idle:
+		offset = { 75.0f, -28.0f };
+		break;
+
+	case CharacterAnimator::State::Run:
+		offset = { 85.0f, -38.0f };
+		break;
+	}
+
+	return myPlayer->GetPosition() + CU::Vector2(offset.x * direction, offset.y);
 }
 
 CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
@@ -121,4 +144,9 @@ void PlayerWeaponController::ActivatePowerUp(PowerUpType aPowerUpType)
 void PlayerWeaponController::DisablePowerUp()
 {
 	myPlayer->DisablePowerUp();
+}
+
+Shotgun* PlayerWeaponController::GetShotgun()
+{
+	return static_cast<Shotgun*>(myShotgun.get());
 }

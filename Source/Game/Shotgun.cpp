@@ -55,7 +55,8 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	{
 		SetLoadedAmmo(myAmmoPerClip);
 		myReloadCompleteTime = -1.0f;
-		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/Reload.mp3");
+		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/Reload.mp3");
+		Notify(myLoadedAmmo);
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -101,7 +102,7 @@ void Shotgun::Shoot()
 		return;
 	}
 
-	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-1.wav");
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-1.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -111,6 +112,8 @@ void Shotgun::Shoot()
 	SetLoadedAmmo(myLoadedAmmo - 1);
 
 	SpawnMuzzleFlash();
+
+	Notify(myLoadedAmmo);
 
 	if (!IsLoaded())
 	{
@@ -124,7 +127,7 @@ void Shotgun::Boost()
 	{
 		return;
 	}
-	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Weapon/shotgun-firing-3.wav");
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/shotgun-firing-3.wav");
 
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
@@ -132,6 +135,8 @@ void Shotgun::Boost()
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myBoostKnockBackStrength, true);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
+
+	Notify(myLoadedAmmo);
 
 	if (!IsLoaded())
 	{
@@ -207,12 +212,13 @@ bool Shotgun::IsLoaded() const
 
 void Shotgun::SpawnMuzzleFlash() const
 {
-	// TODO: NOTE: Somehow adjust spawn position depending on barrle location
+	constexpr float scale = 1.75f;
 
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
-	spawnData.myPosition = GetPosition() + GetDirection() * 115.0f + CU::Vector2<float>(0.0f, -30.0f);
+	spawnData.myPosition = GetPosition() + GetDirection() * scale * 0.5f * 75.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+	spawnData.myScale = scale;
 
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
@@ -227,22 +233,10 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Enemy)
 	{
 		const CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
-		float enemyAngle = std::atan2f(toEnemy.y, toEnemy.x);
-		float myAngle = std::atan2f(GetDirection().y, GetDirection().x);
 
-		// enemyAngle += enemyAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
-		// myAngle += myAngle > 0.0f ? 0.0f : MathHelper::locPif * 2.0f;
-		// if (enemyAngle < 0.0f) enemyAngle = std::fmodf(enemyAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
-		// if (myAngle < 0.0f) myAngle = std::fmodf(myAngle + MathHelper::locPif * 2.0f, MathHelper::locPif * 2.0f);
+		Enemy* enemy = static_cast<Enemy*>(gameObject);
 
-		const float degDiff = MathHelper::RadToDeg(std::fabsf(enemyAngle - myAngle));
-
-		if (degDiff <= myAoeAngle)
-		{
-			Enemy* enemy = static_cast<Enemy*>(gameObject);
-
-			enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
-			enemy->TakeDamage(myDamage);
-		}
+		enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+		enemy->TakeDamage(myDamage);
 	}
 }

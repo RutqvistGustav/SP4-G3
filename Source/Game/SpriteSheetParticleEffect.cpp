@@ -3,6 +3,9 @@
 
 #include "GlobalServiceProvider.h"
 
+#include "GameLayer.h"
+
+#include "SpriteWrapper.h"
 #include "SpriteSheetAnimation.h"
 
 SpriteSheetParticleEffect::SpriteSheetParticleEffect(Scene* aScene, const std::string& anAnimationPath) :
@@ -30,6 +33,7 @@ void SpriteSheetParticleEffect::Update(const float aDeltaTime, UpdateContext& an
 
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);
+	mySprite->SetSize(mySprite->GetSize() * myScale);
 
 	if (myAnimation->HasEnded())
 	{
@@ -40,4 +44,9 @@ void SpriteSheetParticleEffect::Update(const float aDeltaTime, UpdateContext& an
 void SpriteSheetParticleEffect::SetRotation(float aRotation)
 {
 	mySprite->SetRotation(aRotation);
+}
+
+void SpriteSheetParticleEffect::SetScale(float aScale)
+{
+	myScale = aScale;
 }

@@ -5,6 +5,7 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 #include "Scene.h"
+#include "Shotgun.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -12,8 +13,9 @@
 
 #include "CollisionManager.h"
 
-AmmoCounter::AmmoCounter(Scene* aScene)
-	: GameObject(aScene)
+AmmoCounter::AmmoCounter(Scene* aScene, Shotgun* aShotgun)
+	: GameObject(aScene),
+	myShotgun(aShotgun)
 {
 	aScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -31,6 +33,7 @@ void AmmoCounter::Init()
 	myResetBullets = myCurrentBullets;
 
 	InitSprites(ammoData);
+	myShotgun->Subscribe(this);
 }
 
 void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
@@ -38,46 +41,46 @@ void AmmoCounter::Update(CU::Vector2<float> aPlayerPosition)
 	UpdatePosition(aPlayerPosition);
 }
 
-void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void AmmoCounter::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
-	switch (myCurrentBullets)
-	{
-	case AmmoState::Loaded:
-	{
-		aRenderQueue->Queue(RenderCommand(mySprite));
-		break;
-	}
-	case AmmoState::HalfEmpty:
-	{
-		//aRenderQueue->Queue(RenderCommand(myHalfState));
-		break;
-	}
-	case AmmoState::Empty:
-	{
-		// Animation
-		Reload();
-		break;
-	}
-	}
+	aRenderQueue->Queue(RenderCommand(mySprite));
+	aRenderQueue->Queue(RenderCommand(mySecondSprite));
 }
 
 void AmmoCounter::RemoveBullet()
 {
-	--myCurrentBullets;
+	if (myCurrentBullets == 1)
+	{
+		Tga2D::CColor inactiveColor = mySprite->GetColor();
+		inactiveColor.myA = 0.5f;
+		mySprite->SetColor(inactiveColor);
+	}
+	else if ( myCurrentBullets == 0)
+	{
+		Tga2D::CColor inactiveColor = mySecondSprite->GetColor();
+		inactiveColor.myA = 0.5f;
+		mySecondSprite->SetColor(inactiveColor);
+	}
+	else
+	{
+		Reload();
+	}
 }
 
 void AmmoCounter::Reload()
 {
-	// Play reload animation
-	/*if (myAnimation.GetState() == "End")
-	{
-		myCurrentBullets = myResetBullets; // sets state to loaded
-	}*/
+	myCurrentBullets = myResetBullets;
+
+	Tga2D::CColor activeColor = mySecondSprite->GetColor();
+	activeColor.myA = 1.0f;
+	mySprite->SetColor(activeColor);
+	mySecondSprite->SetColor(activeColor);
 }
 
 void AmmoCounter::UpdatePosition(CU::Vector2<float> aPlayerPosition)
 {
 	SetPosition(aPlayerPosition + myDistanceFromPlayer);
+	mySecondSprite->SetPosition(aPlayerPosition + myDistanceFromPlayer + mySpriteDistance);
 }
 
 void AmmoCounter::InitSprites(nlohmann::json someData)
@@ -86,10 +89,19 @@ void AmmoCounter::InitSprites(nlohmann::json someData)
 	myDistanceFromPlayer.y = someData.at("DistanceFromPlayerY");
 	CU::Vector2<float> size = { someData.at("SizeX"), someData.at("SizeY") };
 
-	std::string loadedPath = someData.at("LoadedStatePath");
-	mySprite = std::make_shared<SpriteWrapper>(loadedPath);
-	mySprite->SetSize(size); // temp
+	std::string spritepath = someData.at("SpritePath");
+	mySprite = std::make_shared<SpriteWrapper>(spritepath);
 
-	//myHalfState = std::make_shared<SpriteWrapper>("");
-	//myEmptyState = std::make_shared<SpriteWrapper>("");
+	mySecondSprite = std::make_shared<SpriteWrapper>(spritepath);
+	CU::Vector2<float> new_pos = mySecondSprite->GetPosition();
+
+	mySpriteDistance.x = someData.at("DistanceBetweenBullets");
+	new_pos.x += mySpriteDistance.x;
+	mySecondSprite->SetPosition(new_pos);
+}
+
+void AmmoCounter::OnEvent(int anAmmoAmount)
+{
+	myCurrentBullets = anAmmoAmount;
+	RemoveBullet();
 }

@@ -24,7 +24,7 @@ void DamageVolume::InitWithJson(const JsonData & someProperties)
 	myKnockbackInterval = someProperties.value("KnockbackInterval", 0.1f);
 }
 
-void DamageVolume::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void DamageVolume::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	if (myKnockbackTimer > 0.0f)
 	{
@@ -32,7 +32,7 @@ void DamageVolume::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 	}
 }
 
-void DamageVolume::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void DamageVolume::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {}
 
 void DamageVolume::TriggerStay(GameObject* aGameObject)

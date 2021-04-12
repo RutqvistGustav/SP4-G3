@@ -1,5 +1,7 @@
 #pragma once
+
 #include "GameObject.h"
+#include "CharacterAnimator.h"
 
 #include "CheckpointMessage.h"
 
@@ -46,8 +48,6 @@ public:
 
     void StopMovement();
 
-   	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
-
     void SetControllerActive(const bool aState);
     void ActivatePowerUp(PowerUpType aPowerUpType);
     void DisablePowerUp();
@@ -56,6 +56,9 @@ public:
     //Health Management
     void TakeDamage(const int aDamage);
     void AddHealth(const int aHealthAmount);
+    
+    CharacterAnimator* GetCharacterAnimator() { return &myCharacterAnimator; }
+
 protected:
 
     struct PlayerCheckpointData : public CheckpointObjectData
@@ -67,14 +70,6 @@ protected:
 
 private:
 
-    enum class PlayerState
-    {
-        None,
-
-        Idle,
-        Running,
-    };
-
     // Movement
     void Move(const float aDeltaTime, InputInterface* anInput);
 
@@ -84,22 +79,18 @@ private:
     void InitVariables(nlohmann::json someData);
     void ImGui();
 
-    void SetState(PlayerState aState);
-
 private:
 
     EntityPhysicsController myPhysicsController;
     CU::Vector2<float> myMovementVelocity;
-    float myDirection;
-    std::unique_ptr<SpriteSheetAnimation> myAnimator;
-
-    PlayerState myState{ PlayerState::None };
 
     Camera* myCamera;
     float myCameraFollowSpeed;
 
     std::unique_ptr<PlayerWeaponController> myWeaponController;
     std::unique_ptr<HUD> myHUD;
+
+    CharacterAnimator myCharacterAnimator;
 
     // JSON
     CU::Vector2<float> mySpriteShift;

@@ -11,12 +11,22 @@
 
 #include "Metrics.h"
 
+#include "SpriteSheetAnimation.h"
+
 #include <fstream>
 #include <string>
 
 DialogueBox::DialogueBox(Scene* aScene)
 	: Interactable(aScene)
-{}
+{
+	myIndicatorAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json");
+	myIndicatorAnimator->SetState("idle");
+	myIndicatorAnimator->SetIsLooping(true);
+
+	myIndicator = std::make_shared<SpriteWrapper>();
+	myIndicator->SetLayer(GameLayer::HUD);
+	myIndicatorAnimator->ApplyToSprite(myIndicator);
+}
 
 void DialogueBox::Init(std::string anID)
 {
@@ -24,9 +34,18 @@ void DialogueBox::Init(std::string anID)
 
 	const JsonData& dialogData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("Dialog/Main.json");
 
-	assert(dialogData.count(anID) > 0 && "Could not find dialog with ID!");
+	std::string dialogString;
+	if (dialogData.find(anID) != dialogData.end())
+	{
+		dialogString = dialogData.at(anID);
+	}
+	else
+	{
+		// NOTE: No dialog found, should not happen in production
+		dialogString = "This should not happen :/";
 
-	const std::string dialogString = dialogData.at(anID);
+		ERROR_PRINT("Could not find dialog with id %s", anID.c_str());
+	}
 
 	FillSlides(dialogString);
 
@@ -36,7 +55,7 @@ void DialogueBox::Init(std::string anID)
 	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
 	myText->SetLayer(GameLayer::HUD + 1);
 
-	mySprite = std::make_shared<SpriteWrapper>("Sprites/HUD/HealthBar.dds");
+	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
 	mySprite->SetLayer(GameLayer::HUD);
@@ -58,6 +77,14 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	}
 }
 
+void DialogueBox::SetPosition(const CU::Vector2<float> aPosition)
+{
+	Interactable::SetPosition(aPosition);
+
+	const CU::Vector2<float> offset = CU::Vector2<float>(0.0f, (myIndicator->GetSize().y + GetTriggerSize().y) * -0.5f);
+	myIndicator->SetPosition(aPosition + offset);
+}
+
 void DialogueBox::TriggerExit(GameObject* aGameObject)
 {
 	Interactable::TriggerExit(aGameObject);
@@ -65,12 +92,25 @@ void DialogueBox::TriggerExit(GameObject* aGameObject)
 	myCurrentPage = -1;
 }
 
-void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void DialogueBox::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	Interactable::Update(aDeltaTime, anUpdateContext);
+
+	myIndicatorAnimator->Update(aDeltaTime);
+	myIndicatorAnimator->ApplyToSprite(myIndicator);
+}
+
+void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (ShouldShowDialog())
 	{
-		aRenderQueue->Queue(RenderCommand(mySprite));
+		// aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
+	}
+
+	if (InRange())
+	{
+		aRenderQueue->Queue(RenderCommand(myIndicator));
 	}
 }
 

@@ -21,7 +21,7 @@ void Options::Init()
 	InitButtons();
 }
 
-void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Options::Update(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
 {
 	/*myCollisionManager->Update();
 
@@ -48,7 +48,7 @@ void Options::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}*/
 }
 
-void Options::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Options::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*aRenderContext*/)
 {
 	/*for (auto& o : myButtons)
 	{

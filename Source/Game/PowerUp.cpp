@@ -2,6 +2,7 @@
 #include "PowerUp.h"
 #include "JsonManager.h"
 #include "SpriteSheetAnimation.h"
+#include "SpriteWrapper.h"
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 #include "Player.h"
@@ -33,5 +34,5 @@ void PowerUp::InitWithJson(const JsonData& someProperties)
 void PowerUp::OnCollect(Player* aPlayer)
 {
 	aPlayer->ActivatePowerUp(myPowerUpType);
-	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->Play("Sound/Misc/Berserk powerup.mp3");
+	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Berserk powerup.mp3");
 }

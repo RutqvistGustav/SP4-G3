@@ -18,6 +18,7 @@ class Scene;
 class Weapon;
 class WeaponFactory;
 class Grapple;
+class Shotgun;
 
 class PlayerWeaponController : protected IWeaponHolder
 {
@@ -32,9 +33,11 @@ public:
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
 	virtual void DisablePowerUp() override;
+	Shotgun* GetShotgun();
 
 protected:
 
+	CU::Vector2<float> ComputeWeaponPosition();
 	CU::Vector2<float> ComputeAimDirection(UpdateContext& anUpdateContext);
 
 	virtual void ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown = false) override;

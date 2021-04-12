@@ -240,24 +240,24 @@ void SceneManager::PlayMusic()
 	{
 	case EMusic::Level01:
 	{
-		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/1. Unbreakable.mp3", 0.5f, true);
+		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/1. Unbreakable.mp3");
 		break;
 	}
 	case EMusic::Level02:
 	{
-		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/2.Hard Rock.mp3", 0.5f, true);
+		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/2.Hard Rock.mp3");
 		break;
 	}
 	case EMusic::Level03:
 	{
-		myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/10.Heart of Warrior.mp3", 0.5f, true);
+		myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/10.Heart of Warrior.mp3");
 		break;
 	}
 	case EMusic::MainMenuMusic:
 	{
 		if (myIsMainMusicPlaying == false)
 		{
-			myGlobalServiceProvider->GetAudioManager()->Play("Sound/Music/7.Rage Machine.mp3", 0.5f, true);
+			myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/7.Rage Machine.mp3");
 			myIsMainMusicPlaying = true;
 		}
 		

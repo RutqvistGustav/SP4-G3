@@ -9,17 +9,18 @@
 class Health;
 class HealthBar;
 class AmmoCounter;
+class Shotgun;
 
 class HUD :
     public GameObject
 {
 public:
-    HUD(Scene* aScene, Health* aHealthInterface);
+    HUD(Scene* aScene, Health* aHealthInterface, Shotgun* aShotgun);
     ~HUD() = default;
 
     virtual void Init() override;
 
-    virtual void Update(CU::Vector2<float> aPlayerPosition);
+    virtual void Update(const float aDeltaTime, CU::Vector2<float> aPlayerPosition);
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     HealthBar* GetHealthBar();

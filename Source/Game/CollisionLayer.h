@@ -9,6 +9,7 @@ namespace CollisionLayer
 
 	static constexpr Layer Default   = 0;
 	static constexpr Layer MapSolid  = 1;
-	static constexpr Layer Entity    = 2;
-	static constexpr Layer HUD       = 3;
+	static constexpr Layer Player    = 2;
+	static constexpr Layer Entity    = 3;
+	static constexpr Layer HUD       = 4;
 }

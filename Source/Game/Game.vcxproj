@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseRenderData.h" />
+    <ClInclude Include="CharacterAnimator.h" />
     <ClInclude Include="CheckpointContext.h" />
     <ClInclude Include="CheckpointMessage.h" />
     <ClInclude Include="CheckpointObjectData.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="GoalZone.h" />
     <ClInclude Include="Health.h" />
     <ClInclude Include="HealthPickup.h" />
+    <ClInclude Include="Helicopter.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Interactable.h" />
@@ -269,6 +271,7 @@
   <ItemGroup>
     <ClCompile Include="AmmoCounter.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="CharacterAnimator.cpp" />
     <ClCompile Include="CheckpointVolume.cpp" />
     <ClCompile Include="Collectable.cpp" />
     <ClCompile Include="CollectibleManager.cpp" />
@@ -294,6 +297,7 @@
     <ClCompile Include="GoalZone.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
+    <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="LevelManagerProxy.cpp" />

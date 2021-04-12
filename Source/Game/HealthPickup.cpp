@@ -4,7 +4,9 @@
 #include "Player.h"
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 #include "SpriteSheetAnimation.h"
+#include "SpriteWrapper.h"
 #include "JsonManager.h"
 
 HealthPickup::HealthPickup(Scene* aScene)
@@ -32,4 +34,5 @@ void HealthPickup::InitWithJson(const JsonData& someProperties)
 void HealthPickup::OnCollect(Player* aPlayer)
 {
 	aPlayer->AddHealth(myHealingValue);
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Health_Pickup.wav");
 }

@@ -1,0 +1,22 @@
+{
+  "Music": [
+    "Sound/Music/1. Unbreakable.mp3",
+    "Sound/Music/2.Hard Rock.mp3",
+    "Sound/Music/5.Be Faster.mp3",
+    "Sound/Music/7.Rage Machine.mp3",
+    "Sound/Music/10.Heart of Warrior.mp3"
+  ],
+  "Sound": [
+    "Sound/Enemy/Zombie_Groan_02.mp3",
+    "Sound/Enemy/Zombie_Growl_03.mp3",
+    "Sound/Misc/Berserk powerup.mp3",
+    "Sound/Player/Jump 01.mp3",
+    "Sound/Player/Player damage 05.wav",
+    "Sound/Player/Player death.wav",
+    "Sound/Weapon/Reload.mp3",
+    "Sound/Weapon/shotgun-firing-1.wav",
+    "Sound/Weapon/shotgun-firing-3.wav",
+    "Sound/Misc/Health_Pickup.wav",
+    "Sound/Misc/Menu_Button.wav"
+  ]
+}

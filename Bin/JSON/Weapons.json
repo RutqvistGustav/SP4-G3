@@ -4,21 +4,21 @@
 
     "ammoPerClip": 2,
 
-    "reloadDuration": 1,
+    "reloadDuration": 0.4,
 
     "damage": 10,
 
     "aoeAngle": 50.0,
     "aoeLength": 300.0,
 
-    "recoilKnockbackStrength": 1000.0,
+    "recoilKnockbackStrength": 2500.0,
 
     "boostKnockbackStrength": 900.0,
 
     "Berserk": {
       "Duration": 10.0,
       "Damage": 2.0,
-      "ReloadDuration": 0.2
+      "ReloadDuration": 0.0
     },
     "SniperShot": {
       "Duration": 12.0,

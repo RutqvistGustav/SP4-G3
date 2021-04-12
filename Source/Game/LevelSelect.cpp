@@ -10,6 +10,10 @@
 #include "Metrics.h"
 #include "RenderCommand.h"
 #include "RenderQueue.h"
+#include "SpriteWrapper.h"
+
+#include "GlobalServiceProvider.h"
+#include "AudioManager.h"
 
 LevelSelect::LevelSelect() = default;
 LevelSelect::~LevelSelect() = default;
@@ -33,7 +37,11 @@ void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 
 	aRenderQueue->Queue(RenderCommand(myBackground));
 
+#ifdef _DEBUG
+
 	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+
+#endif
 }
 
 void LevelSelect::InitButtons()
@@ -68,6 +76,8 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 	{
 		return;
 	}
+
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	const GameObjectTag targetTag = aTarget->GetTag();
 

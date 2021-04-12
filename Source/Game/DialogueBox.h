@@ -10,6 +10,7 @@ class Scene;
 class Player;
 class SpriteWrapper;
 class TextWrapper;
+class SpriteSheetAnimation;
 
 class DialogueBox :
     public Interactable
@@ -20,9 +21,12 @@ public:
 
     void Init(std::string anID);
 
-    void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+    virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+    virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     virtual void OnInteract(Player* aPlayer) override;
+
+    virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
 protected:
 
@@ -38,6 +42,8 @@ private:
 
     int myCurrentPage{ -1 };
 
+    std::unique_ptr<SpriteSheetAnimation> myIndicatorAnimator;
+    std::shared_ptr<SpriteWrapper> myIndicator;
     std::shared_ptr<TextWrapper> myText;
     std::vector<std::string> myPages;
 

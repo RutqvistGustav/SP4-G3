@@ -37,7 +37,7 @@ ParallaxLayer::ParallaxLayer(Scene* aScene, const float aSpeedFactor, const Game
 
 ParallaxLayer::~ParallaxLayer() = default;
 
-void ParallaxLayer::Update(const float aDeltaTime, const CU::Vector2<float>& anOffset)
+void ParallaxLayer::Update(const float /*aDeltaTime*/, const CU::Vector2<float>& anOffset)
 {
 	myFinalRenderOffset = myLayerOffset + anOffset * mySpeedFactor;
 

@@ -40,7 +40,7 @@ void MenuButton::Update()
 	myPositionLastFrame = myPosition;
 }
 
-void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void MenuButton::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	std::shared_ptr<SpriteWrapper>& spriteToRender = myHover ? myHoverSprite : mySprite;
 
@@ -78,12 +78,12 @@ void MenuButton::SetColliderSize(const CU::Vector2<float> aSize)
 	myCollider->SetBoxSize(CU::Vector2(x * aSize.x, y * aSize.y));
 }
 
-void MenuButton::OnEnter(const CollisionInfo& someCollisionInfo)
+void MenuButton::OnEnter(const CollisionInfo& /*someCollisionInfo*/)
 {
 	myHover = true;
 }
 
-void MenuButton::OnExit(const CollisionInfo& someCollisionInfo)
+void MenuButton::OnExit(const CollisionInfo& /*someCollisionInfo*/)
 {
 	myHover = false;
 }
