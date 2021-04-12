@@ -158,7 +158,7 @@ void GameScene::UpdateCustomParallaxEffects(float aDeltaTime)
 
 	const float radRotation = MathHelper::DegToRad(myParallaxDustRotation);
 	const CU::Vector2<float> offset0 = CU::Vector2<float>(std::cos(radRotation), std::sin(radRotation)) * offsetAmplitude;
-	const CU::Vector2<float> offset1 = CU::Vector2<float>(std::cos(-radRotation), std::sin(-radRotation)) * offsetAmplitude;
+	const CU::Vector2<float> offset1 = CU::Vector2<float>(std::cos(-radRotation * 0.8f), std::sin(-radRotation * 0.8f)) * offsetAmplitude;
 
 	myParallaxDustLayers[0]->SetLayerOffset(offset0);
 	myParallaxDustLayers[1]->SetLayerOffset(offset1);

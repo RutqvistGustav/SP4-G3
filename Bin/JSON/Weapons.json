@@ -4,12 +4,12 @@
 
     "ammoPerClip": 2,
 
-    "reloadDuration": 0.4,
+    "reloadDuration": 0.8,
 
-    "damage": 10,
+    "damage": 1,
 
     "aoeAngle": 50.0,
-    "aoeLength": 300.0,
+    "aoeLength": 200.0,
 
     "recoilKnockbackStrength": 2500.0,
 
