@@ -91,8 +91,10 @@ void AmmoCounter::InitSprites(nlohmann::json someData)
 
 	std::string spritepath = someData.at("SpritePath");
 	mySprite = std::make_shared<SpriteWrapper>(spritepath);
+	mySprite->SetLayer(49);
 
 	mySecondSprite = std::make_shared<SpriteWrapper>(spritepath);
+	mySecondSprite->SetLayer(49);
 	CU::Vector2<float> new_pos = mySecondSprite->GetPosition();
 
 	mySpriteDistance.x = someData.at("DistanceBetweenBullets");
