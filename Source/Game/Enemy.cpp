@@ -41,21 +41,29 @@ void Enemy::Init()
 
 void Enemy::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
-	if (myKnockbackTimer > 0.0f)
+	if (!myHealth->IsDead())
 	{
-		myKnockbackTimer -= aDeltaTime;
+		if (myKnockbackTimer > 0.0f)
+		{
+			myKnockbackTimer -= aDeltaTime;
+		}
+
+		myPhysicsController.Update(aDeltaTime);
+		SetPosition(myPhysicsController.GetPosition());
+
+		if (myPhysicsController.GetVelocity().x > 0.0f)
+		{
+			myCharacterAnimator.SetDirection(1.0f);
+		}
+		else if (myPhysicsController.GetVelocity().x < 0.0f)
+		{
+			myCharacterAnimator.SetDirection(-1.0f);
+		}
 	}
 
-	myPhysicsController.Update(aDeltaTime);
-	SetPosition(myPhysicsController.GetPosition());
-
-	if (myPhysicsController.GetVelocity().x > 0.0f)
+	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
 	{
-		myCharacterAnimator.SetDirection(1.0f);
-	}
-	else if (myPhysicsController.GetVelocity().x < 0.0f)
-	{
-		myCharacterAnimator.SetDirection(-1.0f);
+		SetDeleteThisFrame();
 	}
 
 	myCharacterAnimator.Update(aDeltaTime);
@@ -83,17 +91,16 @@ void Enemy::TakeDamage(const int aDamage)
 
 	if (myHealth->IsDead())
 	{
-		SetDeleteThisFrame();
-	
+		myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Groan_02.mp3");
 
 	}
 
-	SpawnParticleEffectMessageData spawnData{};
-	spawnData.myType = ParticleEffectType::BloodSplatter;
-	spawnData.myPosition = GetPosition();
+	//SpawnParticleEffectMessageData spawnData{};
+	//spawnData.myType = ParticleEffectType::BloodSplatter;
+	//spawnData.myPosition = GetPosition();
 
-	GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
+	//GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
@@ -168,7 +175,7 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 {
 	GameObject* gameObject = someCollisionInfo.myOtherCollider->GetGameObject();
 
-	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player)
+	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Player && !myHealth->IsDead())
 	{
 		Player* player = static_cast<Player*>(gameObject);
 
@@ -183,6 +190,10 @@ void Enemy::OnStay(const CollisionInfo& someCollisionInfo)
 
 			myKnockbackTimer = 0.1f;
 		}
+	}
+	else
+	{
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 }
 

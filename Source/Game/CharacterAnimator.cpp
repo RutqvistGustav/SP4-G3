@@ -53,7 +53,7 @@ float CharacterAnimator::GetDirection() const
 
 void CharacterAnimator::SetState(State aState)
 {
-	if (myState == aState)
+	if (myState == aState || myState == State::Death)
 	{
 		return;
 	}
@@ -61,6 +61,11 @@ void CharacterAnimator::SetState(State aState)
 	myState = aState;
 
 	myAnimator->SetState(GetAnimationStateName(aState));
+}
+
+bool CharacterAnimator::HasEnded() const
+{
+	return myAnimator->HasEnded();
 }
 
 std::string CharacterAnimator::GetAnimationStateName(State aState) const
@@ -76,5 +81,9 @@ std::string CharacterAnimator::GetAnimationStateName(State aState) const
 
 	case State::Attack:
 		return "attack";
+
+	case State::Death:
+		myAnimator->SetIsLooping(false);
+		return "death";
 	}
 }

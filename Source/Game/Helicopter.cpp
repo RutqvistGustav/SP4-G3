@@ -6,6 +6,9 @@
 
 #include "SpriteSheetAnimation.h"
 
+#include "GameLayer.h"
+#include "SpriteWrapper.h"
+
 Helicopter::Helicopter(Scene* aScene) :
 	GameObject(aScene)
 {

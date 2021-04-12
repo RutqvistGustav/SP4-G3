@@ -24,7 +24,7 @@ private:
 
 	friend class TiledParser;
 
-	TileType myType{ TileType::None };
+	TileType myType{ TileType::Solid };
 	
 	std::string myTilesetKey;
 	TextureRect myTextureRect;
