@@ -5,11 +5,7 @@
 class Key : public Collectable
 {
 public:
-
-	using Collectable::Collectable;
-
-protected:
-
+	Key(Scene* aScene, PowerUpType aPowerupType);
+	virtual void InitWithJson(const JsonData& someProperties) override;
 	virtual void OnCollect(Player* aPlayer) override;
-
 };
