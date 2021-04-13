@@ -47,6 +47,7 @@ void IntroScene::SkipCutscene(UpdateContext& anUpdateContext)
 {
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
+		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
 		myIntro->Stop();
 	}
 }
