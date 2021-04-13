@@ -114,6 +114,7 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myDamage = zombieData.at("Damage");
 	mySpeed = zombieData.at("MovementSpeed");
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
+	myRoamMaxSpeed = zombieData.at("MaxRoamSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
 	myGravity = zombieData.at("Gravity");
