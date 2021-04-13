@@ -3,6 +3,7 @@
 #include "JsonData.h"
 #include "TriggerVolume.h"
 #include "IJsonInitializable.h"
+#include "PowerUpType.h"
 
 class Player;
 class SpriteSheetAnimation;
@@ -13,13 +14,14 @@ class Collectable :
 {
 public:
 
-	Collectable(Scene* aScene);
+	Collectable(Scene* aScene, PowerUpType aPowerupType);
 	virtual ~Collectable() override;
 
 	virtual void InitWithJson(const JsonData& someJsonData) override;
 
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
+	const PowerUpType GetType();
 
 protected:
 
@@ -31,7 +33,7 @@ protected:
 	virtual void OnCollect(Player* aPlayer) = 0;
 
 protected:
-
+	PowerUpType myPowerupType;
 	bool myIsCollected{};
 	std::unique_ptr<SpriteSheetAnimation> myAnimation;
 
