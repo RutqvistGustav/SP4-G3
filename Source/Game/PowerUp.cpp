@@ -21,6 +21,8 @@ void PowerUp::InitWithJson(const JsonData& someProperties)
 	Init();
 	
 	mySprite = std::make_shared<SpriteWrapper>();
+	mySprite->SetLayer(GameLayer::Prop);
+
 	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), someProperties.at("SpritePath"));
 
 	myAnimation->SetState("idle");
