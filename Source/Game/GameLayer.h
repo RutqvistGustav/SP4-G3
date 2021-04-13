@@ -8,7 +8,8 @@ namespace GameLayer
 
 	static constexpr Layer ParallaxBackground = -5;
 
-	static constexpr Layer Background = 0;
+	static constexpr Layer BackgroundWallWindow = 0;
+	static constexpr Layer Background = 1;
 
 	static constexpr Layer BackgroundSolid = 4;
 	static constexpr Layer Solid = 5;
