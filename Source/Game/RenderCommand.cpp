@@ -5,17 +5,17 @@
 #include "SpriteWrapper.h"
 #include "TextWrapper.h"	
 
-RenderCommand::RenderCommand(const std::shared_ptr<SpriteWrapper>& aSprite)
+RenderCommand::RenderCommand(const std::shared_ptr<SpriteWrapper> aSprite)
 {
 	Init(aSprite);
 }
 
-RenderCommand::RenderCommand(const std::shared_ptr<SpriteBatchWrapper>& aSpriteBatch)
+RenderCommand::RenderCommand(const std::shared_ptr<SpriteBatchWrapper> aSpriteBatch)
 {
 	Init(aSpriteBatch);
 }
 
-RenderCommand::RenderCommand(const std::shared_ptr<TextWrapper>& aText)
+RenderCommand::RenderCommand(const std::shared_ptr<TextWrapper> aText)
 {
 	Init(aText);
 }
@@ -27,7 +27,7 @@ RenderCommand::RenderCommand(const RenderCommand& anOther)
 
 RenderCommand::RenderCommand(RenderCommand&& anOther) noexcept
 {
-	MoveFrom(std::move(anOther));
+	MoveFrom(std::forward<RenderCommand>(anOther));
 }
 
 RenderCommand::~RenderCommand()
@@ -48,12 +48,12 @@ RenderCommand& RenderCommand::operator=(RenderCommand&& anOther)
 {
 	Reset();
 
-	MoveFrom(std::move(anOther));
+	MoveFrom(std::forward<RenderCommand>(anOther));
 
 	return *this;
 }
 
-void RenderCommand::Init(const std::shared_ptr<SpriteWrapper>& aSprite)
+void RenderCommand::Init(const std::shared_ptr<SpriteWrapper> aSprite)
 {
 	Reset();
 
@@ -64,7 +64,7 @@ void RenderCommand::Init(const std::shared_ptr<SpriteWrapper>& aSprite)
 	new (&mySpriteRenderData) SpriteRenderData(aSprite->myRenderData);
 }
 
-void RenderCommand::Init(const std::shared_ptr<SpriteBatchWrapper>& aSpriteBatch)
+void RenderCommand::Init(const std::shared_ptr<SpriteBatchWrapper> aSpriteBatch)
 {
 	Reset();
 
@@ -82,7 +82,7 @@ void RenderCommand::Init(const std::shared_ptr<SpriteBatchWrapper>& aSpriteBatch
 	}
 }
 
-void RenderCommand::Init(const std::shared_ptr<TextWrapper>& aText)
+void RenderCommand::Init(const std::shared_ptr<TextWrapper> aText)
 {
 	Reset();
 

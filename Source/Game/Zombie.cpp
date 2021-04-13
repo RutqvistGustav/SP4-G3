@@ -58,14 +58,6 @@ void Zombie::Movement(const float aDeltaTime)
 		velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
 	}
 
-	if (
-		(velocity.x < 0.0f && myPhysicsController.IsFloorOvershootLeft()) ||
-		(velocity.x > 0.0f && myPhysicsController.IsFloorOvershootRight())
-		)
-	{
-		velocity.x *= -1.0f;
-	}
-
 	myPhysicsController.SetVelocity(velocity);
 }
 

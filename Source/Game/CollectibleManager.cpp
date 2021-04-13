@@ -6,23 +6,16 @@
 #include "EnemyDeathMessage.h"
 #include "PowerUp.h"
 #include "HealthPickup.h"
-#include "CheckpointContext.h"
 
 CollectibleManager::CollectibleManager(Scene* aScene) : 
 	myScene(aScene)
 {
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::SpawnCollectable, this);
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::EnemyDied, this);
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointSave, this);
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::CheckpointLoad, this);
 }
 
 CollectibleManager::~CollectibleManager()
 {
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::SpawnCollectable, this);
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::EnemyDied, this);
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointSave, this);
-	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
 }
 
 void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition)
@@ -47,7 +40,7 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 		break;
 	case PowerUpType::HealthPickup:
 	{
-		std::shared_ptr<HealthPickup> healthPickup = std::make_shared<HealthPickup>(myScene, aCollectibleType);
+		std::shared_ptr<HealthPickup> healthPickup = std::make_shared<HealthPickup>(myScene);
 		healthPickup->SetPosition(aSpawnPosition);
 		myCollectibles.push_back(healthPickup);
 		myScene->AddGameObject(healthPickup);
@@ -75,80 +68,6 @@ void CollectibleManager::DeleteMarkedCollectables()
 			myCollectibles.erase(eraseIt);
 		}
 	}
-}
-
-void CollectibleManager::DeleteAllCollectables()
-{
-	for (auto& collectable : myCollectibles)
-	{
-		collectable->SetDeleteThisFrame();
-	}
-}
-
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
-{
-	switch (aMessage)
-	{
-	case GameMessage::CheckpointSave:
-	{
-		CollectableCheckpointData* data = someMessageData->myCheckpointContext->NewData<CollectableCheckpointData>("CollectableManager");
-
-		data->mySavedCollectables.reserve(myCollectibles.size());
-		for (auto& collectable : myCollectibles)
-		{
-			data->mySavedCollectables.push_back({collectable->GetPosition(), collectable->GetType()});
-		}
-		break;
-	}
-
-	case GameMessage::CheckpointLoad:
-	{
-		DeleteAllCollectables();
-
-		CollectableCheckpointData* data = someMessageData->myCheckpointContext->GetData<CollectableCheckpointData>("CollectableManager");
-
-		for (auto& collectable : data->mySavedCollectables)
-		{
-			AddCollectible(collectable.myPowerupType, collectable.myPosition);
-		}
-		break;
-	}
-
-	default:
-		assert(false);
-		break;
-	}
-
-	return GameMessageAction::Keep;
-}
-
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
-{
-	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition);
-
-	return GameMessageAction::Keep;
-}
-
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const void* someMessageData)
-{
-	switch (aMessage)
-	{
-	case GameMessage::CheckpointSave:
-	case GameMessage::CheckpointLoad:
-		return OnMessage(aMessage, reinterpret_cast<const CheckpointMessageData*>(someMessageData));
-		
-	case GameMessage::SpawnCollectable:
-		return OnMessage(aMessage, reinterpret_cast<const CollectableMessageData*>(someMessageData));
-
-	case GameMessage::EnemyDied:
-		return OnMessage(aMessage, reinterpret_cast<const EnemyDeathMessageData*>(someMessageData));
-
-	default:
-		assert(false);
-		break;
-	}
-
-	return GameMessageAction::Unsubscribe;
 }
 
 

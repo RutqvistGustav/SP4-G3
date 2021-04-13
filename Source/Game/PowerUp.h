@@ -9,5 +9,8 @@ public:
     PowerUp(Scene* aScene, PowerUpType aPowerUpType);
     virtual void InitWithJson(const JsonData& someProperties) override;
     void OnCollect(Player* aPlayer) override;
+
+private:
+    PowerUpType myPowerUpType;
 };
 

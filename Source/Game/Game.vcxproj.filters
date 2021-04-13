@@ -535,12 +535,9 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>Scenes\Cutscenes</Filter>
-    </ClInclude>
+	</ClInclude>
     <ClInclude Include="SpriteUtil.h">
       <Filter>Util</Filter>
-    </ClInclude>
-    <ClInclude Include="CollectableMessage.h">
-      <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
