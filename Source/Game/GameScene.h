@@ -47,6 +47,7 @@ private:
 	virtual GameMessageAction OnMessage(const GameMessage aMessage, const StageClearMessageData* someMessageData) override;
 
 	void UpdateCustomParallaxEffects(float aDeltaTime);
+	void CheckOutOfBounds();
 
 	void StartPauseMenu(UpdateContext& anUpdateContext);
 	void StopPauseMenu();
@@ -55,6 +56,8 @@ private:
 	bool myIsGamePaused = false;
 
 	const std::string myMapPath;
+
+	AABB myMapAABB;
 
 	std::shared_ptr<Player> myPlayer;
 
@@ -70,6 +73,8 @@ private:
 	float myParallaxDustRotation{};
 	std::array<ParallaxLayer*, 2> myParallaxDustLayers{};
 	std::unique_ptr<ParallaxContainer> myParallaxContainer;
+
+	std::shared_ptr<SpriteWrapper> myBackground;
 
 	std::unique_ptr<PauseMenu> myPauseMenu;
 };

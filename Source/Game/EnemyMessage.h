@@ -11,7 +11,8 @@ struct EnemyMessageData
 	EnemyType myEnemyType;
 	CU::Vector2<float> mySpawnPosition;
 	std::shared_ptr<GameObject> myTarget;
-	PowerUpType myLootType;
+	PowerUpType myLootType = PowerUpType::None;
+	bool myShouldRoam = true;
 };
 
 using EnemyMessage = GenericGameMessageSubscriber<EnemyMessageData>;

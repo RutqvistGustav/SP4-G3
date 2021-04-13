@@ -45,13 +45,14 @@ GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
-	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>(myMapPath);
-	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
+
+	myMapAABB = AABB(CU::Vector2<float>(0.0f, 0.0f), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight()));
+	myMapAABB.Expand({ 200.0f, 200.0f });
 
 	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
 
@@ -59,8 +60,22 @@ void GameScene::Init()
 	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
 	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
 
+	myParallaxContainer->AddLayer(0.03f, GameLayer::ParallaxBackground + 1, "Sprites/parallax/Background/parallax_bg_2.dds")
+		.SetRepeatBehaviour(ParallaxLayer::RepeatBehaviour::Horizontal)
+		.SetOrigin(CU::Vector2<float>(Metrics::GetReferenceSize().x * 0.5f, myTiledParser->GetHeight() - Metrics::GetReferenceSize().y * 18.0f));
+
+	myParallaxContainer->AddLayer(0.05f, GameLayer::ParallaxBackground + 2, "Sprites/parallax/Background/parallax_bg_3.dds")
+		.SetRepeatBehaviour(ParallaxLayer::RepeatBehaviour::Horizontal)
+		.SetOrigin(CU::Vector2<float>(Metrics::GetReferenceSize().x * 0.5f, myTiledParser->GetHeight() - Metrics::GetReferenceSize().y * 18.0f));
+
 	myParallaxDustLayers[0] = myParallaxContainer->GetLayer(0);
 	myParallaxDustLayers[1] = myParallaxContainer->GetLayer(1);
+
+	myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/Background/parallax_bg_1.dds");
+	myBackground->SetPivot({ 0.0f, 0.0f });
+	myBackground->SetPosition({ 0.0f, 0.0f });
+	myBackground->SetSize({ myTiledParser->GetWidth(), myTiledParser->GetHeight() });
+	myBackground->SetLayer(GameLayer::ParallaxBackground);
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -83,7 +98,6 @@ void GameScene::Init()
 	{
 		myPlayer->SetPosition(playerSpawn->GetPosition());
 		GetCamera()->SetPosition(playerSpawn->GetPosition());
-		myParallaxContainer->SetParallaxOrigin(GetCamera()->GetPosition());
 	}
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::StageClear, this);
@@ -106,6 +120,7 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myCollectibleManager->DeleteMarkedCollectables();
 
 		UpdateCustomParallaxEffects(aDeltaTime);
+		CheckOutOfBounds();
 
 		//temp
 		myEnemyManager->AddTargetToAllEnemies(myPlayer);
@@ -119,14 +134,13 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	Scene::RemoveMarkedObjects();
 	myCollisionManager->Update();
-
-
-	myParallaxContainer->Update(aDeltaTime);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	Scene::Render(aRenderQueue, aRenderContext);
+
+	aRenderQueue->Queue(RenderCommand(myBackground));
 
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);
@@ -162,6 +176,17 @@ void GameScene::UpdateCustomParallaxEffects(float aDeltaTime)
 
 	myParallaxDustLayers[0]->SetLayerOffset(offset0);
 	myParallaxDustLayers[1]->SetLayerOffset(offset1);
+}
+
+void GameScene::CheckOutOfBounds()
+{
+	const CU::Vector2<float> playerPosition = myPlayer->GetPosition();
+
+	if (!myMapAABB.Contains(playerPosition))
+	{
+		// NOTE: Out of bounds => Kill player
+		myPlayer->TakeDamage(999999);
+	}
 }
 
 void GameScene::StartPauseMenu(UpdateContext& anUpdateContext)

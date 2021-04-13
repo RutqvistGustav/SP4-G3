@@ -114,9 +114,11 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myDamage = zombieData.at("Damage");
 	mySpeed = zombieData.at("MovementSpeed");
 	myMaxSpeed = zombieData.at("MaxSpeedCap");
+	myRoamMaxSpeed = zombieData.at("MaxRoamSpeedCap");
 	myDetectionRange = zombieData.at("DetectionRange");
 	myKnockback = zombieData.at("KnockBack");
 	myGravity = zombieData.at("Gravity");
+
 
 	myColliderSize = mySprite->GetSize();
 
@@ -135,6 +137,16 @@ PowerUpType Enemy::GetLootType()
 void Enemy::SetLootType(const PowerUpType aLootType)
 {
 	myLoot = aLootType;
+}
+
+void Enemy::SetShouldRoam(const bool aShouldRoam)
+{
+	myShouldRoam = aShouldRoam;
+}
+
+bool Enemy::GetShouldRoam() const
+{
+	return myShouldRoam;
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)

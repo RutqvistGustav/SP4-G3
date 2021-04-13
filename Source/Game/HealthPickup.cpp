@@ -12,8 +12,6 @@
 HealthPickup::HealthPickup(Scene* aScene)
 	: Collectable(aScene)
 {
-	myHealingValue = 1;
-
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("HealthPickup"));
 }
 
@@ -29,6 +27,8 @@ void HealthPickup::InitWithJson(const JsonData& someProperties)
 
 	myAnimation->ApplyToSprite(mySprite);
 	SetTriggerSize(mySprite->GetSize());
+
+	myHealingValue = someProperties.value("Health", 1);
 }
 
 void HealthPickup::OnCollect(Player* aPlayer)

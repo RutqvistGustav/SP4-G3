@@ -31,13 +31,14 @@ EnemyManager::~EnemyManager()
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::SpawnEnemy, this);
 }
 
-void EnemyManager::AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType)
+void EnemyManager::AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType, const bool aShouldRoam)
 {
 	std::shared_ptr<Enemy> enemy = EnemyFactory::CreateEnemy(anEnemyType, myScene);
 	enemy->SetPosition(aPosition);
 	enemy->SetInitialPosition(aPosition);
 	enemy->Init();
 	enemy->SetLootType(aLootType);
+	enemy->SetShouldRoam(aShouldRoam);
 
 	if (aTarget != nullptr)
 	{
@@ -75,7 +76,7 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Chec
 		data->myEnemies.reserve(myEnemies.size());
 		for (auto& enemy : myEnemies)
 		{
-			data->myEnemies.push_back({ enemy->GetInitialPosition(), enemy->GetType(), enemy->GetLootType() });
+			data->myEnemies.push_back({ enemy->GetInitialPosition(), enemy->GetType(), enemy->GetLootType() , enemy->GetShouldRoam()});
 		}
 	}
 
@@ -89,7 +90,7 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Chec
 
 		for (auto& enemyData : data->myEnemies)
 		{
-			AddEnemy(enemyData.myEnemyType, enemyData.myPosition, nullptr, enemyData.myPowerupType);
+			AddEnemy(enemyData.myEnemyType, enemyData.myPosition, nullptr, enemyData.myPowerupType, enemyData.myShouldRoam);
 		}
 	}
 
@@ -105,7 +106,7 @@ GameMessageAction EnemyManager::OnMessage(const GameMessage aMessage, const Chec
 
 GameMessageAction EnemyManager::OnMessage(const GameMessage /*aMessage*/, const EnemyMessageData* someMessageData)
 {
-	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget, someMessageData->myLootType);
+	AddEnemy(someMessageData->myEnemyType, someMessageData->mySpawnPosition, someMessageData->myTarget, someMessageData->myLootType, someMessageData->myShouldRoam);
 	return GameMessageAction::Keep;
 }
 

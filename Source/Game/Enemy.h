@@ -29,6 +29,8 @@ public:
     virtual void InitEnemyJsonValues(const std::string& aJsonPath);
     virtual PowerUpType GetLootType();
     virtual void SetLootType(const PowerUpType aLootType);
+    void SetShouldRoam(const bool aShouldRoam);
+    bool GetShouldRoam() const;
 
     void SetTarget(std::shared_ptr<GameObject> aTarget);
 
@@ -50,10 +52,11 @@ protected:
     int myDamage;
     float mySpeed;
     float myMaxSpeed;
+    float myRoamMaxSpeed;
     float myDetectionRange;
     float myKnockback;
     float myGravity;
-    PowerUpType myLoot;
+    PowerUpType myLoot = PowerUpType::None;
 
     CU::Vector2<float> myColliderSize;
     CU::Vector2<float> mySpriteShift;
@@ -66,7 +69,7 @@ protected:
     float myKnockbackTimer{};
 
     bool myIsPlayerInRange{};
-
+    bool myShouldRoam{};
     EnemyType myType;
 
     CU::Vector2<float> myInitialPosition;

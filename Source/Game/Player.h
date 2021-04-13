@@ -11,6 +11,7 @@
 
 // TODO: Refactor so player does not use json library directly
 #include <nlohmann/json.hpp>
+#include <optional>
 
 #include <memory>
 #include "PowerUpType.h"
@@ -61,6 +62,8 @@ public:
     
     CharacterAnimator* GetCharacterAnimator() { return &myCharacterAnimator; }
 
+    void SetSaveCheckpointPosition(const CU::Vector2<float>& aPosition);
+
 protected:
 
     struct PlayerCheckpointData : public CheckpointObjectData
@@ -85,6 +88,8 @@ private:
 
     EntityPhysicsController myPhysicsController;
     CU::Vector2<float> myMovementVelocity;
+
+    std::optional<CU::Vector2<float>> mySaveCheckpointPosition;
 
     Camera* myCamera;
     float myCameraFollowSpeed;

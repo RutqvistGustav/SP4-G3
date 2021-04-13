@@ -22,35 +22,24 @@ ParallaxLayer::ParallaxLayer(Scene* aScene, const float aSpeedFactor, const Game
 	mySprite = std::make_shared<SpriteWrapper>(mySpritePath);
 	mySprite->SetPanStrengthFactor(0.0f);
 	mySprite->SetLayer(aLayer);
-
-	const CU::Vector2<float> textureSize = mySprite->GetSize();
-
-	const float endU = Metrics::GetReferenceSize().x / textureSize.x;
-	const float endV = Metrics::GetReferenceSize().y / textureSize.y;
-
-	//assert(endU > 0.0f && endU <= 1.0f && "Invalid parallax layer texture dimensions");
-	//assert(endV > 0.0f && endV <= 1.0f && "Invalid parallax layer texture dimensions");
-
-	mySprite->SetTextureRect({ 0.0f, 0.0f, MathHelper::Clamp(endU, 0.0f, 1.0f), MathHelper::Clamp(endV, 0.0f, 1.0f) });
-	mySprite->SetSize(Metrics::GetReferenceSize());
 }
 
 ParallaxLayer::~ParallaxLayer() = default;
 
-void ParallaxLayer::Update(const float /*aDeltaTime*/, const CU::Vector2<float>& anOffset)
+void ParallaxLayer::Update(const CU::Vector2<float>& aCameraOffset)
 {
-	myFinalRenderOffset = myLayerOffset + anOffset * mySpeedFactor;
+	myFinalRenderOffset = myLayerOffset + (aCameraOffset - myOrigin) * -mySpeedFactor;
 
-	myFinalRenderOffset.x = std::fmodf(myFinalRenderOffset.x, Metrics::GetReferenceSize().x);
-	myFinalRenderOffset.y = std::fmodf(myFinalRenderOffset.y, Metrics::GetReferenceSize().y);
+	if (ShouldRepeatHorizontal()) myFinalRenderOffset.x = std::fmodf(myFinalRenderOffset.x, mySprite->GetSize().x);
+	if (ShouldRepeatVertical()) myFinalRenderOffset.y = std::fmodf(myFinalRenderOffset.y, mySprite->GetSize().y);
 }
 
 void ParallaxLayer::Render(RenderQueue* const aRenderQueue)
 {
 	constexpr float threshold = 1.0f;
 
-	const bool renderHorizontalExtent = std::abs(myFinalRenderOffset.x) >= threshold;
-	const bool renderVerticalExtent = std::abs(myFinalRenderOffset.y) >= threshold;
+	const bool renderHorizontalExtent = ShouldRepeatHorizontal() && (std::abs(myFinalRenderOffset.x) >= threshold);
+	const bool renderVerticalExtent = ShouldRepeatVertical() && (std::abs(myFinalRenderOffset.y) >= threshold);
 
 	{
 		SetupSpriteForPart({ 0.0f, 0.0f });
@@ -90,12 +79,36 @@ const CU::Vector2<float>& ParallaxLayer::GetLayerOffset() const
 	return myLayerOffset;
 }
 
+ParallaxLayer& ParallaxLayer::SetRepeatBehaviour(RepeatBehaviour aRepeatBehaviour)
+{
+	myRepeatBehaviour = aRepeatBehaviour;
+
+	return *this;
+}
+
+ParallaxLayer& ParallaxLayer::SetOrigin(const CU::Vector2<float>& anOrigin)
+{
+	myOrigin = anOrigin;
+
+	return *this;
+}
+
 void ParallaxLayer::SetupSpriteForPart(const CU::Vector2<float>& aDirection)
 {
-	const CU::Vector2<float> referenceSize = Metrics::GetReferenceSize();
+	const CU::Vector2<float> referenceSize = mySprite->GetSize();
 
 	const CU::Vector2<float> center = referenceSize * 0.5f;
 	const CU::Vector2<float> partOffset = { -aDirection.x * referenceSize.x, -aDirection.y * referenceSize.y };
 
 	mySprite->SetPosition(center + partOffset + myFinalRenderOffset);
+}
+
+bool ParallaxLayer::ShouldRepeatHorizontal() const
+{
+	return (static_cast<int>(myRepeatBehaviour) & static_cast<int>(RepeatBehaviour::Horizontal)) > 0;
+}
+
+bool ParallaxLayer::ShouldRepeatVertical() const
+{
+	return (static_cast<int>(myRepeatBehaviour) & static_cast<int>(RepeatBehaviour::Vertical)) > 0;
 }

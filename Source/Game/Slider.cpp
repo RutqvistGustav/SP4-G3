@@ -17,6 +17,7 @@ Slider::Slider(Scene* aScene, const char* aSpritePath, GameObjectTag aTag)
 	SetTag(aTag);
 
 	myBody = std::make_shared<SpriteWrapper>(aSpritePath);
+	myBody->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 }
 
 Slider::~Slider() = default;
@@ -27,6 +28,7 @@ void Slider::Init()
 	myRightBoundry = myPosition.x * 1.36f;
 
 	mySprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/slider zombie head.dds");
+	mySprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	mySprite->SetPosition(myPosition);
 
 	myCollider->Init(myPosition, mySprite->GetSize());
@@ -66,6 +68,12 @@ void Slider::SetLayer(GameLayer::Layer aLayer)
 {
 	myBody->SetLayer(aLayer);
 	mySprite->SetLayer(aLayer + 1);
+}
+
+void Slider::SetPanStrengthFactor(float aPanStrengthFactor)
+{
+	mySprite->SetPanStrengthFactor(aPanStrengthFactor);
+	myBody->SetPanStrengthFactor(aPanStrengthFactor);
 }
 
 void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
