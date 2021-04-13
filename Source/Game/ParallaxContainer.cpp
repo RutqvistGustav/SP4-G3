@@ -5,18 +5,13 @@
 
 ParallaxContainer::ParallaxContainer(Scene* aScene) :
 	myScene(aScene)
-{}
-
-ParallaxContainer::~ParallaxContainer() = default;
-
-void ParallaxContainer::Update(const float aDeltaTime)
 {
-	const CU::Vector2<float> parallaxOffset = (myScene->GetCamera()->GetPosition() - myOrigin) * -1.0f;
+	myScene->GetCamera()->Subscribe(this);
+}
 
-	for (auto& layer : myLayers)
-	{
-		layer.Update(aDeltaTime, parallaxOffset);
-	}
+ParallaxContainer::~ParallaxContainer()
+{
+	myScene->GetCamera()->Unsubscribe(this);
 }
 
 void ParallaxContainer::Render(RenderQueue* const aRenderQueue)
@@ -27,9 +22,9 @@ void ParallaxContainer::Render(RenderQueue* const aRenderQueue)
 	}
 }
 
-void ParallaxContainer::AddLayer(const float aSpeed, GameLayer::Layer aLayer, const std::string& aSpritePath)
+ParallaxLayer& ParallaxContainer::AddLayer(const float aSpeed, GameLayer::Layer aLayer, const std::string& aSpritePath)
 {
-	myLayers.emplace_back(myScene, aSpeed, aLayer, aSpritePath);
+	return myLayers.emplace_back(myScene, aSpeed, aLayer, aSpritePath);
 }
 
 ParallaxLayer* ParallaxContainer::GetLayer(int anIndex)
@@ -37,7 +32,17 @@ ParallaxLayer* ParallaxContainer::GetLayer(int anIndex)
 	return &myLayers[anIndex];
 }
 
-void ParallaxContainer::SetParallaxOrigin(const CU::Vector2<float>& anOrigin)
+void ParallaxContainer::UpdateLayers()
 {
-	myOrigin = anOrigin;
+	const CU::Vector2<float> cameraPosition = myScene->GetCamera()->GetPosition();
+
+	for (auto& layer : myLayers)
+	{
+		layer.Update(cameraPosition);
+	}
+}
+
+void ParallaxContainer::OnEvent(CU::Vector2<float> someEventData)
+{
+	UpdateLayers();
 }

@@ -4,30 +4,34 @@
 
 #include "Vector2.hpp"
 
+#include "SimpleEventObserver.h"
+
 #include <vector>
 
 class Scene;
 
-class ParallaxContainer
+class ParallaxContainer :
+	public SimpleEventObserver<CU::Vector2<float>>
 {
 public:
 
 	ParallaxContainer(Scene* aScene);
 	~ParallaxContainer();
 
-	void Update(const float aDeltaTime);
 	void Render(RenderQueue* const aRenderQueue);
 
-	void AddLayer(const float aSpeed, GameLayer::Layer aLayer, const std::string& aSpritePath);
+	ParallaxLayer& AddLayer(const float aSpeed, GameLayer::Layer aLayer, const std::string& aSpritePath);
 	ParallaxLayer* GetLayer(int anIndex);
 
-	void SetParallaxOrigin(const CU::Vector2<float>& anOrigin);
+protected:
+
+	void UpdateLayers();
+
+	virtual void OnEvent(CU::Vector2<float> someEventData) override;
 
 private:
 
 	Scene* myScene;
-
-	CU::Vector2<float> myOrigin;
 
 	std::vector<ParallaxLayer> myLayers;
 
