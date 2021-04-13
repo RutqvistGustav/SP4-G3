@@ -141,7 +141,6 @@
     <ClInclude Include="CheckpointObjectData.h" />
     <ClInclude Include="CheckpointVolume.h" />
     <ClInclude Include="Collectable.h" />
-    <ClInclude Include="CollectableMessage.h" />
     <ClInclude Include="CollectibleManager.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionFilter.h" />

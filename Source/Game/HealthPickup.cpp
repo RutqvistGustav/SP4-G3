@@ -9,8 +9,8 @@
 #include "SpriteWrapper.h"
 #include "JsonManager.h"
 
-HealthPickup::HealthPickup(Scene* aScene, PowerUpType aPowerupType)
-	: Collectable(aScene, aPowerupType)
+HealthPickup::HealthPickup(Scene* aScene)
+	: Collectable(aScene)
 {
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("HealthPickup"));
 }
@@ -20,8 +20,6 @@ void HealthPickup::InitWithJson(const JsonData& someProperties)
 	Init();
 
 	mySprite = std::make_shared<SpriteWrapper>();
-	mySprite->SetLayer(GameLayer::Prop);
-
 	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), someProperties.at("SpritePath"));
 
 	myAnimation->SetState("idle");

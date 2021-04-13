@@ -11,9 +11,8 @@
 #include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
 
-Collectable::Collectable(Scene* aScene, PowerUpType aPowerupType) :
+Collectable::Collectable(Scene* aScene) :
 	TriggerVolume(aScene, GameObjectTag::Player)
-	,myPowerupType(aPowerupType)
 {}
 
 Collectable::~Collectable() = default;
@@ -44,11 +43,6 @@ void Collectable::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 void Collectable::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	GameObject::Render(aRenderQueue, aRenderContext);
-}
-
-const PowerUpType Collectable::GetType()
-{
-	return myPowerupType;
 }
 
 void Collectable::TriggerStay(GameObject* aGameObject)

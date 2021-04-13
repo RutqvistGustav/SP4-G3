@@ -63,11 +63,9 @@ void LevelSelect::InitButtons()
 	{
 		const GameObjectTag buttonTag = static_cast<GameObjectTag>(static_cast<int>(GameObjectTag::Level1Button) + i);
 
-		std::string imagePathStart = "Sprites/Menue UI/lvlsellect/lvl " + std::to_string(i + 1);
-
-		auto levelButton = std::make_shared<MenuButton>(this, (imagePathStart + ".dds").c_str(), (imagePathStart + "_hover.dds").c_str(), buttonTag);
+		auto levelButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/lvlsellect.dds", "Sprites/Menue UI/lvlsellect.dds", buttonTag);
 		levelButton->SetPosition(CommonUtilities::Vector2(startX + i * levelBoxWidth, height * 0.50f));
-		levelButton->SetColliderSize({ 0.7f, 0.5f });
+		levelButton->SetColliderSize({ 0.7f, 0.7f });
 
 		AddInterfaceElement(levelButton);
 	}
