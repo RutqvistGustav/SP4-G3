@@ -8,5 +8,5 @@ enum class RenderSamplerFilter
 
 struct BaseRenderData
 {
-	RenderSamplerFilter mySamplerFilter{ RenderSamplerFilter::Bilinear };
+	RenderSamplerFilter mySamplerFilter{ RenderSamplerFilter::Point };
 };

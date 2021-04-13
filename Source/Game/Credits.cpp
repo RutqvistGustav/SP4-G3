@@ -25,6 +25,7 @@ void Credits::Init()
 	const float height = Metrics::GetReferenceSize().y;
 
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/CreditScreen.dds");
+	background->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
 	

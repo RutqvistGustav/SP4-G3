@@ -25,6 +25,7 @@ void LevelSelect::Init()
 	MenuScene::Init();
 
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	myBackground->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackground->SetLayer(-1);
 
