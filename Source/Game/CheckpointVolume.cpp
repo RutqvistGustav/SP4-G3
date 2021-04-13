@@ -7,6 +7,8 @@
 
 #include "SpriteWrapper.h"
 
+#include "Player.h"
+
 #include <cassert>
 
 CheckpointVolume::CheckpointVolume(Scene* aScene) :
@@ -41,10 +43,12 @@ void CheckpointVolume::Render(RenderQueue* const aRenderQueue, RenderContext& aR
 	GameObject::Render(aRenderQueue, aRenderContext);
 }
 
-void CheckpointVolume::TriggerEnter(GameObject* /*aGameObject*/)
+void CheckpointVolume::TriggerEnter(GameObject* aGameObject)
 {
 	if (!myIsUsed)
 	{
+		static_cast<Player*>(aGameObject)->SetSaveCheckpointPosition(GetPosition() + CU::Vector2<float>(0.0f, GetTriggerSize().y * 0.5f));
+
  		myScene->GetLevelManagerProxy()->SaveCheckpoint();
 		myAnimation->SetState("triggered");
 		myAnimation->SetIsLooping(false);

@@ -182,7 +182,7 @@ void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
 
-	myShotVolume->SetBoxSize({ myAoeLength, myAoeLength });
+	myShotVolume->SetBoxSize({ myAoeLength, min(myAoeLength, 125.0f) });
 
 	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }
