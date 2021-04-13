@@ -24,6 +24,7 @@ public:
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     void SetLayer(GameLayer::Layer aLayer);
+    void SetPanStrengthFactor(float aPanStrengthFactor);
 
     void SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos);
 

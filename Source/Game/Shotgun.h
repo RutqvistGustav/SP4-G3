@@ -40,6 +40,9 @@ protected:
 
 	void SpawnMuzzleFlash() const;
 
+	void CheckCollisionHit(const CollisionInfo& someCollisionInfo);
+
+	virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
 	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 private:

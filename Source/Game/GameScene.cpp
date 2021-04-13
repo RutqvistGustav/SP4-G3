@@ -60,8 +60,22 @@ void GameScene::Init()
 	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_bot.dds");
 	myParallaxContainer->AddLayer(0.2f, GameLayer::ParallaxForeground, "Sprites/parallax/dust_top.dds");
 
+	myParallaxContainer->AddLayer(0.03f, GameLayer::ParallaxBackground + 1, "Sprites/parallax/Background/parallax_bg_2.dds")
+		.SetRepeatBehaviour(ParallaxLayer::RepeatBehaviour::Horizontal)
+		.SetOrigin(CU::Vector2<float>(Metrics::GetReferenceSize().x * 0.5f, myTiledParser->GetHeight() - Metrics::GetReferenceSize().y * 18.0f));
+
+	myParallaxContainer->AddLayer(0.05f, GameLayer::ParallaxBackground + 2, "Sprites/parallax/Background/parallax_bg_3.dds")
+		.SetRepeatBehaviour(ParallaxLayer::RepeatBehaviour::Horizontal)
+		.SetOrigin(CU::Vector2<float>(Metrics::GetReferenceSize().x * 0.5f, myTiledParser->GetHeight() - Metrics::GetReferenceSize().y * 18.0f));
+
 	myParallaxDustLayers[0] = myParallaxContainer->GetLayer(0);
 	myParallaxDustLayers[1] = myParallaxContainer->GetLayer(1);
+
+	myBackground = std::make_shared<SpriteWrapper>("Sprites/parallax/Background/parallax_bg_1.dds");
+	myBackground->SetPivot({ 0.0f, 0.0f });
+	myBackground->SetPosition({ 0.0f, 0.0f });
+	myBackground->SetSize({ myTiledParser->GetWidth(), myTiledParser->GetHeight() });
+	myBackground->SetLayer(GameLayer::ParallaxBackground);
 
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::Default);
 	myCollisionManager->IgnoreCollision(CollisionLayer::MapSolid, CollisionLayer::HUD);
@@ -84,7 +98,6 @@ void GameScene::Init()
 	{
 		myPlayer->SetPosition(playerSpawn->GetPosition());
 		GetCamera()->SetPosition(playerSpawn->GetPosition());
-		myParallaxContainer->SetParallaxOrigin(GetCamera()->GetPosition());
 	}
 
 	GetGlobalServiceProvider()->GetGameMessenger()->Subscribe(GameMessage::StageClear, this);
@@ -121,14 +134,13 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	Scene::RemoveMarkedObjects();
 	myCollisionManager->Update();
-
-
-	myParallaxContainer->Update(aDeltaTime);
 }
 
 void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	Scene::Render(aRenderQueue, aRenderContext);
+
+	aRenderQueue->Queue(RenderCommand(myBackground));
 
 	myPlayer->Render(aRenderQueue, aRenderContext);
 	myTiledRenderer->Render(aRenderQueue, aRenderContext);

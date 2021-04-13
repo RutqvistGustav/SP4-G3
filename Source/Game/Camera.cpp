@@ -63,6 +63,8 @@ void Camera::SetPosition(const CU::Vector2<float> aPosition)
 
     myDeltaMovement = movementDelta;
     myPosition += movementDelta;
+
+    Notify(GetPosition());
 }
 
 void Camera::ActivateScreenShake(float aSpeed, float anAmplitude, float aDuration)

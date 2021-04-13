@@ -3,11 +3,14 @@
 #include "AABB.h"
 #include "ShakeBehaviour.h"
 
+#include "SimpleEventSubject.h"
+
 #include <Vector2.hpp>
 
 struct UpdateContext;
 
-class Camera
+class Camera :
+	public SimpleEventSubject<CU::Vector2<float>>
 {
 public:
 

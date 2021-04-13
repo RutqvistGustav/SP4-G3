@@ -74,5 +74,7 @@ private:
 	std::array<ParallaxLayer*, 2> myParallaxDustLayers{};
 	std::unique_ptr<ParallaxContainer> myParallaxContainer;
 
+	std::shared_ptr<SpriteWrapper> myBackground;
+
 	std::unique_ptr<PauseMenu> myPauseMenu;
 };

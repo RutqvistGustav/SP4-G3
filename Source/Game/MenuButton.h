@@ -11,6 +11,8 @@ class MenuButton :
     public GameObject
 {
 public:
+    
+
     MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpritePath2, GameObjectTag aTag);
     virtual ~MenuButton() override;
 

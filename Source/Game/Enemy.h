@@ -52,6 +52,7 @@ protected:
     int myDamage;
     float mySpeed;
     float myMaxSpeed;
+    float myRoamMaxSpeed;
     float myDetectionRange;
     float myKnockback;
     float myGravity;

@@ -51,7 +51,7 @@ void Zombie::Movement(const float aDeltaTime)
 	const CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
-	velocity.x *= std::powf(0.001f, aDeltaTime);
+	velocity.x *= std::powf(myMaxSpeed, aDeltaTime);
 
 	if (!myIsPlayerInRange)
 	{
@@ -68,7 +68,7 @@ void Zombie::IdleMovement(const float aDeltaTime)
 		CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
 		const float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
-		velocity.x *= std::powf(0.001f, aDeltaTime);
+		velocity.x *= std::powf(myRoamMaxSpeed, aDeltaTime);
 		velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
 
 		if (myPhysicsController.IsAgainstWall())
