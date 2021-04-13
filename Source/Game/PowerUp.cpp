@@ -8,8 +8,7 @@
 #include "Player.h"
 
 PowerUp::PowerUp(Scene* aScene, PowerUpType aPowerUpType)
-	: Collectable(aScene)
-	, myPowerUpType(aPowerUpType)
+	: Collectable(aScene, aPowerUpType)
 {
 	if (aPowerUpType == PowerUpType::Berserk)
 	{
@@ -22,6 +21,8 @@ void PowerUp::InitWithJson(const JsonData& someProperties)
 	Init();
 	
 	mySprite = std::make_shared<SpriteWrapper>();
+	mySprite->SetLayer(GameLayer::Prop);
+
 	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), someProperties.at("SpritePath"));
 
 	myAnimation->SetState("idle");
@@ -33,6 +34,6 @@ void PowerUp::InitWithJson(const JsonData& someProperties)
 
 void PowerUp::OnCollect(Player* aPlayer)
 {
-	aPlayer->ActivatePowerUp(myPowerUpType);
+	aPlayer->ActivatePowerUp(myPowerupType);
 	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Berserk powerup.mp3");
 }
