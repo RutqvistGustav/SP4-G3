@@ -232,11 +232,14 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 
 	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Enemy)
 	{
-		const CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
+		CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
 
 		Enemy* enemy = static_cast<Enemy*>(gameObject);
 
-		enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+		toEnemy.Normalize();
+		toEnemy.y = 0.0f; // NOTE: No vertical movements from getting shot
+
+		enemy->ApplyForce(toEnemy * myRecoilKnockbackStrength);
 		enemy->TakeDamage(myDamage);
 	}
 }
