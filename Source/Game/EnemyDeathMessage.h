@@ -9,7 +9,7 @@ class GameObject;
 struct EnemyDeathMessageData
 {
 	CU::Vector2<float> myDeathPosition;
-	PowerUpType myLootType;
+	PowerUpType myLootType = PowerUpType::None;
 };
 
 using EnemyDeathMessage = GenericGameMessageSubscriber<EnemyDeathMessageData>;
