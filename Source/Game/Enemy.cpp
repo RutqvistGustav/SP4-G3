@@ -118,6 +118,7 @@ void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)
 	myKnockback = zombieData.at("KnockBack");
 	myGravity = zombieData.at("Gravity");
 
+
 	myColliderSize = mySprite->GetSize();
 
 	myColliderSize.x = zombieData.value("ColliderWidth", myColliderSize.x);
@@ -135,6 +136,16 @@ PowerUpType Enemy::GetLootType()
 void Enemy::SetLootType(const PowerUpType aLootType)
 {
 	myLoot = aLootType;
+}
+
+void Enemy::SetShouldRoam(const bool aShouldRoam)
+{
+	myShouldRoam = aShouldRoam;
+}
+
+bool Enemy::GetShouldRoam() const
+{
+	return myShouldRoam;
 }
 
 void Enemy::SetTarget(std::shared_ptr<GameObject> aTarget)

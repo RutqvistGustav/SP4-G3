@@ -80,6 +80,10 @@ void TiledEntities::SpawnEntities()
 					enemyMessageData.myLootType = PowerUpType::HealthPickup;
 				}
 			}
+			if (entity.HasProperty("ShouldRoam"))
+			{
+				enemyMessageData.myShouldRoam = entity.GetProperty("ShouldRoam") == "True";
+			}
 
 			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnEnemy, &enemyMessageData);
 		}
