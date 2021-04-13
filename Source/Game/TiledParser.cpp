@@ -64,6 +64,8 @@ bool TiledParser::Load(const std::string& aMapPath)
 		return false;
 	}
 
+	tson::Layer* backgroundWallWindowLayer = map->getLayer("Windows");
+
 	tson::Layer* backgroundLayer = map->getLayer("Background");
 
 	tson::Layer* backgroundSolidLayer = map->getLayer("SolidBack");
@@ -74,8 +76,9 @@ bool TiledParser::Load(const std::string& aMapPath)
 
 	tson::Layer* entityLayer = map->getLayer("Entities");
 
-	const std::array<std::pair<tson::Layer*, int>, 5> layers = {
+	const std::array<std::pair<tson::Layer*, int>, 6> layers = {
 		{
+			{ backgroundWallWindowLayer, GameLayer::BackgroundWallWindow },
 			{ backgroundLayer, GameLayer::Background },
 			{ backgroundSolidLayer, GameLayer::BackgroundSolid },
 			{ solidLayer, GameLayer::Solid },

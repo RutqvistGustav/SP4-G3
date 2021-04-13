@@ -6,7 +6,10 @@ namespace GameLayer
 {
 	using Layer = std::int_fast32_t;
 
-	static constexpr Layer Background = 0;
+	static constexpr Layer ParallaxBackground = -5;
+
+	static constexpr Layer BackgroundWallWindow = 0;
+	static constexpr Layer Background = 1;
 
 	static constexpr Layer BackgroundSolid = 4;
 	static constexpr Layer Solid = 5;
@@ -23,6 +26,8 @@ namespace GameLayer
 
 	static constexpr Layer HUD = 49;
 	static constexpr Layer Minimap = 50;
+
+	static constexpr Layer PauseMenu = 100;
 
 	static constexpr Layer Cutscene = 998;
 	static constexpr Layer Transitions = 999;

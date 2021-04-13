@@ -47,6 +47,7 @@ void OutroScene::SkipCutscene(UpdateContext& anUpdateContext)
 {
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
+		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
 		myOutro->Stop();
 	}
 }

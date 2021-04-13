@@ -14,7 +14,11 @@ class Settings :
 	public MenuScene
 {
 public:
-
+	enum class eBackTarget
+	{
+		ePauseMenu,
+		eMainMenu
+	};
 	enum class Resolution
 	{
 		R1280x720,
@@ -25,14 +29,16 @@ public:
 	};
 
 	Settings();
+	Settings(eBackTarget aTarget);
 	virtual ~Settings() override;
 
 	virtual void Init() override;
 
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
-private:
+	bool IsSettingsActive();
 
+private:
 	void InitSprites();
 	void InitSliders();
 	void InitButtons();
@@ -49,6 +55,8 @@ private:
 	void SetMusicVolume(float aVolume);
 
 private:
+	bool myIsActive = true;
+	eBackTarget myBackTarget;
 
 	Resolution myResolution{ Resolution::R1920x1080 };
 

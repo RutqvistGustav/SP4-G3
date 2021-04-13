@@ -10,6 +10,7 @@
 
 #include "Scene.h"
 #include "Player.h"
+#include "Enemy.h"
 
 DamageVolume::DamageVolume(Scene* aScene) :
 	TriggerVolume(aScene, GameObjectTag::Player)
@@ -37,9 +38,25 @@ void DamageVolume::Render(RenderQueue* const /*aRenderQueue*/, RenderContext& /*
 
 void DamageVolume::TriggerStay(GameObject* aGameObject)
 {
-	Player* player = static_cast<Player*>(aGameObject);
+	if (aGameObject->GetTag() == GameObjectTag::Player)
+	{
+		Player* player = static_cast<Player*>(aGameObject);
 
-	Damage(player);
+		Damage(player);
+	}
+	else if (aGameObject->GetTag() == GameObjectTag::Enemy)
+	{
+		Enemy* enemy = static_cast<Enemy*>(aGameObject);
+		enemy->TakeDamage(myDamage);
+
+		if (myKnockbackTimer <= 0.0f)
+		{
+			enemy->ApplyForce((enemy->GetPosition() - GetPosition()).GetNormalized() * myKnockbackStrength);
+
+			myKnockbackTimer = myKnockbackInterval;
+		}
+	}
+
 }
 
 void DamageVolume::Damage(Player* aPlayer)

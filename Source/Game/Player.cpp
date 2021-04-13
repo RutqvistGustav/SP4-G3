@@ -261,6 +261,12 @@ void Player::AddHealth(const int aHealthAmount)
 	myHealth->AddHealth(aHealthAmount);
 }
 
+void Player::SetSaveCheckpointPosition(const CU::Vector2<float>& aPosition)
+{
+	// NOTE: aPositon is middle bottom of checkpoint, we'll offset it so the position will make bottom of our collision box touch this point
+	mySaveCheckpointPosition = aPosition + CU::Vector2<float>(0.0f, myCollider->GetBoxSize().y * -0.5f);
+}
+
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
 	switch (aMessage)
@@ -268,7 +274,16 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 	case GameMessage::CheckpointSave:
 	{
 		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->NewData<PlayerCheckpointData>("Player");
-		saveData->myPosition = GetPosition();
+
+		if (mySaveCheckpointPosition.has_value())
+		{
+			saveData->myPosition = mySaveCheckpointPosition.value();
+			mySaveCheckpointPosition.reset();
+		}
+		else
+		{
+			saveData->myPosition = GetPosition();
+		}
 
 		// TODO: Save more data as needed
 	}

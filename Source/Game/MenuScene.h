@@ -6,7 +6,6 @@ class MenuScene :
 	public Scene
 {
 public:
-
 	MenuScene();
 	virtual ~MenuScene() override;
 
@@ -16,7 +15,6 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 protected:
-
 	void AddInterfaceElement(std::shared_ptr<GameObject> anElement);
 
 protected:
