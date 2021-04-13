@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Collectable.h"
+#include "PowerUpType.h"
 
 class Key : public Collectable
 {

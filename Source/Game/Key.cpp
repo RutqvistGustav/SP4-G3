@@ -7,7 +7,7 @@
 #include <iostream>
 
 Key::Key(Scene* aScene, PowerUpType aPowerupType)
-	: Collectable(aScene, aPowerupType)
+	: Collectable(aScene)
 {
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
 }
