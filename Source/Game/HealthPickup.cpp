@@ -9,8 +9,8 @@
 #include "SpriteWrapper.h"
 #include "JsonManager.h"
 
-HealthPickup::HealthPickup(Scene* aScene)
-	: Collectable(aScene)
+HealthPickup::HealthPickup(Scene* aScene, PowerUpType aPowerupType)
+	: Collectable(aScene, aPowerupType)
 {
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("HealthPickup"));
 }

@@ -8,8 +8,7 @@
 #include "Player.h"
 
 PowerUp::PowerUp(Scene* aScene, PowerUpType aPowerUpType)
-	: Collectable(aScene)
-	, myPowerUpType(aPowerUpType)
+	: Collectable(aScene, aPowerUpType)
 {
 	if (aPowerUpType == PowerUpType::Berserk)
 	{
@@ -33,6 +32,6 @@ void PowerUp::InitWithJson(const JsonData& someProperties)
 
 void PowerUp::OnCollect(Player* aPlayer)
 {
-	aPlayer->ActivatePowerUp(myPowerUpType);
+	aPlayer->ActivatePowerUp(myPowerupType);
 	GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Berserk powerup.mp3");
 }
