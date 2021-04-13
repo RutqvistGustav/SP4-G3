@@ -17,7 +17,7 @@ class DialogueBox :
 {
 public:
 
-    DialogueBox(Scene* aScene);
+    DialogueBox(Scene* aScene, bool anIsStartDialog = false);
 
     void Init(std::string anID);
 
@@ -39,6 +39,8 @@ private:
     inline bool ShouldShowDialog() const { return myCurrentPage >= 0; }
 
 private:
+
+    bool myIsStartDialog{};
 
     int myCurrentPage{ -1 };
     bool myHasRead{};

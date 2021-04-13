@@ -16,8 +16,9 @@
 #include <fstream>
 #include <string>
 
-DialogueBox::DialogueBox(Scene* aScene)
-	: Interactable(aScene)
+DialogueBox::DialogueBox(Scene* aScene, bool anIsStartDialog)
+	: Interactable(aScene),
+	myIsStartDialog(anIsStartDialog)
 {
 	myIndicatorAnimator = std::make_unique<SpriteSheetAnimation>(GetScene()->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json");
 	myIndicatorAnimator->SetState("idle");
@@ -78,6 +79,11 @@ void DialogueBox::OnInteract(Player* aPlayer)
 		myCurrentPage = -1;
 		myHasRead = true;
 		aPlayer->SetCanControl(true);
+
+		if (myIsStartDialog)
+		{
+			SetDeleteThisFrame();
+		}
 	}
 }
 
@@ -114,7 +120,7 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRend
 		aRenderQueue->Queue(RenderCommand(myText));
 	}
 
-	if (!myHasRead)
+	if (!myHasRead && !myIsStartDialog)
 	{
 		aRenderQueue->Queue(RenderCommand(myIndicator));
 	}
