@@ -54,6 +54,12 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 		{
 			myFadeDoneCallback();
 			myFadeDoneCallback = nullptr;
+
+			// NOTE: Step the active scene once to ensure everything is presentable before fading in
+			if (myActiveScene != nullptr)
+			{
+				myActiveScene->Update(0.0f, anUpdateContext);
+			}
 		}
 
 		const float alpha = 1.0f - std::abs((myFadeProgress - 0.5f) * 2.0f);
