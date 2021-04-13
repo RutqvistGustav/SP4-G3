@@ -28,6 +28,7 @@ void PauseMenu::Init()
 	myBackGround->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackGround->SetLayer(99);
 	myBackGround->SetPanStrengthFactor(0);
+	myBackGround->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 
 	InitButtons();
 

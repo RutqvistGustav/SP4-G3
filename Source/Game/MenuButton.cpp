@@ -16,7 +16,10 @@ MenuButton::MenuButton(Scene* aScene, const char* aSpritePath, const char* aSpri
 	SetTag(aTag);
 	myHover = false;
 
+	mySprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
+
 	myHoverSprite = std::make_shared<SpriteWrapper>(aSpritePath2);
+	myHoverSprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	
 	myCollider = std::make_shared<Collider>();
 	//myCollider->Init(this, myPosition, 40.f);

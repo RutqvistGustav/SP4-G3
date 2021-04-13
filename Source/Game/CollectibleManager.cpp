@@ -20,7 +20,6 @@ CollectibleManager::~CollectibleManager()
 
 void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition)
 {
-	return; // temp
 	switch (aCollectibleType)
 	{
 	case PowerUpType::Berserk:

@@ -63,6 +63,7 @@ void Settings::InitSprites()
 	const float height = Metrics::GetReferenceSize().y;
 
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	background->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
 
@@ -71,28 +72,33 @@ void Settings::InitSprites()
 	mySprites.push_back(background);
 
 	auto settingsSprites = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");
+	settingsSprites->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	settingsSprites->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.23f));
 	settingsSprites->SetPanStrengthFactor(0);
 	settingsSprites->SetLayer(100);
 	mySprites.push_back(settingsSprites);
 
 	auto resolutionSprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/resolution bar.dds");
+	resolutionSprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	resolutionSprite->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.7f));
 	resolutionSprite->SetPanStrengthFactor(0);
 	resolutionSprite->SetLayer(100);
 	mySprites.push_back(resolutionSprite);
 
 	my720Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/720.dds");
+	my720Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	my720Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 	my720Sprite->SetPanStrengthFactor(0);
 	my720Sprite->SetLayer(101);
 
 	my900Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/900.dds");
+	my900Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	my900Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 	my900Sprite->SetPanStrengthFactor(0);
 	my900Sprite->SetLayer(101);
 
 	my1080Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/1080.dds");
+	my1080Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	my1080Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
 	my1080Sprite->SetPanStrengthFactor(0);
 	my1080Sprite->SetLayer(101);

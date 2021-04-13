@@ -45,13 +45,14 @@ GameScene::~GameScene() = default;
 
 void GameScene::Init()
 {
-	// TODO: Load different file based on which level we are on
 	myTiledParser = std::make_unique<TiledParser>(myMapPath);
-	//myTiledParser = std::make_unique<TiledParser>("Maps/test_map.json");
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
 	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
+
+	myMapAABB = AABB(CU::Vector2<float>(0.0f, 0.0f), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight()));
+	myMapAABB.Expand({ 200.0f, 200.0f });
 
 	myParallaxContainer = std::make_unique<ParallaxContainer>(this);
 
@@ -106,6 +107,7 @@ void GameScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myCollectibleManager->DeleteMarkedCollectables();
 
 		UpdateCustomParallaxEffects(aDeltaTime);
+		CheckOutOfBounds();
 
 		//temp
 		myEnemyManager->AddTargetToAllEnemies(myPlayer);
@@ -162,6 +164,17 @@ void GameScene::UpdateCustomParallaxEffects(float aDeltaTime)
 
 	myParallaxDustLayers[0]->SetLayerOffset(offset0);
 	myParallaxDustLayers[1]->SetLayerOffset(offset1);
+}
+
+void GameScene::CheckOutOfBounds()
+{
+	const CU::Vector2<float> playerPosition = myPlayer->GetPosition();
+
+	if (!myMapAABB.Contains(playerPosition))
+	{
+		// NOTE: Out of bounds => Kill player
+		myPlayer->TakeDamage(999999);
+	}
 }
 
 void GameScene::StartPauseMenu(UpdateContext& anUpdateContext)

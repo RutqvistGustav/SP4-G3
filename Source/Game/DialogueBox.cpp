@@ -49,15 +49,18 @@ void DialogueBox::Init(std::string anID)
 
 	FillSlides(dialogString);
 
-	myText = std::make_shared<TextWrapper>("Text/arial.ttf", Tga2D::EFontSize_30, 0);
+	myText = std::make_shared<TextWrapper>("Text/Avancement/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_24, 0);
 	myText->SetPanStrengthFactor(0.0f);
 	myText->SetPivot({ 0.5f, 0.5f });
-	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
+	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y - 100.0f });
 	myText->SetLayer(GameLayer::HUD + 1);
 
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetPanStrengthFactor(0.0f);
-	mySprite->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, 1000.0f });
+	mySprite->SetPivot({ 1.0f, 1.0f });
+	mySprite->SetPosition(Metrics::GetReferenceSize());
+	mySprite->SetSize({ Metrics::GetReferenceSize().x, 200.0f });
+	mySprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.5f));
 	mySprite->SetLayer(GameLayer::HUD);
 }
 
@@ -80,7 +83,8 @@ void DialogueBox::OnInteract(Player* aPlayer)
 
 void DialogueBox::SetPosition(const CU::Vector2<float> aPosition)
 {
-	Interactable::SetPosition(aPosition);
+	myPosition = aPosition;
+	myCollider->SetPosition(aPosition);
 
 	const CU::Vector2<float> offset = CU::Vector2<float>(0.0f, (myIndicator->GetSize().y + GetTriggerSize().y) * -0.5f);
 	myIndicator->SetPosition(aPosition + offset);
@@ -106,7 +110,7 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRend
 {
 	if (ShouldShowDialog())
 	{
-		// aRenderQueue->Queue(RenderCommand(mySprite));
+		aRenderQueue->Queue(RenderCommand(mySprite));
 		aRenderQueue->Queue(RenderCommand(myText));
 	}
 

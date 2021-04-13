@@ -21,7 +21,7 @@ public:
 	EnemyManager(Scene* aScene);
 	~EnemyManager();
 
-	void AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType);
+	void AddEnemy(EnemyType anEnemyType, CU::Vector2<float> aPosition, std::shared_ptr<GameObject> aTarget, const PowerUpType& aLootType, const bool aShouldRoam);
 
 	void AddTargetToAllEnemies(std::shared_ptr<GameObject> aTarget);
 
@@ -41,6 +41,7 @@ private:
 			CU::Vector2<float> myPosition;
 			EnemyType myEnemyType;
 			PowerUpType myPowerupType;
+			bool myShouldRoam;
 		};
 
 		std::vector<EnemyData> myEnemies;
