@@ -103,15 +103,18 @@ void GameScene::Init()
 		{
 			const std::string startDialogID = playerSpawn->GetProperty("StartDialogID");
 
-			std::shared_ptr<DialogueBox> dialogBox = std::make_shared<DialogueBox>(this, true);
-			dialogBox->Init(startDialogID);
-			dialogBox->SetPosition(myPlayer->GetPosition());
-			dialogBox->SetTriggerSize(CU::Vector2<float>(200.0f, 200.0f));
+			if (!startDialogID.empty())
+			{
+				std::shared_ptr<DialogueBox> dialogBox = std::make_shared<DialogueBox>(this, true);
+				dialogBox->Init(startDialogID);
+				dialogBox->SetPosition(myPlayer->GetPosition());
+				dialogBox->SetTriggerSize(CU::Vector2<float>(200.0f, 200.0f));
 
-			AddGameObject(dialogBox);
+				AddGameObject(dialogBox);
 
-			// NOTE: Fake an interact event to trigger the initial dialog
-			dialogBox->OnInteract(myPlayer.get());
+				// NOTE: Fake an interact event to trigger the initial dialog
+				dialogBox->OnInteract(myPlayer.get());
+			}
 		}
 	}
 
