@@ -24,6 +24,8 @@ namespace GameLayer
 	static constexpr Layer HUD = 49;
 	static constexpr Layer Minimap = 50;
 
+	static constexpr Layer PauseMenu = 100;
+
 	static constexpr Layer Cutscene = 998;
 	static constexpr Layer Transitions = 999;
 }

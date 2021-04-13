@@ -103,7 +103,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::SettingsButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<Settings>(), false);
+		GetSceneManagerProxy()->Transition(std::make_unique<Settings>(Settings::eBackTarget::eMainMenu), false);
 		break;
 
 	case GameObjectTag::CreditsButton:
