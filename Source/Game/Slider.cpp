@@ -68,6 +68,12 @@ void Slider::SetLayer(GameLayer::Layer aLayer)
 	mySprite->SetLayer(aLayer + 1);
 }
 
+void Slider::SetPanStrengthFactor(float aPanStrengthFactor)
+{
+	mySprite->SetPanStrengthFactor(aPanStrengthFactor);
+	myBody->SetPanStrengthFactor(aPanStrengthFactor);
+}
+
 void Slider::SetPosition(const CU::Vector2<float> aPosition, bool aSetBodyPos)
 {
 	myPosition = aPosition;

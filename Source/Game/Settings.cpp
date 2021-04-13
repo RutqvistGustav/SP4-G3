@@ -8,6 +8,7 @@
 #include "Slider.h"
 #include "CollisionManager.h"
 #include "MainMenu.h"
+#include "PauseMenu.h"
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
@@ -19,6 +20,11 @@
 #include "SpriteUtil.h"
 
 Settings::Settings() = default;
+
+Settings::Settings(eBackTarget aTarget)
+	: myBackTarget(aTarget)
+{
+}
 Settings::~Settings() = default;
 
 void Settings::Init()
@@ -46,6 +52,11 @@ void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCon
 	RenderResolutionText(aRenderQueue, aRenderContext);
 }
 
+bool Settings::IsSettingsActive()
+{
+	return myIsActive;
+}
+
 void Settings::InitSprites()
 {
 	const float width = Metrics::GetReferenceSize().x;
@@ -61,20 +72,30 @@ void Settings::InitSprites()
 
 	auto settingsSprites = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");
 	settingsSprites->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.23f));
+	settingsSprites->SetPanStrengthFactor(0);
+	settingsSprites->SetLayer(100);
 	mySprites.push_back(settingsSprites);
 
 	auto resolutionSprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/resolution bar.dds");
 	resolutionSprite->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.7f));
+	resolutionSprite->SetPanStrengthFactor(0);
+	resolutionSprite->SetLayer(100);
 	mySprites.push_back(resolutionSprite);
 
 	my720Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/720.dds");
 	my720Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
+	my720Sprite->SetPanStrengthFactor(0);
+	my720Sprite->SetLayer(101);
 
 	my900Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/900.dds");
 	my900Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
+	my900Sprite->SetPanStrengthFactor(0);
+	my900Sprite->SetLayer(101);
 
 	my1080Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/1080.dds");
 	my1080Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
+	my1080Sprite->SetPanStrengthFactor(0);
+	my1080Sprite->SetLayer(101);
 }
 
 void Settings::InitSliders()
@@ -89,7 +110,8 @@ void Settings::InitSliders()
 	masterVolume->SetValueChangeCallback(std::bind(&Settings::SetMasterVolume, this, std::placeholders::_1));
 	masterVolume->Init();
 	masterVolume->SetSlidePercentage(audioManager->GetMasterVolume());
-	masterVolume->SetLayer(1);
+	masterVolume->SetPanStrengthFactor(0);
+	masterVolume->SetLayer(101);
 	AddInterfaceElement(masterVolume);
 
 	auto sfxVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/sfx bar.dds", GameObjectTag::SfxSlider);
@@ -97,7 +119,8 @@ void Settings::InitSliders()
 	sfxVolume->SetValueChangeCallback(std::bind(&Settings::SetSfxVolume, this, std::placeholders::_1));
 	sfxVolume->Init();
 	sfxVolume->SetSlidePercentage(audioManager->GetSfxVolume());
-	sfxVolume->SetLayer(1);
+	sfxVolume->SetPanStrengthFactor(0);
+	sfxVolume->SetLayer(101);
 	AddInterfaceElement(sfxVolume);
 
 	auto musicVolume = std::make_shared<Slider>(this, "Sprites/Menue UI/settings/music bar.dds", GameObjectTag::MusicSlider);
@@ -105,7 +128,8 @@ void Settings::InitSliders()
 	musicVolume->SetValueChangeCallback(std::bind(&Settings::SetMusicVolume, this, std::placeholders::_1));
 	musicVolume->Init();
 	musicVolume->SetSlidePercentage(audioManager->GetMusicVolume());
-	musicVolume->SetLayer(1);
+	musicVolume->SetPanStrengthFactor(0);
+	musicVolume->SetLayer(101);
 	AddInterfaceElement(musicVolume);
 }
 
@@ -117,20 +141,24 @@ void Settings::InitButtons()
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.85f));
+	backButton->SetPanStrengthFactor(0);
+	backButton->SetLayer(102);
 	AddInterfaceElement(backButton);
 
 	auto leftArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
 		GameObjectTag::ArrowLeftButton);
 	leftArrow->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.71f));
 	leftArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
-	leftArrow->SetLayer(1);
+	leftArrow->SetPanStrengthFactor(0);
+	leftArrow->SetLayer(102);
 	AddInterfaceElement(leftArrow);
 
 	auto rightArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow right.dds", "Sprites/Menue UI/settings/arrow right.dds",
 		GameObjectTag::ArrowRightButton);
 	rightArrow->SetPosition(CommonUtilities::Vector2(width * 0.68f, height * 0.71f));
 	rightArrow->SetColliderSize(CU::Vector2(1.1f, 1.1f));
-	rightArrow->SetLayer(1);
+	rightArrow->SetPanStrengthFactor(0);
+	rightArrow->SetLayer(102);
 	AddInterfaceElement(rightArrow);
 }
 
@@ -223,7 +251,15 @@ void Settings::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::BackButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
+		if (myBackTarget == eBackTarget::eMainMenu)
+		{
+			GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
+		}
+		else if (myBackTarget == eBackTarget::ePauseMenu)
+		{
+			myIsActive = false;
+		}
+		
 		break;
 	}
 }
