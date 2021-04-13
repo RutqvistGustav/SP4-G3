@@ -68,12 +68,13 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	if (myCurrentPage < static_cast<int>(myPages.size()))
 	{
 		myText->SetText(myPages[myCurrentPage]);
-		aPlayer->SetControllerActive(false);
+		aPlayer->SetCanControl(false);
 	}
 	else
 	{
 		myCurrentPage = -1;
-		aPlayer->SetControllerActive(true);
+		myHasRead = true;
+		aPlayer->SetCanControl(true);
 	}
 }
 
@@ -89,6 +90,7 @@ void DialogueBox::TriggerExit(GameObject* aGameObject)
 {
 	Interactable::TriggerExit(aGameObject);
 
+	static_cast<Player*>(aGameObject)->SetCanControl(true);
 	myCurrentPage = -1;
 }
 
@@ -108,7 +110,7 @@ void DialogueBox::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRend
 		aRenderQueue->Queue(RenderCommand(myText));
 	}
 
-	if (InRange())
+	if (!myHasRead)
 	{
 		aRenderQueue->Queue(RenderCommand(myIndicator));
 	}

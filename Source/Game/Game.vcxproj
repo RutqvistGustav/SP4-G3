@@ -188,6 +188,8 @@
     <ClInclude Include="IJsonInitializable.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InteractableMessage.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="StartupScene.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="LevelManagerProxy.h" />
     <ClInclude Include="LevelSelect.h" />
@@ -197,6 +199,7 @@
     <ClInclude Include="MousePointer.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Minimap.h" />
+    <ClInclude Include="OutroScene.h" />
     <ClInclude Include="ParticleEffectManager.h" />
     <ClInclude Include="ParticleEffectType.h" />
     <ClInclude Include="PauseMenu.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Slider.h" />
     <ClInclude Include="SpawnParticleEffectMessage.h" />
     <ClInclude Include="SpriteSheetParticleEffect.h" />
+    <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="StageClearMessage.h" />
     <ClInclude Include="TextRenderData.h" />
     <ClInclude Include="TextWrapper.h" />
@@ -301,6 +305,8 @@
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Helicopter.cpp" />
     <ClCompile Include="Interactable.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="StartupScene.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="LevelManagerProxy.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
@@ -310,6 +316,7 @@
     <ClCompile Include="MousePointer.cpp" />
     <ClCompile Include="Options.cpp" />
     <ClCompile Include="Minimap.cpp" />
+    <ClCompile Include="OutroScene.cpp" />
     <ClCompile Include="ParticleEffectManager.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="ParallaxContainer.cpp" />

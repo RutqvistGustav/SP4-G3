@@ -41,13 +41,16 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 
 	myShotgun->Update(aDeltaTime, anUpdateContext);
 
-	if (anUpdateContext.myInputInterface->IsShooting())
+	if (myPlayer->CanControl())
 	{
-		myShotgun->Shoot();
-	}
-	if (anUpdateContext.myInputInterface->IsBoosting())
-	{
-		myShotgun->Boost();
+		if (anUpdateContext.myInputInterface->IsShooting())
+		{
+			myShotgun->Shoot();
+		}
+		if (anUpdateContext.myInputInterface->IsBoosting())
+		{
+			myShotgun->Boost();
+		}
 	}
 }
 

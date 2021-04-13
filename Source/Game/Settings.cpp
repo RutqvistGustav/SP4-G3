@@ -16,7 +16,7 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
-#include <iostream>
+#include "SpriteUtil.h"
 
 Settings::Settings() = default;
 Settings::~Settings() = default;
@@ -31,8 +31,7 @@ void Settings::Init()
 
 	myMousePointer->SetClickCallback(std::bind(&Settings::MouseClicked, this, std::placeholders::_1));
 
-	Tga2D::SEngineCreateParameters engineParameters;
-	SetResolutionBool(engineParameters.myWindowHeight);
+	// NOTE: TODO: Set default resolution
 }
 
 void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -55,6 +54,9 @@ void Settings::InitSprites()
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
+
+	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
+
 	mySprites.push_back(background);
 
 	auto settingsSprites = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/settings.dds");
@@ -132,116 +134,72 @@ void Settings::InitButtons()
 	AddInterfaceElement(rightArrow);
 }
 
-void Settings::SetResolution(int aResolutionY)
+void Settings::SetResolution(Resolution aResolution)
 {
-	switch (aResolutionY)
-	{
-	case 720:
-	{
-		//CGame::GetInstance()->QueueSetResolution(1280, 720);
-		break;
-	}
-	case 900:
-	{
-		//CGame::GetInstance()->QueueSetResolution(1600, 900);
-		break;
-	}
-	case 1080:
-	{
-		//CGame::GetInstance()->QueueSetResolution(1920, 1280);
-		break;
-	}
-	}
-}
+	int width;
+	int height;
 
-void Settings::SetResolutionBool(int aResolutionY)
-{
-	switch (aResolutionY)
+	switch (aResolution)
 	{
-	case 720:
-	{
-		my720 = true;
+	case Resolution::R1280x720:
+		width = 1280;
+		height = 720;
 		break;
-	}
-	case 900:
-	{
-		my900 = true;
+
+	case Resolution::R1600x900:
+		width = 1600;
+		height = 900;
 		break;
-	}
-	case 1080:
-	{
-		my1080 = true;
+
+	case Resolution::R1920x1080:
+		width = 1920;
+		height = 1080;
 		break;
+
+	default:
+		return;
 	}
-	}
+
+	myResolution = aResolution;
+
+	CGame::QueueSetResolution(width, height);
 }
 
 void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
-	if (my720)
+	switch (myResolution)
 	{
+	case Resolution::R1280x720:
 		aRenderQueue->Queue(RenderCommand(my720Sprite));
-	}
-	else if (my900)
-	{
+		break;
+
+	case Resolution::R1600x900:
 		aRenderQueue->Queue(RenderCommand(my900Sprite));
-	}
-	else if (my1080)
-	{
+		break;
+
+	default:
+	case Resolution::R1920x1080:
 		aRenderQueue->Queue(RenderCommand(my1080Sprite));
+		break;
 	}
 }
 
-void Settings::ChangeResolution(GameObjectTag aTag)
+void Settings::SlideResolution(int anAmount)
 {
-	if (aTag == GameObjectTag::ArrowLeftButton)
+	constexpr int resolutionsCount = static_cast<int>(Resolution::Count);
+
+	static_assert(resolutionsCount > 0, "Not enough available resolutions!");
+
+	int targetResolution = static_cast<int>(myResolution) + anAmount;
+
+	if (targetResolution < 0)
 	{
-		if (my720)
-		{
-			SetResolution(1080);
-			my1080 = true;
-			my720 = false;
-			return;
-		}
-		else if (my900)
-		{
-			SetResolution(720);
-			my720 = true;
-			my900 = false;
-			return;
-		}
-		else if (my1080)
-		{
-			SetResolution(900);
-			my900 = true;
-			my1080 = false;
-			return;
-		}
+		targetResolution = resolutionsCount - 1;
 	}
-	if (aTag == GameObjectTag::ArrowRightButton)
-	{
-		if (my720)
-		{
-			SetResolution(900);
-			my900 = true;
-			my720 = false;
-			return;
-		}
-		else if (my900)
-		{
-			SetResolution(1080);
-			my1080 = true;
-			my900 = false;
-			return;
-		}
-		else if (my1080)
-		{
-			SetResolution(720);
-			my720 = true;
-			my1080 = false;
-			return;
-		}
-	}
+
+	targetResolution %= resolutionsCount;
+
+	SetResolution(static_cast<Resolution>(targetResolution));
 }
 
 void Settings::MouseClicked(GameObject* aTarget)
@@ -258,10 +216,10 @@ void Settings::MouseClicked(GameObject* aTarget)
 	switch (targetTag)
 	{
 	case GameObjectTag::ArrowLeftButton:
-		ChangeResolution(GameObjectTag::ArrowLeftButton);
+		SlideResolution(-1);
 		break;
 	case GameObjectTag::ArrowRightButton:
-		ChangeResolution(GameObjectTag::ArrowRightButton);
+		SlideResolution(1);
 		break;
 
 	case GameObjectTag::BackButton:

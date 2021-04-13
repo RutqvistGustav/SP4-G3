@@ -118,6 +118,9 @@
     <Filter Include="GameObjects\Props">
       <UniqueIdentifier>{946cfdb7-52a7-4317-be59-b466b003d4a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Cutscenes">
+      <UniqueIdentifier>{ffa08c63-fb96-4ab6-aa70-68408361f0b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -524,6 +527,18 @@
     <ClInclude Include="Credits.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="OutroScene.h">
+      <Filter>Scenes\Cutscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="StartupScene.h">
+      <Filter>Scenes\Cutscenes</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Scenes\Cutscenes</Filter>
+	</ClInclude>
+    <ClInclude Include="SpriteUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -789,6 +804,15 @@
     </ClCompile>
     <ClCompile Include="Credits.cpp">
       <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="OutroScene.cpp">
+      <Filter>Scenes\Cutscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="StartupScene.cpp">
+      <Filter>Scenes\Cutscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Scenes\Cutscenes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

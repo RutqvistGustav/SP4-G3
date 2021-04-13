@@ -20,7 +20,7 @@ bool CutscenePlayer::Init(const std::string & aVideoPath)
 	myVideo = std::make_unique<Tga2D::CVideo>();
 
 	// TODO: Should sound be played from video or played separately?
-	bool success = myVideo->Init(aVideoPath.c_str(), true);
+	bool success = myVideo->Init(aVideoPath.c_str(), false);
 
 	if (!success)
 	{
@@ -29,20 +29,21 @@ bool CutscenePlayer::Init(const std::string & aVideoPath)
 		return false;
 	}
 
+	myVideo->Play();
+
 	const Tga2D::STextureRext* uvRect = myVideo->GetSprite()->GetTextureRect();
 
 	myFrameSprite = std::make_shared<SpriteWrapper>();
 	myFrameSprite->SetTextureRect({ uvRect->myStartX, uvRect->myStartY, uvRect->myEndX, uvRect->myEndY });
 	myFrameSprite->SetTexture(myVideo->GetTexture());
-
+	
 	myFrameSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
-
+	
 	// TODO: NOTE: If video aspect is not same as window aspect then compute cover size
 	myFrameSprite->SetSize(Metrics::GetReferenceSize());
-
+	myFrameSprite->SetPanStrengthFactor(0);
+	
 	myFrameSprite->SetLayer(GameLayer::Cutscene);
-
-	myVideo->Play();
 
 	return true;
 }
@@ -60,4 +61,9 @@ void CutscenePlayer::Render(RenderQueue* const aRenderQueue)
 bool CutscenePlayer::IsPlaying()
 {
 	return myVideo->GetStatus() == Tga2D::VideoStatus::VideoStatus_Playing;
+}
+
+void CutscenePlayer::Stop()
+{
+	myVideo->Stop();
 }

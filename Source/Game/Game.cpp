@@ -18,6 +18,7 @@
 #include "WeaponFactory.h"
 
 #include "MainMenu.h"
+#include "StartupScene.h"
 
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
@@ -52,17 +53,9 @@ CGame::CGame()
 	: myInput(new CU::Input())
 	, myTimer(new CU::Timer())
 	, myControllerInput(new ControllerInput())
-{
-	//myGameWorld = new CGameWorld();
+{}
 
-}
-
-
-CGame::~CGame()
-{
-	/*delete myGameWorld;
-	myGameWorld = nullptr;*/
-}
+CGame::~CGame() = default;
 
 LRESULT CGame::WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -98,9 +91,19 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	createParameters.myApplicationName = L"TGA 2D " + BUILD_NAME + L"[" + aVersion + L"] ";
 
 #ifndef _DEBUG
-	createParameters.myStartInFullScreen = true;
-#endif // _DEBUG
 
+	// NOTE: Fullscreen
+	RECT desktopRect;
+	HWND desktopWindow = GetDesktopWindow();
+	GetWindowRect(desktopWindow, &desktopRect);
+
+	createParameters.myStartInFullScreen = true;
+	createParameters.myWindowWidth = static_cast<unsigned short>(desktopRect.right);
+	createParameters.myWindowHeight = static_cast<unsigned short>(desktopRect.bottom);
+	createParameters.myRenderWidth = createParameters.myWindowWidth;
+	createParameters.myRenderHeight = createParameters.myWindowHeight;
+
+#endif
 	
 	const CommonUtilities::Vector2<float> referenceSize = Metrics::GetReferenceSize();
 	createParameters.myTargetWidth = static_cast<unsigned short>(referenceSize.x);
@@ -132,10 +135,16 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	return true;
 }
 
+void CGame::QueueSetResolution(int aWidth, int aHeight)
+{
+	// NOTE: TODO: If multithreading this need to be changed
+	Tga2D::CEngine::GetInstance()->Resize(VECTOR2UI(aWidth, aHeight));
+}
+
 void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
-	myAudioManager->SetMasterVolume(0.2f); // TODO: DEBUG: Set low master volume
+	myAudioManager->SetMasterVolume(0.1f); // TODO: DEBUG: Set low master volume
 	myAudioManager->SetSfxVolume(1.0f);
 	myAudioManager->SetMusicVolume(1.0f);
 
@@ -157,7 +166,7 @@ void CGame::InitCallBack()
 	myUpdateContext.myInputInterface = myInputInterface.get();
 	myUpdateContext.myInput = myInput.get();
 
-	mySceneManager->Transition(std::make_unique<MainMenu>());
+	mySceneManager->Transition(std::make_unique<StartupScene>());
 }
 
 void CGame::UpdateCallBack()

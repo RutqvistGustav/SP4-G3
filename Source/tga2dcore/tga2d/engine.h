@@ -171,6 +171,7 @@ namespace Tga2D
 
 		void SetTargetSize(const VECTOR2UI& aResolution);
 		void SetResolution(const VECTOR2UI &aResolution, bool aAlsoSetWindowSize = true);
+        void Resize(const VECTOR2UI& aResolution);
         void SetFullScreen(bool aFullScreen);
 		
 		/* Set to null to render to screen */
