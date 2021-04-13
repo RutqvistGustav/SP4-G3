@@ -69,7 +69,7 @@ void Player::Init()
 	GameObject::Init();
 
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Player.json");
-	
+
 	InitVariables(data);
 
 	// Init Sprite
@@ -80,7 +80,7 @@ void Player::Init()
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get(), myWeaponController->GetShotgun());
-	
+
 	myHUD->Init();
 
 
@@ -123,7 +123,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	SetPosition(myPhysicsController.GetPosition());
 
 #ifdef _DEBUG
-	
+
 	// ImGui();
 
 #endif
@@ -139,14 +139,16 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	// NOTE: TODO:
 	// Very simple test version for now, when more complex animations are added this might
 	// need to be split into a separate state machine.
-	if (std::abs(myMovementVelocity.x) >= 1.0f)
+
+	if (std::abs(myMovementVelocity.x) >= 1.0f && myPhysicsController.IsGrounded())
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Run);
 	}
-	else
+	else if (std::abs(myMovementVelocity.x) < 1.0f && myPhysicsController.IsGrounded())
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
+	
 
 	myCharacterAnimator.Update(aDeltaTime);
 	myCharacterAnimator.ApplyToSprite(mySprite);
@@ -288,7 +290,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		// TODO: Save more data as needed
 	}
 
-		break;
+	break;
 
 	case GameMessage::CheckpointLoad:
 	{
@@ -306,7 +308,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		myCamera->SetPosition(GetPosition());
 	}
 
-		break;
+	break;
 
 	default:
 		assert(false);
@@ -379,6 +381,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 		}
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
+		myCharacterAnimator.SetState(CharacterAnimator::State::Jump);
 	}
 
 	if (!myPhysicsController.IsGrounded() && myJumpCharges == myJumpChargeReset)
