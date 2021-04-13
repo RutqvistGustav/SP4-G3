@@ -12,5 +12,8 @@
   },
   "BerserkerPickup": {
     "SpritePath": "Animations/BerserkerPickup.json"
+  },
+  "Key": {
+    "SpritePath": "Animations/"
   }
 }
