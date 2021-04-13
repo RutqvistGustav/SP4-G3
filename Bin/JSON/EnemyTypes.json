@@ -1,12 +1,12 @@
 {
   "Zombie": {
     "Health": 2,
-    "Damage": 1,
+    "Damage": 2,
     "MovementSpeed": 200.0,
     "MaxSpeedCap" :  400.0,
-    "DetectionRange" : 600.0,
-    "Invincibility" : 0.5,
-    "KnockBack": 20.0,
+    "DetectionRange" : 800.0,
+    "Invincibility" : 0.0,
+    "KnockBack": 10.0,
     "Gravity" :  1000.0,
 
     "ColliderWidth": 54,
