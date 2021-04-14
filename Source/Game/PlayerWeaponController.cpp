@@ -50,6 +50,7 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 		if (anUpdateContext.myInputInterface->IsBoosting())
 		{
 			myShotgun->Boost();
+			myPlayer->GetCharacterAnimator()->SetState(CharacterAnimator::State::Boost);
 		}
 	}
 }
