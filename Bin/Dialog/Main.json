@@ -1,11 +1,15 @@
 {
   "PlayerTest1": "This is a test dialog with\nlinebreaks & multiple pages%bThis is the next page!",
+  "LevelEnd": "",
+  "L2D0": ""
   "L3D0": "Radio: *cracles* Come in Old Timer, this is General Cliffton, do you have the briefcase?%bOT: Affirmative, the briefcase is in my possession and\n I'm now trying to find my way to the roof of the building.%bRadio: Stellar work son, we'll have a chopper ready for you when you get there. Clifford out.%bOT: Oh boy, here I go killing again.",
   "L3D1": "I should be close to the roof now. The content of this\nbriefcase better be worth all the trouble I have gone through.",
-  "L3D2": "Luckily these don't blow up when it shoot them...&bBecause they're the wrong color.",
+  "L3D2": "Luckily these don't blow up when it shoot them...%bBecause they're the wrong color.",
   "L3D3": "TV: So far the origin of the virus is unknown\nbut it is causing major havoc allalong the east coast.%bOT: What even caused this outbreak in the first place?%bOT: Did someone eat something they shouldn't have\nor maybe it was manufactured by someone.",
   "L3D4": "OT: Wow, this old toilet reminds me of...%bRadio: Look Old Timer, we don't have time for you to remeniss\nabout every little thing you find in the building, just hurry up to the LZ.%bOT: ..........%bOT: Copy that.",
   "L3D5": "Might as well grab myself a snack while I'm here.%bHmmm... Maybe Helena is related to the General somehow. His wife, friend, lover or a coworker.%bOr perhaps the content of the suitcase is sentimental?",
   "L3D6": "I'm really going to miss this view...%bIt's probably the last time I'll see it...%b...%b.....%b.......",
-  "L3D7": "People always hide the strangest things in these interstitial spaces.\nThe content here always seems so cut out from everything else.%bYou could call it cut content I suppose."
+  "L3D7": "People always hide the strangest things in these interstitial spaces.\nThe content here always seems so cut out from everything else.%bYou could call it cut content I suppose.",
+  "L3D8": "Mmmmm... Cookies."
+  "L3D9": "When this all blows over I'm\ndefinitely coming back and collecting this jacuzzi."
 }
