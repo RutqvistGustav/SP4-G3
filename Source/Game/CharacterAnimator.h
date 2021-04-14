@@ -21,7 +21,8 @@ public:
 		Fall,
 		Jump,
 		Attack,
-		Death
+		Death,
+		Boost
 	};
 
 	CharacterAnimator(Scene* aScene, const std::string& anAnimationPath);
