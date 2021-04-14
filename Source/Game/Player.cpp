@@ -324,6 +324,8 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());
+
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
 	break;

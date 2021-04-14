@@ -63,6 +63,22 @@
             },
 
             "count": 26
-        }
+        },
+      "boost": {
+        "fps": 24,
+        "texture": "Sprites/Player/animations/boost/ot_anim_boost.dds",
+
+        "algorithm": "seqrow",
+
+        "frameWidth": 180,
+        "frameHeight": 205,
+
+        "start": {
+          "row": 0,
+          "column": 0
+        },
+
+        "count": 1
+      }
     }
 }
