@@ -21,7 +21,8 @@ public:
 		Fall,
 		Jump,
 		Attack,
-		Death
+		Death,
+		Boost
 	};
 
 	CharacterAnimator(Scene* aScene, const std::string& anAnimationPath);
@@ -37,6 +38,8 @@ public:
 
 	void SetState(State aState);
 	inline State GetState() const { return myState; }
+	void DisableStateSwitch();
+	void EnableStateSwitch();
 
 	bool HasEnded() const;
 
@@ -50,6 +53,8 @@ private:
 	float myAnimationSpeed{ 1.0f };
 
 	float myDirection{ 1.0f };
+
+	bool myCanSwitchState = true;
 
 	std::unique_ptr<SpriteSheetAnimation> myAnimator;
 

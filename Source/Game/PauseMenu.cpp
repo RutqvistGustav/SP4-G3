@@ -24,8 +24,10 @@ void PauseMenu::Init()
 {
 	MenuScene::Init();
 
-	myBackGround = std::make_shared<SpriteWrapper>("Sprites/Menue UI/pause/pause background.dds");
+	myBackGround = std::make_shared<SpriteWrapper>();
 	myBackGround->SetPosition(Metrics::GetReferenceSize() * 0.5f);
+	myBackGround->SetSize(Metrics::GetReferenceSize());
+	myBackGround->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.36f));
 	myBackGround->SetLayer(99);
 	myBackGround->SetPanStrengthFactor(0);
 	myBackGround->SetSamplerFilter(RenderSamplerFilter::Bilinear);

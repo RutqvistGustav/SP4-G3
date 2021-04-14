@@ -33,7 +33,7 @@
             "count": 25
         },
         "jump": {
-            "fps": 24,
+            "fps": 33,
             "texture": "Sprites/Player/animations/jump/ot_anim_jump.dds",
 
             "algorithm": "seqrow",
@@ -47,6 +47,38 @@
             },
 
             "count": 12
-        }
+        },
+        "death": {
+            "fps": 24,
+            "texture": "Sprites/Player/animations/death/spritesheet_death.dds",
+
+            "algorithm": "seqrow",
+
+            "frameWidth": 280,
+            "frameHeight": 205,
+
+            "start": {
+                "row": 0,
+                "column": 0
+            },
+
+            "count": 26
+        },
+      "boost": {
+        "fps": 24,
+        "texture": "Sprites/Player/animations/boost/ot_anim_boost.dds",
+
+        "algorithm": "seqrow",
+
+        "frameWidth": 180,
+        "frameHeight": 205,
+
+        "start": {
+          "row": 0,
+          "column": 0
+        },
+
+        "count": 1
+      }
     }
 }
