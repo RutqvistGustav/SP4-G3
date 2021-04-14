@@ -195,7 +195,6 @@ void ShaderNormalInstanced::SetupForRender(const BaseRenderData& someRenderData)
 
 	myDirect3dEngine->GetContext()->VSSetConstantBuffers(Tga2D::EConstantBufferSlot_Common, 1, &myCommonBuffer);
 	myDirect3dEngine->GetContext()->PSSetConstantBuffers(Tga2D::EConstantBufferSlot_Common, 1, &myCommonBuffer);
-
 }
 
 int ShaderNormalInstanced::BindForRender(const std::vector<SpriteRenderData>& someRenderData, Tga2D::CTexture* aTexture, const ExtraRenderInformation& someExtraInformation, ID3D11Buffer* anInstanceBuffer, ID3D11Buffer* aVertexBuffer)

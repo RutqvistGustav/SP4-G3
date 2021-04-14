@@ -686,9 +686,6 @@ const D3D_SHADER_MACRO dx11Defines[] = {
 #ifdef USE_NOISE
 		{ "USE_NOISE", "true" },
 #endif
-#ifdef USE_NOISE
-		{ "USE_NOISE", "true" },
-#endif
 		{ "BONES_MAX", sBonesMax.c_str() },
 		{ nullptr, nullptr },
 	};

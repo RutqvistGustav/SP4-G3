@@ -131,7 +131,7 @@ GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMes
 	return GameMessageAction::Keep;
 }
 
-GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage /*aMessage*/, const CollectableMessageData* someMessageData)
 {
 	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition);
 
