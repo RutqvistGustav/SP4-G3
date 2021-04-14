@@ -6,6 +6,7 @@ enum class GameMessage
 	CheckpointLoad,
 
 	SpawnEnemy,
+	SpawnCollectable,
 	EnemyDied,
 
 	InteractableEnter,

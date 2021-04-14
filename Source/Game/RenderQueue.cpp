@@ -15,6 +15,11 @@ void RenderQueue::Queue(const RenderCommand& aCommand)
 	myCommands.push_back(aCommand);
 }
 
+void RenderQueue::Queue(RenderCommand&& aCommand)
+{
+	myCommands.push_back(std::move(aCommand));
+}
+
 void RenderQueue::Clear()
 {
 	myCommands.clear();
