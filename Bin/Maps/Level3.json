@@ -1077,15 +1077,15 @@
                  "y":6992.33333333333
                 }, 
                 {
-                 "height":254,
+                 "height":510,
                  "id":91,
                  "name":"",
                  "rotation":0,
                  "type":"Checkpoint",
                  "visible":true,
-                 "width":169,
-                 "x":6464,
-                 "y":10496
+                 "width":64,
+                 "x":6519,
+                 "y":10240.5
                 }, 
                 {
                  "height":254,
@@ -1094,9 +1094,9 @@
                  "rotation":0,
                  "type":"Checkpoint",
                  "visible":true,
-                 "width":169,
-                 "x":2288,
-                 "y":7105.18181818182
+                 "width":64,
+                 "x":2344,
+                 "y":7103.84848484849
                 }, 
                 {
                  "height":254,
@@ -1105,9 +1105,9 @@
                  "rotation":0,
                  "type":"Checkpoint",
                  "visible":true,
-                 "width":169,
-                 "x":3200.59090909091,
-                 "y":4345.48484848485
+                 "width":64,
+                 "x":3258.59090909091,
+                 "y":4351.48484848485
                 }, 
                 {
                  "height":65.3333,
@@ -1139,7 +1139,7 @@
                  "type":"Hazard",
                  "visible":true,
                  "width":71.666666666667,
-                 "x":4894,
+                 "x":4891.33333333333,
                  "y":9974.00001666667
                 }, 
                 {
@@ -1152,24 +1152,6 @@
                  "width":1257.83336666667,
                  "x":4992.28786212121,
                  "y":10432.0151848485
-                }, 
-                {
-                 "height":0,
-                 "id":104,
-                 "name":"",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"SubType",
-                         "type":"string",
-                         "value":"Zombie"
-                        }],
-                 "rotation":0,
-                 "type":"Enemy",
-                 "visible":true,
-                 "width":0,
-                 "x":5402,
-                 "y":9794
                 }, 
                 {
                  "height":0,
@@ -2463,6 +2445,40 @@
                  "width":272,
                  "x":3368.42424242424,
                  "y":12614.9693636364
+                }, 
+                {
+                 "height":100.000333333333,
+                 "id":179,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L3D2"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":191.667,
+                 "x":3331.1665,
+                 "y":7330.83316666667
+                }, 
+                {
+                 "height":166,
+                 "id":180,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L3D1"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":291.667,
+                 "x":3729.1665,
+                 "y":4998
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -2483,7 +2499,7 @@
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":178,
+ "nextobjectid":181,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.5.0",
