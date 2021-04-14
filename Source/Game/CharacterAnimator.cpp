@@ -53,7 +53,7 @@ float CharacterAnimator::GetDirection() const
 
 void CharacterAnimator::SetState(State aState)
 {
-	if ((myState != State::Jump && myState == aState) || myState == State::Death)
+	if ((myState != State::Jump && myState == aState) || !myCanSwitchState)
 	{
 		return;
 	}
@@ -61,6 +61,16 @@ void CharacterAnimator::SetState(State aState)
 	myState = aState;
 
 	myAnimator->SetState(GetAnimationStateName(aState));
+}
+
+void CharacterAnimator::DisableStateSwitch()
+{
+	myCanSwitchState = false;
+}
+
+void CharacterAnimator::EnableStateSwitch()
+{
+	myCanSwitchState = true;
 }
 
 bool CharacterAnimator::HasEnded() const
