@@ -70,7 +70,7 @@ void Key::TriggerStay(GameObject* aGameObject)
 	{
 		OnCollect(player);
 
-		myIsCollected = true;
+		//myIsCollected = true;
 
 		// TODO: Mark GameObject for destruction
 		//SetDeleteThisFrame();
