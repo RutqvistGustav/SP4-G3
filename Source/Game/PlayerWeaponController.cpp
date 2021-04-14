@@ -149,6 +149,11 @@ void PlayerWeaponController::DisablePowerUp()
 	myPlayer->DisablePowerUp();
 }
 
+void PlayerWeaponController::DeactivatePowerUp()
+{
+	myShotgun->DeactivatePowerUp();
+}
+
 Shotgun* PlayerWeaponController::GetShotgun()
 {
 	return static_cast<Shotgun*>(myShotgun.get());

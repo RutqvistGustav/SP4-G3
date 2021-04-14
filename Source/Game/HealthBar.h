@@ -22,7 +22,11 @@ public:
     virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
     void ActivatePowerUp(PowerUpType aPowerUpType);
+    void DeactivatePowerUp();
     void ReducePowerUpAmount(const float aDeltaTime);
+
+    inline PowerUpType GetActivePowerupType() const { return myPowerUpType; }
+    inline bool HasActivePowerup() const { return myIsPowerUpActive; }
 
 private:
 

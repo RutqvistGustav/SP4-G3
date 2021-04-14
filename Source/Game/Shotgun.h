@@ -20,6 +20,8 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
+	virtual void DeactivatePowerUp() override;
+
 	void UpdatePowerUps(const float aDeltaTime);
 
 	virtual void Shoot() override;

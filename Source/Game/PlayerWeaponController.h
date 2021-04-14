@@ -33,6 +33,9 @@ public:
 	void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
 	virtual void DisablePowerUp() override;
+
+	void DeactivatePowerUp();
+
 	Shotgun* GetShotgun();
 
 protected:
