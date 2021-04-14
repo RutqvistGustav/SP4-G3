@@ -12,6 +12,7 @@
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
 
+#include "UpdateContext.h"
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
@@ -104,4 +105,49 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
 		break;
 	}
+}
+
+void LevelSelect::ControllerControl(UpdateContext& anUpdateContext)
+{
+
+	if (myCurrentButtonIndex < 0 && myOnBackButton == false)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 2;
+	}
+	else if (myCurrentButtonIndex > myGameObjects.size() - 2 && myOnBackButton == false)
+	{
+		myCurrentButtonIndex = 0;
+	}
+
+	if (anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001 && myOnBackButton == false)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+		myOnBackButton = true;
+	}
+	else if (anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001 && myOnBackButton == true)
+	{
+		myCurrentButtonIndex = 1;
+		myOnBackButton = false;
+	}
+
+}
+
+const bool LevelSelect::CheckNext(UpdateContext& anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001;
+}
+
+const bool LevelSelect::CheckPrev(UpdateContext& anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001;
+}
+
+void LevelSelect::ControllerNavigate(UpdateContext& anUpdateContext)
+{
+	MenuScene::ControllerNavigate(anUpdateContext);
+	if (myOnBackButton == true)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+	}
+
 }
