@@ -80,6 +80,12 @@ void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
 	}
 }
 
+void Shotgun::DeactivatePowerUp()
+{
+	myIsPowerUpActive = false;
+	myPowerUpDuration = 0.f;
+}
+
 void Shotgun::UpdatePowerUps(const float aDeltaTime)
 {
 	if (myIsPowerUpActive == true)

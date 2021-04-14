@@ -79,6 +79,11 @@ void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
 	myIsPowerUpActive = true;
 }
 
+void HealthBar::DeactivatePowerUp()
+{
+	ReducePowerUpAmount(myBerserkDuration);
+}
+
 void HealthBar::ReducePowerUpAmount(const float aDeltaTime)
 {
 	if (myIsPowerUpActive)

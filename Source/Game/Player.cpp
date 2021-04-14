@@ -236,7 +236,18 @@ void Player::ActivatePowerUp(PowerUpType aPowerUpType)
 
 void Player::DisablePowerUp()
 {
-	mySpeed -= myBerserkSpeed;
+	if (myHUD->GetHealthBar()->HasActivePowerup())
+	{
+		const PowerUpType powerUpType = myHUD->GetHealthBar()->GetActivePowerupType();
+
+		myWeaponController->DeactivatePowerUp();
+		myHUD->GetHealthBar()->DeactivatePowerUp();
+
+		if (powerUpType == PowerUpType::Berserk)
+		{
+			mySpeed -= myBerserkSpeed;
+		}
+	}
 }
 
 void Player::TakeDamage(const int aDamage)
@@ -297,6 +308,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->GetData<PlayerCheckpointData>("Player");
 
 		// TODO: Reset all variables to a correct state
+		DisablePowerUp();
 
 		myMovementVelocity = {};
 		myPhysicsController.SetVelocity({});
