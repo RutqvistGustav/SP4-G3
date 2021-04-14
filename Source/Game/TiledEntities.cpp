@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "GlobalServiceProvider.h"
 #include "GameMessenger.h"
+#include "CollectableMessage.h"
 #include "JsonManager.h"
 
 #include "PowerUp.h"
@@ -131,24 +132,22 @@ void TiledEntities::SpawnEntities()
 		}
 		else if (type == "PickUp" && entity.HasProperty("SubType"))
 		{
+			CollectableMessageData collectableMessageData;
 			if (entity.GetSubType() == "Berserk")
 			{
-				std::shared_ptr<PowerUp> berzerk = std::make_shared<PowerUp>(myScene, PowerUpType::Berserk);
-				berzerk->SetPosition(entity.GetPosition());
-				myScene->AddGameObject(berzerk);
+				collectableMessageData.myLootType = PowerUpType::Berserk;
 			}
 			else if (entity.GetSubType() == "SniperShot")
 			{
-				std::shared_ptr<PowerUp> sniperShot = std::make_shared<PowerUp>(myScene, PowerUpType::SniperShot);
-				sniperShot->SetPosition(entity.GetPosition());
-				myScene->AddGameObject(sniperShot);
+				collectableMessageData.myLootType = PowerUpType::SniperShot;
 			}
 			else if (entity.GetSubType() == "HealthPickup")
 			{
-				std::shared_ptr<HealthPickup> healthPickup = std::make_shared<HealthPickup>(myScene);
-				healthPickup->SetPosition(entity.GetPosition());
-				myScene->AddGameObject(healthPickup);
+				collectableMessageData.myLootType = PowerUpType::HealthPickup;
 			}
+
+			collectableMessageData.mySpawnPosition = entity.GetPosition();
+			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnCollectable, &collectableMessageData);
 		}
 		else if (type == "AnimatedProp")
 		{
