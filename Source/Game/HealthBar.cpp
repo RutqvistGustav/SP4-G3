@@ -13,6 +13,8 @@
 
 #include "Health.h"
 
+#include <iostream>
+
 HealthBar::HealthBar(Scene* aScene, Health* aHealthInterface) :
 	GameObject(aScene),
 	myHealthInterface(aHealthInterface)
@@ -28,14 +30,22 @@ void HealthBar::Init()
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
+	float increaseSize = 1.2f;
 	mySprite = std::make_shared<SpriteWrapper>(healthData.at("HpFramePath"));
 	mySprite->SetLayer(50);
+	mySprite->SetSize(mySprite->GetSize() * increaseSize);
+
 	myHealthBar = std::make_shared<SpriteWrapper>(healthData.at("HpBarPath"));
 	myHealthBar->SetLayer(49);
+	myHealthBar->SetSize(myHealthBar->GetSize() * increaseSize);
+
 	myPowerUpFrame = std::make_shared<SpriteWrapper>(healthData.at("PowerupFramePath"));
 	myPowerUpFrame->SetLayer(50);
+	myPowerUpFrame->SetSize(myPowerUpFrame->GetSize() * increaseSize);
+
 	myPowerUpBar = std::make_shared<SpriteWrapper>(healthData.at("PowerupBarPath"));
 	myPowerUpBar->SetLayer(49);
+	myPowerUpBar->SetSize(myPowerUpBar->GetSize() * increaseSize);
 
 	nlohmann::json playerData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Weapons.json").at("shotgun");
 	myBerserkDuration = playerData.at("Berserk").at("Duration");
@@ -51,7 +61,7 @@ void HealthBar::Init()
 	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
 
 	myHealthBarOffSet.x = myInitialHealthBarWidth / 2;
-	myPowerupFrameOffSet = {0.0f, 30.0f};
+	myPowerupFrameOffSet = {0.0f, 18.0f};
 
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
@@ -104,8 +114,10 @@ void HealthBar::ReducePowerUpAmount(const float aDeltaTime)
 			myIsPowerUpActive = false;
 			myBerserkDuration = myBerserkDurationReset;
 			myPowerupBarOffSet.x = 0.0f;
+			myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 1.0f, 1.0f });
 			myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
 		}
+		std::cout << "Powerupbar size: x " << myPowerUpBar->GetSize().x << " y " << myPowerUpBar->GetSize().y << std::endl;
 	}
 }
 
