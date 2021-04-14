@@ -16,5 +16,8 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 private:
+	virtual void TriggerStay(GameObject* aGameObject) override;
+
+private:
 	std::unique_ptr<DialogueBox> myDialogBox;
 };

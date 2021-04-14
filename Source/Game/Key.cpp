@@ -3,10 +3,10 @@
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
 #include "LevelManagerProxy.h"
+#include "Player.h"
 
 #include "DialogueBox.h"
 #include "SpriteSheetAnimation.h"
-
 
 #include "SpriteWrapper.h"
 
@@ -14,7 +14,7 @@
 Key::Key(Scene* aScene, PowerUpType aPowerupType)
 	: Collectable(aScene, aPowerupType)
 {
-	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
+	//InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
 }
 
 void Key::InitWithJson(const JsonData& someProperties)
@@ -22,7 +22,7 @@ void Key::InitWithJson(const JsonData& someProperties)
 	Init();
 
 	myDialogBox = std::make_unique<DialogueBox>(GetScene(), true);
-	myDialogBox->Init(stringID);
+	//myDialogBox->Init(stringID);
 
 	mySprite = std::make_shared<SpriteWrapper>();
 	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animation/TestAnimation.json");
@@ -34,9 +34,9 @@ void Key::InitWithJson(const JsonData& someProperties)
 	SetTriggerSize(mySprite->GetSize());
 }
 
-void Key::OnCollect(Player* /*aPlayer*/)
+void Key::OnCollect(Player* aPlayer)
 {
-	// TODO Activate dialogue box
+	myDialogBox->OnInteract(aPlayer);
 }
 
 void Key::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -58,4 +58,19 @@ void Key::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	GameObject::Render(aRenderQueue, aRenderContext);
 	myDialogBox->Render(aRenderQueue, aRenderContext);
+}
+
+void Key::TriggerStay(GameObject* aGameObject)
+{
+	Player* player = static_cast<Player*>(aGameObject);
+
+	if (CanCollect(player))
+	{
+		OnCollect(player);
+
+		myIsCollected = true;
+
+		// TODO: Mark GameObject for destruction
+		//SetDeleteThisFrame();
+	}
 }

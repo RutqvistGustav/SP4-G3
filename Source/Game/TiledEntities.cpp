@@ -145,6 +145,10 @@ void TiledEntities::SpawnEntities()
 			{
 				collectableMessageData.myLootType = PowerUpType::HealthPickup;
 			}
+			else if (entity.GetSubType() == "KeyPickup")
+			{
+				collectableMessageData.myLootType = PowerUpType::Key;
+			}
 
 			collectableMessageData.mySpawnPosition = entity.GetPosition();
 			myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnCollectable, &collectableMessageData);
