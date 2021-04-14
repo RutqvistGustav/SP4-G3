@@ -37,11 +37,11 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	Enemy::Update(aDeltaTime, anUpdateContext);
 
-	if (std::abs(myPhysicsController.GetVelocity().x) >= 1.0f)
+	if (std::abs(myPhysicsController.GetVelocity().x) >= 1.0f && !myIsPlayerInRange)
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Run);
 	}
-	else if (std::abs(myPhysicsController.GetVelocity().x) < 1.0f)
+	else if (std::abs(myPhysicsController.GetVelocity().x) < 1.0f && !myIsPlayerInRange)
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}

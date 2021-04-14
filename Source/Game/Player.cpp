@@ -266,6 +266,7 @@ void Player::TakeDamage(const int aDamage)
 		{
 			myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
+			SetCanControl(false);
 		}
 		else
 		{
