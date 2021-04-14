@@ -14,7 +14,7 @@
 Key::Key(Scene* aScene, PowerUpType aPowerupType)
 	: Collectable(aScene, aPowerupType)
 {
-	//InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
+	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
 }
 
 void Key::InitWithJson(const JsonData& someProperties)
@@ -22,10 +22,12 @@ void Key::InitWithJson(const JsonData& someProperties)
 	Init();
 
 	myDialogBox = std::make_unique<DialogueBox>(GetScene(), true);
-	//myDialogBox->Init(stringID);
+	myDialogBox->Init("PlayerTest1");
 
 	mySprite = std::make_shared<SpriteWrapper>();
-	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animation/TestAnimation.json");
+	mySprite->SetLayer(GameLayer::HUD);
+
+	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json"); // someProperties.at("Animation")
 
 	myAnimation->SetState("idle");
 	myAnimation->SetIsLooping(true);
