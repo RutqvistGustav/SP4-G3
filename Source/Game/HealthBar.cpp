@@ -28,22 +28,22 @@ void HealthBar::Init()
 	myDistanceFromPlayer.x = healthData.at("DistanceFromPlayerX");
 	myDistanceFromPlayer.y = healthData.at("DistanceFromPlayerY");
 
-	float increaseSize = 1.2f;
+	float decreaseSize = 0.5f;
 	mySprite = std::make_shared<SpriteWrapper>(healthData.at("HpFramePath"));
 	mySprite->SetLayer(50);
-	mySprite->SetSize(mySprite->GetSize() * increaseSize);
+	mySprite->SetSize(mySprite->GetSize() * decreaseSize);
 
 	myHealthBar = std::make_shared<SpriteWrapper>(healthData.at("HpBarPath"));
 	myHealthBar->SetLayer(49);
-	myHealthBar->SetSize(myHealthBar->GetSize() * increaseSize);
+	myHealthBar->SetSize(myHealthBar->GetSize() * decreaseSize);
 
 	myPowerUpFrame = std::make_shared<SpriteWrapper>(healthData.at("PowerupFramePath"));
 	myPowerUpFrame->SetLayer(50);
-	myPowerUpFrame->SetSize(myPowerUpFrame->GetSize() * increaseSize);
+	myPowerUpFrame->SetSize(myPowerUpFrame->GetSize() * decreaseSize);
 
 	myPowerUpBar = std::make_shared<SpriteWrapper>(healthData.at("PowerupBarPath"));
 	myPowerUpBar->SetLayer(49);
-	myPowerUpBar->SetSize(myPowerUpBar->GetSize() * increaseSize);
+	myPowerUpBar->SetSize(myPowerUpBar->GetSize() * decreaseSize);
 
 	nlohmann::json playerData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Weapons.json").at("shotgun");
 	myBerserkDuration = playerData.at("Berserk").at("Duration");
@@ -59,7 +59,7 @@ void HealthBar::Init()
 	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
 
 	myHealthBarOffSet.x = myInitialHealthBarWidth / 2;
-	myPowerupFrameOffSet = {0.0f, 18.0f};
+	myPowerupFrameOffSet = {0.0f, 22.0f};
 
 	myScene->GetCollisionManager()->RemoveCollider(myCollider);
 	myCollider.reset();
