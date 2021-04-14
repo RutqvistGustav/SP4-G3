@@ -107,7 +107,7 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 	}
 }
 
-void LevelSelect::ControllerControl(UpdateContext& anUpdateContext)
+void LevelSelect::ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
 
 	if (myCurrentButtonIndex < 0 && myOnBackButton == false)

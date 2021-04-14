@@ -35,7 +35,7 @@ void MenuScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	myMousePointer->Update(aDeltaTime, anUpdateContext);
 	
 	ControllerNavigate(anUpdateContext);
-	ControllerControl(anUpdateContext);
+	ControllerControl(aDeltaTime, anUpdateContext);
 	
 	if (anUpdateContext.myInputInterface->IsJumping())
 	{
@@ -53,7 +53,7 @@ void MenuScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	myMousePointer->Render(aRenderQueue, aRenderContext);
 }
 
-void MenuScene::ControllerControl(UpdateContext& /*anUpdateContext*/)
+void MenuScene::ControllerControl(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 
 	if (myCurrentButtonIndex < 0)

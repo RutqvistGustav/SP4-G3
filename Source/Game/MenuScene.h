@@ -18,7 +18,7 @@ public:
 
 
 protected:
-	virtual void ControllerControl(UpdateContext& anUpdateContext);
+	virtual void ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext);
 	void AddInterfaceElement(std::shared_ptr<GameObject> anElement);
 	virtual void MouseClicked(GameObject* aTarget) = 0;
 	virtual const bool CheckNext(UpdateContext& anUpdateContext)const;
@@ -30,6 +30,7 @@ protected:
 	std::unique_ptr<MousePointer> myMousePointer;
 
 	int myCurrentButtonIndex = 0;
+	int myBackButtonIndex;
 	bool mySwitchingButton = false;
 
 };

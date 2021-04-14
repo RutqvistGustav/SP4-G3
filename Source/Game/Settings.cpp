@@ -210,12 +210,7 @@ void Settings::InitButtons()
 	const float width = Metrics::GetReferenceSize().x;
 	const float height = Metrics::GetReferenceSize().y;
 
-	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
-		GameObjectTag::BackButton);
-	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.85f));
-	backButton->SetPanStrengthFactor(0);
-	backButton->SetLayer(102);
-	AddInterfaceElement(backButton);
+	
 
 	auto leftArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
 		GameObjectTag::ArrowLeftButton);
@@ -232,6 +227,15 @@ void Settings::InitButtons()
 	rightArrow->SetPanStrengthFactor(0);
 	rightArrow->SetLayer(102);
 	AddInterfaceElement(rightArrow);
+
+	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
+		GameObjectTag::BackButton);
+	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.85f));
+	backButton->SetPanStrengthFactor(0);
+	backButton->SetLayer(102);
+	AddInterfaceElement(backButton);
+
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void Settings::SetResolutionIndex(int anIndex, bool anUpdateResolution)
@@ -314,4 +318,23 @@ void Settings::SetSfxVolume(float aVolume)
 void Settings::SetMusicVolume(float aVolume)
 {
 	GetGlobalServiceProvider()->GetAudioManager()->SetMusicVolume(aVolume);
+}
+
+void Settings::ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+
+	MenuScene::ControllerControl(aDeltaTime, anUpdateContext);
+
+	auto interactObject = std::dynamic_pointer_cast<Slider>(myGameObjects[myCurrentButtonIndex]);
+
+	if (interactObject != nullptr)
+	{
+		interactObject->SetSlidePercentage(interactObject->GetSlidePercentage()
+			+ anUpdateContext.myInputInterface->GetLeftStickX() * aDeltaTime);
+	}
+	else if (myCurrentButtonIndex != myBackButtonIndex)
+	{
+
+	}
+
 }

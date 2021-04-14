@@ -25,7 +25,7 @@ private:
 
 	void MouseClicked(GameObject* aTarget);
 
-	void ControllerControl(UpdateContext& anUpdateContext) override;
+	void ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 
 	const bool CheckNext(UpdateContext& anUpdateContext)const override;
 	const bool CheckPrev(UpdateContext& anUpdateContext)const override;

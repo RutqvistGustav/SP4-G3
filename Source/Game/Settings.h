@@ -73,6 +73,9 @@ private:
 	void SetSfxVolume(float aVolume);
 	void SetMusicVolume(float aVolume);
 
+	//void ControllerNavigate(UpdateContext& anUpdateContext) override;
+	void ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+
 private:
 	bool myIsActive = true;
 	eBackTarget myBackTarget;
