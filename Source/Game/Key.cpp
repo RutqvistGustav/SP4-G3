@@ -2,12 +2,10 @@
 #include "Key.h"
 #include "GlobalServiceProvider.h"
 #include "JsonManager.h"
-
-// TODO: REMOVE
-#include <iostream>
+#include "SpriteWrapper.h"
 
 Key::Key(Scene* aScene, PowerUpType aPowerupType)
-	: Collectable(aScene)
+	: Collectable(aScene, aPowerupType)
 {
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
 }
