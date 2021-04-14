@@ -48,6 +48,7 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 	}
 	else
 	{
+		myShotVolume->SetBoxSize({ myAoeLength, min(myAoeLength, 125.0f) });
 		myShotVolume->SetPosition(GetPosition() + GetDirection() * myShotVolume->GetBoxSize().x * 0.5f);
 	}
 
@@ -77,6 +78,12 @@ void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
 		myPowerUpDamage = myBerserkDamage;
 		myPowerUpReloadDuration = myBerserkReloadDuration;
 	}
+}
+
+void Shotgun::DeactivatePowerUp()
+{
+	myIsPowerUpActive = false;
+	myPowerUpDuration = 0.f;
 }
 
 void Shotgun::UpdatePowerUps(const float aDeltaTime)
@@ -132,6 +139,10 @@ void Shotgun::Boost()
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
+	// NOTE: For boosting we'll modify the shape and position of the shot volume to point more down
+	myShotVolume->SetBoxSize({ min(myAoeLength, 125.0f), myAoeLength });
+	myShotVolume->SetPosition(GetPosition() + CU::Vector2<float>(0.0f, 1.0f) * myShotVolume->GetBoxSize().y * 0.5f);
+
 	GetWeaponHolder()->ApplyRecoilKnockback(this, myBoostKnockBackStrength, true);
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
@@ -182,7 +193,7 @@ void Shotgun::Setup()
 {
 	SetLoadedAmmo(myAmmoPerClip);
 
-	myShotVolume->SetBoxSize({ myAoeLength, myAoeLength });
+	myShotVolume->SetBoxSize({ myAoeLength, min(myAoeLength, 125.0f) });
 
 	myScene->GetCollisionManager()->AddCollider(myShotVolume);
 }
@@ -212,18 +223,16 @@ bool Shotgun::IsLoaded() const
 
 void Shotgun::SpawnMuzzleFlash() const
 {
-	constexpr float scale = 4.0f;
-
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
-	spawnData.myPosition = GetPosition() + GetDirection() * scale * 0.5f * 75.0f;
+	spawnData.myPosition = GetPosition() + GetDirection() * 4.0f * 0.5f * 75.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
-	spawnData.myScale = scale;
+	spawnData.myScale = 1.0f;
 
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }
 
-void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
+void Shotgun::CheckCollisionHit(const CollisionInfo& someCollisionInfo)
 {
 	if (!myIsShotVolumeActive)
 		return;
@@ -232,11 +241,24 @@ void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
 
 	if (gameObject != nullptr && gameObject->GetTag() == GameObjectTag::Enemy)
 	{
-		const CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
+		CU::Vector2<float> toEnemy = gameObject->GetPosition() - GetPosition();
 
 		Enemy* enemy = static_cast<Enemy*>(gameObject);
 
-		enemy->ApplyForce(toEnemy.GetNormalized() * myRecoilKnockbackStrength);
+		toEnemy.Normalize();
+		toEnemy.y = 0.0f; // NOTE: No vertical movements from getting shot
+
+		enemy->ApplyForce(toEnemy * myRecoilKnockbackStrength);
 		enemy->TakeDamage(myDamage);
 	}
+}
+
+void Shotgun::OnEnter(const CollisionInfo& someCollisionInfo)
+{
+	CheckCollisionHit(someCollisionInfo);
+}
+
+void Shotgun::OnStay(const CollisionInfo& someCollisionInfo)
+{
+	CheckCollisionHit(someCollisionInfo);
 }

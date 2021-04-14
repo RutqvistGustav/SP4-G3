@@ -51,15 +51,15 @@ void AmmoCounter::RemoveBullet()
 {
 	if (myCurrentBullets == 1)
 	{
-		Tga2D::CColor inactiveColor = mySprite->GetColor();
-		inactiveColor.myA = 0.5f;
-		mySprite->SetColor(inactiveColor);
+		Tga2D::CColor inactiveColor = mySecondSprite->GetColor();
+		inactiveColor.myA = 0.0f;
+		mySecondSprite->SetColor(inactiveColor);
 	}
 	else if ( myCurrentBullets == 0)
 	{
-		Tga2D::CColor inactiveColor = mySecondSprite->GetColor();
-		inactiveColor.myA = 0.5f;
-		mySecondSprite->SetColor(inactiveColor);
+		Tga2D::CColor inactiveColor = mySprite->GetColor();
+		inactiveColor.myA = 0.0f;
+		mySprite->SetColor(inactiveColor);
 	}
 	else
 	{

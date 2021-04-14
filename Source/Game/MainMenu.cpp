@@ -33,6 +33,7 @@ void MainMenu::Init()
 	MenuScene::Init();
 
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	myBackground->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackground->SetLayer(-1);
 
@@ -102,7 +103,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 		break;
 
 	case GameObjectTag::SettingsButton:
-		GetSceneManagerProxy()->Transition(std::make_unique<Settings>(), false);
+		GetSceneManagerProxy()->Transition(std::make_unique<Settings>(Settings::eBackTarget::eMainMenu), false);
 		break;
 
 	case GameObjectTag::CreditsButton:

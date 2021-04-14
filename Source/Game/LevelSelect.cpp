@@ -25,6 +25,7 @@ void LevelSelect::Init()
 	MenuScene::Init();
 
 	myBackground = std::make_shared<SpriteWrapper>("Sprites/Menue UI/menu background.dds");
+	myBackground->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	myBackground->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myBackground->SetLayer(-1);
 
@@ -62,9 +63,11 @@ void LevelSelect::InitButtons()
 	{
 		const GameObjectTag buttonTag = static_cast<GameObjectTag>(static_cast<int>(GameObjectTag::Level1Button) + i);
 
-		auto levelButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/lvlsellect.dds", "Sprites/Menue UI/lvlsellect.dds", buttonTag);
+		std::string imagePathStart = "Sprites/Menue UI/lvlsellect/lvl " + std::to_string(i + 1);
+
+		auto levelButton = std::make_shared<MenuButton>(this, (imagePathStart + ".dds").c_str(), (imagePathStart + "_hover.dds").c_str(), buttonTag);
 		levelButton->SetPosition(CommonUtilities::Vector2(startX + i * levelBoxWidth, height * 0.50f));
-		levelButton->SetColliderSize({ 0.7f, 0.7f });
+		levelButton->SetColliderSize({ 0.7f, 0.5f });
 
 		AddInterfaceElement(levelButton);
 	}

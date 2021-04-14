@@ -51,27 +51,11 @@ void Zombie::Movement(const float aDeltaTime)
 	const CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
 
-	velocity.x *= std::powf(0.001f, aDeltaTime);
+	velocity.x *= std::powf(myMaxSpeed, aDeltaTime);
 
 	if (!myIsPlayerInRange)
 	{
 		velocity.x += direction.GetNormalized().x * mySpeed * aDeltaTime * 10.0f;
-	}
-
-	myPhysicsController.SetVelocity(velocity);
-}
-
-void Zombie::IdleMovement(const float aDeltaTime)
-{
-	CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
-	
-	const float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
-	velocity.x *= std::powf(0.001f, aDeltaTime);
-	velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
-
-	if (myPhysicsController.IsAgainstWall())
-	{
-		velocity.x = -myCharacterAnimator.GetDirection();
 	}
 
 	if (
@@ -83,6 +67,33 @@ void Zombie::IdleMovement(const float aDeltaTime)
 	}
 
 	myPhysicsController.SetVelocity(velocity);
+}
+
+void Zombie::IdleMovement(const float aDeltaTime)
+{
+	if (myShouldRoam)
+	{
+		CU::Vector2<float> velocity = myPhysicsController.GetVelocity();
+
+		const float direction = velocity.x >= 0.0f ? 1.0f : -1.0f;
+		velocity.x *= std::powf(myRoamMaxSpeed, aDeltaTime);
+		velocity.x += direction * mySpeed * aDeltaTime * 10.0f;
+
+		if (myPhysicsController.IsAgainstWall())
+		{
+			velocity.x = -myCharacterAnimator.GetDirection();
+		}
+
+		if (
+			(velocity.x < 0.0f && myPhysicsController.IsFloorOvershootLeft()) ||
+			(velocity.x > 0.0f && myPhysicsController.IsFloorOvershootRight())
+			)
+		{
+			velocity.x *= -1.0f;
+		}
+
+		myPhysicsController.SetVelocity(velocity);
+	}
 }
 
 bool Zombie::CheckIdle()

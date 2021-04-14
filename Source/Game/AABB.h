@@ -45,6 +45,15 @@ public:
 		myMax.y = max(myMax.y, anOther.myMax.y);
 	}
 
+	void Expand(const CU::Vector2<float>& anExpansion)
+	{
+		myMin.x -= anExpansion.x * 0.5f;
+		myMax.x += anExpansion.x * 0.5f;
+
+		myMin.y -= anExpansion.y * 0.5f;
+		myMax.y += anExpansion.y * 0.5f;
+	}
+
 	void Shift(const CU::Vector2<float>& aDisplacement)
 	{
 		myMin += aDisplacement;

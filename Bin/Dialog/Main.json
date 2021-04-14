@@ -1,5 +1,11 @@
 {
   "PlayerTest1": "This is a test dialog with\nlinebreaks & multiple pages%bThis is the next page!",
-  "L3D1": "This is a test message to test the dialogue system.%bAnd this is to test the linebreak function. \nAnd this is to test adding a new line.",
-  "L3D2": "Test message 2.%bAnother linebreak.%bAnd another.%bAnd another.%bAnd another.%bAnd another.%bAnd another.%bAnd another."
+  "L3D0": "Radio: *cracles* Come in Old Timer, this is General Clifford, do you have the briefcase?%bOT: Affirmative, the briefcase is in my possession and\n I'm now trying to find my way to the roof of the building.%bRadio: Stellar work son, we'll have a chopper ready for you when you get there. Clifford out.%bOT: Oh boy, here I go killing again.",
+  "L3D1": "",
+  "L3D2": "",
+  "L3D3": "",
+  "L3D4": "OT: Wow, this old toilet reminds me of...%bRadio: Look Old Timer, we don't have time for you to remeniss\nabout every little thing you find in the building, just hurry up to the LZ.%bOT: ..........%bOT: Copy that.",
+  "L3D5": "Might as well grab myself a snack while I'm here.%bHmmm... Maybe Helena is related to the General somehow. His wife, friend, lover or a coworker.%bOr perhaps the content of the suitcase is sentimental?",
+  "L3D6": "I'm really going to miss this view...%bIt's probably the last time I'll see it...%b...%b...%bLet's keep going.",
+  "L3D7": "People always hide the strangest things in these interstitial spaces.\nThe content here always seems so cut out from everything else.%bYou could call it cut content I suppose."
 }

@@ -26,6 +26,7 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) = 0;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) = 0;
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType);
+	virtual void DeactivatePowerUp();
 
 	virtual void Shoot() = 0;
 	virtual void Boost() = 0;

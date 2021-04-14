@@ -30,11 +30,11 @@ SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myLevelManagerProxy(*this)
 {
 	myFadeSprite = std::make_shared<SpriteWrapper>();
-	myFadeSprite->SetSize(Metrics::GetReferenceSize());
+	myFadeSprite->SetSize(Metrics::GetReferenceSize() * 10.0f);
 	myFadeSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myFadeSprite->SetLayer(GameLayer::Transitions);
 	myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.0f));
-	myFadeSprite->SetPanStrengthFactor(0.0f);
+	myFadeSprite->SetPanStrengthFactor(0);
 }
 
 SceneManager::~SceneManager()
@@ -54,6 +54,12 @@ void SceneManager::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 		{
 			myFadeDoneCallback();
 			myFadeDoneCallback = nullptr;
+
+			// NOTE: Step the active scene once to ensure everything is presentable before fading in
+			if (myActiveScene != nullptr)
+			{
+				myActiveScene->Update(0.0f, anUpdateContext);
+			}
 		}
 
 		const float alpha = 1.0f - std::abs((myFadeProgress - 0.5f) * 2.0f);

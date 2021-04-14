@@ -1,12 +1,13 @@
 {
   "Zombie": {
     "Health": 2,
-    "Damage": 1,
+    "Damage": 2,
     "MovementSpeed": 200.0,
-    "MaxSpeedCap" :  400.0,
-    "DetectionRange" : 600.0,
-    "Invincibility" : 0.5,
-    "KnockBack": 20.0,
+    "MaxSpeedCap" :  0.001,
+    "MaxRoamSpeedCap" :  0.00000001,
+    "DetectionRange" : 1000.0,
+    "Invincibility" : 0.0,
+    "KnockBack": 10.0,
     "Gravity" :  1000.0,
 
     "ColliderWidth": 54,
@@ -16,13 +17,13 @@
     "SpriteShiftY": -17
   },
   "EliteZombie": {
-    "Health": 10,
-    "Damage": 5,
-    "MovementSpeed": 100.0,
+    "Health": 6,
+    "Damage": 4,
+    "MovementSpeed": 250.0,
     "MaxSpeedCap": 300.0,
-    "DetectionRange": 2000.0,
-    "Invincibility": 0.5,
-    "KnockBack": 100.0,
+    "DetectionRange": 800.0,
+    "Invincibility": 0.0,
+    "KnockBack": 5.0,
     "Gravity": 1000.0,
 
     "ColliderWidth": 54,

@@ -69,7 +69,7 @@ void Player::Init()
 	GameObject::Init();
 
 	nlohmann::json data = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Player.json");
-	
+
 	InitVariables(data);
 
 	// Init Sprite
@@ -80,7 +80,7 @@ void Player::Init()
 
 	// Init HUD
 	myHUD = std::make_unique<HUD>(GetScene(), myHealth.get(), myWeaponController->GetShotgun());
-	
+
 	myHUD->Init();
 
 
@@ -123,7 +123,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	SetPosition(myPhysicsController.GetPosition());
 
 #ifdef _DEBUG
-	
+
 	// ImGui();
 
 #endif
@@ -139,14 +139,16 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	// NOTE: TODO:
 	// Very simple test version for now, when more complex animations are added this might
 	// need to be split into a separate state machine.
-	if (std::abs(myMovementVelocity.x) >= 1.0f)
+
+	if (std::abs(myMovementVelocity.x) >= 1.0f && myPhysicsController.IsGrounded())
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Run);
 	}
-	else
+	else if (std::abs(myMovementVelocity.x) < 1.0f && myPhysicsController.IsGrounded())
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
+	
 
 	myCharacterAnimator.Update(aDeltaTime);
 	myCharacterAnimator.ApplyToSprite(mySprite);
@@ -234,7 +236,18 @@ void Player::ActivatePowerUp(PowerUpType aPowerUpType)
 
 void Player::DisablePowerUp()
 {
-	mySpeed -= myBerserkSpeed;
+	if (myHUD->GetHealthBar()->HasActivePowerup())
+	{
+		const PowerUpType powerUpType = myHUD->GetHealthBar()->GetActivePowerupType();
+
+		myWeaponController->DeactivatePowerUp();
+		myHUD->GetHealthBar()->DeactivatePowerUp();
+
+		if (powerUpType == PowerUpType::Berserk)
+		{
+			mySpeed -= myBerserkSpeed;
+		}
+	}
 }
 
 void Player::TakeDamage(const int aDamage)
@@ -261,6 +274,12 @@ void Player::AddHealth(const int aHealthAmount)
 	myHealth->AddHealth(aHealthAmount);
 }
 
+void Player::SetSaveCheckpointPosition(const CU::Vector2<float>& aPosition)
+{
+	// NOTE: aPositon is middle bottom of checkpoint, we'll offset it so the position will make bottom of our collision box touch this point
+	mySaveCheckpointPosition = aPosition + CU::Vector2<float>(0.0f, myCollider->GetBoxSize().y * -0.5f);
+}
+
 GameMessageAction Player::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
 	switch (aMessage)
@@ -268,18 +287,28 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 	case GameMessage::CheckpointSave:
 	{
 		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->NewData<PlayerCheckpointData>("Player");
-		saveData->myPosition = GetPosition();
+
+		if (mySaveCheckpointPosition.has_value())
+		{
+			saveData->myPosition = mySaveCheckpointPosition.value();
+			mySaveCheckpointPosition.reset();
+		}
+		else
+		{
+			saveData->myPosition = GetPosition();
+		}
 
 		// TODO: Save more data as needed
 	}
 
-		break;
+	break;
 
 	case GameMessage::CheckpointLoad:
 	{
 		PlayerCheckpointData* saveData = someMessageData->myCheckpointContext->GetData<PlayerCheckpointData>("Player");
 
 		// TODO: Reset all variables to a correct state
+		DisablePowerUp();
 
 		myMovementVelocity = {};
 		myPhysicsController.SetVelocity({});
@@ -291,7 +320,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		myCamera->SetPosition(GetPosition());
 	}
 
-		break;
+	break;
 
 	default:
 		assert(false);
@@ -364,6 +393,7 @@ void Player::Move(const float aDeltaTime, InputInterface* anInput)
 		}
 		physicsVelocity.y = -myJumpStrength;
 		--myJumpCharges;
+		myCharacterAnimator.SetState(CharacterAnimator::State::Jump);
 	}
 
 	if (!myPhysicsController.IsGrounded() && myJumpCharges == myJumpChargeReset)

@@ -7,9 +7,13 @@
         }
     },
   "HealthPickup": {
-    "SpritePath" :  "Animations/HealthPickup.json"
+    "SpritePath": "Animations/HealthPickup.json",
+    "Health" :  2
   },
   "BerserkerPickup": {
     "SpritePath": "Animations/BerserkerPickup.json"
+  },
+  "Key": {
+    "SpritePath": "Animations/"
   }
 }

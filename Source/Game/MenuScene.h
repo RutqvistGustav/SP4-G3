@@ -8,7 +8,6 @@ class MenuScene :
 	public Scene
 {
 public:
-
 	MenuScene();
 	virtual ~MenuScene() override;
 
@@ -20,7 +19,6 @@ public:
 	void ControllerControl(UpdateContext& anUpdateContext);
 
 protected:
-
 	void AddInterfaceElement(std::shared_ptr<GameObject> anElement);
 	virtual void MouseClicked(GameObject* aTarget) = 0;
 

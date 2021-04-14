@@ -3,5 +3,7 @@ enum class PowerUpType
 {
     Berserk,
     SniperShot,
-    HealthPickup
+    HealthPickup,
+    Key,
+    None
 };

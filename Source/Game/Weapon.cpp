@@ -24,3 +24,6 @@ void Weapon::Init(const JsonData& someJsonData)
 void Weapon::ActivatePowerUp(PowerUpType /*aPowerUpType*/)
 {
 }
+
+void Weapon::DeactivatePowerUp()
+{}

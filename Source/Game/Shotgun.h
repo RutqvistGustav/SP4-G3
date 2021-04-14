@@ -20,6 +20,8 @@ public:
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 	virtual void ActivatePowerUp(PowerUpType aPowerUpType) override;
+	virtual void DeactivatePowerUp() override;
+
 	void UpdatePowerUps(const float aDeltaTime);
 
 	virtual void Shoot() override;
@@ -40,6 +42,9 @@ protected:
 
 	void SpawnMuzzleFlash() const;
 
+	void CheckCollisionHit(const CollisionInfo& someCollisionInfo);
+
+	virtual void OnEnter(const CollisionInfo& someCollisionInfo) override;
 	virtual void OnStay(const CollisionInfo& someCollisionInfo) override;
 
 private:
