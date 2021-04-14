@@ -148,6 +148,11 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
+
+	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
+	{
+		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+	}
 	
 
 	myCharacterAnimator.Update(aDeltaTime);
@@ -257,10 +262,11 @@ void Player::TakeDamage(const int aDamage)
 		myHealth->TakeDamage(aDamage);
 		//myHUD->GetHealthBar()->RemoveHP(aDamage);
 
-		if (myHealth->IsDead() == true)
+		if (myHealth->IsDead())
 		{
+			myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
-			GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
+			SetCanControl(false);
 		}
 		else
 		{
@@ -318,6 +324,8 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());
+
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
 	break;

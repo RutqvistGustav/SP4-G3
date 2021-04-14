@@ -88,6 +88,9 @@ std::string CharacterAnimator::GetAnimationStateName(State aState) const
 		myAnimator->SetIsLooping(false);
 		return "jump";
 
+	case State::Boost:
+		return "boost";
+
 	case State::Death:
 		myAnimator->SetIsLooping(false);
 		return "death";
