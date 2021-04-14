@@ -6,6 +6,7 @@
 #include "EnemyDeathMessage.h"
 #include "PowerUp.h"
 #include "HealthPickup.h"
+#include "Key.h"
 #include "CheckpointContext.h"
 
 CollectibleManager::CollectibleManager(Scene* aScene) : 
@@ -51,6 +52,14 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 		healthPickup->SetPosition(aSpawnPosition);
 		myCollectibles.push_back(healthPickup);
 		myScene->AddGameObject(healthPickup);
+	}
+		break;
+	case PowerUpType::Key:
+	{
+		std::shared_ptr<Key> keyPickup = std::make_shared<Key>(myScene, aCollectibleType);
+		keyPickup->SetPosition(aSpawnPosition);
+		myCollectibles.push_back(keyPickup);
+		myScene->AddGameObject(keyPickup);
 	}
 		break;
 	default:
