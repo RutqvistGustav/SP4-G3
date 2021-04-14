@@ -27,7 +27,7 @@ void Key::InitWithJson(const JsonData& someProperties)
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetLayer(GameLayer::HUD);
 
-	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json"); // someProperties.at("Animation")
+	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animations/BouncingArrow.json");
 
 	myAnimation->SetState("idle");
 	myAnimation->SetIsLooping(true);

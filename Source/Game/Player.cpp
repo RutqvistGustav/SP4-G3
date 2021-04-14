@@ -266,6 +266,7 @@ void Player::TakeDamage(const int aDamage)
 		{
 			myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
+			SetCanControl(false);
 		}
 		else
 		{
@@ -323,6 +324,8 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());
+
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
 	break;

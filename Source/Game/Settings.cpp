@@ -14,6 +14,8 @@
 #include "RenderCommand.h"
 #include "Game.h"
 
+#include "TextWrapper.h"
+
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
@@ -37,7 +39,15 @@ void Settings::Init()
 
 	myMousePointer->SetClickCallback(std::bind(&Settings::MouseClicked, this, std::placeholders::_1));
 
-	// NOTE: TODO: Set default resolution
+	FindAvailableResolutions();
+	DetectResolution();
+}
+
+void Settings::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	MenuScene::Update(aDeltaTime, anUpdateContext);
+
+	DetectResolution();
 }
 
 void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -55,6 +65,74 @@ void Settings::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCon
 bool Settings::IsSettingsActive()
 {
 	return myIsActive;
+}
+
+void Settings::FindAvailableResolutions()
+{
+	DWORD modeNum = 0;
+	DEVMODEA devMode;
+	ZeroMemory(&devMode, sizeof(devMode));
+	devMode.dmSize = sizeof(DEVMODEA);
+
+	std::set<Resolution> resolutionSet;
+
+	while (EnumDisplaySettingsExA(nullptr, modeNum, &devMode, 0) != FALSE)
+	{
+		++modeNum;
+
+		constexpr float targetRatio = 16.0f / 9.0f;
+		const float ratio = static_cast<float>(devMode.dmPelsWidth) / static_cast<float>(devMode.dmPelsHeight);
+
+		if (std::abs(targetRatio - ratio) < 0.01f)
+		{
+			resolutionSet.insert(
+				{
+					static_cast<int>(devMode.dmPelsWidth),
+					static_cast<int>(devMode.dmPelsHeight)
+				}
+			);
+		}
+	}
+
+	myResolutions = std::vector<Resolution>(resolutionSet.begin(), resolutionSet.end());
+
+	std::sort(myResolutions.begin(), myResolutions.end(), [](const Resolution& aL, const Resolution& aR)
+	{
+		int sizeL = aL.myWidth * aL.myHeight;
+		int sizeR = aR.myWidth * aR.myHeight;
+
+		return sizeL < sizeR;
+	});
+}
+
+void Settings::DetectResolution()
+{
+	const VECTOR2UI resolution = Tga2D::CEngine::GetInstance()->GetWindowSize();
+
+	if (resolution == myPrevDetectedResolution)
+		return;
+
+	myPrevDetectedResolution = resolution;
+
+	std::vector<Resolution> bestMatchResolutions = myResolutions;
+
+	const int resolutionSize = static_cast<int>(resolution.myX * resolution.myY);
+
+	std::sort(bestMatchResolutions.begin(), bestMatchResolutions.end(), [resolutionSize](const Resolution& aL, const Resolution& aR)
+	{
+		const int lSize = aL.myWidth * aL.myHeight;
+		const int rSize = aR.myWidth * aR.myHeight;
+
+		return std::abs(resolutionSize - lSize) < std::abs(resolutionSize - rSize);
+	});
+
+	Resolution bestMatchResolution = bestMatchResolutions.front();
+
+	auto bestMatchIt = std::find(myResolutions.begin(), myResolutions.end(), bestMatchResolution);
+
+	assert(bestMatchIt != myResolutions.end());
+
+	SetResolutionIndex(static_cast<int>(bestMatchIt - myResolutions.begin()), false);
 }
 
 void Settings::InitSprites()
@@ -85,23 +163,11 @@ void Settings::InitSprites()
 	resolutionSprite->SetLayer(100);
 	mySprites.push_back(resolutionSprite);
 
-	my720Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/720.dds");
-	my720Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
-	my720Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
-	my720Sprite->SetPanStrengthFactor(0);
-	my720Sprite->SetLayer(101);
-
-	my900Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/900.dds");
-	my900Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
-	my900Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
-	my900Sprite->SetPanStrengthFactor(0);
-	my900Sprite->SetLayer(101);
-
-	my1080Sprite = std::make_shared<SpriteWrapper>("Sprites/Menue UI/settings/1080.dds");
-	my1080Sprite->SetSamplerFilter(RenderSamplerFilter::Bilinear);
-	my1080Sprite->SetPosition(CommonUtilities::Vector2(width * 0.59f, height * 0.72f));
-	my1080Sprite->SetPanStrengthFactor(0);
-	my1080Sprite->SetLayer(101);
+	myResolutionText = std::make_shared<TextWrapper>("Text/Avancement/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_36, 0);
+	myResolutionText->SetPanStrengthFactor(0.0f);
+	myResolutionText->SetPivot({ 0.5f, 0.5f });
+	myResolutionText->SetPosition({ width * 0.59f, height * 0.705f });
+	myResolutionText->SetLayer(101);
 }
 
 void Settings::InitSliders()
@@ -168,72 +234,37 @@ void Settings::InitButtons()
 	AddInterfaceElement(rightArrow);
 }
 
-void Settings::SetResolution(Resolution aResolution)
+void Settings::SetResolutionIndex(int anIndex, bool anUpdateResolution)
 {
-	int width;
-	int height;
+	assert(anIndex >= 0 && anIndex < static_cast<int>(myResolutions.size()));
 
-	switch (aResolution)
+	myCurrentResolutionIndex = anIndex;
+
+	const Resolution& targetResolution = myResolutions[myCurrentResolutionIndex];
+	myResolutionText->SetText(std::to_string(targetResolution.myWidth) + "x" + std::to_string(targetResolution.myHeight));
+
+	if (anUpdateResolution)
 	{
-	case Resolution::R1280x720:
-		width = 1280;
-		height = 720;
-		break;
-
-	case Resolution::R1600x900:
-		width = 1600;
-		height = 900;
-		break;
-
-	case Resolution::R1920x1080:
-		width = 1920;
-		height = 1080;
-		break;
-
-	default:
-		return;
+		CGame::QueueSetResolution(targetResolution.myWidth, targetResolution.myHeight);
 	}
-
-	myResolution = aResolution;
-
-	CGame::QueueSetResolution(width, height);
 }
 
 void Settings::RenderResolutionText(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
-	switch (myResolution)
-	{
-	case Resolution::R1280x720:
-		aRenderQueue->Queue(RenderCommand(my720Sprite));
-		break;
-
-	case Resolution::R1600x900:
-		aRenderQueue->Queue(RenderCommand(my900Sprite));
-		break;
-
-	default:
-	case Resolution::R1920x1080:
-		aRenderQueue->Queue(RenderCommand(my1080Sprite));
-		break;
-	}
+	aRenderQueue->Queue(RenderCommand(myResolutionText));
 }
 
 void Settings::SlideResolution(int anAmount)
 {
-	constexpr int resolutionsCount = static_cast<int>(Resolution::Count);
-
-	static_assert(resolutionsCount > 0, "Not enough available resolutions!");
-
-	int targetResolution = static_cast<int>(myResolution) + anAmount;
-
-	if (targetResolution < 0)
+	int targetIndex = myCurrentResolutionIndex + anAmount;
+	if (targetIndex < 0)
 	{
-		targetResolution = resolutionsCount - 1;
+		targetIndex = static_cast<int>(myResolutions.size() - 1);
 	}
 
-	targetResolution %= resolutionsCount;
+	targetIndex = targetIndex % static_cast<int>(myResolutions.size());
 
-	SetResolution(static_cast<Resolution>(targetResolution));
+	SetResolutionIndex(targetIndex, true);
 }
 
 void Settings::MouseClicked(GameObject* aTarget)
