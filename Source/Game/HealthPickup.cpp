@@ -36,5 +36,5 @@ void HealthPickup::InitWithJson(const JsonData& someProperties)
 void HealthPickup::OnCollect(Player* aPlayer)
 {
 	aPlayer->AddHealth(myHealingValue);
-	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Health_Pickup.wav");
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Health_Pickup.mp3");
 }
