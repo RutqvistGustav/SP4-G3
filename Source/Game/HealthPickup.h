@@ -3,7 +3,7 @@
 class HealthPickup : public Collectable
 {
 public:
-	HealthPickup(Scene* aScene, PowerUpType aPowerupType);
+	HealthPickup(Scene* aScene);
 
 	virtual void InitWithJson(const JsonData& someProperties) override;
 	virtual void OnCollect(Player* aPlayer) override;

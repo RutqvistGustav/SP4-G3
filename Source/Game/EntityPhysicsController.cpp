@@ -5,6 +5,8 @@
 #include "CollisionManager.h"
 #include "Scene.h"
 
+#include "MathHelper.h"
+
 using Vec2f = CU::Vector2<float>;
 static const Vec2f locVecDown = Vec2f(0.0f, 1.0f);
 static const Vec2f locVecRight = Vec2f(1.0f, 0.0f);
@@ -29,11 +31,8 @@ void EntityPhysicsController::Update(float aDeltaTime)
 
 	const Vec2f frameDisplacement = myFrameImpulses + myVelocity * aDeltaTime;
 
-	if (!Move(EntityPhysicsController::Axis::Y, frameDisplacement.y))
-		myVelocity.y = 0.0f;
-
-	if (!Move(EntityPhysicsController::Axis::X, frameDisplacement.x))
-		myVelocity.x = 0.0f;
+	if (IsAccurateMode()) SimulateAccurate(frameDisplacement);
+	else Simulate(frameDisplacement);
 
 	myFrameImpulses = Vec2f();
 }
@@ -184,6 +183,48 @@ AABB EntityPhysicsController::ComputeCollisionBufferBounds() const
 	}
 
 	return collisionBounds;
+}
+
+void EntityPhysicsController::SimulateAccurate(const CU::Vector2<float>& aFrameDisplacement)
+{
+	constexpr float sweepStepSize = 1.0f;
+
+	const float xSign = MathHelper::Signum(aFrameDisplacement.x);
+	const float ySign = MathHelper::Signum(aFrameDisplacement.y);
+
+	float xDistanceLeft = aFrameDisplacement.x * xSign;
+	float yDistanceLeft = aFrameDisplacement.y * ySign;
+
+	while (xDistanceLeft > 0.0f || yDistanceLeft > 0.0f)
+	{
+		const float yStep = sweepStepSize > yDistanceLeft ? yDistanceLeft : sweepStepSize;
+		yDistanceLeft -= yStep;
+
+		if (yStep > 0.0f && !Move(EntityPhysicsController::Axis::Y, yStep * ySign))
+		{
+			myVelocity.y = 0.0f;
+			yDistanceLeft = 0.0f;
+		}
+
+		const float xStep = sweepStepSize > xDistanceLeft ? xDistanceLeft : sweepStepSize;
+		xDistanceLeft -= xStep;
+
+		if (xStep > 0.0f && !Move(EntityPhysicsController::Axis::X, xStep * xSign))
+		{
+			myVelocity.x = 0.0f;
+			xDistanceLeft = 0.0f;
+		}
+
+	} 
+}
+
+void EntityPhysicsController::Simulate(const CU::Vector2<float>& aFrameDisplacement)
+{
+	if (!Move(EntityPhysicsController::Axis::Y, aFrameDisplacement.y))
+		myVelocity.y = 0.0f;
+
+	if (!Move(EntityPhysicsController::Axis::X, aFrameDisplacement.x))
+		myVelocity.x = 0.0f;
 }
 
 bool EntityPhysicsController::Move(Axis anAxis, float aDistance)
