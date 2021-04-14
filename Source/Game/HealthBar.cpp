@@ -13,8 +13,6 @@
 
 #include "Health.h"
 
-#include <iostream>
-
 HealthBar::HealthBar(Scene* aScene, Health* aHealthInterface) :
 	GameObject(aScene),
 	myHealthInterface(aHealthInterface)
@@ -117,7 +115,6 @@ void HealthBar::ReducePowerUpAmount(const float aDeltaTime)
 			myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 1.0f, 1.0f });
 			myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
 		}
-		std::cout << "Powerupbar size: x " << myPowerUpBar->GetSize().x << " y " << myPowerUpBar->GetSize().y << std::endl;
 	}
 }
 
