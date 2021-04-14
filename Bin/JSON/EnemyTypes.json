@@ -7,7 +7,7 @@
     "MaxRoamSpeedCap" :  0.00000001,
     "DetectionRange" : 800.0,
     "Invincibility" : 0.0,
-    "KnockBack": 10.0,
+    "KnockBack": 5.0,
     "Gravity" :  1000.0,
 
     "ColliderWidth": 54,
@@ -17,7 +17,7 @@
     "SpriteShiftY": -17
   },
   "EliteZombie": {
-    "Health": 10,
+    "Health": 6,
     "Damage": 4,
     "MovementSpeed": 250.0,
     "MaxSpeedCap": 0.001,
