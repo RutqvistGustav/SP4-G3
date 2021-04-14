@@ -42,7 +42,7 @@ void ParallaxContainer::UpdateLayers()
 	}
 }
 
-void ParallaxContainer::OnEvent(CU::Vector2<float> someEventData)
+void ParallaxContainer::OnEvent(CU::Vector2<float> /*someEventData*/)
 {
 	UpdateLayers();
 }

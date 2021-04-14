@@ -7,6 +7,7 @@ cbuffer CommonBuffer : register(b1)
 	float4 myRandomValues; //myRandomValues.x = the random seed, myRandomValues.y = a random value ranging -1 to 1, myRandomValues.z = unset, myRandomValues.w = unset
 };
 
+#ifdef USE_LIGHTS
 struct SLight
 {
 	float4 myLightColor;
@@ -21,6 +22,7 @@ cbuffer LightBuffer : register(b2)
 	uint myUnused2;
 	uint myUnused3;
 };
+#endif
 
 cbuffer ObjectBuffer : register(b3) 
 {

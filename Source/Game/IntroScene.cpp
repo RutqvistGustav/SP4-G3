@@ -35,7 +35,7 @@ void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 }
 
-void IntroScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void IntroScene::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (myIntro != nullptr)
 	{
