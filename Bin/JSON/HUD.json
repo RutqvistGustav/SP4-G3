@@ -1,18 +1,18 @@
 {
   "HealthBar": {
-    "HpFramePath": "Sprites/HUD/health_frame.dds",
-    "HpBarPath": "Sprites/HUD/health.dds",
-    "PowerupFramePath": "Sprites/HUD/Powerup_frame.dds",
-    "PowerupBarPath": "Sprites/HUD/Powerup.dds",
+    "HpFramePath": "Sprites/HUD/New/health_frame.dds",
+    "HpBarPath": "Sprites/HUD/New/health.dds",
+    "PowerupFramePath": "Sprites/HUD/New/Powerup_frame.dds",
+    "PowerupBarPath": "Sprites/HUD/New/Powerup.dds",
 
-    "DistanceFromPlayerX": 0.0,
-    "DistanceFromPlayerY": -150.0
+    "DistanceFromPlayerX": 47.0,
+    "DistanceFromPlayerY": -120.0
   },
   "Ammo": {
-    "SpritePath": "Sprites/HUD/Bullet.dds",
-    "DistanceFromPlayerX": 150.0,
-    "DistanceFromPlayerY": -150.0,
-    "DistanceBetweenBullets" : 25.0,
+    "SpritePath": "Sprites/HUD/New/Bullet.dds",
+    "DistanceFromPlayerX": 117.0,
+    "DistanceFromPlayerY": -120.0,
+    "DistanceBetweenBullets" : 20.0,
     "SizeX": 100.0,
     "SizeY": 100.0,
     "AmmoAmount": 2
