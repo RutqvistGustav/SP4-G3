@@ -28,7 +28,6 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		if (CheckIdle())
 		{
 			IdleMovement(aDeltaTime);
-			myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 		}
 		else
 		{
@@ -37,6 +36,15 @@ void Zombie::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 
 	Enemy::Update(aDeltaTime, anUpdateContext);
+
+	if (std::abs(myPhysicsController.GetVelocity().x) >= 1.0f)
+	{
+		myCharacterAnimator.SetState(CharacterAnimator::State::Run);
+	}
+	else if (std::abs(myPhysicsController.GetVelocity().x) < 1.0f)
+	{
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+	}
 }
 
 void Zombie::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
