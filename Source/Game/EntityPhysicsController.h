@@ -43,6 +43,9 @@ public:
 	void SetVelocity(const CU::Vector2<float>& aVelocity);
 	const CU::Vector2<float>& GetVelocity() const;
 
+	inline void SetUseAccurateMode(bool aUseAccurateMode) { myUseAccurateMode = aUseAccurateMode; }
+	inline bool IsAccurateMode() const { return myUseAccurateMode; }
+
 	AABB GetAABB() const;
 
 	inline bool IsFloorOvershootRight() { return HasState(eState::eState_FloorOvershootRight); }
@@ -75,6 +78,9 @@ private:
 
 	AABB ComputeCollisionBufferBounds() const;
 
+	void SimulateAccurate(const CU::Vector2<float>& aFrameDisplacement);
+	void Simulate(const CU::Vector2<float>& aFrameDisplacement);
+
 	bool Move(Axis anAxis, float aDistance);
 
 	inline void AddState(eState aState) { myState = myState | aState; }
@@ -87,6 +93,8 @@ private:
 private:
 
 	static constexpr float ourCollisionPointUndershoot = 3.0f;
+
+	bool myUseAccurateMode{ true };
 
 	CU::Vector2<float> myGravity;
 
