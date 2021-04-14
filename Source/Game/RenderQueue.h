@@ -10,6 +10,7 @@ public:
 	~RenderQueue();
 
 	void Queue(const RenderCommand& aCommand);
+	void Queue(RenderCommand&& aCommand);
 	void Clear();
 
 private:

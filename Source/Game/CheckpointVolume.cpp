@@ -22,6 +22,7 @@ void CheckpointVolume::Init()
 	SetTriggerSize(triggerSize);
 	mySprite->SetPosition({mySprite->GetPosition().x, mySprite->GetPosition().y + (GetTriggerSize().y * 0.5f)});
 	mySprite->SetPivot({ 0.5f, 1.0f });
+	mySprite->SetLayer(GameLayer::Prop);
 	myAnimation = std::make_unique<SpriteSheetAnimation>(myScene->GetGlobalServiceProvider()->GetJsonManager(), "Animations/CheckPoint.json");
 	myAnimation->SetIsLooping(true);
 	myAnimation->SetState("preTrigger");
