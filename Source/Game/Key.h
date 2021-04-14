@@ -19,5 +19,6 @@ private:
 	virtual void TriggerStay(GameObject* aGameObject) override;
 
 private:
+	bool myIsPressingUse = true;
 	std::unique_ptr<DialogueBox> myDialogBox;
 };
