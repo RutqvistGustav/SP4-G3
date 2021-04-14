@@ -126,3 +126,8 @@ float InputInterface::GetRightStickY() const
 	return myControllerInput->GetRightStickY();
 }
 
+float InputInterface::GetLeftStickY() const
+{
+	return  myControllerInput->GetLeftStickY();
+}
+

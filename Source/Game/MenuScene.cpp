@@ -9,6 +9,10 @@
 
 #include "Camera.h"
 
+#include "UpdateContext.h"
+
+#include "InputManager.h"
+
 MenuScene::MenuScene() = default;
 
 MenuScene::~MenuScene() = default;
@@ -29,7 +33,9 @@ void MenuScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	Scene::Update(aDeltaTime, anUpdateContext);
 
 	myMousePointer->Update(aDeltaTime, anUpdateContext);
-
+	
+	ControllerControl(anUpdateContext);
+	
 	myCollisionManager->Update();
 }
 
@@ -38,6 +44,44 @@ void MenuScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 	Scene::Render(aRenderQueue, aRenderContext);
 
 	myMousePointer->Render(aRenderQueue, aRenderContext);
+}
+
+void MenuScene::ControllerControl(UpdateContext& anUpdateContext)
+{
+
+
+	if (anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001 && mySwitchingButton == false)
+	{
+		--myCurrentButtonIndex;
+		mySwitchingButton = true;
+	}
+	else if (anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001 && mySwitchingButton == false)
+	{
+		++myCurrentButtonIndex;
+		mySwitchingButton = true;
+	}
+	else if (!(anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001) 
+		&& !(anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001))
+	{
+		mySwitchingButton = false;
+	}
+
+	if (myCurrentButtonIndex < 0)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+	}
+	else if (myCurrentButtonIndex > myGameObjects.size() - 1)
+	{
+		myCurrentButtonIndex = 0;
+	}
+	myMousePointer->SetPosition(myGameObjects[myCurrentButtonIndex]->GetPosition());
+
+	if (anUpdateContext.myInputInterface->IsJumping())
+	{
+		MouseClicked(myGameObjects[myCurrentButtonIndex].get());
+	}
+
+
 }
 
 void MenuScene::AddInterfaceElement(std::shared_ptr<GameObject> anElement)

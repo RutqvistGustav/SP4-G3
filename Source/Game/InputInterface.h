@@ -37,6 +37,8 @@ public:
 	float GetRightStickX()const;
 	float GetRightStickY()const;
 
+	float GetLeftStickY()const;
+
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 private:
 
