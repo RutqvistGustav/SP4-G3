@@ -17,7 +17,6 @@ public:
 
 	virtual void InitWithJson(const JsonData& someJsonData) override;
 
-	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 
 protected:
@@ -26,17 +25,11 @@ protected:
 
 	virtual void TriggerStay(GameObject* aGameObject) override;
 
-	virtual void Damage(Player* aPlayer);
-
 private:
 
 	std::unique_ptr<SpriteSheetAnimation> myAnimation;
 
-	float myKnockbackTimer{};
-
 	// JSON data
 	int myDamage;
-	float myKnockbackStrength{};
-	float myKnockbackInterval{};
 
 };

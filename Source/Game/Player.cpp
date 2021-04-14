@@ -332,6 +332,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		myCamera->SetPosition(GetPosition());
 
 		myCharacterAnimator.EnableStateSwitch();
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 		SetCanControl(true);
 	}
 
