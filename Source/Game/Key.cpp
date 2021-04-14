@@ -7,6 +7,7 @@
 
 #include "DialogueBox.h"
 #include "SpriteSheetAnimation.h"
+#include "UpdateContext.h"
 
 #include "SpriteWrapper.h"
 
@@ -47,6 +48,11 @@ void Key::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myDialogBox->Update(aDeltaTime, anUpdateContext);
 
+	if (anUpdateContext.myInputInterface->IsPressingUse())
+	{
+		myIsPressingUse = true;
+	}
+
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);
 
@@ -66,11 +72,12 @@ void Key::TriggerStay(GameObject* aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
 
-	if (CanCollect(player))
+	if (CanCollect(player) && myIsPressingUse == true)
 	{
 		OnCollect(player);
+		myIsPressingUse = false;
 
-		myIsCollected = true;
+		//myIsCollected = true;
 
 		// TODO: Mark GameObject for destruction
 		//SetDeleteThisFrame();
