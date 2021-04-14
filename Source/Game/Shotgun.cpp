@@ -114,7 +114,10 @@ void Shotgun::Shoot()
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
-	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
+	if (myIsPowerUpActive == false)
+	{
+		GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
+	}
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 
