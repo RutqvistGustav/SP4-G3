@@ -95,7 +95,7 @@ void Enemy::TakeDamage(const int aDamage)
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Groan_02.mp3");
-
+		myCharacterAnimator.DisableStateSwitch();
 	}
 
 	//SpawnParticleEffectMessageData spawnData{};

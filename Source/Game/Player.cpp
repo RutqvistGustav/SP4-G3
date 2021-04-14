@@ -151,6 +151,7 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
 	{
+		
 		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
 	
@@ -257,22 +258,27 @@ void Player::DisablePowerUp()
 
 void Player::TakeDamage(const int aDamage)
 {
-	if (myHealth->IsPlayerInvincible() == false)
+	if (!myHealth->IsDead())
 	{
-		myHealth->TakeDamage(aDamage);
-		//myHUD->GetHealthBar()->RemoveHP(aDamage);
+		if (myHealth->IsPlayerInvincible() == false)
+		{
+			myHealth->TakeDamage(aDamage);
+			//myHUD->GetHealthBar()->RemoveHP(aDamage);
 
-		if (myHealth->IsDead())
-		{
-			myCharacterAnimator.SetState(CharacterAnimator::State::Death);
-			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
-			SetCanControl(false);
-		}
-		else
-		{
-			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player damage 05.wav");
+			if (myHealth->IsDead())
+			{
+				myCharacterAnimator.SetState(CharacterAnimator::State::Death);
+				GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player death.wav");
+				SetCanControl(false);
+				myCharacterAnimator.DisableStateSwitch();
+			}
+			else
+			{
+				GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Player/Player damage 05.wav");
+			}
 		}
 	}
+	
 }
 
 void Player::AddHealth(const int aHealthAmount)
@@ -325,7 +331,8 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());
 
-		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
+		myCharacterAnimator.EnableStateSwitch();
+		SetCanControl(true);
 	}
 
 	break;

@@ -150,6 +150,8 @@ void Shotgun::Boost()
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 
+	SpawnDownwardMuzzleFlash();
+
 	Notify(myLoadedAmmo);
 
 	if (!IsLoaded())
@@ -230,6 +232,19 @@ void Shotgun::SpawnMuzzleFlash() const
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
 	spawnData.myPosition = GetPosition() + GetDirection() * 4.0f * 0.5f * 75.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
+	spawnData.myScale = 1.0f;
+
+	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
+}
+
+void Shotgun::SpawnDownwardMuzzleFlash() const
+{
+	CU::Vector2<float> direction = { 0.0f, 1.0f };
+
+	SpawnParticleEffectMessageData spawnData;
+	spawnData.myType = ParticleEffectType::MuzzleFlash;
+	spawnData.myPosition = GetPosition() + direction * 4.0f * 0.5f * 75.0f;
+	spawnData.myRotation = std::atan2f(direction.y, direction.x);
 	spawnData.myScale = 1.0f;
 
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);

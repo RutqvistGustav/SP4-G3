@@ -10,8 +10,6 @@
 #include <cassert>
 
 static const fs::path locBasePath = "Maps";
-
-static const fs::path locTilesetPath = "Tilesets";
 static const fs::path locObjectTypesPath = "Data/ObjectTypes.json";
 
 TiledParser::TiledParser(const std::string& aMapPath)
@@ -147,7 +145,7 @@ bool TiledParser::ParseTileset(tson::Map* aMap)
 
 	for (const tson::Tileset& tileset : tilesets)
 	{
-		fs::path imagePath = locBasePath / locTilesetPath / tileset.getImagePath();
+		fs::path imagePath = locBasePath / tileset.getImagePath();
 		imagePath.replace_extension(".dds");
 
 		const std::string finalImagePath = imagePath.u8string();
@@ -156,23 +154,9 @@ bool TiledParser::ParseTileset(tson::Map* aMap)
 
 		if (tilesetTexture == nullptr || tilesetTexture->myIsFailedTexture)
 		{
-			// NOTE: TODO: Code to support old placement of texture files, when not used anymore this can be changed to fail immediately!
+			ERROR_PRINT("Could not load tileset, %s", finalImagePath.c_str());
 
-			ERROR_PRINT("Could not load tileset from intended folder, trying old folder! %s", finalImagePath.c_str());
-
-			fs::path oldImagePath = locBasePath / tileset.getImagePath();
-			oldImagePath.replace_extension(".dds");
-
-			tilesetTexture = Tga2D::CEngine::GetInstance()->GetTextureManager().GetTexture(oldImagePath.u8string().c_str());
-
-			if (tilesetTexture == nullptr || tilesetTexture->myIsFailedTexture)
-			{
-				ERROR_PRINT("Could not load tileset from old folder either! %s", oldImagePath.u8string().c_str());
-
-				return false;
-			}
-
-			ERROR_PRINT("Tileset loaded from old folder, should be moved to new folder!");
+			return false;
 		}
 
 		myResult->AddTileset(tileset.getImagePath().u8string(), tilesetTexture);
