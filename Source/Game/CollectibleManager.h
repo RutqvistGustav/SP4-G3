@@ -10,7 +10,6 @@ class Scene;
 class Collectable;
 
 class CollectibleManager :
-	public EnemyDeathMessage,
 	public IGameMessageSubscriber
 {
 public:
@@ -18,13 +17,8 @@ public:
 	~CollectibleManager();
 
 	void AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition);
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="aMessage"></param>
-	/// <param name="someMessageData"></param>
-	/// <returns></returns>
-	virtual GameMessageAction OnMessage(const GameMessage aMessage, const EnemyDeathMessageData* someMessageData) override;
+
+	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyDeathMessageData* someMessageData);
 
 	void DeleteMarkedCollectables();
 	void DeleteAllCollectables();
