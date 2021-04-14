@@ -16,6 +16,9 @@ namespace Tga2D
 		// set loop flag to 0, therefore next loop is not come
 		void Stop(bool aImmediately = true);
 
+		// NOTE: Engine modification
+		inline static class AudioOut*& GetAudioOut() { return myAudioOut; }
+
 	private:
 		static class AudioOut* myAudioOut;
 		long myLoadedAudio;

@@ -32,7 +32,16 @@ AudioManager::AudioManager()
     }
 }
 
-AudioManager::~AudioManager() = default;
+AudioManager::~AudioManager()
+{
+    // NOTE: Free the Tga2D::AudioOut instance that is not freed by default by Tga2D...
+    Tga2D::AudioOut*& audioOut = Tga2D::CAudio::GetAudioOut();
+    if (audioOut != nullptr)
+    {
+        delete audioOut;
+        audioOut = nullptr;
+    }
+}
 
 void AudioManager::SetMasterVolume(float aVolume)
 {
