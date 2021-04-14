@@ -189,8 +189,8 @@ void EntityPhysicsController::SimulateAccurate(const CU::Vector2<float>& aFrameD
 {
 	constexpr float sweepStepSize = 1.0f;
 
-	const float xSign = MathHelper::Signum(aFrameDisplacement.x);
-	const float ySign = MathHelper::Signum(aFrameDisplacement.y);
+	const float xSign = static_cast<float>(MathHelper::Signum(aFrameDisplacement.x));
+	const float ySign = static_cast<float>(MathHelper::Signum(aFrameDisplacement.y));
 
 	float xDistanceLeft = aFrameDisplacement.x * xSign;
 	float yDistanceLeft = aFrameDisplacement.y * ySign;

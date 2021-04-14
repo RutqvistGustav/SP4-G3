@@ -58,12 +58,6 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 	}
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
-{
-	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
-	return GameMessageAction::Keep;
-}
-
 void CollectibleManager::DeleteMarkedCollectables()
 {
 	for (int collectableIndex = static_cast<int>(myCollectibles.size()) - 1; collectableIndex >= 0; collectableIndex--)
@@ -85,7 +79,13 @@ void CollectibleManager::DeleteAllCollectables()
 	}
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnEnemyDeathMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
+{
+	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
+	return GameMessageAction::Keep;
+}
+
+GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
 	switch (aMessage)
 	{
@@ -122,7 +122,7 @@ GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, cons
 	return GameMessageAction::Keep;
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
 {
 	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition);
 
@@ -135,13 +135,13 @@ GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, cons
 	{
 	case GameMessage::CheckpointSave:
 	case GameMessage::CheckpointLoad:
-		return OnMessage(aMessage, reinterpret_cast<const CheckpointMessageData*>(someMessageData));
+		return OnCheckpointMessage(aMessage, reinterpret_cast<const CheckpointMessageData*>(someMessageData));
 		
 	case GameMessage::SpawnCollectable:
-		return OnMessage(aMessage, reinterpret_cast<const CollectableMessageData*>(someMessageData));
+		return OnSpawnCollectableMessage(aMessage, reinterpret_cast<const CollectableMessageData*>(someMessageData));
 
 	case GameMessage::EnemyDied:
-		return OnMessage(aMessage, reinterpret_cast<const EnemyDeathMessageData*>(someMessageData));
+		return OnEnemyDeathMessage(aMessage, reinterpret_cast<const EnemyDeathMessageData*>(someMessageData));
 
 	default:
 		assert(false);

@@ -18,8 +18,6 @@ public:
 
 	void AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition);
 
-	GameMessageAction OnMessage(const GameMessage aMessage, const EnemyDeathMessageData* someMessageData);
-
 	void DeleteMarkedCollectables();
 	void DeleteAllCollectables();
 
@@ -35,8 +33,9 @@ private:
 		std::vector<CollectableData> mySavedCollectables;
 	};
 
-	GameMessageAction OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData);
-	GameMessageAction OnMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData);
+	GameMessageAction OnEnemyDeathMessage(const GameMessage aMessage, const EnemyDeathMessageData* someMessageData);
+	GameMessageAction OnCheckpointMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData);
+	GameMessageAction OnSpawnCollectableMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData);
 	virtual GameMessageAction OnMessage(const GameMessage aMessage, const void* someMessageData) override;
 
 private:
