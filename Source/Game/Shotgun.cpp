@@ -80,6 +80,12 @@ void Shotgun::ActivatePowerUp(PowerUpType aPowerUpType)
 	}
 }
 
+void Shotgun::DeactivatePowerUp()
+{
+	myIsPowerUpActive = false;
+	myPowerUpDuration = 0.f;
+}
+
 void Shotgun::UpdatePowerUps(const float aDeltaTime)
 {
 	if (myIsPowerUpActive == true)
@@ -108,7 +114,10 @@ void Shotgun::Shoot()
 	// TODO: Could implement with an immediate overlap test but for now we need to do this since that is not implemented
 	myIsShotVolumeActive = true;
 
-	GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
+	if (myIsPowerUpActive == false)
+	{
+		GetWeaponHolder()->ApplyRecoilKnockback(this, myRecoilKnockbackStrength);
+	}
 
 	SetLoadedAmmo(myLoadedAmmo - 1);
 
@@ -217,13 +226,11 @@ bool Shotgun::IsLoaded() const
 
 void Shotgun::SpawnMuzzleFlash() const
 {
-	constexpr float scale = 4.0f;
-
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
-	spawnData.myPosition = GetPosition() + GetDirection() * scale * 0.5f * 75.0f;
+	spawnData.myPosition = GetPosition() + GetDirection() * 4.0f * 0.5f * 75.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
-	spawnData.myScale = scale;
+	spawnData.myScale = 1.0f;
 
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
 }

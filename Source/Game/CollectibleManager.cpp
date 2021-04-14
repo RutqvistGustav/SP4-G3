@@ -6,6 +6,7 @@
 #include "EnemyDeathMessage.h"
 #include "PowerUp.h"
 #include "HealthPickup.h"
+#include "Key.h"
 #include "CheckpointContext.h"
 
 CollectibleManager::CollectibleManager(Scene* aScene) : 
@@ -53,15 +54,17 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 		myScene->AddGameObject(healthPickup);
 	}
 		break;
+	case PowerUpType::Key:
+	{
+		std::shared_ptr<Key> keyPickup = std::make_shared<Key>(myScene, aCollectibleType);
+		keyPickup->SetPosition(aSpawnPosition);
+		myCollectibles.push_back(keyPickup);
+		myScene->AddGameObject(keyPickup);
+	}
+		break;
 	default:
 		break;
 	}
-}
-
-GameMessageAction CollectibleManager::OnMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
-{
-	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
-	return GameMessageAction::Keep;
 }
 
 void CollectibleManager::DeleteMarkedCollectables()
@@ -85,7 +88,13 @@ void CollectibleManager::DeleteAllCollectables()
 	}
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnEnemyDeathMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
+{
+	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
+	return GameMessageAction::Keep;
+}
+
+GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMessage, const CheckpointMessageData* someMessageData)
 {
 	switch (aMessage)
 	{
@@ -122,7 +131,7 @@ GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, cons
 	return GameMessageAction::Keep;
 }
 
-GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
 {
 	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition);
 
@@ -135,13 +144,13 @@ GameMessageAction CollectibleManager::OnMessage(const GameMessage aMessage, cons
 	{
 	case GameMessage::CheckpointSave:
 	case GameMessage::CheckpointLoad:
-		return OnMessage(aMessage, reinterpret_cast<const CheckpointMessageData*>(someMessageData));
+		return OnCheckpointMessage(aMessage, reinterpret_cast<const CheckpointMessageData*>(someMessageData));
 		
 	case GameMessage::SpawnCollectable:
-		return OnMessage(aMessage, reinterpret_cast<const CollectableMessageData*>(someMessageData));
+		return OnSpawnCollectableMessage(aMessage, reinterpret_cast<const CollectableMessageData*>(someMessageData));
 
 	case GameMessage::EnemyDied:
-		return OnMessage(aMessage, reinterpret_cast<const EnemyDeathMessageData*>(someMessageData));
+		return OnEnemyDeathMessage(aMessage, reinterpret_cast<const EnemyDeathMessageData*>(someMessageData));
 
 	default:
 		assert(false);
