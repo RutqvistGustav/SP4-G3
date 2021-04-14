@@ -69,11 +69,11 @@ CU::Vector2<float> PlayerWeaponController::ComputeWeaponPosition()
 	{
 	default:
 	case CharacterAnimator::State::Idle:
-		offset = { 75.0f, -28.0f };
+		offset = { 96.0f, -33.0f };
 		break;
 
 	case CharacterAnimator::State::Run:
-		offset = { 85.0f, -38.0f };
+		offset = { 93.0f, -38.0f };
 		break;
 	}
 
