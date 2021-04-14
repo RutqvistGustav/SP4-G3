@@ -7,6 +7,9 @@ namespace Tga2D
 	class CImGuiInterface
 	{
 	public:
+
+		~CImGuiInterface();
+
 		void Init();
 		void PreFrame();
 		void Render();
