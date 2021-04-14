@@ -55,7 +55,7 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 	}
 }
 
-void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void PlayerWeaponController::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
 {
 	myShotgun->Render(aRenderQueue, aRenderContext);
 }
@@ -81,23 +81,9 @@ CU::Vector2<float> PlayerWeaponController::ComputeWeaponPosition()
 	return myPlayer->GetPosition() + CU::Vector2(offset.x * direction, offset.y);
 }
 
-CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& anUpdateContext)
+CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext & anUpdateContext)
 {
-	myPreviousDirection = myShotgun->GetDirection();
-	CU::Vector2<float> direction;
-	if (anUpdateContext.myInputInterface->IsMovingLeft_Down())
-	{
-		direction.x--;
-	}
-	if (anUpdateContext.myInputInterface->IsMovingRight_Down())
-	{
-		direction.x++;
-	}
-	if (direction.x == 0)
-	{
-		direction = myPreviousDirection;
-	}
-	return direction;
+	return { myPlayer->GetCharacterAnimator()->GetDirection(), 0.0f };
 
 	//Nedan är om vi vill ha tillbaka att man kan sikta!
 
@@ -125,18 +111,18 @@ CU::Vector2<float> PlayerWeaponController::ComputeAimDirection(UpdateContext& an
 	//return CU::Vector2<float>(std::cosf(lockedRadians), std::sinf(lockedRadians));
 }
 
-void PlayerWeaponController::ApplyRecoilKnockback(Weapon* aWeapon, float someStrength, bool aShootDown)
+void PlayerWeaponController::ApplyRecoilKnockback(Weapon * aWeapon, float someStrength, bool aShootDown)
 {
 	if (aShootDown)
 	{
-		CommonUtilities::Vector2<float> directionDown = {0.0f, 1.0f};
+		CommonUtilities::Vector2<float> directionDown = { 0.0f, 1.0f };
 		myPlayer->StopMovement();
-		myPlayer->ApplyForce(directionDown *someStrength * -1.0f);
+		myPlayer->ApplyForce(directionDown * someStrength * -1.0f);
 	}
 	else
 	{
 		CommonUtilities::Vector2<float> direction = { aWeapon->GetDirection().x, 0.0f };
-		myPlayer->ApplyForce(direction *someStrength * -1.0f);
+		myPlayer->ApplyForce(direction * someStrength * -1.0f);
 	}
 }
 
