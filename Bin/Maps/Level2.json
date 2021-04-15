@@ -1006,8 +1006,8 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":1424.48484848485,
-                 "y":1541.75757575758
+                 "x":1636.48484848485,
+                 "y":1535.75757575758
                 }, 
                 {
                  "height":0,
@@ -1034,8 +1034,8 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":1500.48484848485,
-                 "y":1548.60606060606
+                 "x":1712.48484848485,
+                 "y":1542.60606060606
                 }, 
                 {
                  "height":0,
@@ -2166,8 +2166,8 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":1578.78787878788,
-                 "y":1557.57575757576
+                 "x":1932.78787878788,
+                 "y":1363.57575757576
                 }, 
                 {
                  "height":104.364,
@@ -3072,8 +3072,8 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":662,
-                 "y":1556
+                 "x":2414,
+                 "y":1338
                 }, 
                 {
                  "height":0,
@@ -3356,6 +3356,29 @@
                  "width":84.3633333333332,
                  "x":2676.485,
                  "y":5941.6665
+                }, 
+                {
+                 "height":0,
+                 "id":513,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"SubType",
+                         "type":"string",
+                         "value":"HealthPickup"
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"PickUp"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1232,
+                 "y":1540
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3364,7 +3387,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":513,
+ "nextobjectid":514,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2021.02.15",
