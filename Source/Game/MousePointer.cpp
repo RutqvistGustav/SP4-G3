@@ -11,9 +11,11 @@
 #include "CollisionInfo.h"
 
 MousePointer::MousePointer(Scene* aScene)
-	: GameObject(aScene, "Sprites/Menue UI/ProgArt/Pointer.png")
+	: GameObject(aScene)
 {
 	SetTag(GameObjectTag::MousePointer);
+
+	mySprite->SetSize({ 5.0f, 5.0f });
 }
 
 MousePointer::~MousePointer() = default;
