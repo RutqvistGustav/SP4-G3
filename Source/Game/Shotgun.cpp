@@ -54,10 +54,9 @@ void Shotgun::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 
 	if (IsReloadingComplete())
 	{
-		SetLoadedAmmo(myAmmoPerClip);
-		myReloadCompleteTime = -1.0f;
+		SetFullAmmo();
+
 		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Weapon/Reload.mp3");
-		Notify(myLoadedAmmo);
 	}
 
 	UpdatePowerUps(aDeltaTime);
@@ -173,6 +172,14 @@ void Shotgun::Reload()
 			myReloadCompleteTime = myTime + myPowerUpReloadDuration;
 		}
 	}
+}
+
+void Shotgun::SetFullAmmo()
+{
+	SetLoadedAmmo(myAmmoPerClip);
+	myReloadCompleteTime = -1.0f;
+
+	Notify(myLoadedAmmo);
 }
 
 void Shotgun::LoadJson(const JsonData& someJsonData)
