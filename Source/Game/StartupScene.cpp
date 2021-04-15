@@ -6,6 +6,7 @@
 #include "LevelManagerProxy.h"
 #include "JsonManager.h"
 #include "CutscenePlayer.h"
+#include "AudioManager.h"
 
 StartupScene::StartupScene() = default;
 
@@ -16,6 +17,7 @@ void StartupScene::Init()
 	myIntro = std::make_unique<CutscenePlayer>();
 	nlohmann::json data = GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/VideoPaths.json");
 	myIntro->Init(data.at("StartupPath"));
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Startup.mp3");
 }
 
 void StartupScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
