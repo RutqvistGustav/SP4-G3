@@ -359,41 +359,53 @@ void Settings::ControllerControl(const float aDeltaTime, UpdateContext& anUpdate
 	{
 		if (myCurrentButtonIndex == myBackButtonIndex - 1)
 		{
-			myCurrentButtonIndex = myBackButtonIndex - 2;
-		}
+			if (myLastButtonIndex == myBackButtonIndex - 2)
+			{
 
-		if ((anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001
-			|| anUpdateContext.myInput->IsKeyDown('A'))
-			&& mySwitchingXButton == false)
-		{
-			MouseClicked(myGameObjects[myCurrentButtonIndex].get());
-			mySwitchingXButton = true;
+				myCurrentButtonIndex = myBackButtonIndex;
+			}
+			else if (myLastButtonIndex == myBackButtonIndex)
+			{
+				myCurrentButtonIndex = myBackButtonIndex - 2;
+			}
 		}
-		else if ((anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001
-			|| anUpdateContext.myInput->IsKeyDown('D'))
-			&& mySwitchingXButton == false)
+		else
 		{
-			MouseClicked(myGameObjects[myCurrentButtonIndex + 1].get());
-			mySwitchingXButton = true;
-		}
-		/*else if ((CheckNext(anUpdateContext)
-			|| anUpdateContext.myInput->IsKeyDown('S'))
-			&& mySwitchingXButton == false)
-		{
-			myCurrentButtonIndex = myBackButtonIndex;
-		}*/
-		else if (!(anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001)
-			&& !(anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001)
-			&& !(anUpdateContext.myInput->IsKeyDown('A'))
-			&& !(anUpdateContext.myInput->IsKeyDown('D')))
-		{
-			mySwitchingXButton = false;
-		}
-		/*if (myCurrentButtonIndex != myBackButtonIndex)
-		{*/
+			if ((anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001
+				|| anUpdateContext.myInput->IsKeyDown('A'))
+				&& mySwitchingXButton == false)
+			{
+				MouseClicked(myGameObjects[myCurrentButtonIndex].get());
+				mySwitchingXButton = true;
+			}
+			else if ((anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001
+				|| anUpdateContext.myInput->IsKeyDown('D'))
+				&& mySwitchingXButton == false)
+			{
+				MouseClicked(myGameObjects[myCurrentButtonIndex + 1].get());
+				mySwitchingXButton = true;
+			}
+			/*else if ((CheckNext(anUpdateContext)
+				|| anUpdateContext.myInput->IsKeyDown('S'))
+				&& mySwitchingXButton == false)
+			{
+				myCurrentButtonIndex = myBackButtonIndex;
+			}*/
+			else if (!(anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001)
+				&& !(anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001)
+				&& !(anUpdateContext.myInput->IsKeyDown('A'))
+				&& !(anUpdateContext.myInput->IsKeyDown('D')))
+			{
+				mySwitchingXButton = false;
+			}
+			/*if (myCurrentButtonIndex != myBackButtonIndex)
+			{*/
 			myGameObjects[myCurrentButtonIndex]->SetSpriteSize(32.f * 1.4f);
 			myGameObjects[myCurrentButtonIndex + 1]->SetSpriteSize(32.f * 1.4f);
-		//}
+			//}
+		}
+
+		
 	}
 	
 	myLastButtonIndex = myCurrentButtonIndex;
