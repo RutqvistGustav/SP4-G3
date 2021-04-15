@@ -87,6 +87,7 @@ void MainMenu::InitButtons()
 		GameObjectTag::QuitButton);
 	quitButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.83f));
 	AddInterfaceElement(quitButton);
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void MainMenu::MouseClicked(GameObject* aTarget)
