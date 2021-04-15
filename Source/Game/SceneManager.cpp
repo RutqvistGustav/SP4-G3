@@ -100,6 +100,9 @@ void SceneManager::Transition(std::unique_ptr<Scene> aTargetScene, bool aHasAnim
 	if (IsTransitionQueued())
 		return;
 
+	// NOTE: If we are changing scene we'll ensure checkpoint information is cleared
+	myLastCheckpoint.Clear();
+
 	if (myActiveScene == nullptr)
 	{
 		RunTransition(std::move(aTargetScene));

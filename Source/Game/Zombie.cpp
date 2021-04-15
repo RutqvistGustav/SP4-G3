@@ -111,6 +111,7 @@ bool Zombie::CheckIdle()
 		CU::Vector2<float> direction = myTarget->GetPosition() - myPosition;
 		const float distance = direction.LengthSqr();
 		
+		myShouldRoam = true;
 		return distance > (myDetectionRange * myDetectionRange);
 	}
 	return true;
