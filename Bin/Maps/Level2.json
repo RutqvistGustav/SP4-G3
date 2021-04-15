@@ -93,6 +93,11 @@
                  "point":true,
                  "properties":[
                         {
+                         "name":"StartDialogID",
+                         "type":"string",
+                         "value":"StartD"
+                        }, 
+                        {
                          "name":"Type",
                          "type":"string",
                          "value":"PlayerSpawn"
@@ -3371,7 +3376,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":515,
+ "nextobjectid":516,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2021.02.15",
