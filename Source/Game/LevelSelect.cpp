@@ -73,7 +73,7 @@ void LevelSelect::InitButtons()
 	}
 
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
-	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.85f));
+	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.9f));
 	AddInterfaceElement(backButton);
 }
 

@@ -51,6 +51,7 @@ void PlayerWeaponController::Update(const float aDeltaTime, UpdateContext & anUp
 		{
 			myShotgun->Boost();
 			myPlayer->GetCharacterAnimator()->SetState(CharacterAnimator::State::Boost);
+			myPlayer->GetCharacterAnimator()->DisableStateSwitch();
 		}
 	}
 }

@@ -19,6 +19,7 @@ enum class GameObjectTag
 	RestartButton,
 	SettingsButton,
 	BackButton,
+	TutorialButton,
 	CreditsButton,
 	LevelSelectButton,
 	MuteButton,

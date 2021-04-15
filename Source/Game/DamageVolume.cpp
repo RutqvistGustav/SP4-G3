@@ -13,7 +13,7 @@
 #include "Enemy.h"
 
 DamageVolume::DamageVolume(Scene* aScene) :
-	TriggerVolume(aScene, GameObjectTag::Player)
+	TriggerVolume(aScene)
 {}
 
 void DamageVolume::InitWithJson(const JsonData & someProperties)
@@ -33,7 +33,7 @@ void DamageVolume::TriggerStay(GameObject* aGameObject)
 		Player* player = static_cast<Player*>(aGameObject);
 		player->TakeDamage(myDamage);
 	}
-	else if (aGameObject->GetTag() == GameObjectTag::Enemy)
+	if (aGameObject->GetTag() == GameObjectTag::Enemy)
 	{
 		Enemy* enemy = static_cast<Enemy*>(aGameObject);
 		enemy->TakeDamage(myDamage);

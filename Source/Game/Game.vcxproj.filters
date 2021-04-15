@@ -542,6 +542,9 @@
     <ClInclude Include="CollectableMessage.h">
       <Filter>Core\MessageSystem\Messages</Filter>
     </ClInclude>
+    <ClInclude Include="Controls.h">
+      <Filter>Scenes\Menus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -816,6 +819,9 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>Scenes\Cutscenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Controls.cpp">
+      <Filter>Scenes\Menus</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
