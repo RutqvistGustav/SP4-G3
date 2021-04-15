@@ -81,6 +81,11 @@
                  "point":true,
                  "properties":[
                         {
+                         "name":"StartDialogID",
+                         "type":"string",
+                         "value":"L1D5"
+                        }, 
+                        {
                          "name":"Type",
                          "type":"string",
                          "value":"PlayerSpawn"
