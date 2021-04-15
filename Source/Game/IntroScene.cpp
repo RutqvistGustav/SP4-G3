@@ -7,6 +7,8 @@
 #include "AudioManager.h"
 #include "JsonManager.h"
 #include "CutscenePlayer.h"
+#include "SceneManagerProxy.h"
+#include "Controls.h"
 
 IntroScene::IntroScene() = default;
 
@@ -31,7 +33,7 @@ void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	else
 	{
-		GetLevelManagerProxy()->TransitionToLevel(1);
+		GetSceneManagerProxy()->Transition(std::make_unique<Controls>(Controls::BackTarget::PauseMenu));
 	}
 }
 
