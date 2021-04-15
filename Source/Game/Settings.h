@@ -73,8 +73,12 @@ private:
 	void SetSfxVolume(float aVolume);
 	void SetMusicVolume(float aVolume);
 
+	//void ControllerNavigate(UpdateContext& anUpdateContext) override;
+	void ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+
 private:
 	bool myIsActive = true;
+	bool mySwitchingXButton = false;
 	eBackTarget myBackTarget;
 
 	VECTOR2UI myPrevDetectedResolution;
@@ -84,6 +88,8 @@ private:
 	int myCurrentResolutionIndex;
 
 	std::vector<std::shared_ptr<SpriteWrapper>> mySprites;
+
+	int myLastButtonIndex = 0;
 
 };
 

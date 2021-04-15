@@ -9,6 +9,10 @@
 
 #include "Camera.h"
 
+#include "UpdateContext.h"
+
+#include "InputManager.h"
+
 MenuScene::MenuScene() = default;
 
 MenuScene::~MenuScene() = default;
@@ -24,23 +28,87 @@ void MenuScene::Init()
 	GetCamera()->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 }
 
-void MenuScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void MenuScene::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	Scene::Update(aDeltaTime, anUpdateContext);
 
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
+	//myMousePointer->Update(aDeltaTime, anUpdateContext);
+
+	/*if (anUpdateContext.myInputInterface->IsUsingController())
+	{*/
+	ControllerNavigate(anUpdateContext);
+	ControllerControl(aDeltaTime, anUpdateContext);
+
+	if (anUpdateContext.myInputInterface->IsJumping())
+	{
+		MouseClicked(myGameObjects[myCurrentButtonIndex].get());
+	}
+	else if (anUpdateContext.myInputInterface->BackButton())
+	{
+		assert(myBackButtonIndex != -1 && "myBackButtonIndex is not assigned");
+		MouseClicked(myGameObjects[myBackButtonIndex].get());
+	}
+
+	myMousePointer->SetPosition(myGameObjects[myCurrentButtonIndex]->GetPosition());
+	//}
 
 	myCollisionManager->Update();
 }
 
-void MenuScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void MenuScene::Render(RenderQueue* const aRenderQueue, RenderContext & aRenderContext)
 {
 	Scene::Render(aRenderQueue, aRenderContext);
 
 	myMousePointer->Render(aRenderQueue, aRenderContext);
 }
 
+void MenuScene::ControllerControl(const float /*aDeltaTime*/, UpdateContext& /*anUpdateContext*/)
+{
+
+	if (myCurrentButtonIndex < 0)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+	}
+	else if (myCurrentButtonIndex > myGameObjects.size() - 1)
+	{
+		myCurrentButtonIndex = 0;
+	}
+
+
+}
+
 void MenuScene::AddInterfaceElement(std::shared_ptr<GameObject> anElement)
 {
 	AddGameObject(anElement);
+}
+
+const bool MenuScene::CheckNext(UpdateContext & anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001
+		|| anUpdateContext.myInput->IsKeyDown('W');
+}
+
+const bool MenuScene::CheckPrev(UpdateContext & anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001
+		|| anUpdateContext.myInput->IsKeyDown('S');
+}
+
+void MenuScene::ControllerNavigate(UpdateContext & anUpdateContext)
+{
+	if (CheckNext(anUpdateContext) && mySwitchingButton == false)
+	{
+		--myCurrentButtonIndex;
+		mySwitchingButton = true;
+	}
+	else if (CheckPrev(anUpdateContext) && mySwitchingButton == false)
+	{
+		++myCurrentButtonIndex;
+		mySwitchingButton = true;
+	}
+	else if (!CheckNext(anUpdateContext) && !CheckPrev(anUpdateContext))
+	{
+		mySwitchingButton = false;
+	}
+
 }

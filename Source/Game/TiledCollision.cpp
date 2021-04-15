@@ -35,7 +35,7 @@ const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)c
 		if (mySolidLayers[i] != nullptr)
 		{
 			tile = mySolidLayers[i]->GetTileAt(tileX, tileY);
-			if (tile != nullptr)
+			if (tile != nullptr && !tile->GetCollisionBoxes().empty())
 			{
 				return tile;
 			}

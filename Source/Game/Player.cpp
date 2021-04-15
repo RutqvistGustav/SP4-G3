@@ -28,6 +28,8 @@
 
 #include "CheckpointMessage.h"
 
+#include "Shotgun.h"
+
 // Tools
 #include "SpriteSheetAnimation.h"
 #include "SpriteWrapper.h"
@@ -332,6 +334,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 
 		// TODO: NOTE: Hack to get full health
 		myHealth->SetFullHealth();
+		myWeaponController->GetShotgun()->SetFullAmmo();
 
 		SetPosition(saveData->myPosition);
 		myCamera->SetPosition(GetPosition());

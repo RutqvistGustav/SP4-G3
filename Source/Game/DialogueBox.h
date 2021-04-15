@@ -28,6 +28,8 @@ public:
 
     virtual void SetPosition(const CU::Vector2<float> aPosition) override;
 
+    const std::string FindCharacter(const std::string someText);
+
 protected:
 
     virtual void TriggerExit(GameObject* aGameObject) override;
