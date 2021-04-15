@@ -91,6 +91,7 @@ float AudioManager::GetMusicVolume() const
 
 void AudioManager::PlayMusic(const std::string& anAudioPath)
 {
+    myIsPlaying = true;
     myMusic.at(anAudioPath)->Play();
 }
 
@@ -109,13 +110,14 @@ void AudioManager::StopSfx(const std::string& anAudioPath)
    mySounds.find(anAudioPath)->second->Stop();
 }
 
-bool AudioManager::IsPlaying(const std::string& /*anAudioPath*/)
+const bool AudioManager::IsPlaying()
 {
-    return false;
+    return myIsPlaying;
 }
 
 void AudioManager::StopAll()
 {
+    myIsPlaying = false;
     for (auto& song : myMusic)
     {
         song.second->Stop();

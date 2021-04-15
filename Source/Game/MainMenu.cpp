@@ -42,6 +42,11 @@ void MainMenu::Init()
 
 	InitButtons();
 
+	if (GetGlobalServiceProvider()->GetAudioManager()->IsPlaying() == false)
+	{
+		GetGlobalServiceProvider()->GetAudioManager()->PlayMusic("Sound/Music/7.Rage Machine.mp3");
+	}
+
 	myMousePointer->SetClickCallback(std::bind(&MainMenu::MouseClicked, this, std::placeholders::_1));
 }
 
