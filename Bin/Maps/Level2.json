@@ -1717,29 +1717,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":417,
-                 "name":"",
-                 "point":true,
-                 "properties":[
-                        {
-                         "name":"SubType",
-                         "type":"string",
-                         "value":"KeyPickup"
-                        }, 
-                        {
-                         "name":"Type",
-                         "type":"string",
-                         "value":"PickUp"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1915.39393939394,
-                 "y":392.757575757575
-                }, 
-                {
-                 "height":0,
                  "id":421,
                  "name":"",
                  "point":true,
