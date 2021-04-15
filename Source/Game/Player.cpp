@@ -149,15 +149,17 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
+	myCharacterAnimator.EnableStateSwitch();
+
 	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
 	{
-		
 		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
 	
 
 	myCharacterAnimator.Update(aDeltaTime);
 	myCharacterAnimator.ApplyToSprite(mySprite);
+	
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
