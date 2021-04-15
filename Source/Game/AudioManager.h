@@ -31,7 +31,7 @@ public:
 	void StopMusic(const std::string& anAudioPath);
 	void StopSfx(const std::string& anAudioPath);
 
-	bool IsPlaying(const std::string& anAudioPath);
+	const bool IsPlaying();
 
 	void StopAll();
 
@@ -41,6 +41,8 @@ private:
 
 private:
 	static constexpr float ourMaxMasterAbsoluteVolume = 0.2f;
+
+	bool myIsPlaying = false;
 
 	float myMasterVolume{};
 	float myMusicVolume{};

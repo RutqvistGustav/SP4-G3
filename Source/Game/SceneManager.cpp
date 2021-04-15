@@ -248,8 +248,8 @@ void SceneManager::PlayMusic()
 {
 	if (GetCurrentLevelIndex() != EMusic::MainMenuMusic)
 	{
-		myIsMainMusicPlaying = false;
 		myGlobalServiceProvider->GetAudioManager()->StopAll();
+		myIsMainMusicPlaying = false;
 	}
 	else if(myIsMainMusicPlaying == false)
 	{
@@ -277,7 +277,7 @@ void SceneManager::PlayMusic()
 	{
 		if (myIsMainMusicPlaying == false)
 		{
-			myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/7.Rage Machine.mp3");
+			//myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/7.Rage Machine.mp3");
 			myIsMainMusicPlaying = true;
 		}
 		
