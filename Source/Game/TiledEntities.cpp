@@ -148,6 +148,7 @@ void TiledEntities::SpawnEntities()
 			else if (entity.GetSubType() == "KeyPickup")
 			{
 				collectableMessageData.myLootType = PowerUpType::Key;
+				collectableMessageData.myDialogID = entity.GetProperty("DialogID");
 			}
 
 			collectableMessageData.mySpawnPosition = entity.GetPosition();

@@ -22,6 +22,7 @@ public:
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
 	virtual void Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext) override;
 	const PowerUpType GetType();
+	const std::string GetDialogID();
 
 protected:
 
@@ -35,6 +36,7 @@ protected:
 protected:
 	PowerUpType myPowerupType;
 	bool myIsCollected{};
+	std::string myDialogID;
 	std::unique_ptr<SpriteSheetAnimation> myAnimation;
 
 };
