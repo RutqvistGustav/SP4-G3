@@ -1,6 +1,10 @@
 {
   "PlayerTest1": "This is a test dialog with\nlinebreaks & multiple pages%bThis is the next page!",
   "LevelEnd": "",
+  "L1D0": "Thaths weird, I dont remember their being floating platforms here.%bGood thing I got some training in yesterday!",
+  "L1D1": "How the did the zombies even get in here?%b I hope there wont be any more of them in the buiding.",
+  "L1D2": "What was that thing?%bIt was as if I couldnt stop myself...\nI gotta be on the lookout for those in the future!",
+  "L1D3": "Oh god!%bJust dont look down and it will be fine.\nI got this.",
   "L3D0": "Radio: *cracles* Come in Old Timer, this is General Cliffton, do you have the briefcase?%bOT: Affirmative, the briefcase is in my possession and\n I'm now trying to find my way to the roof of the building.%bRadio: Stellar work son, we'll have a chopper ready for you when you get there. Clifford out.%bOT: Oh boy, here I go killing again.",
   "L3D1": "I should be close to the roof now. The content of this\nbriefcase better be worth all the trouble I have gone through.",
   "L3D2": "Luckily these don't blow up when it shoot them...%bBecause they're the wrong color.",
@@ -9,7 +13,7 @@
   "L3D5": "Might as well grab myself a snack while I'm here.%bHmmm... Maybe Helena is related to the General somehow. His wife, friend, lover or a coworker.%bOr perhaps the content of the suitcase is sentimental?",
   "L3D6": "I'm really going to miss this view...%bIt's probably the last time I'll see it...%b...%b.....%b.......",
   "L3D7": "People always hide the strangest things in these interstitial spaces.\nThe content here always seems so cut out from everything else.%bYou could call it cut content I suppose.",
-  "L3D8": "Nice! I found some mroe shotgun shells.\nI was close to running out of ammo.",
-  "L3D9": "OT: Do I have time for a quick bath?\nIt may not look like it, but I'm covered in blood and gore.",
+  "L3D8": "Nice! I found some more shotgun shells!%bI was close to running out of ammo.",
+  "L3D9": "Do I have time for a quick bath?%bIt may not look like it, but I'm covered in blood and gore.",
   "L3D10": "This is the ladder that leads to the roof.%bLet's hope that chopper is here in time.%bIt's also time for me to finally find out what is in this briefcase!."
 }
