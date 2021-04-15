@@ -275,9 +275,8 @@ void SceneManager::PlayMusic()
 	}
 	case EMusic::MainMenuMusic:
 	{
-		if (myIsMainMusicPlaying == false)
+		if (!myIsMainMusicPlaying)
 		{
-			//myGlobalServiceProvider->GetAudioManager()->PlayMusic("Sound/Music/7.Rage Machine.mp3");
 			myIsMainMusicPlaying = true;
 		}
 		
@@ -295,11 +294,11 @@ void SceneManager::RunTransition(std::unique_ptr<Scene> aTargetScene)
 
 	myActiveScene = std::move(aTargetScene);
 
+	PlayMusic();
+
 	if (myActiveScene != nullptr)
 	{
 		myActiveScene->OnEnter(&mySceneManagerProxy, &myLevelManagerProxy, myGlobalServiceProvider);
 		myActiveScene->Init();
 	}
-
-	PlayMusic();
 }
