@@ -210,7 +210,6 @@ void Settings::InitButtons()
 	const float width = Metrics::GetReferenceSize().x;
 	const float height = Metrics::GetReferenceSize().y;
 
-	
 
 	auto leftArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
 		GameObjectTag::ArrowLeftButton);
@@ -230,7 +229,7 @@ void Settings::InitButtons()
 
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
-	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.85f));
+	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.9f));
 	backButton->SetPanStrengthFactor(0);
 	backButton->SetLayer(102);
 	AddInterfaceElement(backButton);

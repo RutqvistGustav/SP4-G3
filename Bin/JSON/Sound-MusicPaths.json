@@ -9,15 +9,21 @@
   "Sound": [
     "Sound/Enemy/Zombie_Groan_02.mp3",
     "Sound/Enemy/Zombie_Growl_03.mp3",
-    "Sound/Misc/Berserk powerup.mp3",
+
     "Sound/Player/Jump 01.mp3",
     "Sound/Player/Player damage 05.wav",
     "Sound/Player/Player death.wav",
+
     "Sound/Weapon/Reload.mp3",
     "Sound/Weapon/shotgun-firing-1.wav",
     "Sound/Weapon/shotgun-firing-3.wav",
-    "Sound/Misc/Health_Pickup.wav",
+
+    "Sound/Misc/Berserk powerup.mp3",
+    "Sound/Misc/Health_Pickup.mp3",
     "Sound/Misc/Menu_Button.wav",
+    "Sound/Misc/Radio_Sound.mp3",
+    "Sound/Misc/Radio_Single.mp3",
+    "Sound/Misc/Radio_Sound_Commander.mp3",
 
     "Sound/Cutscenes/Intro.mp3",
     "Sound/Cutscenes/Outro.mp3"

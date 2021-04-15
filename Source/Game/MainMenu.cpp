@@ -12,6 +12,7 @@
 #include "GameScene.h"
 #include "LevelSelect.h"
 #include "IntroScene.h"
+#include "Controls.h"
 
 #include "MenuButton.h"
 #include "Settings.h"
@@ -66,19 +67,25 @@ void MainMenu::InitButtons()
 	levelSelectButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.43f));
 	AddInterfaceElement(levelSelectButton);
 
+	auto tutorialButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/controls.dds", "Sprites/Menue UI/controls_hover.dds",
+		GameObjectTag::TutorialButton);
+	tutorialButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.53f));
+	AddInterfaceElement(tutorialButton);
+
 	auto settingsButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings.dds", "Sprites/Menue UI/settings_hover.dds",
 		GameObjectTag::SettingsButton);
-	settingsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.53f));
+	settingsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.63f));
 	AddInterfaceElement(settingsButton);
+
 
 	auto creditsButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/credits.dds", "Sprites/Menue UI/credits_hover.dds",
 		GameObjectTag::CreditsButton);
-	creditsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.63f));
+	creditsButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.73f));
 	AddInterfaceElement(creditsButton);
 
 	auto quitButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/quit.dds", "Sprites/Menue UI/quit_hover.dds",
 		GameObjectTag::QuitButton);
-	quitButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.73f));
+	quitButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.83f));
 	AddInterfaceElement(quitButton);
 }
 
@@ -98,8 +105,13 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 	case GameObjectTag::StartButton:
 		GetSceneManagerProxy()->Transition(std::make_unique<IntroScene>(), true);
 		break;
+
 	case GameObjectTag::LevelSelectButton:
 		GetSceneManagerProxy()->Transition(std::make_unique<LevelSelect>(), false);
+		break;
+
+	case GameObjectTag::TutorialButton:
+		GetSceneManagerProxy()->Transition(std::make_unique<Controls>(), false);
 		break;
 
 	case GameObjectTag::SettingsButton:

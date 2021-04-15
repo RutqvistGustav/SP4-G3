@@ -89,14 +89,16 @@ void AmmoCounter::InitSprites(nlohmann::json someData)
 	myDistanceFromPlayer.y = someData.at("DistanceFromPlayerY");
 	CU::Vector2<float> size = { someData.at("SizeX"), someData.at("SizeY") };
 
+	float decreaseSize = 0.3f;
 	std::string spritepath = someData.at("SpritePath");
 	mySprite = std::make_shared<SpriteWrapper>(spritepath);
 	mySprite->SetLayer(49);
+	mySprite->SetSize(mySprite->GetSize() * decreaseSize);
 
 	mySecondSprite = std::make_shared<SpriteWrapper>(spritepath);
 	mySecondSprite->SetLayer(49);
+	mySecondSprite->SetSize(mySecondSprite->GetSize() * decreaseSize);
 	CU::Vector2<float> new_pos = mySecondSprite->GetPosition();
-
 	mySpriteDistance.x = someData.at("DistanceBetweenBullets");
 	new_pos.x += mySpriteDistance.x;
 	mySecondSprite->SetPosition(new_pos);

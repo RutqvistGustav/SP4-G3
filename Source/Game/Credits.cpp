@@ -33,10 +33,9 @@ void Credits::Init()
 
 	mySprites.push_back(background);
 
-
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
-	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.85f));
+	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.9f));
 	AddInterfaceElement(backButton);
 	myBackButtonIndex = myGameObjects.size() - 1;
 }
@@ -49,8 +48,6 @@ void Credits::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 	{
 		aRenderQueue->Queue(RenderCommand(sprite));
 	}
-
-	//RenderResolutionText(aRenderQueue, aRenderContext);
 }
 
 void Credits::MouseClicked(GameObject* aTarget)
@@ -63,20 +60,4 @@ void Credits::MouseClicked(GameObject* aTarget)
 	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
 	GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
-
-	/*const GameObjectTag targetTag = aTarget->GetTag();
-
-	switch (targetTag)
-	{
-	case GameObjectTag::ArrowLeftButton:
-		ChangeResolution(GameObjectTag::ArrowLeftButton);
-		break;
-	case GameObjectTag::ArrowRightButton:
-		ChangeResolution(GameObjectTag::ArrowRightButton);
-		break;
-
-	case GameObjectTag::BackButton:
-		
-		break;
-	}*/
 }

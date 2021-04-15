@@ -41,6 +41,7 @@ protected:
 	bool IsLoaded() const;
 
 	void SpawnMuzzleFlash() const;
+	void SpawnDownwardMuzzleFlash() const;
 
 	void CheckCollisionHit(const CollisionInfo& someCollisionInfo);
 

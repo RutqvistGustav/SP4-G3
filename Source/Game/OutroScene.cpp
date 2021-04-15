@@ -35,7 +35,7 @@ void OutroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 }
 
-void OutroScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void OutroScene::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
 {
 	if (myOutro != nullptr)
 	{

@@ -149,15 +149,20 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
+	if (myCharacterAnimator.GetState() == CharacterAnimator::State::Boost)
+	{
+		myCharacterAnimator.EnableStateSwitch();
+	}
+
 	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
 	{
-		
 		GetScene()->GetLevelManagerProxy()->RestartCurrentLevel();
 	}
 	
 
 	myCharacterAnimator.Update(aDeltaTime);
 	myCharacterAnimator.ApplyToSprite(mySprite);
+	
 }
 
 void Player::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
@@ -332,6 +337,7 @@ GameMessageAction Player::OnMessage(const GameMessage aMessage, const Checkpoint
 		myCamera->SetPosition(GetPosition());
 
 		myCharacterAnimator.EnableStateSwitch();
+		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 		SetCanControl(true);
 	}
 

@@ -95,13 +95,16 @@ void Enemy::TakeDamage(const int aDamage)
 	{
 		myCharacterAnimator.SetState(CharacterAnimator::State::Death);
 		GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Enemy/Zombie_Groan_02.mp3");
+		myCharacterAnimator.DisableStateSwitch();
 	}
+	else
+	{
+		SpawnParticleEffectMessageData spawnData{};
+		spawnData.myType = ParticleEffectType::BloodSplatter;
+		spawnData.myPosition = GetPosition();
 
-	//SpawnParticleEffectMessageData spawnData{};
-	//spawnData.myType = ParticleEffectType::BloodSplatter;
-	//spawnData.myPosition = GetPosition();
-
-	//GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
+		GetScene()->GetGlobalServiceProvider()->GetGameMessenger()->Send(GameMessage::SpawnParticleEffect, &spawnData);
+	}
 }
 
 void Enemy::InitEnemyJsonValues(const std::string& aJsonPath)

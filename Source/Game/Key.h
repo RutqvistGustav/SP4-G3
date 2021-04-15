@@ -9,7 +9,7 @@ class DialogueBox;
 class Key : public Collectable
 {
 public:
-	Key(Scene* aScene, PowerUpType aPowerupType);
+	Key(Scene* aScene, PowerUpType aPowerupType, std::string aDialogID);
 	virtual void InitWithJson(const JsonData& someProperties) override;
 	virtual void OnCollect(Player* aPlayer) override;
 	virtual void Update(const float aDeltaTime, UpdateContext& anUpdateContext) override;
@@ -19,5 +19,6 @@ private:
 	virtual void TriggerStay(GameObject* aGameObject) override;
 
 private:
+	bool myIsPressingUse = true;
 	std::unique_ptr<DialogueBox> myDialogBox;
 };

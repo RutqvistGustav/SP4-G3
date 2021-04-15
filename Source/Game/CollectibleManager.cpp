@@ -26,7 +26,7 @@ CollectibleManager::~CollectibleManager()
 	myScene->GetGlobalServiceProvider()->GetGameMessenger()->Unsubscribe(GameMessage::CheckpointLoad, this);
 }
 
-void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition)
+void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition, const std::string aDialogID)
 {
 	switch (aCollectibleType)
 	{
@@ -56,7 +56,7 @@ void CollectibleManager::AddCollectible(const PowerUpType aCollectibleType, cons
 		break;
 	case PowerUpType::Key:
 	{
-		std::shared_ptr<Key> keyPickup = std::make_shared<Key>(myScene, aCollectibleType);
+		std::shared_ptr<Key> keyPickup = std::make_shared<Key>(myScene, aCollectibleType, aDialogID);
 		keyPickup->SetPosition(aSpawnPosition);
 		myCollectibles.push_back(keyPickup);
 		myScene->AddGameObject(keyPickup);
@@ -90,7 +90,7 @@ void CollectibleManager::DeleteAllCollectables()
 
 GameMessageAction CollectibleManager::OnEnemyDeathMessage(const GameMessage /*aMessage*/, const EnemyDeathMessageData* someMessageData)
 {
-	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition);
+	AddCollectible(someMessageData->myLootType, someMessageData->myDeathPosition, "No_ID_Used");
 	return GameMessageAction::Keep;
 }
 
@@ -105,7 +105,7 @@ GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMes
 		data->mySavedCollectables.reserve(myCollectibles.size());
 		for (auto& collectable : myCollectibles)
 		{
-			data->mySavedCollectables.push_back({collectable->GetPosition(), collectable->GetType()});
+			data->mySavedCollectables.push_back({collectable->GetPosition(), collectable->GetType(), collectable->GetDialogID()});
 		}
 		break;
 	}
@@ -118,7 +118,7 @@ GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMes
 
 		for (auto& collectable : data->mySavedCollectables)
 		{
-			AddCollectible(collectable.myPowerupType, collectable.myPosition);
+			AddCollectible(collectable.myPowerupType, collectable.myPosition, collectable.myDialogID);
 		}
 		break;
 	}
@@ -131,9 +131,9 @@ GameMessageAction CollectibleManager::OnCheckpointMessage(const GameMessage aMes
 	return GameMessageAction::Keep;
 }
 
-GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage aMessage, const CollectableMessageData* someMessageData)
+GameMessageAction CollectibleManager::OnSpawnCollectableMessage(const GameMessage /*aMessage*/, const CollectableMessageData* someMessageData)
 {
-	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition);
+	AddCollectible(someMessageData->myLootType, someMessageData->mySpawnPosition, someMessageData->myDialogID);
 
 	return GameMessageAction::Keep;
 }

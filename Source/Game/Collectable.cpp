@@ -51,6 +51,11 @@ const PowerUpType Collectable::GetType()
 	return myPowerupType;
 }
 
+const std::string Collectable::GetDialogID()
+{
+	return myDialogID;
+}
+
 void Collectable::TriggerStay(GameObject* aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
