@@ -3050,6 +3050,57 @@
                  "width":384,
                  "x":832,
                  "y":13440
+                }, 
+                {
+                 "height":192,
+                 "id":173,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L1D1"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":384,
+                 "x":6464,
+                 "y":13440
+                }, 
+                {
+                 "height":192,
+                 "id":174,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L1D2"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":192,
+                 "x":5248,
+                 "y":9792
+                }, 
+                {
+                 "height":192,
+                 "id":175,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L1D3"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":192,
+                 "x":2880,
+                 "y":3904
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3070,7 +3121,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":171,
+ "nextobjectid":176,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
