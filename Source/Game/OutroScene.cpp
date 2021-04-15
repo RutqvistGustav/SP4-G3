@@ -19,7 +19,8 @@ void OutroScene::Init()
 	myOutro->Init(data.at("OutroPath"));
 
 	GetGlobalServiceProvider()->GetAudioManager()->StopAll();
-	//GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Outro.mp3");
+	GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(1.0f);
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Outro.mp3");
 }
 
 void OutroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -48,6 +49,7 @@ void OutroScene::SkipCutscene(UpdateContext& anUpdateContext)
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
 		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
+		GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(0.5f);
 		myOutro->Stop();
 	}
 }
