@@ -17,7 +17,7 @@ void StartupScene::Init()
 	myIntro = std::make_unique<CutscenePlayer>();
 	nlohmann::json data = GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/VideoPaths.json");
 	myIntro->Init(data.at("StartupPath"));
-	//GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(1.0f);
+	GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(1.0f);
 	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Startup.mp3");
 }
 
@@ -48,5 +48,7 @@ void StartupScene::SkipCutscene(UpdateContext& anUpdateContext)
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
 		myIntro->Stop();
+		GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(0.5f);
+		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
 	}
 }

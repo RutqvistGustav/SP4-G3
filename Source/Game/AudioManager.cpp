@@ -122,6 +122,10 @@ void AudioManager::StopAll()
     {
         song.second->Stop();
     }
+    for (auto& song : mySounds)
+    {
+        song.second->Stop();
+    }
 }
 
 float AudioManager::GetAbsoluteMasterVolume() const

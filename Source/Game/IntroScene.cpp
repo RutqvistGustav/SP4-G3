@@ -18,10 +18,11 @@ void IntroScene::Init()
 {
 	myIntro = std::make_unique<CutscenePlayer>();
 	nlohmann::json data = GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/VideoPaths.json");
-	myIntro->Init(data.at("StartupPath"));
+	myIntro->Init(data.at("IntroPath"));
 
 	GetGlobalServiceProvider()->GetAudioManager()->StopAll();
-	//GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Intro.mp3");
+	GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(1.0f);
+	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Intro.mp3");
 }
 
 void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
@@ -33,6 +34,7 @@ void IntroScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 	}
 	else
 	{
+		GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(0.5f);
 		GetSceneManagerProxy()->Transition(std::make_unique<Controls>(Controls::BackTarget::PauseMenu));
 	}
 }
@@ -49,7 +51,8 @@ void IntroScene::SkipCutscene(UpdateContext& anUpdateContext)
 {
 	if (anUpdateContext.myInputInterface->IsPressingPause())
 	{
-		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
 		myIntro->Stop();
+		GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(0.5f);
+		GetGlobalServiceProvider()->GetAudioManager()->StopAll();
 	}
 }

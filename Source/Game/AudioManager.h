@@ -40,7 +40,7 @@ private:
 	float GetAbsoluteMasterVolume() const;
 
 private:
-	static constexpr float ourMaxMasterAbsoluteVolume = 0.2f;
+	static constexpr float ourMaxMasterAbsoluteVolume = 0.6f;
 
 	bool myIsPlaying = false;
 
