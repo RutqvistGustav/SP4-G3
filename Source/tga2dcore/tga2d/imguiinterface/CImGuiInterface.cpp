@@ -39,6 +39,15 @@ static ImFont* ImGui_LoadFont(ImFontAtlas& atlas, const char* name, float size, 
 ImFontAtlas fontAtlas;
 #endif
 
+Tga2D::CImGuiInterface::~CImGuiInterface()
+{
+#ifndef _RETAIL
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+#endif
+}
+
 void CImGuiInterface::Init()
 {
 #ifndef _RETAIL

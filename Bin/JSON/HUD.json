@@ -5,14 +5,14 @@
     "PowerupFramePath": "Sprites/HUD/New/Powerup_frame.dds",
     "PowerupBarPath": "Sprites/HUD/New/Powerup.dds",
 
-    "DistanceFromPlayerX": 47.0,
+    "DistanceFromPlayerX": 5.0,
     "DistanceFromPlayerY": -120.0
   },
   "Ammo": {
     "SpritePath": "Sprites/HUD/New/Bullet.dds",
-    "DistanceFromPlayerX": 117.0,
-    "DistanceFromPlayerY": -120.0,
-    "DistanceBetweenBullets" : 20.0,
+    "DistanceFromPlayerX": 153.0,
+    "DistanceFromPlayerY": -115.0,
+    "DistanceBetweenBullets" : 23.0,
     "SizeX": 100.0,
     "SizeY": 100.0,
     "AmmoAmount": 2
@@ -20,7 +20,7 @@
   "GrapplingHook": {
     "HookPath": "Sprites/HUD/Hook.dds",
     "HighlightHookPath": "Sprites/HUD/",
-    "DistanceFromPlayerX": 330.0,
+    "DistanceFromPlayerX": 530.0,
     "DistanceFromPlayerY": -150.0,
     "SizeX": 100.0,
     "SizeY": 100.0

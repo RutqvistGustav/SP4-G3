@@ -28,7 +28,7 @@ void CheckpointVolume::Init()
 	myAnimation->SetState("preTrigger");
 }
 
-void CheckpointVolume::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void CheckpointVolume::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	if (myIsUsed && myAnimation->HasEnded())
 	{
