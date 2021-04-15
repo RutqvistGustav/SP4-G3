@@ -379,8 +379,8 @@
                  "type":"Enemy",
                  "visible":true,
                  "width":0,
-                 "x":5030.15151515152,
-                 "y":6001.39393939394
+                 "x":5504.15151515152,
+                 "y":6007.39393939394
                 }, 
                 {
                  "height":0,
@@ -3163,6 +3163,29 @@
                  "width":249,
                  "x":1701,
                  "y":289
+                }, 
+                {
+                 "height":0,
+                 "id":494,
+                 "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"SubType",
+                         "type":"string",
+                         "value":"HealthPickup"
+                        }, 
+                        {
+                         "name":"Type",
+                         "type":"string",
+                         "value":"PickUp"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":2542.42424242424,
+                 "y":5039.39393939394
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3171,7 +3194,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":494,
+ "nextobjectid":496,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"2021.02.15",
