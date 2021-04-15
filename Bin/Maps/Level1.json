@@ -3033,6 +3033,23 @@
                  "width":64,
                  "x":7102.66666666667,
                  "y":66.6666666666679
+                }, 
+                {
+                 "height":192,
+                 "id":170,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"DialogID",
+                         "type":"string",
+                         "value":"L1D0"
+                        }],
+                 "rotation":0,
+                 "type":"Dialog",
+                 "visible":true,
+                 "width":384,
+                 "x":832,
+                 "y":13440
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -3053,7 +3070,7 @@
          "y":0
         }],
  "nextlayerid":10,
- "nextobjectid":170,
+ "nextobjectid":171,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
