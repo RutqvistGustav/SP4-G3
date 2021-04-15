@@ -3,11 +3,9 @@
 
 #include "UpdateContext.h"
 #include "GlobalServiceProvider.h"
-#include "SceneManagerProxy.h"
+#include "LevelManagerProxy.h"
 #include "JsonManager.h"
 #include "CutscenePlayer.h"
-
-#include "Controls.h"
 
 StartupScene::StartupScene() = default;
 
@@ -29,7 +27,7 @@ void StartupScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 	}
 	else
 	{
-		GetSceneManagerProxy()->Transition(std::make_unique<Controls>(Controls::BackTarget::MainMenu));
+		GetLevelManagerProxy()->TransitionToMainMenu();
 	}
 }
 
