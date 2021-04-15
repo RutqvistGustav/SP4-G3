@@ -30,7 +30,7 @@ SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myLevelManagerProxy(*this)
 {
 	myFadeSprite = std::make_shared<SpriteWrapper>();
-	myFadeSprite->SetSize(Metrics::GetReferenceSize() * 10.0f);
+	myFadeSprite->SetSize(Metrics::GetReferenceSize() * 100.0f);
 	myFadeSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myFadeSprite->SetLayer(GameLayer::Transitions);
 	myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.0f));
