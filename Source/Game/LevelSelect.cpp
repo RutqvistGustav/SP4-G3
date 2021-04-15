@@ -11,6 +11,7 @@
 #include "RenderCommand.h"
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
+#include "InputManager.h"
 
 #include "UpdateContext.h"
 #include "GlobalServiceProvider.h"
@@ -76,6 +77,7 @@ void LevelSelect::InitButtons()
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.85f));
 	AddInterfaceElement(backButton);
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void LevelSelect::MouseClicked(GameObject* aTarget)
@@ -119,12 +121,16 @@ void LevelSelect::ControllerControl(const float aDeltaTime, UpdateContext& anUpd
 		myCurrentButtonIndex = 0;
 	}
 
-	if (anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001 && myOnBackButton == false)
+	if ((anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001
+		|| anUpdateContext.myInput->IsKeyDown('S'))
+		&& myOnBackButton == false)
 	{
 		myCurrentButtonIndex = myGameObjects.size() - 1;
 		myOnBackButton = true;
 	}
-	else if (anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001 && myOnBackButton == true)
+	else if ((anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001
+		|| anUpdateContext.myInput->IsKeyDown('W'))
+		&& myOnBackButton == true)
 	{
 		myCurrentButtonIndex = 1;
 		myOnBackButton = false;
@@ -134,12 +140,14 @@ void LevelSelect::ControllerControl(const float aDeltaTime, UpdateContext& anUpd
 
 const bool LevelSelect::CheckNext(UpdateContext& anUpdateContext) const
 {
-	return anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001;
+	return anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001
+		|| anUpdateContext.myInput->IsKeyDown('A');
 }
 
 const bool LevelSelect::CheckPrev(UpdateContext& anUpdateContext) const
 {
-	return anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001;
+	return anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001
+		|| anUpdateContext.myInput->IsKeyDown('D');
 }
 
 void LevelSelect::ControllerNavigate(UpdateContext& anUpdateContext)

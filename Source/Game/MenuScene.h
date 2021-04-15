@@ -30,7 +30,7 @@ protected:
 	std::unique_ptr<MousePointer> myMousePointer;
 
 	int myCurrentButtonIndex = 0;
-	int myBackButtonIndex;
+	int myBackButtonIndex = -1;
 	bool mySwitchingButton = false;
 
 };

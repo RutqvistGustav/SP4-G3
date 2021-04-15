@@ -322,8 +322,18 @@ void Settings::SetMusicVolume(float aVolume)
 
 void Settings::ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext)
 {
-
 	MenuScene::ControllerControl(aDeltaTime, anUpdateContext);
+
+	if (myLastButtonIndex >= 0
+		&& myLastButtonIndex <= 2)
+	{
+		myGameObjects[myLastButtonIndex]->SetSpriteSize(64.0f);
+	}
+	else if (myLastButtonIndex == 3 || myLastButtonIndex == 4)
+	{
+		myGameObjects[myLastButtonIndex]->SetSpriteSize(32.0f);
+		myGameObjects[myLastButtonIndex + 1]->SetSpriteSize(32.0f);
+	}
 
 	auto interactObject = std::dynamic_pointer_cast<Slider>(myGameObjects[myCurrentButtonIndex]);
 
@@ -331,10 +341,33 @@ void Settings::ControllerControl(const float aDeltaTime, UpdateContext& anUpdate
 	{
 		interactObject->SetSlidePercentage(interactObject->GetSlidePercentage()
 			+ anUpdateContext.myInputInterface->GetLeftStickX() * aDeltaTime);
+		interactObject->SetSpriteSize(64.0f * 1.2f);
 	}
 	else if (myCurrentButtonIndex != myBackButtonIndex)
 	{
+		if (myCurrentButtonIndex == myBackButtonIndex - 1)
+		{
+			myCurrentButtonIndex = myBackButtonIndex - 2;
+		}
 
+		if (anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001 && mySwitchingXButton == false)
+		{
+			MouseClicked(myGameObjects[myCurrentButtonIndex].get());
+			mySwitchingXButton = true;
+		}
+		else if (anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001 && mySwitchingXButton == false)
+		{
+			MouseClicked(myGameObjects[myCurrentButtonIndex + 1].get());
+			mySwitchingXButton = true;
+		}
+		else if (!(anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001)
+			&& !(anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001))
+		{
+			mySwitchingXButton = false;
+		}
+		myGameObjects[myCurrentButtonIndex]->SetSpriteSize(32.f * 1.4f);
+		myGameObjects[myCurrentButtonIndex + 1]->SetSpriteSize(32.f * 1.4f);
 	}
-
+	
+	myLastButtonIndex = myCurrentButtonIndex;
 }

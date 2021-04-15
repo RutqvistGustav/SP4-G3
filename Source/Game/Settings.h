@@ -78,6 +78,7 @@ private:
 
 private:
 	bool myIsActive = true;
+	bool mySwitchingXButton = false;
 	eBackTarget myBackTarget;
 
 	VECTOR2UI myPrevDetectedResolution;
@@ -87,6 +88,8 @@ private:
 	int myCurrentResolutionIndex;
 
 	std::vector<std::shared_ptr<SpriteWrapper>> mySprites;
+
+	int myLastButtonIndex = 0;
 
 };
 

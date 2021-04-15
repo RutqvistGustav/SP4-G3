@@ -87,6 +87,11 @@ GlobalServiceProvider* GameObject::GetGlobalServiceProvider()
 	return GetScene()->GetGlobalServiceProvider();
 }
 
+void GameObject::SetSpriteSize(float aNewSize)
+{
+	mySprite->SetSize({ aNewSize, aNewSize });
+}
+
 bool GameObject::GetDeleteThisFrame()
 {
 	return myDeleteThisFrame;

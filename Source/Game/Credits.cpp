@@ -38,9 +38,7 @@ void Credits::Init()
 		GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.85f));
 	AddInterfaceElement(backButton);
-
-
-
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void Credits::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)

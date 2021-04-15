@@ -44,6 +44,8 @@ public:
 
 	GlobalServiceProvider* GetGlobalServiceProvider();
 
+	void SetSpriteSize(float aNewSize);
+
 	inline Scene* GetScene() { return myScene; }
 
 	inline const GameObjectTag GetTag() const { return myTag; }

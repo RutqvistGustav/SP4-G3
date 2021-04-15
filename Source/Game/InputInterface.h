@@ -16,6 +16,8 @@ public:
 	bool IsBoosting()const;
 	bool IsShooting()const;
 
+	bool BackButton()const;
+
 	bool IsHoldingMenuAccept()const;
 
 	bool IsMovingLeft_Pressed()const;

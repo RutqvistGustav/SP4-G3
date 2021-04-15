@@ -98,6 +98,7 @@ void PauseMenu::InitButtons()
 	startButton->SetLayer(100);
 	startButton->SetPanStrengthFactor(0);
 	AddGameObject(startButton);
+	myBackButtonIndex = myGameObjects.size() - 1;
 
 	auto restartButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/pause/restart.dds", "Sprites/Menue UI/pause/restart_hover.dds",
 		GameObjectTag::RestartButton);
