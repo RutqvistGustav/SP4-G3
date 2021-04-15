@@ -114,7 +114,8 @@ bool CGame::Init(const std::wstring& aVersion, HWND /*aHWND*/)
 	// G: 24 => 0.094
 	// B: 25 => 0.098
 
-	createParameters.myClearColor = Tga2D::CColor(0.129f, 0.094f, 0.098f, 1.0f);
+	// createParameters.myClearColor = Tga2D::CColor(0.129f, 0.094f, 0.098f, 1.0f);
+	createParameters.myClearColor = Tga2D::CColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//createParameters.myPreferedMultiSamplingQuality = Tga2D::EMultiSamplingQuality_High;
 	createParameters.myActivateDebugSystems = Tga2D::eDebugFeature_Fps |
@@ -144,7 +145,7 @@ void CGame::QueueSetResolution(int aWidth, int aHeight)
 void CGame::InitCallBack()
 {
 	myAudioManager = std::make_unique<AudioManager>();
-	myAudioManager->SetMasterVolume(0.1f); // TODO: DEBUG: Set low master volume
+	myAudioManager->SetMasterVolume(0.5f);
 	myAudioManager->SetSfxVolume(1.0f);
 	myAudioManager->SetMusicVolume(1.0f);
 

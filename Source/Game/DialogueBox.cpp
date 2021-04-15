@@ -8,6 +8,7 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 #include "Player.h"
+#include "AudioManager.h"
 
 #include "Metrics.h"
 
@@ -73,6 +74,10 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	{
 		myText->SetText(myPages[myCurrentPage]);
 		aPlayer->SetCanControl(false);
+		if (myIsStartDialog == true)
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Sound.mp3");
+		}
 	}
 	else
 	{
@@ -82,6 +87,10 @@ void DialogueBox::OnInteract(Player* aPlayer)
 
 		if (myIsStartDialog)
 		{
+			if (myIsStartDialog == true)
+			{
+				GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Single.mp3");
+			}
 			SetDeleteThisFrame();
 		}
 	}

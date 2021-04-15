@@ -28,7 +28,7 @@ void Helicopter::Init()
 	myAnimation->ApplyToSprite(mySprite);
 }
 
-void Helicopter::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
+void Helicopter::Update(const float aDeltaTime, UpdateContext& /*anUpdateContext*/)
 {
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);

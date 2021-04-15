@@ -15,10 +15,12 @@ float4 PShader(PixelInputType input) : SV_TARGET
 	float4 noise = myNoiseTexture.Sample(SampleType, input.tex); 
 	#endif
 	
-	float3 AmbientColor = Diffuse.xyz * myAmbience;
+	float3 AmbientColor = Diffuse.xyz;
 	float3 DirectColor = float3(0, 0, 0);
 	
 	#ifdef USE_LIGHTS
+	AmbientColor *= myAmbience;
+
 	float3 Normal = normalize((shaderTextures[NORMAL_MAP].Sample(SampleType, input.tex).xyz * 2.0f) - 1.0f);
 	float2 Resolution = myResolution.xy;
 	for (unsigned int index = 0; index < myNumberOfLights; index++)

@@ -7,13 +7,15 @@
 
 #include "DialogueBox.h"
 #include "SpriteSheetAnimation.h"
+#include "UpdateContext.h"
 
 #include "SpriteWrapper.h"
 
 
-Key::Key(Scene* aScene, PowerUpType aPowerupType)
+Key::Key(Scene* aScene, PowerUpType aPowerupType, std::string aDialogID)
 	: Collectable(aScene, aPowerupType)
 {
+	myDialogID = aDialogID;
 	InitWithJson(GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Entities.json").at("Key"));
 }
 
@@ -22,7 +24,7 @@ void Key::InitWithJson(const JsonData& someProperties)
 	Init();
 
 	myDialogBox = std::make_unique<DialogueBox>(GetScene(), true);
-	myDialogBox->Init("PlayerTest1");
+	myDialogBox->Init(myDialogID);
 
 	mySprite = std::make_shared<SpriteWrapper>();
 	mySprite->SetLayer(GameLayer::HUD);
@@ -47,6 +49,11 @@ void Key::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 
 	myDialogBox->Update(aDeltaTime, anUpdateContext);
 
+	if (anUpdateContext.myInputInterface->IsPressingUse())
+	{
+		myIsPressingUse = true;
+	}
+
 	myAnimation->Update(aDeltaTime);
 	myAnimation->ApplyToSprite(mySprite);
 
@@ -66,9 +73,10 @@ void Key::TriggerStay(GameObject* aGameObject)
 {
 	Player* player = static_cast<Player*>(aGameObject);
 
-	if (CanCollect(player))
+	if (CanCollect(player) && myIsPressingUse == true)
 	{
 		OnCollect(player);
+		myIsPressingUse = false;
 
 		//myIsCollected = true;
 

@@ -41,9 +41,11 @@ ImFontAtlas fontAtlas;
 
 Tga2D::CImGuiInterface::~CImGuiInterface()
 {
+#ifndef _RETAIL
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+#endif
 }
 
 void CImGuiInterface::Init()

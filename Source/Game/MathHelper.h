@@ -24,6 +24,12 @@ namespace MathHelper
 	}
 
 	template <typename T>
+	static constexpr T Lerp(T aStartValue, T anEndValue, float aPercentage)
+	{
+		return aStartValue + (anEndValue - aStartValue) * aPercentage;
+	}
+
+	template <typename T>
 	static constexpr T Clamp(T aValue, T someMin, T someMax)
 	{
 		return aValue < someMin ? someMin : aValue > someMax ? someMax : aValue;
