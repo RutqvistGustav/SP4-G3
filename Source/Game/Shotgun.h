@@ -29,6 +29,8 @@ public:
 
 	virtual void Reload();
 
+	void SetFullAmmo();
+
 protected:
 
 	virtual void LoadJson(const JsonData& someJsonData) override;
