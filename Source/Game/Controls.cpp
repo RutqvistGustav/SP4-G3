@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Credits.h"
+#include "Controls.h"
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 #include "SpriteWrapper.h"
@@ -14,32 +14,38 @@
 
 #include "SpriteUtil.h"
 
-void Credits::Init()
+Controls::Controls(BackTarget aTarget) :
+	MenuScene(),
+	myBackTarget(aTarget)
+{}
+
+void Controls::Init()
 {
 	MenuScene::Init();
 
-	myMousePointer->SetClickCallback(std::bind(&Credits::MouseClicked, this, std::placeholders::_1));
-
+	myMousePointer->SetClickCallback(std::bind(&Controls::MouseClicked, this, std::placeholders::_1));
 
 	const float width = Metrics::GetReferenceSize().x;
 	const float height = Metrics::GetReferenceSize().y;
 
-	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/CreditScreen.dds");
+	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/controller meny.dds");
 	background->SetSamplerFilter(RenderSamplerFilter::Bilinear);
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
-	background->SetLayer(-1);
+	background->SetLayer(100);
 	
 	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
 
 	mySprites.push_back(background);
 
+
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
 		GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.85f));
+	backButton->SetLayer(101);
 	AddInterfaceElement(backButton);
 }
 
-void Credits::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
+void Controls::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)
 {
 	MenuScene::Render(aRenderQueue, aRenderContext);
 
@@ -49,7 +55,7 @@ void Credits::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCont
 	}
 }
 
-void Credits::MouseClicked(GameObject* aTarget)
+void Controls::MouseClicked(GameObject* aTarget)
 {
 	if (aTarget == nullptr)
 	{
@@ -58,5 +64,12 @@ void Credits::MouseClicked(GameObject* aTarget)
 
 	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Menu_Button.wav");
 
-	GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
+	if (myBackTarget == BackTarget::MainMenu)
+	{
+		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
+	}
+	else
+	{
+		myIsActive = false;
+	}
 }

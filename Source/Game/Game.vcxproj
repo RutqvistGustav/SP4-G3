@@ -158,6 +158,7 @@
     <ClInclude Include="Contact.h" />
     <ClInclude Include="ContactManager.h" />
     <ClInclude Include="ControllerInput.h" />
+    <ClInclude Include="Controls.h" />
     <ClInclude Include="CoordinateHelper.h" />
     <ClInclude Include="Credits.h" />
     <ClInclude Include="CutscenePlayer.h" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ContactManager.cpp" />
     <ClCompile Include="ControllerInput.cpp" />
+    <ClCompile Include="Controls.cpp" />
     <ClCompile Include="Credits.cpp" />
     <ClCompile Include="CutscenePlayer.cpp" />
     <ClCompile Include="DamageVolume.cpp" />
