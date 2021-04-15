@@ -36,6 +36,12 @@ public:
 	void StopAll();
 
 private:
+
+	float GetAbsoluteMasterVolume() const;
+
+private:
+	static constexpr float ourMaxMasterAbsoluteVolume = 0.2f;
+
 	float myMasterVolume{};
 	float myMusicVolume{};
 	float mySfxVolume{};
