@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "AudioManager.h"
+
+#include "MathHelper.h"
+
 #include <tga2d/audio/audio.h>
 
 #include <tga2d/audio/audio_out.h>
@@ -45,7 +48,8 @@ AudioManager::~AudioManager()
 
 void AudioManager::SetMasterVolume(float aVolume)
 {
-    myMasterVolume = std::clamp(aVolume, 0.0f, 1.0f);
+    myMasterVolume = MathHelper::Clamp(aVolume, 0.0f, 1.0f);
+
     SetSfxVolume(GetSfxVolume());
     SetMusicVolume(GetMusicVolume());
 }
@@ -61,7 +65,7 @@ void AudioManager::SetSfxVolume(float aVolume)
 
     for (auto& song : mySounds)
     {
-        song.second->SetVolume(myMasterVolume * mySfxVolume);
+        song.second->SetVolume(GetAbsoluteMasterVolume() * mySfxVolume);
     }
 }
 
@@ -76,7 +80,7 @@ void AudioManager::SetMusicVolume(float aVolume)
 
     for (auto& song : myMusic)
     {
-        song.second->SetVolume(myMasterVolume * myMusicVolume);
+        song.second->SetVolume(GetAbsoluteMasterVolume() * myMusicVolume);
     }
 }
 
@@ -116,4 +120,12 @@ void AudioManager::StopAll()
     {
         song.second->Stop();
     }
+}
+
+float AudioManager::GetAbsoluteMasterVolume() const
+{
+    assert(ourMaxMasterAbsoluteVolume > 0.0f && ourMaxMasterAbsoluteVolume <= 1.0f);
+
+    const float volumePercentage = MathHelper::Clamp(myMasterVolume, 0.0f, 1.0f);
+    return MathHelper::Lerp(0.0f, ourMaxMasterAbsoluteVolume, volumePercentage);
 }
