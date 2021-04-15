@@ -32,7 +32,7 @@ void MenuScene::Update(const float aDeltaTime, UpdateContext & anUpdateContext)
 {
 	Scene::Update(aDeltaTime, anUpdateContext);
 
-	myMousePointer->Update(aDeltaTime, anUpdateContext);
+	//myMousePointer->Update(aDeltaTime, anUpdateContext);
 
 	/*if (anUpdateContext.myInputInterface->IsUsingController())
 	{*/
