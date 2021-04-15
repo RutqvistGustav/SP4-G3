@@ -44,7 +44,7 @@ void HealthBar::Init()
 	myPowerUpBar = std::make_shared<SpriteWrapper>(healthData.at("PowerupBarPath"));
 	myPowerUpBar->SetLayer(49);
 	myPowerUpBar->SetSize(myPowerUpBar->GetSize() * decreaseSize);
-
+	
 	nlohmann::json playerData = GetScene()->GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/Weapons.json").at("shotgun");
 	myBerserkDuration = playerData.at("Berserk").at("Duration");
 	myBerserkDurationReset = myBerserkDuration;
@@ -57,6 +57,10 @@ void HealthBar::Init()
 
 	myInitialHealthBarWidth = myHealthBar->GetSize().x;
 	myInitialPowerUpBarWidth = myPowerUpBar->GetSize().x;
+
+	myPowerupBarOffSet.x = 0.0f;
+	myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 0.0f, 1.0f });
+	myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
 
 	myHealthBarOffSet.x = myInitialHealthBarWidth / 2;
 	myPowerupFrameOffSet = {0.0f, 22.0f};
@@ -84,7 +88,10 @@ void HealthBar::Render(RenderQueue* const aRenderQueue, RenderContext& /*aRender
 void HealthBar::ActivatePowerUp(PowerUpType aPowerUpType)
 {
 	myPowerUpType = aPowerUpType;
+	myBerserkDuration = myBerserkDurationReset;
 	myIsPowerUpActive = true;
+	myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 1.0f, 1.0f });
+	myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
 }
 
 void HealthBar::DeactivatePowerUp()
@@ -111,9 +118,9 @@ void HealthBar::ReducePowerUpAmount(const float aDeltaTime)
 		{
 			myIsPowerUpActive = false;
 			myBerserkDuration = myBerserkDurationReset;
-			myPowerupBarOffSet.x = 0.0f;
-			myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 1.0f, 1.0f });
-			myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
+			//myPowerupBarOffSet.x = 0.0f;
+			//myPowerUpBar->SetTextureRect({ 0.0f, 0.0f, 1.0f, 1.0f });
+			//myPowerUpBar->SetSize({ myInitialPowerUpBarWidth, myPowerUpBar->GetSize().y });
 		}
 	}
 }
