@@ -17,6 +17,7 @@ void StartupScene::Init()
 	myIntro = std::make_unique<CutscenePlayer>();
 	nlohmann::json data = GetGlobalServiceProvider()->GetJsonManager()->GetData("JSON/VideoPaths.json");
 	myIntro->Init(data.at("StartupPath"));
+	//GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(1.0f);
 	GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Cutscenes/Startup.mp3");
 }
 
@@ -29,6 +30,7 @@ void StartupScene::Update(const float aDeltaTime, UpdateContext& anUpdateContext
 	}
 	else
 	{
+		GetGlobalServiceProvider()->GetAudioManager()->SetMasterVolume(0.5f);
 		GetLevelManagerProxy()->TransitionToMainMenu();
 	}
 }
