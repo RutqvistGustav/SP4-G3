@@ -231,6 +231,7 @@ void Shotgun::SpawnMuzzleFlash() const
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
 	spawnData.myPosition = GetPosition() + GetDirection() * 4.0f * 0.5f * 75.0f;
+	spawnData.myPosition.x -= GetDirection().x * 20.0f;
 	spawnData.myRotation = std::atan2f(GetDirection().y, GetDirection().x);
 	spawnData.myScale = 1.0f;
 
@@ -244,6 +245,8 @@ void Shotgun::SpawnDownwardMuzzleFlash() const
 	SpawnParticleEffectMessageData spawnData;
 	spawnData.myType = ParticleEffectType::MuzzleFlash;
 	spawnData.myPosition = GetPosition() + direction * 4.0f * 0.5f * 75.0f;
+	spawnData.myPosition.x -= GetDirection().x * 55.0f;
+	spawnData.myPosition.y += 15.0f;
 	spawnData.myRotation = std::atan2f(direction.y, direction.x);
 	spawnData.myScale = 1.0f;
 

@@ -18,9 +18,9 @@ TiledCollision::TiledCollision(const TiledParser* aParser) :
 	const TiledLayer* solid = myParser->myResult->GetLayerByName("Solid");
 	const TiledLayer* solidFront = myParser->myResult->GetLayerByName("SolidFront");
 
-	if (solidBack != nullptr) mySolidLayers.push_back(solidBack);
-	if (solid != nullptr) mySolidLayers.push_back(solid);
 	if (solidFront != nullptr) mySolidLayers.push_back(solidFront);
+	if (solid != nullptr) mySolidLayers.push_back(solid);
+	if (solidBack != nullptr) mySolidLayers.push_back(solidBack);
 }
 
 const TiledTile* TiledCollision::GetTileAt(const CU::Vector2<float>& aPosition)const
