@@ -16,7 +16,7 @@ public:
 	CollectibleManager(Scene* aScene);
 	~CollectibleManager();
 
-	void AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition);
+	void AddCollectible(const PowerUpType aCollectibleType, const CU::Vector2<float> aSpawnPosition, const std::string aDialogID);
 
 	void DeleteMarkedCollectables();
 	void DeleteAllCollectables();
@@ -28,6 +28,7 @@ private:
 		{
 			CU::Vector2<float> myPosition;
 			PowerUpType myPowerupType;
+			std::string myDialogID;
 		};
 
 		std::vector<CollectableData> mySavedCollectables;
