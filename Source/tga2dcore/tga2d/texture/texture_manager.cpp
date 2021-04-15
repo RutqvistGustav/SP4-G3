@@ -320,7 +320,21 @@ CRendertarget* CTextureManager::GetRendertarget(const VECTOR2UI& aSize)
 	temporaryTexture->Release();
 	temporaryDepth->Release();
 	return newTarget;
-} 
+}
+CTexture* Tga2D::CTextureManager::GenerateNewWhiteTexture()
+{
+	CTexture* newTexture = new CTexture();
+	newTexture->myPath = "ExtraWhiteSquare";
+	newTexture->myResource = CreateWhiteSquareTexture();
+
+	newTexture->mySize = VECTOR2F(0.3f, 0.3f);
+	newTexture->myImageSize = VECTOR2F(512, 512);
+	
+	myResourceViews.push_back(newTexture);
+
+	return newTexture;
+}
+
 
 DXGI_FORMAT CTextureManager::GetTextureFormat(ID3D11ShaderResourceView* aResourceView) const
 {

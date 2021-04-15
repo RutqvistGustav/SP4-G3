@@ -22,6 +22,8 @@
 #include "Metrics.h"
 #include "SpriteWrapper.h"
 
+#include <tga2d/texture/texture_manager.h>
+
 #include <cassert>
 
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
@@ -30,7 +32,9 @@ SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myLevelManagerProxy(*this)
 {
 	myFadeSprite = std::make_shared<SpriteWrapper>();
-	myFadeSprite->SetSize(Metrics::GetReferenceSize() * 100.0f);
+	myFadeSprite->SetTexture(Tga2D::CEngine::GetInstance()->GetTextureManager().GenerateNewWhiteTexture());
+
+	myFadeSprite->SetSize(Metrics::GetReferenceSize());
 	myFadeSprite->SetPosition(Metrics::GetReferenceSize() * 0.5f);
 	myFadeSprite->SetLayer(GameLayer::Transitions);
 	myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.0f));

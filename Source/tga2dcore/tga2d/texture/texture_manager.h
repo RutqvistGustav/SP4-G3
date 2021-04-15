@@ -22,6 +22,8 @@ namespace Tga2D
 		CTexture* GetTexture(const char* aTexturePath, bool aForceReload = false);
 		CRendertarget* GetRendertarget(const VECTOR2UI& aSize);
 		
+		CTexture* GenerateNewWhiteTexture();
+
 		CTexture* GetWhiteSquareTexture() { return myWhiteSquareTexture; }
 		VECTOR2F GetTextureSize(struct ID3D11ShaderResourceView* aResourceView, bool aNormalize = true) const;
 
