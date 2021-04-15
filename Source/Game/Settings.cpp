@@ -13,6 +13,7 @@
 #include "RenderQueue.h"
 #include "RenderCommand.h"
 #include "Game.h"
+#include "InputManager.h"
 
 #include "TextWrapper.h"
 
@@ -210,12 +211,6 @@ void Settings::InitButtons()
 	const float width = Metrics::GetReferenceSize().x;
 	const float height = Metrics::GetReferenceSize().y;
 
-	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
-		GameObjectTag::BackButton);
-	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.9f));
-	backButton->SetPanStrengthFactor(0);
-	backButton->SetLayer(102);
-	AddInterfaceElement(backButton);
 
 	auto leftArrow = std::make_shared<MenuButton>(this, "Sprites/Menue UI/settings/arrow left.dds", "Sprites/Menue UI/settings/arrow left.dds",
 		GameObjectTag::ArrowLeftButton);
@@ -232,6 +227,15 @@ void Settings::InitButtons()
 	rightArrow->SetPanStrengthFactor(0);
 	rightArrow->SetLayer(102);
 	AddInterfaceElement(rightArrow);
+
+	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds",
+		GameObjectTag::BackButton);
+	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height* 0.9f));
+	backButton->SetPanStrengthFactor(0);
+	backButton->SetLayer(102);
+	AddInterfaceElement(backButton);
+
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void Settings::SetResolutionIndex(int anIndex, bool anUpdateResolution)
@@ -314,4 +318,95 @@ void Settings::SetSfxVolume(float aVolume)
 void Settings::SetMusicVolume(float aVolume)
 {
 	GetGlobalServiceProvider()->GetAudioManager()->SetMusicVolume(aVolume);
+}
+
+void Settings::ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+	MenuScene::ControllerControl(aDeltaTime, anUpdateContext);
+
+	if (myLastButtonIndex >= 0
+		&& myLastButtonIndex <= 2)
+	{
+		myGameObjects[myLastButtonIndex]->SetSpriteSize(64.0f);
+	}
+	else if (myLastButtonIndex == 3 || myLastButtonIndex == 4)
+	{
+		myGameObjects[myLastButtonIndex]->SetSpriteSize(32.0f);
+		myGameObjects[myLastButtonIndex + 1]->SetSpriteSize(32.0f);
+	}
+
+	auto interactObject = std::dynamic_pointer_cast<Slider>(myGameObjects[myCurrentButtonIndex]);
+
+	if (interactObject != nullptr)
+	{
+		interactObject->SetSlidePercentage(interactObject->GetSlidePercentage()
+			+ anUpdateContext.myInputInterface->GetLeftStickX() * aDeltaTime);
+
+		if (anUpdateContext.myInput->IsKeyDown('A'))
+		{
+			interactObject->SetSlidePercentage(interactObject->GetSlidePercentage()
+				- 0.5f * aDeltaTime);
+		}
+		else if(anUpdateContext.myInput->IsKeyDown('D'))
+		{
+			interactObject->SetSlidePercentage(interactObject->GetSlidePercentage()
+				+ 0.5f * aDeltaTime);
+		}
+
+		interactObject->SetSpriteSize(64.0f * 1.2f);
+	}
+	else if (myCurrentButtonIndex != myBackButtonIndex)
+	{
+		if (myCurrentButtonIndex == myBackButtonIndex - 1)
+		{
+			if (myLastButtonIndex == myBackButtonIndex - 2)
+			{
+
+				myCurrentButtonIndex = myBackButtonIndex;
+			}
+			else if (myLastButtonIndex == myBackButtonIndex)
+			{
+				myCurrentButtonIndex = myBackButtonIndex - 2;
+			}
+		}
+		else
+		{
+			if ((anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001
+				|| anUpdateContext.myInput->IsKeyDown('A'))
+				&& mySwitchingXButton == false)
+			{
+				MouseClicked(myGameObjects[myCurrentButtonIndex].get());
+				mySwitchingXButton = true;
+			}
+			else if ((anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001
+				|| anUpdateContext.myInput->IsKeyDown('D'))
+				&& mySwitchingXButton == false)
+			{
+				MouseClicked(myGameObjects[myCurrentButtonIndex + 1].get());
+				mySwitchingXButton = true;
+			}
+			/*else if ((CheckNext(anUpdateContext)
+				|| anUpdateContext.myInput->IsKeyDown('S'))
+				&& mySwitchingXButton == false)
+			{
+				myCurrentButtonIndex = myBackButtonIndex;
+			}*/
+			else if (!(anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001)
+				&& !(anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001)
+				&& !(anUpdateContext.myInput->IsKeyDown('A'))
+				&& !(anUpdateContext.myInput->IsKeyDown('D')))
+			{
+				mySwitchingXButton = false;
+			}
+			/*if (myCurrentButtonIndex != myBackButtonIndex)
+			{*/
+			myGameObjects[myCurrentButtonIndex]->SetSpriteSize(32.f * 1.4f);
+			myGameObjects[myCurrentButtonIndex + 1]->SetSpriteSize(32.f * 1.4f);
+			//}
+		}
+
+		
+	}
+	
+	myLastButtonIndex = myCurrentButtonIndex;
 }

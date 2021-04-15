@@ -25,8 +25,15 @@ private:
 
 	void MouseClicked(GameObject* aTarget);
 
+	void ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext) override;
+
+	const bool CheckNext(UpdateContext& anUpdateContext)const override;
+	const bool CheckPrev(UpdateContext& anUpdateContext)const override;
+	virtual void ControllerNavigate(UpdateContext& anUpdateContext) override;
+
 private:
 
 	std::shared_ptr<SpriteWrapper> myBackground;
+	bool myOnBackButton = false;
 
 };

@@ -11,7 +11,9 @@
 #include "RenderCommand.h"
 #include "RenderQueue.h"
 #include "SpriteWrapper.h"
+#include "InputManager.h"
 
+#include "UpdateContext.h"
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 
@@ -75,6 +77,7 @@ void LevelSelect::InitButtons()
 	auto backButton = std::make_shared<MenuButton>(this, "Sprites/Menue UI/back.dds", "Sprites/Menue UI/back_hover.dds", GameObjectTag::BackButton);
 	backButton->SetPosition(CommonUtilities::Vector2(width * .5f, height * 0.9f));
 	AddInterfaceElement(backButton);
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void LevelSelect::MouseClicked(GameObject* aTarget)
@@ -104,4 +107,55 @@ void LevelSelect::MouseClicked(GameObject* aTarget)
 		GetSceneManagerProxy()->Transition(std::make_unique<MainMenu>(), false);
 		break;
 	}
+}
+
+void LevelSelect::ControllerControl(const float aDeltaTime, UpdateContext& anUpdateContext)
+{
+
+	if (myCurrentButtonIndex < 0 && myOnBackButton == false)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 2;
+	}
+	else if (myCurrentButtonIndex > myGameObjects.size() - 2 && myOnBackButton == false)
+	{
+		myCurrentButtonIndex = 0;
+	}
+
+	if ((anUpdateContext.myInputInterface->GetLeftStickY() < -0.0001
+		|| anUpdateContext.myInput->IsKeyDown('S'))
+		&& myOnBackButton == false)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+		myOnBackButton = true;
+	}
+	else if ((anUpdateContext.myInputInterface->GetLeftStickY() > 0.0001
+		|| anUpdateContext.myInput->IsKeyDown('W'))
+		&& myOnBackButton == true)
+	{
+		myCurrentButtonIndex = 1;
+		myOnBackButton = false;
+	}
+
+}
+
+const bool LevelSelect::CheckNext(UpdateContext& anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickX() < -0.0001
+		|| anUpdateContext.myInput->IsKeyDown('A');
+}
+
+const bool LevelSelect::CheckPrev(UpdateContext& anUpdateContext) const
+{
+	return anUpdateContext.myInputInterface->GetLeftStickX() > 0.0001
+		|| anUpdateContext.myInput->IsKeyDown('D');
+}
+
+void LevelSelect::ControllerNavigate(UpdateContext& anUpdateContext)
+{
+	MenuScene::ControllerNavigate(anUpdateContext);
+	if (myOnBackButton == true)
+	{
+		myCurrentButtonIndex = myGameObjects.size() - 1;
+	}
+
 }

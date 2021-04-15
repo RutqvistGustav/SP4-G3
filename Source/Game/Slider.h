@@ -33,6 +33,8 @@ public:
     void SetSlidePercentage(float aPercentage);
     float GetSlidePercentage() const;
 
+    
+
 private:
 
     void MoveWithMouse();

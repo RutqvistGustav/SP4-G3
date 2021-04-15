@@ -36,6 +36,11 @@ bool InputInterface::IsShooting() const
 	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::LEFT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyPressed) || myControllerInput->RightTriggerPressed();
 }
 
+bool InputInterface::BackButton() const
+{
+	return (myInput->IsKeyPressed(VK_ESCAPE) || myControllerInput->IsPressed(XINPUT_GAMEPAD_B));
+}
+
 bool InputInterface::IsHoldingMenuAccept() const
 {
 	return (myInput->GetMouseKeyStates().count(CommonUtilities::Input::EMouseKey::LEFT) > 0 && myInput->GetMouseKeyStates().at(CommonUtilities::Input::EMouseKey::LEFT).myKeyHold) || myControllerInput->GetRightTrigger() > 0.0f;
@@ -124,5 +129,15 @@ float InputInterface::GetRightStickX() const
 float InputInterface::GetRightStickY() const
 {
 	return myControllerInput->GetRightStickY();
+}
+
+float InputInterface::GetLeftStickY() const
+{
+	return  myControllerInput->GetLeftStickY();
+}
+
+float InputInterface::GetLeftStickX() const
+{
+	return myControllerInput->GetLeftStickX();
 }
 

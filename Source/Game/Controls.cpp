@@ -44,6 +44,7 @@ void Controls::Init()
 	backButton->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.9f));
 	backButton->SetLayer(101);
 	AddInterfaceElement(backButton);
+	myBackButtonIndex = myGameObjects.size() - 1;
 }
 
 void Controls::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderContext)

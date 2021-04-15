@@ -16,6 +16,8 @@ public:
 	bool IsBoosting()const;
 	bool IsShooting()const;
 
+	bool BackButton()const;
+
 	bool IsHoldingMenuAccept()const;
 
 	bool IsMovingLeft_Pressed()const;
@@ -36,6 +38,9 @@ public:
 
 	float GetRightStickX()const;
 	float GetRightStickY()const;
+
+	float GetLeftStickY()const;
+	float GetLeftStickX()const;
 
 	//Perhaps return an int 1-8 depending on either Mouse to Player Direction or direction of Controller stick.
 private:
