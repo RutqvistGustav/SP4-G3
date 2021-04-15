@@ -149,7 +149,10 @@ void Player::Update(const float aDeltaTime, UpdateContext& anUpdateContext)
 		myCharacterAnimator.SetState(CharacterAnimator::State::Idle);
 	}
 
-	myCharacterAnimator.EnableStateSwitch();
+	if (myCharacterAnimator.GetState() == CharacterAnimator::State::Boost)
+	{
+		myCharacterAnimator.EnableStateSwitch();
+	}
 
 	if (myHealth->IsDead() && myCharacterAnimator.HasEnded())
 	{
