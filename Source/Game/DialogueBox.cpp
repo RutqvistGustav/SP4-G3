@@ -75,17 +75,26 @@ void DialogueBox::OnInteract(Player* aPlayer)
 	{
 		myText->SetText(myPages[myCurrentPage]);
 		aPlayer->SetCanControl(false);
-		if (myIsStartDialog == true)
+		std::string character = FindCharacter(myPages[myCurrentPage]);
+		if (character == "Radio")
 		{
-			if (RandomHelper::NextInt(0, 1) == 1)
-			{
-				GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Sound.mp3");
-			}
-			else
-			{
-				GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Sound_Commander.mp3");
-			}
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Sound_Commander.mp3");
 		}
+		else if(character == "Mr. Old Timer")
+		{
+			GetScene()->GetGlobalServiceProvider()->GetAudioManager()->PlaySfx("Sound/Misc/Radio_Sound.mp3");
+		}
+		//if (myIsStartDialog == true)
+		//{
+		//	if (RandomHelper::NextInt(0, 1) == 1)
+		//	{
+		//		
+		//	}
+		//	else
+		//	{
+		//		
+		//	}
+		//}
 	}
 	else
 	{
@@ -111,6 +120,22 @@ void DialogueBox::SetPosition(const CU::Vector2<float> aPosition)
 
 	const CU::Vector2<float> offset = CU::Vector2<float>(0.0f, (myIndicator->GetSize().y + GetTriggerSize().y) * -0.5f);
 	myIndicator->SetPosition(aPosition + offset);
+}
+
+const std::string DialogueBox::FindCharacter(const std::string someText)
+{
+	std::string character;
+	for (int i = 0; i < someText.size(); ++i)
+	{
+		character += someText[i];
+		if (character == "Radio" || character == "Mr. Old Timer")
+		{
+			return character;
+		}
+	}
+
+	character = "";
+	return character;
 }
 
 void DialogueBox::TriggerExit(GameObject* aGameObject)
