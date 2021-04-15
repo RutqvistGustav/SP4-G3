@@ -9,6 +9,7 @@
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
 #include "SceneManagerProxy.h"
+#include "LevelManagerProxy.h"
 #include "MainMenu.h"
 #include "MousePointer.h"
 
@@ -70,6 +71,7 @@ void Controls::MouseClicked(GameObject* aTarget)
 	}
 	else
 	{
+		GetLevelManagerProxy()->TransitionToLevel(1);
 		myIsActive = false;
 	}
 }
