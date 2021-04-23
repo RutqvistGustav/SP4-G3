@@ -52,7 +52,7 @@ void DialogueBox::Init(std::string anID)
 
 	FillSlides(dialogString);
 
-	myText = std::make_shared<TextWrapper>("Text/Avancement/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_24, 0);
+	myText = std::make_shared<TextWrapper>("Text/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_24, 0);
 	myText->SetPanStrengthFactor(0.0f);
 	myText->SetPivot({ 0.5f, 0.5f });
 	myText->SetPosition({ Metrics::GetReferenceSize().x * 0.5f, Metrics::GetReferenceSize().y - 100.0f });
