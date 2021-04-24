@@ -157,7 +157,7 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 
 #ifdef _DEBUG
 
-	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
+	//myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
 
 #endif // _DEBUG
 }

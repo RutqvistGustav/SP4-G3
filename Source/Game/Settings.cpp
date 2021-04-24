@@ -164,7 +164,7 @@ void Settings::InitSprites()
 	resolutionSprite->SetLayer(100);
 	mySprites.push_back(resolutionSprite);
 
-	myResolutionText = std::make_shared<TextWrapper>("Text/Avancement/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_36, 0);
+	myResolutionText = std::make_shared<TextWrapper>("Text/Avancement2020-Medium(1-5).otf", Tga2D::EFontSize_36, 0);
 	myResolutionText->SetPanStrengthFactor(0.0f);
 	myResolutionText->SetPivot({ 0.5f, 0.5f });
 	myResolutionText->SetPosition({ width * 0.59f, height * 0.705f });
