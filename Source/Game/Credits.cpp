@@ -26,10 +26,11 @@ void Credits::Init()
 
 	auto background = std::make_shared<SpriteWrapper>("Sprites/Menue UI/CreditScreen.dds");
 	background->SetSamplerFilter(RenderSamplerFilter::Bilinear);
+	//background->SetPanStrengthFactor(0);
 	background->SetPosition(CommonUtilities::Vector2(width * 0.5f, height * 0.5f));
 	background->SetLayer(-1);
 	
-	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.5f, 0.0f });
+	SpriteUtil::SetSpriteRect(background, Metrics::GetReferenceSize(), { 0.0f, 0.0f });
 
 	mySprites.push_back(background);
 
