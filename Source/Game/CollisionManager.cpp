@@ -4,26 +4,45 @@
 #include "Player.h"
 #include "TiledCollision.h"
 #include "TiledTile.h"
+#include "GlobalServiceProvider.h"
+#include "GameMessenger.h"
+#include "CoordinateHelper.h"
 
-#ifdef _DEBUG
+#ifndef _RETAIL
 
 #include "RenderQueue.h"
 #include "RenderContext.h"
 #include "InputInterface.h"
 #include "InputManager.h"
+#include "ToolsManager.h"
+#include "GeneralTool.h"
 
 #endif // _DEBUG
 
 #include <cassert>
 #include <queue>
 
-CollisionManager::CollisionManager(TiledCollision* aTiledCollision)
-	: myTiledCollision(aTiledCollision)
+CollisionManager::CollisionManager(TiledCollision* aTiledCollision, GlobalServiceProvider* aGSP)
+	: myTiledCollision(aTiledCollision), myShowColliders(false), myGSP(aGSP)
 {
 	assert(aTiledCollision != nullptr && "CollisionManager is being created without a TiledCollision.");
+
+#ifndef _RETAIL
+	myShowColliders = ToolsManager::GetInstance()->GetGeneralTool()->GetShowCollider();
+	InitDebug();
+	aGSP->GetGameMessenger()->Subscribe(GameMessage::ShowColliders, this);
+#endif // !_RETAIL
 }
 
-CollisionManager::~CollisionManager() = default;
+CollisionManager::~CollisionManager()
+{
+#ifndef _RETAIL
+	if (myGSP)
+	{
+		myGSP->GetGameMessenger()->Unsubscribe(GameMessage::ShowColliders, this);
+	}
+#endif // !_RETAIL
+}
 
 void CollisionManager::Update()
 {
@@ -155,11 +174,11 @@ void CollisionManager::AddCollider(std::shared_ptr<Collider> aCollider)
 
 	myColliders.push_back(aCollider);
 
-#ifdef _DEBUG
-
-	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
-
-#endif // _DEBUG
+//#ifdef _DEBUG
+//
+//	myColliders.back().get()->myDebugSprite = std::make_shared<SpriteWrapper>("debugCookieSquare.png");
+//
+//#endif // _DEBUG
 }
 
 void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
@@ -183,7 +202,17 @@ void CollisionManager::RemoveCollider(std::shared_ptr<Collider> aCollider)
 	}
 }
 
-#ifdef _DEBUG
+GameMessageAction CollisionManager::OnMessage(const GameMessage aMessage, const void* someMessageData)
+{
+	if (aMessage == GameMessage::ShowColliders)
+	{
+		myShowColliders = !myShowColliders;
+	}
+
+	return GameMessageAction::Keep;
+}
+
+#ifndef _RETAIL
 void CollisionManager::InitDebug()
 {
 	for (int i = 0; i < myColliders.size(); ++i)
@@ -198,4 +227,5 @@ void CollisionManager::RenderDebug(RenderQueue* const aRenderQueue, RenderContex
 		myColliders[i]->RenderDebug(aRenderQueue, aRenderContext);
 	}
 }
-#endif // _DEBUG
+
+#endif

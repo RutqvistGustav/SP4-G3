@@ -12,6 +12,8 @@
 #include <memory>
 #include <set>
 
+#include "IGameMessageSubscriber.h"
+
 namespace Tga2D
 {
 	class CColor;
@@ -19,14 +21,15 @@ namespace Tga2D
 
 class TiledCollision;
 class RenderQueue;
+class GlobalServiceProvider;
 struct RenderContext;
 
-class CollisionManager
+class CollisionManager : public IGameMessageSubscriber
 {
 public:
 
 	CollisionManager() = default;
-	CollisionManager(TiledCollision* aTiledCollision);
+	CollisionManager(TiledCollision* aTiledCollision, GlobalServiceProvider* aGSP);
 	CollisionManager(CollisionManager const&) = delete;
 	void operator=(CollisionManager const&) = delete;
 	~CollisionManager();
@@ -40,16 +43,17 @@ public:
 	void AddCollider(std::shared_ptr<Collider> aCollider);
 	void RemoveCollider(std::shared_ptr<Collider> aCollider);
 	
-#ifdef _DEBUG
+	virtual GameMessageAction OnMessage(const GameMessage aMessage, const void* someMessageData) override;
+#ifndef _RETAIL
 	
+	inline const bool GetShowColliders() { return myShowColliders; }
 	void InitDebug();
+	bool myDoRender = true;
 	void RenderDebug(RenderQueue* const aRenderQueue, RenderContext& aRenderContext);
-	bool myDoRender = false;
 
-#endif // _DEBUG
+#endif
 
 private:
-
 	std::vector<std::shared_ptr<Collider>> myColliders;
 	
 	CollisionFilter myCollisionFilter;
@@ -59,10 +63,13 @@ private:
 	
 	TiledCollision* myTiledCollision{};
 
+	GlobalServiceProvider* myGSP;
+
+	bool myShowColliders;
 };
 
 //TODO:make colliders with fall-through
-//TODO:man kan fråga collision manager om collisions
+//TODO:man kan frï¿½ga collision manager om collisions
 //TODO:make colliders be able to collide with multiple things
 //TODO:auto remove Colliders
 //TODO:caotiy time

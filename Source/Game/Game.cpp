@@ -29,6 +29,9 @@
 #include <tga2d/error/error_manager.h>
 #include "GameScene.h"
 
+#include "ToolsManager.h"
+#include "NodeGraphManager.h"
+
 using namespace std::placeholders;
 
 #ifdef _DEBUG
@@ -157,6 +160,8 @@ void CGame::InitCallBack()
 
 	myGlobalServiceProvider = std::make_unique<GlobalServiceProvider>(myAudioManager.get(), myJsonManager.get(), myWeaponFactory.get(), myInputInterface.get(), myGameMessenger.get());
 
+	ToolsManager::GetInstance()->Init(myGlobalServiceProvider.get());
+
 	mySceneManager = std::make_unique<SceneManager>(myGlobalServiceProvider.get());
 
 	//myGameWorld->Init();
@@ -168,6 +173,8 @@ void CGame::InitCallBack()
 	myUpdateContext.myInput = myInput.get();
 
 	mySceneManager->Transition(std::make_unique<StartupScene>());
+	
+	NodeGraphManager::Get()->Init(myGlobalServiceProvider.get());
 }
 
 void CGame::UpdateCallBack()
@@ -183,11 +190,17 @@ void CGame::UpdateCallBack()
 		deltaTime = 1.0f / 30.0f;
 	}
 
+#ifndef _RETAIL
+	ToolsManager::GetInstance()->Update();
+#endif
+
 	myTimer->Update();
 	myControllerInput->UpdateControllerState(deltaTime);
 
 	mySceneManager->Update(deltaTime, myUpdateContext);
 	mySceneManager->Render(updateQueue, myRenderContext);
+
+	NodeGraphManager::Get()->Update(myUpdateContext);
 
 	// Rendering
 	myRenderManager->Render();

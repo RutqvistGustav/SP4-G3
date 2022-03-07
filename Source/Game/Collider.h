@@ -6,11 +6,11 @@
 #include "AABB.h"
 #include "Vector2.hpp"
 
-#ifdef _DEBUG
+#ifndef _RETAIL
 
 #include "SpriteWrapper.h"
 
-#endif // _DEBUG
+#endif
 
 #include <any>
 

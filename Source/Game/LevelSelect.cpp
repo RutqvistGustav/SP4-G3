@@ -44,10 +44,11 @@ void LevelSelect::Render(RenderQueue* const aRenderQueue, RenderContext& aRender
 
 	aRenderQueue->Queue(RenderCommand(myBackground));
 
-#ifdef _DEBUG
-
-	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
-
+#ifndef _RETAIL
+	if (myCollisionManager->GetShowColliders())
+	{
+		myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+	}
 #endif
 }
 

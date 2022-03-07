@@ -1,20 +1,16 @@
 {
-  "SpritePath" :  "Animations/Player.json",
-
-  "MovementSpeed": 15500.0,
-  "MaxSpeedCap": 550.0,
-  "BerserkSpeed": 8000.0,
-  "BrakeStrength": 0.00000001,
-  "StopAtVelocity": 0.01,
-  "GravityStrength": 3200.0,
-
-  "JumpCharges": 2,
-  "JumpStrength": 1000.0,
-  "CoyoteTime": 0.1,
-
-  "Health" : 10,
-  "Invincibility" : 1.0,
-
-  "ColliderWidth": 55,
-  "ColliderShiftX": 15
+    "BerserkSpeed": 8000.0,
+    "BrakeStrength": 9.99999993922529e-09,
+    "ColliderShiftX": 15.0,
+    "ColliderWidth": 55.0,
+    "CoyoteTime": 0.10000000149011612,
+    "GravityStrength": 3200.0,
+    "Health": 10.0,
+    "Invincibility": 1.0,
+    "JumpCharges": 2.0,
+    "JumpStrength": 1000.0,
+    "MaxSpeedCap": 550.0,
+    "MovementSpeed": 15500.0,
+    "SpritePath": "Animations/Player.json",
+    "StopAtVelocity": 0.009999999776482582
 }

@@ -26,6 +26,9 @@
 
 #include <cassert>
 
+#include "CollisionManager.h"
+#include "NodeGraphManager.h"
+
 SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myGlobalServiceProvider(aGlobalServiceProvider),
 	mySceneManagerProxy(*this),
@@ -39,6 +42,8 @@ SceneManager::SceneManager(GlobalServiceProvider* aGlobalServiceProvider) :
 	myFadeSprite->SetLayer(GameLayer::Transitions);
 	myFadeSprite->SetColor(Tga2D::CColor(0.0f, 0.0f, 0.0f, 0.0f));
 	myFadeSprite->SetPanStrengthFactor(0);
+
+	NodeGraphManager::Get();
 }
 
 SceneManager::~SceneManager()

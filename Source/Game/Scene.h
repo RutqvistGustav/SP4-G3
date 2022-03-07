@@ -50,12 +50,12 @@ protected:
 
 	std::unique_ptr<CollisionManager> myCollisionManager;
 	std::vector<std::shared_ptr<GameObject>> myGameObjects;
+	GlobalServiceProvider* myGlobalServiceProvider{};
 
 private:
 
 	SceneManagerProxy* mySceneManagerProxy{};
 	LevelManagerProxy* myLevelManagerProxy{};
-	GlobalServiceProvider* myGlobalServiceProvider{};
 
 	Camera myCamera;
 

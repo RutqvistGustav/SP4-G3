@@ -121,6 +121,27 @@
     <Filter Include="Scenes\Cutscenes">
       <UniqueIdentifier>{ffa08c63-fb96-4ab6-aa70-68408361f0b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{7f0c9cac-3aac-4709-9db0-3604e3c2b146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool\Tools">
+      <UniqueIdentifier>{ea965107-4405-41ab-b541-76a05704d271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualScripting">
+      <UniqueIdentifier>{c9d3c4a5-3a43-46d9-9882-3f0ede3e1e77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualScripting\NodeEditor">
+      <UniqueIdentifier>{1e67810b-29dd-429f-9c1b-6751a221cb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualScripting\NodeSystem">
+      <UniqueIdentifier>{3debae5d-3c8d-46a1-92ef-8bba127f43ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualScripting\NodeEditor\ImGuiCustom">
+      <UniqueIdentifier>{6d9a034e-b06c-4c2f-a008-fd26f847939a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VisualScripting\NodeEditor\Core">
+      <UniqueIdentifier>{7033d113-3ce0-4c38-a81e-034a56f52bf5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -545,6 +566,105 @@
     <ClInclude Include="Controls.h">
       <Filter>Scenes\Menus</Filter>
     </ClInclude>
+    <ClInclude Include="ToolsManager.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTool.h">
+      <Filter>Tool\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTool.h">
+      <Filter>Tool\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponTool.h">
+      <Filter>Tool\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralTool.h">
+      <Filter>Tool\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="imnodes.h">
+      <Filter>VisualScripting\NodeEditor\ImGuiCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="imnodes_internal.h">
+      <Filter>VisualScripting\NodeEditor\ImGuiCustom</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeEditorManager.h">
+      <Filter>VisualScripting\NodeEditor\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeAdditionFloat.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeBool.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeBranch.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeCompareInt.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeConsolePrint.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeConsolePrintFloat.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeFloat.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeGraph.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeGraphManager.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeInt.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodePin.hpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeRegistry.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeStart.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeIsGreaterOrEqualInt.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeAddInt.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeByteData.hpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeCompareBool.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeInput.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Scripting\gustav.rutqvist.6b\Scripting\Source\Game\NodeStart.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InputKeyMap.h">
+      <Filter>InputHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeCurrentButton.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexMessageData.h">
+      <Filter>Core\MessageSystem\Messages</Filter>
+    </ClInclude>
+    <ClInclude Include="NodeButtonClicked.h">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -822,6 +942,87 @@
     </ClCompile>
     <ClCompile Include="Controls.cpp">
       <Filter>Scenes\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolsManager.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTool.cpp">
+      <Filter>Tool\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTool.cpp">
+      <Filter>Tool\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponTool.cpp">
+      <Filter>Tool\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralTool.cpp">
+      <Filter>Tool\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="imnodes.cpp">
+      <Filter>VisualScripting\NodeEditor\ImGuiCustom</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeEditorManager.cpp">
+      <Filter>VisualScripting\NodeEditor\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeAdditionFloat.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeBool.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeBranch.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeCompareInt.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeConsolePrint.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeConsolePrintFloat.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeFloat.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeGraph.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeGraphManager.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeInt.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeRegistry.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeStart.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeIsGreaterOrEqualInt.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeAddInt.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeCompareBool.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeInput.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="InputKeyMap.cpp">
+      <Filter>InputHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeCurrentButton.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="NodeButtonClicked.cpp">
+      <Filter>VisualScripting\NodeSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

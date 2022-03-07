@@ -23,6 +23,7 @@
 
 #include "GlobalServiceProvider.h"
 #include "AudioManager.h"
+#include "NodeGraphManager.h"
 
 #include "SpriteUtil.h"
 
@@ -109,6 +110,7 @@ void MainMenu::MouseClicked(GameObject* aTarget)
 	switch (targetTag)
 	{
 	case GameObjectTag::StartButton:
+		NodeGraphManager::Get()->RemoveGraph("mainGraph");
 		GetSceneManagerProxy()->Transition(std::make_unique<IntroScene>(), true);
 		break;
 

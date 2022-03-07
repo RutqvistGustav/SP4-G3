@@ -15,4 +15,9 @@ enum class GameMessage
 	StageClear,
 
 	SpawnParticleEffect,
+
+	CurrentButton,
+	ButtonClicked,
+
+	ShowColliders
 };

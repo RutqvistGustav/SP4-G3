@@ -48,7 +48,7 @@ void GameScene::Init()
 	myTiledParser = std::make_unique<TiledParser>(myMapPath);
 	myTiledRenderer = std::make_unique<TiledRenderer>(myTiledParser.get());
 	myTiledCollision = std::make_unique<TiledCollision>(myTiledParser.get());
-	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get());
+	myCollisionManager = std::make_unique<CollisionManager>(myTiledCollision.get(), GetGlobalServiceProvider());
 	myTiledEntities = std::make_unique<TiledEntities>(myTiledParser.get(), this);
 
 	myMapAABB = AABB(CU::Vector2<float>(0.0f, 0.0f), CU::Vector2<float>(myTiledParser->GetWidth(), myTiledParser->GetHeight()));
@@ -167,9 +167,12 @@ void GameScene::Render(RenderQueue* const aRenderQueue, RenderContext& aRenderCo
 
 	if(myIsGamePaused) myPauseMenu->Render(aRenderQueue, aRenderContext);
 
-#ifdef _DEBUG
-	myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
-#endif //_DEBUG
+#ifndef _RETAIL
+	if (myCollisionManager->GetShowColliders())
+	{
+		myCollisionManager->RenderDebug(aRenderQueue, aRenderContext);
+	}
+#endif 
 }
 
 GameMessageAction GameScene::OnMessage(const GameMessage aMessage, const StageClearMessageData* /*someMessageData*/)

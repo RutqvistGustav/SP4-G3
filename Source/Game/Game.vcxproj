@@ -24,20 +24,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Retail|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -134,6 +134,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Scripting\gustav.rutqvist.6b\Scripting\Source\Game\NodeStart.h" />
     <ClInclude Include="BaseRenderData.h" />
     <ClInclude Include="CharacterAnimator.h" />
     <ClInclude Include="CheckpointContext.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="EnemyFactory.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemyMessage.h" />
+    <ClInclude Include="EnemyTool.h" />
     <ClInclude Include="EnemyType.h" />
     <ClInclude Include="EntityPhysicsController.h" />
     <ClInclude Include="EventObserver.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="GameMessageAction.h" />
     <ClInclude Include="GameMessenger.h" />
     <ClInclude Include="GameObjectTag.h" />
+    <ClInclude Include="GeneralTool.h" />
     <ClInclude Include="GenericGameMessageSubscriber.h" />
     <ClInclude Include="GoalZone.h" />
     <ClInclude Include="Health.h" />
@@ -188,9 +191,38 @@
     <ClInclude Include="Helicopter.h" />
     <ClInclude Include="IGameMessageSubscriber.h" />
     <ClInclude Include="IJsonInitializable.h" />
+    <ClInclude Include="imnodes.h" />
+    <ClInclude Include="imnodes_internal.h" />
+    <ClInclude Include="IndexMessageData.h" />
+    <ClInclude Include="InputKeyMap.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="InteractableMessage.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeAddInt.h" />
+    <ClInclude Include="NodeAdditionFloat.h" />
+    <ClInclude Include="NodeBool.h" />
+    <ClInclude Include="NodeBranch.h" />
+    <ClInclude Include="NodeButtonClicked.h" />
+    <ClInclude Include="NodeByteData.hpp" />
+    <ClInclude Include="NodeCompareBool.h" />
+    <ClInclude Include="NodeCompareInt.h" />
+    <ClInclude Include="NodeConsolePrint.h" />
+    <ClInclude Include="NodeConsolePrintFloat.h" />
+    <ClInclude Include="NodeCurrentButton.h" />
+    <ClInclude Include="NodeEditorManager.h" />
+    <ClInclude Include="NodeFloat.h" />
+    <ClInclude Include="NodeGraph.h" />
+    <ClInclude Include="NodeGraphManager.h" />
+    <ClInclude Include="NodeInput.h" />
+    <ClInclude Include="NodeInt.h" />
+    <ClInclude Include="NodeIsGreaterOrEqualInt.h" />
+    <ClInclude Include="NodePin.hpp" />
+    <ClInclude Include="NodeRegistry.h" />
+    <ClInclude Include="NodeStart.h" />
+    <ClInclude Include="PlayerTool.h" />
+    <ClInclude Include="Tool.hpp" />
+    <ClInclude Include="ToolsManager.h" />
     <ClInclude Include="StartupScene.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="LevelManagerProxy.h" />
@@ -272,6 +304,7 @@
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="WeaponFactory.h" />
     <ClInclude Include="WeaponHolder.h" />
+    <ClInclude Include="WeaponTool.h" />
     <ClInclude Include="WeaponType.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
@@ -300,15 +333,41 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFactory.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemyTool.cpp" />
     <ClCompile Include="EntityPhysicsController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMessenger.cpp" />
+    <ClCompile Include="GeneralTool.cpp" />
     <ClCompile Include="GoalZone.cpp" />
     <ClCompile Include="Health.cpp" />
     <ClCompile Include="HealthPickup.cpp" />
     <ClCompile Include="Helicopter.cpp" />
+    <ClCompile Include="imnodes.cpp" />
+    <ClCompile Include="InputKeyMap.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeAddInt.cpp" />
+    <ClCompile Include="NodeAdditionFloat.cpp" />
+    <ClCompile Include="NodeBool.cpp" />
+    <ClCompile Include="NodeBranch.cpp" />
+    <ClCompile Include="NodeButtonClicked.cpp" />
+    <ClCompile Include="NodeCompareBool.cpp" />
+    <ClCompile Include="NodeCompareInt.cpp" />
+    <ClCompile Include="NodeConsolePrint.cpp" />
+    <ClCompile Include="NodeConsolePrintFloat.cpp" />
+    <ClCompile Include="NodeCurrentButton.cpp" />
+    <ClCompile Include="NodeEditorManager.cpp" />
+    <ClCompile Include="NodeFloat.cpp" />
+    <ClCompile Include="NodeGraph.cpp" />
+    <ClCompile Include="NodeGraphManager.cpp" />
+    <ClCompile Include="NodeInput.cpp" />
+    <ClCompile Include="NodeInt.cpp" />
+    <ClCompile Include="NodeIsGreaterOrEqualInt.cpp" />
+    <ClCompile Include="NodeRegistry.cpp" />
+    <ClCompile Include="NodeStart.cpp" />
+    <ClCompile Include="PlayerTool.cpp" />
+    <ClCompile Include="ToolsManager.cpp" />
     <ClCompile Include="StartupScene.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="LevelManagerProxy.cpp" />
@@ -371,6 +430,7 @@
     <ClCompile Include="TiledTile.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="WeaponFactory.cpp" />
+    <ClCompile Include="WeaponTool.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

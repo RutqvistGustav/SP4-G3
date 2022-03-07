@@ -23,6 +23,7 @@ class InputInterface;
 class ControllerInput;
 class GameMessenger;
 class GlobalServiceProvider;
+class ToolsManager;
 
 class CGame
 {

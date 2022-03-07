@@ -7,7 +7,7 @@
 #include "TiledMap.h"
 #include "CollisionListener.h"
 
-#ifdef _DEBUG
+#ifndef _RETAIL
 #include <tga2d/sprite/sprite.h>
 #include "SpriteWrapper.h"
 #include "RenderQueue.h"
@@ -28,9 +28,9 @@ Collider::Collider(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSi
 	mySize(aSize)
 {
 
-#ifdef _DEBUG
+#ifndef _RETAIL
 	myDebugSprite = nullptr;
-#endif // _DEBUG
+#endif
 }
 
 Collider::~Collider()
@@ -44,9 +44,9 @@ Collider::~Collider()
 
 void Collider::Init(const CU::Vector2<float>& aPos, const CU::Vector2<float>& aSize)
 {
-#ifdef _DEBUG
+#ifndef _RETAIL
 	InitDebug();
-#endif // _DEBUG
+#endif
 
 	myPos = aPos;
 	mySize = aSize;
@@ -87,10 +87,13 @@ const float Collider::GetHight() const
 	return mySize.y;
 }
 
-#ifdef _DEBUG
+#ifndef _RETAIL
 void Collider::InitDebug()
 {
-	// myDebugSprite = new Tga2D::CSprite("debugCookie.png");
+	myDebugSprite = std::make_shared<SpriteWrapper>("Sprites/box.dds");
+	myDebugSprite->SetPivot({ 0.5f, 0.5f });
+	myDebugSprite->SetLayer(999);
+	myDebugSprite->SetSize(mySize);
 }
 
 void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& /*aRenderContext*/)
@@ -98,12 +101,9 @@ void Collider::RenderDebug(RenderQueue* const aRenderQueue, RenderContext& /*aRe
 	if (!myDoRender)
 		return;
 
-	myDebugSprite->SetPivot({ 0.5f, 0.5f });
 	myDebugSprite->SetPosition({ myPos.x, myPos.y });
-	myDebugSprite->SetSize(mySize);
-	myDebugSprite->SetLayer(999);
 
-	//ska användas i menyer
+	//ska anvï¿½ndas i menyer
 	// myDebugSprite->SetPanStrengthFactor(0);
 
 	aRenderQueue->Queue(RenderCommand(myDebugSprite));

@@ -1,36 +1,32 @@
 {
-  "Zombie": {
-    "Health": 2,
-    "Damage": 2,
-    "MovementSpeed": 200.0,
-    "MaxSpeedCap" :  0.001,
-    "MaxRoamSpeedCap" :  0.00000001,
-    "DetectionRange" : 1000.0,
-    "Invincibility" : 0.0,
-    "KnockBack": 10.0,
-    "Gravity" :  1000.0,
-
-    "ColliderWidth": 54,
-    "ColliderHeight": 180,
-
-    "SpriteShiftX": 10,
-    "SpriteShiftY": -17
-  },
-  "EliteZombie": {
-    "Health": 6,
-    "Damage": 4,
-    "MovementSpeed": 250.0,
-    "MaxSpeedCap": 0.001,
-	"MaxRoamSpeedCap": 0.00000001,
-    "DetectionRange": 800.0,
-    "Invincibility": 0.0,
-    "KnockBack": 5.0,
-    "Gravity": 1000.0,
-
-    "ColliderWidth": 54,
-    "ColliderHeight": 180,
-
-    "SpriteShiftX": 10,
-    "SpriteShiftY": -17
-  }
+    "EliteZombie": {
+        "ColliderHeight": 180.0,
+        "ColliderWidth": 54.0,
+        "Damage": 4.0,
+        "DetectionRange": 800.0,
+        "Gravity": 1000.0,
+        "Health": 6.0,
+        "Invincibility": 0.0,
+        "KnockBack": 5.0,
+        "MaxRoamSpeedCap": 9.99999993922529e-09,
+        "MaxSpeedCap": 0.0010000000474974513,
+        "MovementSpeed": 250.0,
+        "SpriteShiftX": 10.0,
+        "SpriteShiftY": -17.0
+    },
+    "Zombie": {
+        "ColliderHeight": 180.0,
+        "ColliderWidth": 54.0,
+        "Damage": 2.0,
+        "DetectionRange": 1000.0,
+        "Gravity": 1000.0,
+        "Health": 2.0,
+        "Invincibility": 0.0,
+        "KnockBack": 10.0,
+        "MaxRoamSpeedCap": 9.99999993922529e-09,
+        "MaxSpeedCap": 0.0010000000474974513,
+        "MovementSpeed": 200.0,
+        "SpriteShiftX": 10.0,
+        "SpriteShiftY": -17.0
+    }
 }
